@@ -1,0 +1,96 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { NButton, NSpace } from 'naive-ui';
+import HomePage from './pages/Homepage.vue';
+import GamePage, { type GameProps } from './pages/Gamepage.vue';
+import AlertList from './components/AlertList.vue';
+const displayPage = ref('home');
+const username = ref('');
+
+const switchPage = (page: string) => {
+  displayPage.value = page;
+};
+
+const gameProps = ref({
+  scaleFactor: 10,
+  offsetX: 0,
+  offsetY: 0,
+});
+
+function checkUsername(newUsername: string) {
+  if (newUsername.trim() === '') {
+    return false;
+  }
+  // length must be between 3 and 16
+  if (newUsername.length < 3 || newUsername.length > 16) {
+    return false;
+  }
+  return true;
+}
+
+const updateGameProps = (newProps: GameProps) => {
+  gameProps.value = newProps;
+};
+
+const submitUsername = (newUsername: string) => {
+  if (checkUsername(newUsername)) {
+    username.value = newUsername;
+    switchPage('game');
+    PubSub.publish('alert-pubsub-message', {
+      title: '登录成功！',
+      type: 'success',
+      dur: 2,
+      visible: true,
+    });
+  } else {
+    PubSub.publish('alert-pubsub-message', {
+      title: '错误！',
+      str: '用户名格式不正确！',
+      type: 'error',
+      dur: 2,
+      visible: true,
+    });
+  }
+};
+
+onMounted(() => {
+  PubSub.publish('alert-pubsub-message', {
+    title: '欢迎！',
+    str: '客户端启动成功！',
+    type: 'success',
+    dur: 2,
+    visible: true,
+  });
+})
+</script>
+
+<template>
+  <div class="app">
+    <nav>
+      <n-space>
+        <n-button @click="switchPage('home')">Home</n-button>
+        <n-button @click="switchPage('game')">Game</n-button>
+      </n-space>
+    </nav>
+    <template v-if="displayPage === 'home'">
+      <HomePage :submitUsername="submitUsername" />
+    </template>
+    <template v-else-if="displayPage === 'game'">
+      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" />
+    </template>
+    <AlertList/>
+  </div>
+</template>
+
+<style scoped>
+.app {
+  font-family: Arial, sans-serif;
+}
+
+nav {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  margin-bottom: 20px;
+}
+</style>
