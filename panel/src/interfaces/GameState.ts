@@ -1,22 +1,26 @@
-export interface Factory {
-  name: string;
-  input_items: { [key: string]: number };
-  output_items: { [key: string]: number };
-  used: boolean;
-  owner: string;
+export class Factory {
+  constructor(
+    public name: string,
+    public input_items: { [key: string]: number },
+    public output_items: { [key: string]: number },
+    public used: boolean,
+    public owner: string
+  ) {}
 }
 
-export interface Player {
-  name: string;
-  storage: { [key: string]: number };
-  factories: { [key: string]: Factory };
-  agreed: boolean;
+export class Player {
+  constructor(
+    public name: string,
+    public storage: { [key: string]: number },
+    public factories: { [key: string]: Factory },
+    public agreed: boolean
+  ) {}
 }
 
-export interface GameState {
-  players: Player[];
-  current_round: number;
-  stage: string;
+export class GameState {
+  constructor(
+    public players: Player[],
+    public current_round: number,
+    public stage: string
+  ) {}
 }
-
-

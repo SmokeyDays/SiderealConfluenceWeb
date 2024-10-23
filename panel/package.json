@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/pubsub-js": "^1.8.6",
+    "html-to-image": "^1.11.11",
     "konva": "^9.3.14",
     "pubsub-js": "^1.9.4",
     "socket.io-client": "^4.7.5",

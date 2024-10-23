@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { NButton, NSpace } from 'naive-ui';
-import HomePage from './pages/Homepage.vue';
-import GamePage, { type GameProps } from './pages/Gamepage.vue';
-import AlertList from './components/AlertList.vue';
+import HomePage from '@/pages/HomePage.vue';
+import GamePage, { type GameProps } from '@/pages/GamePage.vue';
+import AlertList from '@/components/AlertList.vue';
+import { socket } from '@/utils/connect';
+import type { GameState } from './interfaces/GameState';
+
 const displayPage = ref('home');
-const username = ref('');
+const username = ref('Kylion');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
@@ -15,6 +18,17 @@ const gameProps = ref({
   scaleFactor: 10,
   offsetX: 0,
   offsetY: 0,
+});
+
+const gameState = ref<GameState>({
+  players: [],
+  current_round: 0,
+  stage: ''
+});
+
+socket.on('update-state', (data: {state: GameState}) => {
+  gameState.value = data.state;
+  console.log(data);
 });
 
 function checkUsername(newUsername: string) {
@@ -76,7 +90,7 @@ onMounted(() => {
       <HomePage :submitUsername="submitUsername" />
     </template>
     <template v-else-if="displayPage === 'game'">
-      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" />
+      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState"/>
     </template>
     <AlertList/>
   </div>

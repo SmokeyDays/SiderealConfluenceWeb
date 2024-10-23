@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { NSpace, NInput, NButton } from 'naive-ui';
-import Food from '../components/icons/Food.vue';
-import Culture from '../components/icons/Culture.vue';
-import Industry from '@/components/icons/Industry.vue';
+import Culture from '@/components/icons/items/Culture.vue';
+import Industry from '@/components/icons/items/Industry.vue';
+import Food from '@/components/icons/items/Food.vue';
+import Information from '@/components/icons/items/Information.vue';
+import Ship from '@/components/icons/items/Ship.vue';
+import Biotech from '@/components/icons/items/Biotech.vue';
+import Energy from '@/components/icons/items/Energy.vue';
+import Hypertech from '@/components/icons/items/Hypertech.vue';
+import AnySmall from '@/components/icons/items/AnySmall.vue';
+import AnyBig from '@/components/icons/items/AnyBig.vue';
+
 const username = ref('');
 
 const props = defineProps<{
@@ -19,10 +27,20 @@ const handleSubmit = () => {
 
 <template>
   <div class="homepage">
+    <div class="icon-display">
+      <Culture />
+      <Industry />
+      <Food />
+      <Information />
+      <Ship />
+      <Biotech />
+      <Energy />
+      <Hypertech />
+      <AnySmall />
+      <AnyBig />
+    </div>
     <n-space vertical align="center" justify="center" class="content">
-      <div class="logo">
-        <Industry />
-      </div>
+      <div class="logo"></div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />
       <n-button type="primary" @click="handleSubmit" :disabled="!username.trim()">
         Submit
@@ -48,5 +66,18 @@ const handleSubmit = () => {
   height: 200px;
   background-color: #f0f0f0; /* Placeholder color */
   margin-bottom: 20px;
+}
+
+.icon-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.icon-display > * {
+  width: 100px;
+  height: 100px;
 }
 </style>

@@ -39,12 +39,16 @@ class Factory:
 
 
 class Player:
-  def __init__(self, name: str):
+  def __init__(self, name: str, start_storage: Dict[str, int], factories: List[Factory]):
     self.name = name
     self.storage: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
     self.agreed = False
+
+    self.add_items_to_storage(start_storage)
+    for factory in factories:
+      self.add_factory(factory)
 
   def add_factory(self, factory: Factory):
     self.factories[factory.name] = factory

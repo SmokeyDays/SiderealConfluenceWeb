@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import IconArrowForwardOutlined from '@/components/icons/IconArrowForwardOutlined.vue';
-import type { MapProps } from '@/components/CityMap.vue';
 import IconRenew from '@/components/icons/IconRenew.vue';
 import IconSaveImg from '@/components/icons/IconSaveImg.vue';
 import { NButton, NButtonGroup, NFloatButton, NIcon } from 'naive-ui';
