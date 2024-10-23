@@ -3,19 +3,22 @@ import { onMounted, ref } from 'vue';
 import { NButton, NSpace } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
+import LobbyPage from '@/pages/LobbyPage.vue';
 import AlertList from '@/components/AlertList.vue';
 import { socket } from '@/utils/connect';
 import type { GameState } from './interfaces/GameState';
+import type { RoomList } from './interfaces/RoomState';
 
+const rooms = ref<RoomList>({});
 const displayPage = ref('home');
-const username = ref('Kylion');
+const username = ref('123');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
 };
 
 const gameProps = ref({
-  scaleFactor: 10,
+  scaleFactor: 100,
   offsetX: 0,
   offsetY: 0,
 });
@@ -28,6 +31,11 @@ const gameState = ref<GameState>({
 
 socket.on('update-state', (data: {state: GameState}) => {
   gameState.value = data.state;
+  console.log(data);
+});
+
+socket.on('room-list', (data: {rooms: RoomList}) => {
+  rooms.value = data.rooms;
   console.log(data);
 });
 
@@ -75,6 +83,7 @@ onMounted(() => {
     dur: 2,
     visible: true,
   });
+  socket.emit('get-room-list');
 })
 </script>
 
@@ -83,7 +92,8 @@ onMounted(() => {
     <nav>
       <n-space>
         <n-button @click="switchPage('home')">Home</n-button>
-        <n-button @click="switchPage('game')">Game</n-button>
+        <n-button @click="switchPage('lobby')">Lobby</n-button>
+        <n-button @click="switchPage('game')">Game</n-button> 
       </n-space>
     </nav>
     <template v-if="displayPage === 'home'">
@@ -91,6 +101,9 @@ onMounted(() => {
     </template>
     <template v-else-if="displayPage === 'game'">
       <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState"/>
+    </template>
+    <template v-else-if="displayPage === 'lobby'">
+      <LobbyPage :rooms="rooms" :username="username" />
     </template>
     <AlertList/>
   </div>

@@ -27,20 +27,23 @@ const handleSubmit = () => {
 
 <template>
   <div class="homepage">
-    <div class="icon-display">
-      <Culture />
-      <Industry />
-      <Food />
-      <Information />
-      <Ship />
-      <Biotech />
-      <Energy />
-      <Hypertech />
-      <AnySmall />
-      <AnyBig />
-    </div>
     <n-space vertical align="center" justify="center" class="content">
-      <div class="logo"></div>
+      <div class="title">
+        <h1>Sidereal Confluence Web</h1>
+        <h4>A game of trading and diplomacy in a sci-fi universe</h4>
+      </div>
+      <div class="icon-display">
+        <Culture />
+        <Industry />
+        <Food />
+        <Information />
+        <Ship />
+        <Biotech />
+        <Energy />
+        <Hypertech />
+        <AnySmall />
+        <AnyBig />
+      </div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />
       <n-button type="primary" @click="handleSubmit" :disabled="!username.trim()">
         Submit

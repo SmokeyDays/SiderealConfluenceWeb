@@ -10,7 +10,8 @@ export class Factory {
 
 export class Player {
   constructor(
-    public name: string,
+    public user_id: string,
+    public spice: string,
     public storage: { [key: string]: number },
     public factories: { [key: string]: Factory },
     public agreed: boolean

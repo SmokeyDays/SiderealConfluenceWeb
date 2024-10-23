@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue';
-import ItemIcon from '@/components/ItemIcon.vue';
+import { defineProps, onMounted, ref, watch } from 'vue';
 import FoodSvg from '@/components/icons/items/Food.svg';
 import CultureSvg from '@/components/icons/items/Culture.svg';
 import IndustrySvg from '@/components/icons/items/Industry.svg';
@@ -48,14 +47,17 @@ const props = defineProps<{
   count: number;
   x: number;
   y: number;
+  iconWidth: number;
+  iconHeight: number
+  scaleFactor: number;
 }>();
 
 const imageConfig = ref({
-  x: 10,
-  y: 5,
+  x: 0.4 * props.iconWidth,
+  y: 0 * props.iconHeight,
   image: new Image(),
-  width: 30,
-  height: 30
+  width: props.iconWidth,
+  height: props.iconHeight,
 });
 
 function getSvg(name: string) {
@@ -67,23 +69,28 @@ onMounted(() => {
   imageObj.src = getSvg(props.item);
   imageObj.onload = () => {
     // set image only when it is loaded
-    console.log(imageObj);
     imageConfig.value.image = imageObj;
-    console.log(imageConfig.value);
   };
+});
+
+watch(() => [props.iconWidth, props.iconHeight], () => {
+  imageConfig.value.x = 0.4 * props.iconWidth;
+  imageConfig.value.y = 0 * props.iconHeight;
+  imageConfig.value.width = props.iconWidth;
+  imageConfig.value.height = props.iconHeight;
 });
 
 </script>
 
 <template>
   <v-group :config="{ x: props.x, y: props.y }">
-    <v-text :config="{
-      text: `${props.count}`,
-      fontSize: 20,
+    <v-text v-if="count != 1" :config="{
+      text: `${props.count} * `,
+      fontSize: 40 * props.scaleFactor / 100,
       fontFamily: 'Calibri',
       fill: 'black',
       x: 0,
-      y: 0
+      y: 0.05 * props.iconHeight
     }" />
     <v-image :config="imageConfig" />
   </v-group>

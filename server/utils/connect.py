@@ -21,16 +21,6 @@ def create_app():
   socketio = SocketIO()
   socketio.init_app(app, cors_allowed_origins='*', async_mode="threading")
 
-  @app.route('/test')
-  def hello():
-      # How can I send a WebSocket message from here?
-      return 'Hello World!'
-
-
-  @app.route('/')
-  def index():
-      return render_template("./index.html")
-
   @socketio.on('disconnect', namespace=router_name)
   def disconnect_msg():
     print('client disconnected.')
