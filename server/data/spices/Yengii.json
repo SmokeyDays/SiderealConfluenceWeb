@@ -1,29 +1,30 @@
 {
-    "name": "Caylion",
+    "name": "Yengii",
     "start_resource": {
         "factories": [
-            "凯利安_分布式远程网络",
-            "凯利安_月球开采联盟",
-            "凯利安_海洋处理",
-            "凯利安_行星生态支配"
+            "岩基艾_社会生态互利共生",
+            "岩基艾_道之选择",
+            "岩基艾_骡之劳作",
+            "岩基艾_手之创新",
+            "岩基艾_言之共情"
         ],
         "items": {
-            "Food": 5,
-            "Culture": 4,
-            "Industry": 2,
-            "Information": 2,
-            "Biotech": 0,
-            "Energy": 0,
-            "Hypertech": 0,
-            "Ship": 1,
+            "Food": 1,
+            "Culture": 1,
+            "Industry": 1,
+            "Information": 1,
+            "Biotech": 1,
+            "Energy": 2,
+            "Hypertech": 1,
+            "Ship": 0,
             "Score": 0
         },
         "Colony": 1,
-        "research_team": 0
+        "research_team": 1
     },
     "factories": [
         {
-            "name": "凯利安_纳米科技",
+            "name": "岩基艾_纳米科技",
             "output_items": {
                 "Food": 1,
                 "Culture": 0,
@@ -60,21 +61,21 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_纳米制造",
+            "update_factory": "岩基艾_纳米制造",
             "update_requirements": [
-                "凯利安_原子嬗变",
-                "凯利安_基因工程学"
+                "岩基艾_原子嬗变",
+                "岩基艾_基因工程学"
             ]
         },
         {
-            "name": "凯利安_纳米制造",
+            "name": "岩基艾_纳米制造",
             "output_items": {
                 "Food": 1,
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
+                "Biotech": 1,
+                "Energy": 0,
                 "Hypertech": 1,
                 "Ship": 0,
                 "Score": 0
@@ -108,11 +109,11 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_基因工程学",
+            "name": "岩基艾_基因工程学",
             "output_items": {
                 "Food": 0,
-                "Culture": 0,
-                "Industry": 1,
+                "Culture": 1,
+                "Industry": 0,
                 "Information": 1,
                 "Biotech": 0,
                 "Energy": 1,
@@ -145,18 +146,18 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_基因再合成",
+            "update_factory": "岩基艾_基因再合成",
             "update_requirements": [
-                "凯利安_临床永生",
-                "凯利安_纳米科技"
+                "岩基艾_临床永生",
+                "岩基艾_纳米科技"
             ]
         },
         {
-            "name": "凯利安_基因再合成",
+            "name": "岩基艾_基因再合成",
             "output_items": {
                 "Food": 0,
-                "Culture": 0,
-                "Industry": 1,
+                "Culture": 1,
+                "Industry": 0,
                 "Information": 1,
                 "Biotech": 0,
                 "Energy": 2,
@@ -193,7 +194,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_通用翻译器",
+            "name": "岩基艾_通用翻译器",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -220,8 +221,8 @@
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
+                "Information": 0,
+                "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -230,14 +231,14 @@
             "input": 3.0,
             "output": 4.5,
             "efficiency": 1.5,
-            "update_factory": "凯利安_通用共情交流",
+            "update_factory": "岩基艾_通用共情交流",
             "update_requirements": [
-                "凯利安_量子计算机",
-                "凯利安_泛在文化知识库"
+                "岩基艾_量子计算机",
+                "岩基艾_泛在文化知识库"
             ]
         },
         {
-            "name": "凯利安_通用共情交流",
+            "name": "岩基艾_通用共情交流",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -261,11 +262,11 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 1,
-                "Industry": 1,
-                "Information": 1,
-                "Biotech": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -278,14 +279,14 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_反物质能源",
+            "name": "岩基艾_反物质能源",
             "output_items": {
-                "Food": 0,
-                "Culture": 1,
+                "Food": 1,
+                "Culture": 0,
                 "Industry": 0,
                 "Information": 1,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -315,21 +316,21 @@
             "input": 4.0,
             "output": 5.5,
             "efficiency": 1.375,
-            "update_factory": "凯利安_反物质化合物",
+            "update_factory": "岩基艾_反物质化合物",
             "update_requirements": [
-                "凯利安_有机结构",
-                "凯利安_超空间开采"
+                "岩基艾_有机结构",
+                "岩基艾_超空间开采"
             ]
         },
         {
-            "name": "凯利安_反物质化合物",
+            "name": "岩基艾_反物质化合物",
             "output_items": {
-                "Food": 1,
-                "Culture": 2,
+                "Food": 2,
+                "Culture": 1,
                 "Industry": 0,
                 "Information": 1,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -363,7 +364,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_种族间医学交流",
+            "name": "岩基艾_种族间医学交流",
             "output_items": {
                 "Food": 0,
                 "Culture": 1,
@@ -387,8 +388,8 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 1,
-                "Culture": 0,
+                "Food": 0,
+                "Culture": 1,
                 "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
@@ -400,21 +401,21 @@
             "input": 4.0,
             "output": 6.0,
             "efficiency": 1.5,
-            "update_factory": "凯利安_泛生物医学",
+            "update_factory": "岩基艾_泛生物医学",
             "update_requirements": [
-                "凯利安_有机结构",
-                "凯利安_跨种族道德平等"
+                "岩基艾_有机结构",
+                "岩基艾_跨种族道德平等"
             ]
         },
         {
-            "name": "凯利安_泛生物医学",
+            "name": "岩基艾_泛生物医学",
             "output_items": {
                 "Food": 0,
                 "Culture": 1,
                 "Industry": 1,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
+                "Biotech": 1,
+                "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 1
@@ -431,8 +432,8 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 1,
-                "Culture": 0,
+                "Food": 0,
+                "Culture": 1,
                 "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
@@ -448,7 +449,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_跨种族道德平等",
+            "name": "岩基艾_跨种族道德平等",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -472,9 +473,9 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 0,
-                "Industry": 1,
+                "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -485,14 +486,14 @@
             "input": 4.0,
             "output": 7.0,
             "efficiency": 1.75,
-            "update_factory": "凯利安_具体共相元理论学",
+            "update_factory": "岩基艾_具体共相元理论学",
             "update_requirements": [
-                "凯利安_非时序分析",
-                "凯利安_种族间医学交流"
+                "岩基艾_非时序分析",
+                "岩基艾_种族间医学交流"
             ]
         },
         {
-            "name": "凯利安_具体共相元理论学",
+            "name": "岩基艾_具体共相元理论学",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -516,9 +517,9 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 0,
-                "Industry": 1,
+                "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -533,14 +534,14 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_异文化交流",
+            "name": "岩基艾_异文化交流",
             "output_items": {
-                "Food": 1,
-                "Culture": 3,
+                "Food": 2,
+                "Culture": 2,
                 "Industry": 0,
-                "Information": 1,
+                "Information": 0,
                 "Biotech": 0,
-                "Energy": 0,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 1
@@ -570,21 +571,21 @@
             "input": 5.0,
             "output": 11.5,
             "efficiency": 2.3,
-            "update_factory": "凯利安_多种族混合文化",
+            "update_factory": "岩基艾_多种族混合文化",
             "update_requirements": [
-                "凯利安_社会迁移",
-                "凯利安_巨型建筑"
+                "岩基艾_社会迁移",
+                "岩基艾_巨型建筑"
             ]
         },
         {
-            "name": "凯利安_多种族混合文化",
+            "name": "岩基艾_多种族混合文化",
             "output_items": {
-                "Food": 1,
-                "Culture": 3,
+                "Food": 2,
+                "Culture": 2,
                 "Industry": 0,
-                "Information": 1,
+                "Information": 0,
                 "Biotech": 0,
-                "Energy": 0,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 2
@@ -601,11 +602,11 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 0,
-                "Culture": 1,
+                "Food": 1,
+                "Culture": 0,
                 "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
+                "Information": 0,
+                "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -618,14 +619,14 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_多元种族企业",
+            "name": "岩基艾_多元种族企业",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 2,
                 "Score": 1
@@ -642,9 +643,9 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 3,
+                "Food": 2,
+                "Culture": 1,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -655,21 +656,21 @@
             "input": 5.0,
             "output": 12.0,
             "efficiency": 2.4,
-            "update_factory": "凯利安_全种族间融合",
+            "update_factory": "岩基艾_全种族间融合",
             "update_requirements": [
-                "凯利安_异文化交流",
-                "凯利安_银河系通讯控制"
+                "岩基艾_异文化交流",
+                "岩基艾_银河系通讯控制"
             ]
         },
         {
-            "name": "凯利安_全种族间融合",
+            "name": "岩基艾_全种族间融合",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 2,
                 "Score": 2
@@ -686,9 +687,9 @@
                 "Score": 0
             },
             "donation_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 3,
+                "Food": 2,
+                "Culture": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -703,7 +704,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_社会迁移",
+            "name": "岩基艾_社会迁移",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -730,9 +731,9 @@
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
-                "Information": 0,
+                "Information": 1,
                 "Biotech": 1,
-                "Energy": 1,
+                "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 2,
                 "Score": 1
@@ -740,14 +741,14 @@
             "input": 5.0,
             "output": 14.5,
             "efficiency": 2.9,
-            "update_factory": "凯利安_银河系殖民",
+            "update_factory": "岩基艾_银河系殖民",
             "update_requirements": [
-                "凯利安_异文化交流",
-                "凯利安_银河系通讯控制"
+                "岩基艾_异文化交流",
+                "岩基艾_银河系通讯控制"
             ]
         },
         {
-            "name": "凯利安_银河系殖民",
+            "name": "岩基艾_银河系殖民",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
@@ -774,9 +775,9 @@
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 1,
-                "Information": 0,
+                "Information": 1,
                 "Biotech": 1,
-                "Energy": 1,
+                "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 2,
                 "Score": 1
@@ -788,11 +789,11 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_量子计算机",
+            "name": "岩基艾_量子计算机",
             "output_items": {
-                "Food": 1,
+                "Food": 0,
                 "Culture": 0,
-                "Industry": 0,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 1,
                 "Energy": 1,
@@ -825,18 +826,18 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_非确定性多项式塌缩",
+            "update_factory": "岩基艾_非确定性多项式塌缩",
             "update_requirements": [
-                "凯利安_临床永生",
-                "凯利安_通用翻译器"
+                "岩基艾_临床永生",
+                "岩基艾_通用翻译器"
             ]
         },
         {
-            "name": "凯利安_非确定性多项式塌缩",
+            "name": "岩基艾_非确定性多项式塌缩",
             "output_items": {
-                "Food": 1,
+                "Food": 0,
                 "Culture": 0,
-                "Industry": 0,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 1,
                 "Energy": 2,
@@ -873,92 +874,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_临床永生",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "update_factory": "凯利安_实用永生",
-            "update_requirements": [
-                "凯利安_原子嬗变",
-                "凯利安_基因工程学"
-            ]
-        },
-        {
-            "name": "凯利安_实用永生",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "update_factory": "",
-            "update_requirements": []
-        },
-        {
-            "name": "凯利安_泛在文化知识库",
+            "name": "岩基艾_临床永生",
             "output_items": {
                 "Food": 1,
                 "Culture": 0,
@@ -975,8 +891,8 @@
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 2,
+                "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -995,14 +911,14 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_模因生命体",
+            "update_factory": "岩基艾_实用永生",
             "update_requirements": [
-                "凯利安_量子计算机",
-                "凯利安_通用翻译器"
+                "岩基艾_原子嬗变",
+                "岩基艾_基因工程学"
             ]
         },
         {
-            "name": "凯利安_模因生命体",
+            "name": "岩基艾_实用永生",
             "output_items": {
                 "Food": 1,
                 "Culture": 0,
@@ -1019,6 +935,91 @@
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
+                "Biotech": 2,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 3.0,
+            "output": 5.5,
+            "efficiency": 1.833,
+            "update_factory": "",
+            "update_requirements": []
+        },
+        {
+            "name": "岩基艾_泛在文化知识库",
+            "output_items": {
+                "Food": 0,
+                "Culture": 1,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 1
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 2,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 3.0,
+            "output": 4.0,
+            "efficiency": 1.333,
+            "update_factory": "岩基艾_模因生命体",
+            "update_requirements": [
+                "岩基艾_量子计算机",
+                "岩基艾_通用翻译器"
+            ]
+        },
+        {
+            "name": "岩基艾_模因生命体",
+            "output_items": {
+                "Food": 0,
+                "Culture": 1,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 1
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
                 "Biotech": 0,
                 "Energy": 2,
                 "Hypertech": 0,
@@ -1043,11 +1044,11 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_非时序分析",
+            "name": "岩基艾_非时序分析",
             "output_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 1,
-                "Industry": 1,
+                "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 1,
@@ -1080,18 +1081,18 @@
             "input": 4.5,
             "output": 6.5,
             "efficiency": 1.444,
-            "update_factory": "凯利安_时间查看器",
+            "update_factory": "岩基艾_时间查看器",
             "update_requirements": [
-                "凯利安_奇点控制",
-                "凯利安_反物质能源"
+                "岩基艾_奇点控制",
+                "岩基艾_反物质能源"
             ]
         },
         {
-            "name": "凯利安_时间查看器",
+            "name": "岩基艾_时间查看器",
             "output_items": {
-                "Food": 0,
-                "Culture": 2,
-                "Industry": 1,
+                "Food": 2,
+                "Culture": 1,
+                "Industry": 0,
                 "Information": 0,
                 "Biotech": 1,
                 "Energy": 1,
@@ -1128,11 +1129,11 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_有机结构",
+            "name": "岩基艾_有机结构",
             "output_items": {
-                "Food": 1,
+                "Food": 2,
                 "Culture": 1,
-                "Industry": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -1165,18 +1166,18 @@
             "input": 4.5,
             "output": 6.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_活体基础设施",
+            "update_factory": "岩基艾_活体基础设施",
             "update_requirements": [
-                "凯利安_跨种族道德平等",
-                "凯利安_种族间医学交流"
+                "岩基艾_跨种族道德平等",
+                "岩基艾_种族间医学交流"
             ]
         },
         {
-            "name": "凯利安_活体基础设施",
+            "name": "岩基艾_活体基础设施",
             "output_items": {
-                "Food": 1,
+                "Food": 2,
                 "Culture": 1,
-                "Industry": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 1,
@@ -1213,13 +1214,13 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_超空间开采",
+            "name": "岩基艾_超空间开采",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
+                "Information": 0,
+                "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 1,
                 "Ship": 0,
@@ -1241,8 +1242,8 @@
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -1250,20 +1251,20 @@
             "input": 4.5,
             "output": 7.5,
             "efficiency": 1.667,
-            "update_factory": "凯利安_超空间定居点",
+            "update_factory": "岩基艾_超空间定居点",
             "update_requirements": [
-                "凯利安_奇点控制",
-                "凯利安_反物质能源"
+                "岩基艾_奇点控制",
+                "岩基艾_反物质能源"
             ]
         },
         {
-            "name": "凯利安_超空间定居点",
+            "name": "岩基艾_超空间定居点",
             "output_items": {
                 "Food": 0,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 2,
-                "Biotech": 0,
+                "Culture": 0,
+                "Industry": 2,
+                "Information": 1,
+                "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 1,
                 "Ship": 0,
@@ -1285,8 +1286,8 @@
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
+                "Biotech": 1,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -1298,7 +1299,7 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_银河系通讯控制",
+            "name": "岩基艾_银河系通讯控制",
             "output_items": {
                 "Food": 0,
                 "Culture": 1,
@@ -1335,14 +1336,14 @@
             "input": 6.0,
             "output": 12.0,
             "efficiency": 2.0,
-            "update_factory": "凯利安_银河系统治",
+            "update_factory": "岩基艾_银河系统治",
             "update_requirements": [
-                "凯利安_社会迁移",
-                "凯利安_多元种族企业"
+                "岩基艾_社会迁移",
+                "岩基艾_多元种族企业"
             ]
         },
         {
-            "name": "凯利安_银河系统治",
+            "name": "岩基艾_银河系统治",
             "output_items": {
                 "Food": 0,
                 "Culture": 1,
@@ -1383,11 +1384,11 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_时间膨胀",
+            "name": "岩基艾_时间膨胀",
             "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
+                "Food": 0,
+                "Culture": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -1420,18 +1421,18 @@
             "input": 6.0,
             "output": 12.0,
             "efficiency": 2.0,
-            "update_factory": "凯利安_静滞场",
+            "update_factory": "岩基艾_静滞场",
             "update_requirements": [
-                "凯利安_物质生成",
-                "凯利安_巨型建筑"
+                "岩基艾_物质生成",
+                "岩基艾_巨型建筑"
             ]
         },
         {
-            "name": "凯利安_静滞场",
+            "name": "岩基艾_静滞场",
             "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
+                "Food": 0,
+                "Culture": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
@@ -1468,10 +1469,10 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_物质生成",
+            "name": "岩基艾_物质生成",
             "output_items": {
-                "Food": 0,
-                "Culture": 1,
+                "Food": 1,
+                "Culture": 0,
                 "Industry": 1,
                 "Information": 0,
                 "Biotech": 1,
@@ -1505,18 +1506,18 @@
             "input": 6.0,
             "output": 12.5,
             "efficiency": 2.083,
-            "update_factory": "凯利安_大规模传送",
+            "update_factory": "岩基艾_大规模传送",
             "update_requirements": [
-                "凯利安_时间膨胀",
-                "凯利安_多元种族企业"
+                "岩基艾_时间膨胀",
+                "岩基艾_多元种族企业"
             ]
         },
         {
-            "name": "凯利安_大规模传送",
+            "name": "岩基艾_大规模传送",
             "output_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 1,
-                "Industry": 2,
+                "Industry": 1,
                 "Information": 0,
                 "Biotech": 1,
                 "Energy": 0,
@@ -1553,26 +1554,26 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_月球开采联盟",
+            "name": "岩基艾_道之选择",
             "output_items": {
+                "Food": 2,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 1,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input_items": {
                 "Food": 0,
-                "Culture": 1,
+                "Culture": 2,
                 "Industry": 0,
                 "Information": 1,
                 "Biotech": 0,
                 "Energy": 0,
                 "Hypertech": 0,
-                "Ship": 2,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
             },
@@ -1587,123 +1588,12 @@
                 "Ship": 0,
                 "Score": 0
             },
-            "input": 3.0,
-            "output": 4.5,
-            "efficiency": 1.5,
-            "update_factory": "凯利安_奥克松斯式外恒星系采集",
-            "update_requirements": [
-                "凯利安_有机结构",
-                {
-                    "input_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 2,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 0,
-                        "Special_input": {
-                            "jungle": 1
-                        }
-                    },
-                    "output_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 1,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 1
-                    }
-                }
-            ]
-        },
-        {
-            "name": "凯利安_奥克松斯式外恒星系采集",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 6.0,
-            "efficiency": 2.0,
-            "update_factory": "",
-            "update_requirements": []
-        },
-        {
-            "name": "凯利安_行星生态支配",
-            "output_items": {
-                "Food": 3,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 1,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 0.0,
+            "input": 3.5,
             "output": 5.0,
-            "efficiency": 1000.0,
-            "update_factory": "凯利安_恒星系范围引力支配",
+            "efficiency": 1.429,
+            "update_factory": "岩基艾_外星种族决策融合",
             "update_requirements": [
-                "凯利安_基因工程学",
+                "岩基艾_泛在文化知识库",
                 {
                     "input_items": {
                         "Food": 0,
@@ -1716,7 +1606,7 @@
                         "Ship": 0,
                         "Score": 0,
                         "Special_input": {
-                            "jungle": 1
+                            "water": 1
                         }
                     },
                     "output_items": {
@@ -1725,7 +1615,7 @@
                         "Industry": 0,
                         "Information": 0,
                         "Biotech": 0,
-                        "Energy": 1,
+                        "Energy": 0,
                         "Hypertech": 0,
                         "Ship": 0,
                         "Score": 1
@@ -1734,23 +1624,23 @@
             ]
         },
         {
-            "name": "凯利安_恒星系范围引力支配",
+            "name": "岩基艾_外星种族决策融合",
             "output_items": {
-                "Food": 3,
-                "Culture": 1,
-                "Industry": 0,
+                "Food": 2,
+                "Culture": 0,
+                "Industry": 2,
                 "Information": 0,
-                "Biotech": 1,
+                "Biotech": 0,
                 "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 1,
+                "Hypertech": 1,
+                "Ship": 0,
                 "Score": 0
             },
             "input_items": {
                 "Food": 0,
-                "Culture": 0,
+                "Culture": 2,
                 "Industry": 0,
-                "Information": 0,
+                "Information": 1,
                 "Biotech": 0,
                 "Energy": 0,
                 "Hypertech": 0,
@@ -1768,20 +1658,131 @@
                 "Ship": 0,
                 "Score": 0
             },
-            "input": 0.0,
-            "output": 6.5,
-            "efficiency": 1000.0,
+            "input": 3.5,
+            "output": 7.0,
+            "efficiency": 2.0,
             "update_factory": "",
             "update_requirements": []
         },
         {
-            "name": "凯利安_原子嬗变",
+            "name": "岩基艾_言之共情",
+            "output_items": {
+                "Food": 0,
+                "Culture": 2,
+                "Industry": 0,
+                "Information": 2,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 2,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 3.5,
+            "output": 5.0,
+            "efficiency": 1.429,
+            "update_factory": "岩基艾_种族间外交领域",
+            "update_requirements": [
+                "岩基艾_跨种族道德平等",
+                {
+                    "input_items": {
+                        "Food": 2,
+                        "Culture": 0,
+                        "Industry": 0,
+                        "Information": 0,
+                        "Biotech": 0,
+                        "Energy": 0,
+                        "Hypertech": 0,
+                        "Ship": 0,
+                        "Score": 0,
+                        "Special_input": {
+                            "jungle": 1
+                        }
+                    },
+                    "output_items": {
+                        "Food": 0,
+                        "Culture": 0,
+                        "Industry": 0,
+                        "Information": 0,
+                        "Biotech": 0,
+                        "Energy": 0,
+                        "Hypertech": 0,
+                        "Ship": 0,
+                        "Score": 1
+                    }
+                }
+            ]
+        },
+        {
+            "name": "岩基艾_种族间外交领域",
+            "output_items": {
+                "Food": 0,
+                "Culture": 2,
+                "Industry": 0,
+                "Information": 2,
+                "Biotech": 0,
+                "Energy": 1,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 2,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 3.5,
+            "output": 6.5,
+            "efficiency": 1.857,
+            "update_factory": "",
+            "update_requirements": []
+        },
+        {
+            "name": "岩基艾_原子嬗变",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
+                "Information": 1,
+                "Biotech": 0,
                 "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -1812,20 +1813,20 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "update_factory": "凯利安_虚材料",
+            "update_factory": "岩基艾_虚材料",
             "update_requirements": [
-                "凯利安_纳米科技",
-                "凯利安_泛在文化知识库"
+                "岩基艾_纳米科技",
+                "岩基艾_泛在文化知识库"
             ]
         },
         {
-            "name": "凯利安_虚材料",
+            "name": "岩基艾_虚材料",
             "output_items": {
                 "Food": 0,
                 "Culture": 0,
                 "Industry": 1,
-                "Information": 0,
-                "Biotech": 2,
+                "Information": 1,
+                "Biotech": 1,
                 "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -1860,26 +1861,26 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_海洋处理",
+            "name": "岩基艾_手之创新",
             "output_items": {
-                "Food": 0,
+                "Food": 1,
                 "Culture": 0,
-                "Industry": 1,
+                "Industry": 0,
                 "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
+                "Biotech": 0,
+                "Energy": 1,
                 "Hypertech": 0,
-                "Ship": 0,
+                "Ship": 2,
                 "Score": 0
             },
             "input_items": {
-                "Food": 2,
+                "Food": 0,
                 "Culture": 0,
                 "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
                 "Energy": 0,
-                "Hypertech": 0,
+                "Hypertech": 1,
                 "Ship": 0,
                 "Score": 0
             },
@@ -1894,12 +1895,12 @@
                 "Ship": 0,
                 "Score": 0
             },
-            "input": 2.0,
-            "output": 2.5,
-            "efficiency": 1.25,
-            "update_factory": "凯利安_行星范围工业化海水养殖",
+            "input": 3.0,
+            "output": 4.5,
+            "efficiency": 1.5,
+            "update_factory": "岩基艾_跨时空智库",
             "update_requirements": [
-                "凯利安_反物质能源",
+                "岩基艾_非时序分析",
                 {
                     "input_items": {
                         "Food": 0,
@@ -1912,7 +1913,7 @@
                         "Ship": 0,
                         "Score": 0,
                         "Special_input": {
-                            "jungle": 1
+                            "desert": 1
                         }
                     },
                     "output_items": {
@@ -1921,7 +1922,7 @@
                         "Industry": 0,
                         "Information": 0,
                         "Biotech": 0,
-                        "Energy": 1,
+                        "Energy": 0,
                         "Hypertech": 0,
                         "Ship": 0,
                         "Score": 1
@@ -1930,16 +1931,57 @@
             ]
         },
         {
-            "name": "凯利安_行星范围工业化海水养殖",
+            "name": "岩基艾_跨时空智库",
             "output_items": {
+                "Food": 1,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 1,
+                "Hypertech": 0,
+                "Ship": 2,
+                "Score": 0
+            },
+            "input_items": {
                 "Food": 0,
                 "Culture": 0,
-                "Industry": 1,
-                "Information": 1,
-                "Biotech": 1,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 1,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 1,
+                "Culture": 1,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
                 "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
+                "Score": 0
+            },
+            "input": 3.0,
+            "output": 6.5,
+            "efficiency": 2.167,
+            "update_factory": "",
+            "update_requirements": []
+        },
+        {
+            "name": "岩基艾_骡之劳作",
+            "output_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 2,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 2,
                 "Score": 0
             },
             "input_items": {
@@ -1948,7 +1990,7 @@
                 "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
-                "Energy": 0,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
@@ -1964,66 +2006,25 @@
                 "Ship": 0,
                 "Score": 0
             },
-            "input": 2.0,
-            "output": 4.0,
-            "efficiency": 2.0,
-            "update_factory": "",
-            "update_requirements": []
-        },
-        {
-            "name": "凯利安_分布式远程网络",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 1.5,
-            "output": 2.0,
-            "efficiency": 1.333,
-            "update_factory": "凯利安_安塞波驱动的跨恒星系社会",
+            "input": 3.5,
+            "output": 5.5,
+            "efficiency": 1.571,
+            "update_factory": "岩基艾_重力装配",
             "update_requirements": [
-                "凯利安_泛在文化知识库",
+                "岩基艾_奇点控制",
                 {
                     "input_items": {
                         "Food": 0,
                         "Culture": 0,
                         "Industry": 0,
                         "Information": 0,
-                        "Biotech": 2,
+                        "Biotech": 0,
                         "Energy": 0,
-                        "Hypertech": 0,
+                        "Hypertech": 1,
                         "Ship": 0,
                         "Score": 0,
                         "Special_input": {
-                            "jungle": 1
+                            "ice": 1
                         }
                     },
                     "output_items": {
@@ -2032,7 +2033,7 @@
                         "Industry": 0,
                         "Information": 0,
                         "Biotech": 0,
-                        "Energy": 1,
+                        "Energy": 0,
                         "Hypertech": 0,
                         "Ship": 0,
                         "Score": 1
@@ -2041,32 +2042,32 @@
             ]
         },
         {
-            "name": "凯利安_安塞波驱动的跨恒星系社会",
+            "name": "岩基艾_重力装配",
             "output_items": {
                 "Food": 0,
-                "Culture": 1,
-                "Industry": 1,
+                "Culture": 0,
+                "Industry": 3,
                 "Information": 0,
                 "Biotech": 1,
                 "Energy": 0,
                 "Hypertech": 0,
-                "Ship": 0,
+                "Ship": 2,
                 "Score": 0
             },
             "input_items": {
-                "Food": 0,
+                "Food": 2,
                 "Culture": 0,
                 "Industry": 0,
-                "Information": 1,
+                "Information": 0,
                 "Biotech": 0,
-                "Energy": 0,
+                "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 0,
                 "Score": 0
             },
             "donation_items": {
                 "Food": 0,
-                "Culture": 0,
+                "Culture": 2,
                 "Industry": 0,
                 "Information": 0,
                 "Biotech": 0,
@@ -2075,20 +2076,20 @@
                 "Ship": 0,
                 "Score": 0
             },
-            "input": 1.5,
-            "output": 3.5,
-            "efficiency": 2.333,
+            "input": 3.5,
+            "output": 8.5,
+            "efficiency": 2.429,
             "update_factory": "",
             "update_requirements": []
         },
         {
-            "name": "凯利安_奇点控制",
+            "name": "岩基艾_奇点控制",
             "output_items": {
-                "Food": 1,
+                "Food": 0,
                 "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 2,
+                "Industry": 2,
+                "Information": 2,
+                "Biotech": 0,
                 "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 1,
@@ -2119,20 +2120,20 @@
             "input": 6.0,
             "output": 8.5,
             "efficiency": 1.417,
-            "update_factory": "凯利安_虫洞网格",
+            "update_factory": "岩基艾_虫洞网格",
             "update_requirements": [
-                "凯利安_非时序分析",
-                "凯利安_超空间开采"
+                "岩基艾_非时序分析",
+                "岩基艾_超空间开采"
             ]
         },
         {
-            "name": "凯利安_虫洞网格",
+            "name": "岩基艾_虫洞网格",
             "output_items": {
                 "Food": 1,
-                "Culture": 1,
-                "Industry": 3,
-                "Information": 0,
-                "Biotech": 2,
+                "Culture": 2,
+                "Industry": 2,
+                "Information": 2,
+                "Biotech": 0,
                 "Energy": 1,
                 "Hypertech": 0,
                 "Ship": 1,
@@ -2167,10 +2168,10 @@
             "update_requirements": []
         },
         {
-            "name": "凯利安_巨型建筑",
+            "name": "岩基艾_巨型建筑",
             "output_items": {
-                "Food": 0,
-                "Culture": 1,
+                "Food": 1,
+                "Culture": 0,
                 "Industry": 1,
                 "Information": 0,
                 "Biotech": 0,
@@ -2204,20 +2205,20 @@
             "input": 9.0,
             "output": 17.0,
             "efficiency": 1.889,
-            "update_factory": "凯利安_戴森群",
+            "update_factory": "岩基艾_戴森群",
             "update_requirements": [
-                "凯利安_物质生成",
-                "凯利安_时间膨胀"
+                "岩基艾_物质生成",
+                "岩基艾_时间膨胀"
             ]
         },
         {
-            "name": "凯利安_戴森群",
+            "name": "岩基艾_戴森群",
             "output_items": {
-                "Food": 0,
-                "Culture": 1,
+                "Food": 1,
+                "Culture": 0,
                 "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
+                "Information": 1,
+                "Biotech": 0,
                 "Energy": 0,
                 "Hypertech": 0,
                 "Ship": 0,
@@ -2248,6 +2249,91 @@
             "input": 9.0,
             "output": 21.5,
             "efficiency": 2.389,
+            "update_factory": "",
+            "update_requirements": []
+        },
+        {
+            "name": "岩基艾_社会生态互利共生",
+            "output_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 1,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 2,
+                "Score": 0
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 0.0,
+            "output": 4.5,
+            "efficiency": 1000.0,
+            "update_factory": "岩基艾_互利共生式外星种族融合",
+            "update_requirements": [
+                "岩基艾_反物质能源",
+                "岩基艾_种族间医学交流"
+            ]
+        },
+        {
+            "name": "岩基艾_互利共生式外星种族融合",
+            "output_items": {
+                "Food": 1,
+                "Culture": 1,
+                "Industry": 1,
+                "Information": 0,
+                "Biotech": 1,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 2,
+                "Score": 0
+            },
+            "input_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "donation_items": {
+                "Food": 0,
+                "Culture": 0,
+                "Industry": 0,
+                "Information": 0,
+                "Biotech": 0,
+                "Energy": 0,
+                "Hypertech": 0,
+                "Ship": 0,
+                "Score": 0
+            },
+            "input": 0.0,
+            "output": 6.5,
+            "efficiency": 1000.0,
             "update_factory": "",
             "update_requirements": []
         }

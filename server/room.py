@@ -7,14 +7,14 @@ class Room:
     self.players = {}
     self.game_state = "waiting"
     self.game = None
-    self.spices = ["Kylion", "Eni", "Im", "Yengii", "Zeth", "Unity", "Faderan"]
+    self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
 
   def enter_room(self, user_id):
     if user_id in self.players:
       return False
     if len(self.players) < self.max_players:
       self.players[user_id] = {
-        "spice": None,
+        "specie": None,
         "agreed": False
       }
       return True
@@ -28,9 +28,9 @@ class Room:
     else:
       return False
 
-  def choose_spice(self, user_id, spice):
-    if user_id in self.players and spice in self.spices:
-      self.players[user_id]["spice"] = spice
+  def choose_specie(self, user_id, specie):
+    if user_id in self.players and specie in self.species:
+      self.players[user_id]["specie"] = specie
       return True
     else:
       return False
@@ -48,7 +48,7 @@ class Room:
   def start_game(self):
     self.game = Game()
     for user_id, player in self.players.values():
-      self.game.add_player(player["spice"], user_id)
+      self.game.add_player(player["specie"], user_id)
     self.game_state = "playing"
 
   def to_dict(self):
@@ -65,7 +65,7 @@ class Room:
       "name": str,
       "players": {
         "user_id": str,
-        "spice": str,
+        "specie": str,
         "agreed": bool
       },
       "game_state": str,

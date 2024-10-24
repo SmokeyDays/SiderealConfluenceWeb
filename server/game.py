@@ -1,46 +1,46 @@
 import json
 from typing import Any, Dict, List, Tuple
 
-class SpiceManager:
+class SpecieManager:
   def __init__(self, path: str):
-    self.spice_factories = {}
-    self.spice_init_players = {}
-    self.load_spices(path)
+    self.specie_factories = {}
+    self.specie_init_players = {}
+    self.load_species(path)
 
-  def load_spices(self, path: str):
-    spices = ["Kylion"]
-    for spice in spices:
-      self.load_spice_data(spice, path)
+  def load_species(self, path: str):
+    species = ["Caylion", "Yengii"]
+    for specie in species:
+      self.load_specie_data(specie, path)
 
-  def load_spice_data(self, spice: str, path: str):
-    with open(f"{path}/{spice}.json", "r", encoding="utf-8") as f:
-      spice_data = json.load(f)
-      self.create_factories(spice, spice_data)
-      self.create_init_players(spice, spice_data)
+  def load_specie_data(self, specie: str, path: str):
+    with open(f"{path}/{specie}.json", "r", encoding="utf-8") as f:
+      specie_data = json.load(f)
+      self.create_factories(specie, specie_data)
+      self.create_init_players(specie, specie_data)
 
-  def create_factories(self, spice: str, spice_data: dict):
+  def create_factories(self, specie: str, specie_data: dict):
     factories = {}
-    for factory in spice_data["factories"]:
-      factories[factory["name"]] = Factory(factory["name"], factory["input_items"], factory["output_items"], spice)
-    self.spice_factories[spice] = factories
+    for factory in specie_data["factories"]:
+      factories[factory["name"]] = Factory(factory["name"], factory["input_items"], factory["output_items"], specie)
+    self.specie_factories[specie] = factories
 
-  def create_init_players(self, spice: str, spice_data: dict):
+  def create_init_players(self, specie: str, specie_data: dict):
     self.init_factories = {}
-    for factory in spice_data["start_resource"]["factories"]:
-      if factory in self.spice_factories[spice]:
-        self.init_factories[factory] = self.spice_factories[spice][factory]
-    self.spice_init_players[spice] = Player(spice, spice, spice_data["start_resource"]["items"], self.init_factories)
+    for factory in specie_data["start_resource"]["factories"]:
+      if factory in self.specie_factories[specie]:
+        self.init_factories[factory] = self.specie_factories[specie][factory]
+    self.specie_init_players[specie] = Player(specie, specie, specie_data["start_resource"]["items"], self.init_factories)
 
-  def get_init_player(self, spice: str, user_id: str):
-    player = self.spice_init_players[spice]
+  def get_init_player(self, specie: str, user_id: str):
+    player = self.specie_init_players[specie]
     player.user_id = user_id
     return player
 
-  def get_factories(self, spice: str):
-    return self.spice_factories[spice]
+  def get_factories(self, specie: str):
+    return self.specie_factories[specie]
 
-  def get_factory(self, spice: str, factory_name: str):
-    return self.spice_factories[spice][factory_name]
+  def get_factory(self, specie: str, factory_name: str):
+    return self.specie_factories[specie][factory_name]
 
 class Factory:
   def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], owner: str):
@@ -81,9 +81,9 @@ class Factory:
 
 
 class Player:
-  def __init__(self, user_id: str, spice: str, start_storage: Dict[str, int], factories: List[Factory]):
+  def __init__(self, user_id: str, specie: str, start_storage: Dict[str, int], factories: List[Factory]):
     self.user_id = user_id
-    self.spice = spice
+    self.specie = specie
     self.storage: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
@@ -95,7 +95,7 @@ class Player:
 
   def add_factory(self, factory: Factory):
     self.factories[factory.name] = factory
-    factory.owner = self.spice
+    factory.owner = self.specie
 
   def add_to_storage(self, item: str, quantity: int):
     self.storage[item] = self.storage.get(item, 0) + quantity
@@ -134,7 +134,7 @@ class Player:
   def to_dict(self) -> Dict[str, Any]:
     return {
       "user_id": self.user_id,
-      "spice": self.spice,
+      "specie": self.specie,
       "storage": self.storage,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
     } 
@@ -145,10 +145,10 @@ class Game:
     self.players: List[Player] = []
     self.current_round = 0
     self.stage = "trading"
-    self.spice_manager = SpiceManager("./server/data/spices")
+    self.specie_manager = SpecieManager("./server/data/species")
 
-  def add_player(self, spice: str, user_id: str):
-    self.players.append(self.spice_manager.get_init_player(spice, user_id))
+  def add_player(self, specie: str, user_id: str):
+    self.players.append(self.specie_manager.get_init_player(specie, user_id))
 
   def start_game(self):
     self.current_round = 1
@@ -185,7 +185,7 @@ class Game:
   def return_factories_to_owners(self):
     all_factories = [factory for player in self.players for factory in player.factories.values()]
     for factory in all_factories:
-      owner = next((p for p in self.players if p.spice == factory.owner), None)
+      owner = next((p for p in self.players if p.specie == factory.owner), None)
       if owner:
         current_holder = next((p for p in self.players if factory.name in p.factories), None)
         if current_holder and current_holder != owner:
@@ -199,8 +199,8 @@ class Game:
   ############################
 
   def trade(self, from_player: str, to_player: str, items: Dict[str, int]) -> bool:
-    sender = next((p for p in self.players if p.spice == from_player), None)
-    receiver = next((p for p in self.players if p.spice == to_player), None)
+    sender = next((p for p in self.players if p.specie == from_player), None)
+    receiver = next((p for p in self.players if p.specie == to_player), None)
 
     if not sender or not receiver:
       return False
@@ -211,8 +211,8 @@ class Game:
     return False
 
   def lend_factory(self, from_player: str, to_player: str, factory_name: str) -> bool:
-    sender = next((p for p in self.players if p.spice == from_player), None)
-    receiver = next((p for p in self.players if p.spice == to_player), None)
+    sender = next((p for p in self.players if p.specie == from_player), None)
+    receiver = next((p for p in self.players if p.specie == to_player), None)
 
     if not sender or not receiver or factory_name not in sender.factories:
       return False
@@ -222,7 +222,7 @@ class Game:
     return True
 
   def produce(self, player_name: str, factory_name: str) -> bool:
-    player = next((p for p in self.players if p.spice == player_name), None)
+    player = next((p for p in self.players if p.specie == player_name), None)
 
     if not player or factory_name not in player.factories:
       return False
@@ -234,7 +234,7 @@ class Game:
     return False
 
   def player_agree(self, player_name: str):
-    player = next((p for p in self.players if p.spice == player_name), None)
+    player = next((p for p in self.players if p.specie == player_name), None)
     if player:
       player.agree()
     if self.all_players_agreed():
@@ -258,7 +258,7 @@ class Game:
     {
         "players": [
             {
-                "spice": str,
+                "specie": str,
                 "user_id": str,
                 "storage": Dict[str, int],
                 "factories": {

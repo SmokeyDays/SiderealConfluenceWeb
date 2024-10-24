@@ -8,11 +8,19 @@ class Server:
     self.app, self.socketio = create_app()
     
     self.rooms = {}
-    self.game = Game()
-    self.game.add_player("Kylion", "123")
     
     self.bind_basic_events()
     self.bind_lobby_events()
+    self.mock()
+  
+  def mock(self):
+    self.rooms["test"] = Room(2, "test")
+    self.rooms["test"].enter_room("Alice")
+    self.rooms["test"].enter_room("Bob")
+    self.rooms["test"].choose_specie("Alice", "Caylion")
+    self.rooms["test"].choose_specie("Bob", "Yengii")
+    self.rooms["test"].agree_to_start("Alice")
+    self.rooms["test"].agree_to_start("Bob")
   
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -114,21 +122,21 @@ class Server:
           "str": f"Room {room_name} not found."
         }, namespace=get_router_name())
     
-    @self.socketio.on('choose-spice', namespace=get_router_name())
-    def choose_spice(data):
+    @self.socketio.on('choose-specie', namespace=get_router_name())
+    def choose_specie(data):
       room_name = data['room_name']
       username = data['username']
-      spice = data['spice']
-      print(f"choose_spice: {room_name}, {username}, {spice}")
+      specie = data['specie']
+      print(f"choose_specie: {room_name}, {username}, {specie}")
       if room_name in self.rooms:
-        if spice in self.rooms[room_name].spices:
-          self.rooms[room_name].choose_spice(username, spice)
+        if specie in self.rooms[room_name].species:
+          self.rooms[room_name].choose_specie(username, specie)
           self.update_rooms()
         else:
           self.socketio.emit('alert-message', {
             "type": "error",
-            "title": "Invalid spice",
-            "str": f"Spice {spice} is not a valid spice."
+            "title": "Invalid specie",
+            "str": f"specie {specie} is not a valid specie."
           }, namespace=get_router_name())
       else:
         self.socketio.emit('alert-message', {
@@ -144,4 +152,16 @@ class Server:
       if room_name in self.rooms:
         self.rooms[room_name].agree_to_start(username)
         self.update_rooms()
+
+  def update_game_state(self, room_name):
+    if room_name in self.rooms:
+      for user_id in self.rooms[room_name].players:
+        self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
+
+  def bind_game_events(self):
+    @self.socketio.on('get-game-state', namespace=get_router_name())
+    def get_game_state(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
 
