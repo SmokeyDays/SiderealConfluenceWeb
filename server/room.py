@@ -47,8 +47,8 @@ class Room:
     
   def start_game(self):
     self.game = Game()
-    for player in self.players.values():
-      self.game.add_player(player["spice"], player["user_id"])
+    for user_id, player in self.players.values():
+      self.game.add_player(player["spice"], user_id)
     self.game_state = "playing"
 
   def to_dict(self):
@@ -56,6 +56,7 @@ class Room:
       "name": self.name,
       "players": self.players,
       "game_state": self.game_state,
+      "max_players": self.max_players
     }
 
     """
@@ -67,6 +68,7 @@ class Room:
         "spice": str,
         "agreed": bool
       },
-      "game_state": str
+      "game_state": str,
+      "max_players": int
     }
     """

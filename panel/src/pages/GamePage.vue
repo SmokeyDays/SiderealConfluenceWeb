@@ -80,6 +80,7 @@ interface FactoryConfig {
   height: number;
   factory: Factory;
   scaleFactor: number;
+  owner: string;
 }
 
 const factoryWidth = 600;
@@ -107,6 +108,7 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
       height: factoryHeight * props.gameProps.scaleFactor / 100,
       scaleFactor: props.gameProps.scaleFactor,
       factory: me.factories[factory],
+      owner: me.factories[factory].owner
     };
     xOffset += (factoryWidth + 50) * props.gameProps.scaleFactor / 100;
     if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
@@ -124,7 +126,13 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
       <v-layer>
         <v-rect :config="{ x: 0, y: 0, width: stageConfig.width, height: stageConfig.height, fill: 'white' }" />
         <template v-for="factory in getFactoryConfigs()" :key="factory.id">
-          <FactoryDisplayer :factory="factory.factory" :scale-factor="factory.scaleFactor" :x="factory.x" :y="factory.y" :width="factory.width" :height="factory.height" />
+          <FactoryDisplayer :factory="factory.factory"
+            :scale-factor="factory.scaleFactor" 
+            :x="factory.x" 
+            :y="factory.y" 
+            :width="factory.width" 
+            :height="factory.height" 
+            :owner="factory.owner" />
         </template>
       </v-layer>
     </v-stage>

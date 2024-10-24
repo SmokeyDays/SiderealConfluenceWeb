@@ -1,10 +1,18 @@
 <template>
   <div class="lobby-page">
     <div v-if="currentView === 'list'" class="room-list">
-      <n-card v-for="(room, index) in rooms" :key="index" class="room-item" @click="switchView('room', room.name)" hoverable>
+      <n-card v-for="(room, index) in rooms" :key="index" class="room-item" :class="getRoomType(room.name)" @click="switchView('room', room.name)" hoverable>
         <h3 class="room-name">{{ room.name }}</h3>
-        <p class="room-info">Players: {{ Object.keys(room.players).length }}</p>
+        <p class="room-info">Players: {{ Object.keys(room.players).length }} / {{ room.max_players }}</p>
         <p class="room-info">Game State: {{ room.game_state }}</p>
+        <template v-if="meInRoom(room.name)">
+          <template v-if="props.rooms[room.name].players[props.username].spice">
+            <p class="room-info">Playing <span class="spice" :style="{ color: getSpiceColor(props.rooms[room.name].players[props.username].spice) }">{{ props.rooms[room.name].players[props.username].spice }}</span></p>
+          </template>
+          <template v-else>
+            <p class="room-info">No spice selected</p>
+          </template>
+        </template>
       </n-card>
       <n-space vertical class="create-room-section">
         <h3>Create Room</h3>
@@ -14,10 +22,10 @@
     </div>
 
     <div v-if="currentView === 'room'" class="room-view">
-      <h3 class="room-title">{{ currentRoom }}</h3>
+      <h3 class="room-title">{{ currentRoom }} ({{ Object.keys(props.rooms[currentRoom].players).length }} / {{ props.rooms[currentRoom].max_players }})</h3>
       <div class="room-content">
         <div v-for="(info, name) in props.rooms[currentRoom].players" :key="name" class="player-info">
-          <p>{{ name }} - {{ info.spice ? info.spice : 'No spice chosen' }}</p>
+          <p>{{ name }} - <span class="spice" :style="{ color: getSpiceColor(info.spice) }">{{ info.spice ? info.spice : 'No spice chosen' }}</span></p>
         </div>
         <div class="room-actions">
           <n-button class="enter-room-btn" @click="enterRoom">Enter Room</n-button>
@@ -39,7 +47,7 @@ import { ref } from 'vue';
 import { NButton, NSpace, NSelect, NInput, NCard } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
-
+import { getSpiceColor } from '@/interfaces/SpiceConfig';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
@@ -50,6 +58,16 @@ const currentRoom = ref('');
 const chosenSpice = ref('');
 const newRoomName = ref('');
 
+const getRoomType = (room_name: string) => {
+  if (meInRoom(room_name)) {
+    return 'blue-room';
+  }
+  if (Object.keys(props.rooms[room_name].players).length < props.rooms[room_name].max_players) {
+    return 'green-room';
+  }
+  return 'red-room';
+};
+
 const meInRoom = (room_name: string) => {
   return props.rooms[room_name].players[props.username] !== undefined;
 };
@@ -57,6 +75,9 @@ const meInRoom = (room_name: string) => {
 const switchView = (view: string, room_name: string) => {
   currentView.value = view;
   currentRoom.value = room_name;
+  if (props.rooms[room_name].players[props.username].spice) {
+    chosenSpice.value = props.rooms[room_name].players[props.username].spice;
+  }
 };
 
 const createRoom = (room_name: string) => {
@@ -65,6 +86,7 @@ const createRoom = (room_name: string) => {
     return;
   }
   socket.emit('create-room', { username: props.username, room_name: room_name });
+  newRoomName.value = '';
 };
 
 const enterRoom = () => {
@@ -153,5 +175,21 @@ const spices = [
 .back-list-btn {
   margin-top: 10px;
   margin-right: 10px;
+}
+
+.blue-room {
+  border-color: blue;
+}
+
+.green-room {
+  border-color: green;
+}
+
+.red-room {
+  border-color: red;
+}
+
+.spice {
+  font-weight: bold;
 }
 </style>

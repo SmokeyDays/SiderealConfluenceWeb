@@ -11,7 +11,7 @@ import Energy from '@/components/icons/items/Energy.vue';
 import Hypertech from '@/components/icons/items/Hypertech.vue';
 import AnySmall from '@/components/icons/items/AnySmall.vue';
 import AnyBig from '@/components/icons/items/AnyBig.vue';
-
+import Score from '@/components/icons/items/Score.vue';
 const username = ref('');
 
 const props = defineProps<{
@@ -43,6 +43,7 @@ const handleSubmit = () => {
         <Hypertech />
         <AnySmall />
         <AnyBig />
+        <Score />
       </div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />
       <n-button type="primary" @click="handleSubmit" :disabled="!username.trim()">
