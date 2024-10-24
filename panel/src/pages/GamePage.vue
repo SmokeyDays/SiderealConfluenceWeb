@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { defineProps } from 'vue';
 import { type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer from '@/components/FactoryDisplayer.vue';
+import StorageDisplayer from '@/components/StorageDisplayer.vue';
 
 export interface GameProps {
   scaleFactor: number;
@@ -86,20 +87,27 @@ interface FactoryConfig {
 const factoryWidth = 600;
 const factoryHeight = 400;
 
-const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
-  let me: Player | null = null;
+const getMe = (): Player => {
+  let me: Player = props.gameState.players[0];
+  let found = false;
   for (let player in props.gameState.players) {
     if (props.gameState.players[player].user_id === props.username) {
       me = props.gameState.players[player];
+      found = true;
     }
   }
-  if (me === null) {
+  if (!found) {
     console.log("player", props.username, "not found");
-    return {};
   }
+  return me;
+}
+
+const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
+  const me = getMe();
   const configs: {[key: string]: FactoryConfig} = {};
   let xOffset = 0;
-  let yOffset = 0;
+  let xCnt = 0;
+  let yOffset = 300 * props.gameProps.scaleFactor / 100;
   for (let factory in me.factories) {
     configs[factory] = {
       x: xOffset + props.gameProps.offsetX,
@@ -111,7 +119,9 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
       owner: me.factories[factory].owner
     };
     xOffset += (factoryWidth + 50) * props.gameProps.scaleFactor / 100;
-    if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
+    // if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
+    if (xCnt++ >= 2) {
+      xCnt = 0;
       xOffset = 0;
       yOffset += (factoryHeight + 50) * props.gameProps.scaleFactor / 100;
     }
@@ -125,6 +135,13 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
     <v-stage :config="stageConfig">
       <v-layer>
         <v-rect :config="{ x: 0, y: 0, width: stageConfig.width, height: stageConfig.height, fill: 'white' }" />
+        <StorageDisplayer :storage="getMe()?.storage" 
+          :scale-factor="props.gameProps.scaleFactor" 
+          :x="0 + props.gameProps.offsetX" 
+          :y="0 + props.gameProps.offsetY" 
+          :width="400 * props.gameProps.scaleFactor / 100" 
+          :height="100 * props.gameProps.scaleFactor / 100"
+        />
         <template v-for="factory in getFactoryConfigs()" :key="factory.id">
           <FactoryDisplayer :factory="factory.factory"
             :scale-factor="factory.scaleFactor" 

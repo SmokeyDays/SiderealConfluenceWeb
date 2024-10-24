@@ -1,5 +1,5 @@
 export interface RoomPlayer {
-  spice: string;
+  specie: string;
   agreed: boolean;
 }
 

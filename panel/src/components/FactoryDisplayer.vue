@@ -42,7 +42,7 @@
 import { defineProps } from 'vue';
 import { type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
-import { getSpiceColor } from '@/interfaces/SpiceConfig';
+import { getSpecieColor } from '@/interfaces/SpecieConfig';
 
 const props = defineProps<{
   scaleFactor: number;
@@ -74,13 +74,13 @@ const generateItems = (items: {[key: string]: number}) => {
 }
 
 const getTitleConfig = (text: string) => {
-  const fontSize = 0.05 * props.height;    
+  const fontSize = 0.06 * props.height;    
   const estimateWidth = text.length * fontSize;
   return {
     text: text,
     fontSize: fontSize,
     fontFamily: 'Calibri',
-    fill: getSpiceColor(props.owner),
+    fill: getSpecieColor(props.owner),
     x: props.x + props.width / 2 - estimateWidth / 2,
     y: props.y + fontSize
   }

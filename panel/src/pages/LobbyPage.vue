@@ -6,11 +6,11 @@
         <p class="room-info">Players: {{ Object.keys(room.players).length }} / {{ room.max_players }}</p>
         <p class="room-info">Game State: {{ room.game_state }}</p>
         <template v-if="meInRoom(room.name)">
-          <template v-if="props.rooms[room.name].players[props.username].spice">
-            <p class="room-info">Playing <span class="spice" :style="{ color: getSpiceColor(props.rooms[room.name].players[props.username].spice) }">{{ props.rooms[room.name].players[props.username].spice }}</span></p>
+          <template v-if="props.rooms[room.name].players[props.username].specie">
+            <p class="room-info">Playing <span class="specie" :style="{ color: getSpecieColor(props.rooms[room.name].players[props.username].specie) }">{{ props.rooms[room.name].players[props.username].specie }}</span></p>
           </template>
           <template v-else>
-            <p class="room-info">No spice selected</p>
+            <p class="room-info">No specie selected</p>
           </template>
         </template>
       </n-card>
@@ -25,15 +25,15 @@
       <h3 class="room-title">{{ currentRoom }} ({{ Object.keys(props.rooms[currentRoom].players).length }} / {{ props.rooms[currentRoom].max_players }})</h3>
       <div class="room-content">
         <div v-for="(info, name) in props.rooms[currentRoom].players" :key="name" class="player-info">
-          <p>{{ name }} - <span class="spice" :style="{ color: getSpiceColor(info.spice) }">{{ info.spice ? info.spice : 'No spice chosen' }}</span></p>
+          <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? info.specie : 'No specie chosen' }}</span></p>
         </div>
         <div class="room-actions">
           <n-button class="enter-room-btn" @click="enterRoom">Enter Room</n-button>
           <template v-if="meInRoom(currentRoom)">
             <n-button class="leave-room-btn" @click="leaveRoom">Leave Room</n-button>
             <n-button class="agree-start-btn" @click="agreeToStart">Agree to Start Game</n-button>
-            <n-select v-model:value="chosenSpice" :options="spices" placeholder="Choose a spice" />
-            <n-button class="submit-spice-btn" @click="submitSpiceChoice">Submit Spice Choice</n-button>
+            <n-select v-model:value="chosenSpecie" :options="species" placeholder="Choose a specie" />
+            <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
           </template>
           <n-button class="back-list-btn" @click="switchView('list', '')">Back to List</n-button>
         </div>
@@ -47,7 +47,7 @@ import { ref } from 'vue';
 import { NButton, NSpace, NSelect, NInput, NCard } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
-import { getSpiceColor } from '@/interfaces/SpiceConfig';
+import { getSpecieColor } from '@/interfaces/SpecieConfig';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
@@ -55,7 +55,7 @@ const props = defineProps<{
 
 const currentView = ref('list');
 const currentRoom = ref('');
-const chosenSpice = ref('');
+const chosenSpecie = ref('');
 const newRoomName = ref('');
 
 const getRoomType = (room_name: string) => {
@@ -75,8 +75,8 @@ const meInRoom = (room_name: string) => {
 const switchView = (view: string, room_name: string) => {
   currentView.value = view;
   currentRoom.value = room_name;
-  if (props.rooms[room_name].players[props.username].spice) {
-    chosenSpice.value = props.rooms[room_name].players[props.username].spice;
+  if (props.rooms[room_name].players[props.username].specie) {
+    chosenSpecie.value = props.rooms[room_name].players[props.username].specie;
   }
 };
 
@@ -101,12 +101,12 @@ const agreeToStart = () => {
   socket.emit('agree-to-start', { username: props.username, room_name: currentRoom.value });
 };
 
-const submitSpiceChoice = () => {
-  socket.emit('choose-spice', { username: props.username, room_name: currentRoom.value, spice: chosenSpice.value });
+const submitSpecieChoice = () => {
+  socket.emit('choose-specie', { username: props.username, room_name: currentRoom.value, specie: chosenSpecie.value });
 };
 
-const spices = [
-  { label: 'Kylion', value: 'Kylion' },
+const species = [
+  { label: 'Caylion', value: 'Caylion' },
   { label: 'Zeth', value: 'Zeth' },
   { label: 'Icarus', value: 'Icarus' },
 ];
@@ -171,7 +171,7 @@ const spices = [
 .enter-room-btn,
 .leave-room-btn,
 .agree-start-btn,
-.submit-spice-btn,
+.submit-specie-btn,
 .back-list-btn {
   margin-top: 10px;
   margin-right: 10px;
@@ -189,7 +189,7 @@ const spices = [
   border-color: red;
 }
 
-.spice {
+.specie {
   font-weight: bold;
 }
 </style>
