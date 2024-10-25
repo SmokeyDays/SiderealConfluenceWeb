@@ -9,9 +9,10 @@ class Server:
     
     self.rooms = {}
     
+    self.mock()
     self.bind_basic_events()
     self.bind_lobby_events()
-    self.mock()
+    self.bind_game_events()
   
   def mock(self):
     self.rooms["test"] = Room(2, "test")
@@ -35,7 +36,6 @@ class Server:
     @self.socketio.on('connect', namespace=get_router_name())
     def connected_success():
       print('client connected.')
-      self.socketio.emit("update-state", {"state": self.game.to_dict()}, namespace=get_router_name())
       self.socketio.emit('alert-message', {
         "type": "success",
         "title": "Connected",
@@ -53,8 +53,8 @@ class Server:
         "title": "Logged in",
         "str": f"Welcome, {username}!"
       }, namespace=get_router_name())
-      self.socketio.emit('switch-page', {
-        "page": "lobby"
+      self.socketio.emit('login-success', {
+        "username": username
       }, namespace=get_router_name())
 
   def bind_lobby_events(self):

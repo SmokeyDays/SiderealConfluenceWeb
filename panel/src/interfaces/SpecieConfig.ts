@@ -1,6 +1,6 @@
 export const species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"];
 const specieColors: {[key: string]: string} = {
-  'Caylion': 'green',
+  'Caylion': 'lightgreen',
   'Yengii': 'darkblue',
   'Zeth': 'purple',
   'Im': 'lightblue',

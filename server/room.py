@@ -47,7 +47,7 @@ class Room:
     
   def start_game(self):
     self.game = Game()
-    for user_id, player in self.players.values():
+    for user_id, player in self.players.items():
       self.game.add_player(player["specie"], user_id)
     self.game_state = "playing"
 

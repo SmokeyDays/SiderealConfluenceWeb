@@ -12,7 +12,7 @@ import Hypertech from '@/components/icons/items/Hypertech.vue';
 import AnySmall from '@/components/icons/items/AnySmall.vue';
 import AnyBig from '@/components/icons/items/AnyBig.vue';
 import Score from '@/components/icons/items/Score.vue';
-const username = ref('');
+const username = ref('Alice');
 
 const props = defineProps<{
   submitUsername: (username: string) => void
@@ -58,7 +58,7 @@ const handleSubmit = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .content {

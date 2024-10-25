@@ -1,6 +1,6 @@
 <template>
   <div class="main-logo">
-    SiderealConfluence
+    Sidereal Confluence Web
   </div>
 </template>
 
@@ -9,6 +9,9 @@
 
 <style scoped>
 .main-logo {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
   border: 2px solid #000;
   padding: 4px;
   border-radius: 8px;

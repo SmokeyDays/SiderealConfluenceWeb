@@ -8,10 +8,10 @@ import AlertList from '@/components/AlertList.vue';
 import { socket } from '@/utils/connect';
 import type { GameState } from './interfaces/GameState';
 import type { RoomList } from './interfaces/RoomState';
-
+import Logo from '@/components/Logo.vue';
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
-const username = ref('123');
+const username = ref('Alice');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
@@ -29,7 +29,7 @@ const gameState = ref<GameState>({
   stage: ''
 });
 
-socket.on('update-state', (data: {state: GameState}) => {
+socket.on('game-state', (data: {state: GameState}) => {
   gameState.value = data.state;
   console.log(data);
 });
@@ -56,14 +56,7 @@ const updateGameProps = (newProps: GameProps) => {
 
 const submitUsername = (newUsername: string) => {
   if (checkUsername(newUsername)) {
-    username.value = newUsername;
-    switchPage('game');
-    PubSub.publish('alert-pubsub-message', {
-      title: '登录成功！',
-      type: 'success',
-      dur: 2,
-      visible: true,
-    });
+    socket.emit('login',{username: newUsername, oldname: username.value});
   } else {
     PubSub.publish('alert-pubsub-message', {
       title: '错误！',
@@ -74,6 +67,18 @@ const submitUsername = (newUsername: string) => {
     });
   }
 };
+
+socket.on('login-success', (data: any) => {
+  username.value = data['username'];
+  PubSub.publish('alert-pubsub-message', {
+    title: '登录成功！',
+    str: '欢迎！ ' + username.value,
+    type: 'success',
+    dur: 2,
+    visible: true,
+  });
+  switchPage('lobby');
+});
 
 onMounted(() => {
   PubSub.publish('alert-pubsub-message', {
@@ -103,7 +108,7 @@ onMounted(() => {
       <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState"/>
     </template>
     <template v-else-if="displayPage === 'lobby'">
-      <LobbyPage :rooms="rooms" :username="username" />
+      <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" />
     </template>
     <AlertList/>
   </div>
@@ -119,5 +124,7 @@ nav {
   top: 10px;
   left: 10px;
   margin-bottom: 20px;
+  display: none;
+  
 }
 </style>

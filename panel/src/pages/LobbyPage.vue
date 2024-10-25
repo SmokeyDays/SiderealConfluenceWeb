@@ -25,14 +25,21 @@
       <h3 class="room-title">{{ currentRoom }} ({{ Object.keys(props.rooms[currentRoom].players).length }} / {{ props.rooms[currentRoom].max_players }})</h3>
       <div class="room-content">
         <div v-for="(info, name) in props.rooms[currentRoom].players" :key="name" class="player-info">
-          <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? info.specie : 'No specie chosen' }}</span></p>
+          <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? info.specie : 'No specie chosen' }}</span>
+            <template v-if="info.agreed">
+              <span style="color: green; font-weight: bold;"> - √</span>
+            </template>
+            <template v-else>
+              <span style="color: red; font-weight: bold"> - ×</span>
+            </template>
+          </p>
         </div>
         <div class="room-actions">
-          <n-button class="enter-room-btn" @click="enterRoom">Enter Room</n-button>
+          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(currentRoom) && !roomIsFull(currentRoom)">Enter Room</n-button>
           <template v-if="meInRoom(currentRoom)">
             <n-button class="leave-room-btn" @click="leaveRoom">Leave Room</n-button>
-            <n-button class="agree-start-btn" @click="agreeToStart">Agree to Start Game</n-button>
-            <n-select v-model:value="chosenSpecie" :options="species" placeholder="Choose a specie" />
+            <n-button class="agree-start-btn" @click="agreeToStart" v-if="specieChosen(currentRoom)">Agree to Start Game</n-button>
+            <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="Choose a specie" />
             <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
           </template>
           <n-button class="back-list-btn" @click="switchView('list', '')">Back to List</n-button>
@@ -44,13 +51,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NSpace, NSelect, NInput, NCard } from 'naive-ui';
+import { NButton, NSpace, NSelect, NInput, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
-import { getSpecieColor } from '@/interfaces/SpecieConfig';
+import { getSpecieColor, species } from '@/interfaces/SpecieConfig';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
+  switchPage: (page: string) => void;
 }>();
 
 const currentView = ref('list');
@@ -58,14 +66,22 @@ const currentRoom = ref('');
 const chosenSpecie = ref('');
 const newRoomName = ref('');
 
+const roomIsFull = (room_name: string) => {
+  return Object.keys(props.rooms[room_name].players).length >= props.rooms[room_name].max_players;
+};
+
 const getRoomType = (room_name: string) => {
   if (meInRoom(room_name)) {
     return 'blue-room';
   }
-  if (Object.keys(props.rooms[room_name].players).length < props.rooms[room_name].max_players) {
+  if (!roomIsFull(room_name)) {
     return 'green-room';
   }
   return 'red-room';
+};
+
+const specieChosen = (room_name: string) => {
+  return props.rooms[room_name].players[props.username].specie;
 };
 
 const meInRoom = (room_name: string) => {
@@ -77,6 +93,10 @@ const switchView = (view: string, room_name: string) => {
   currentRoom.value = room_name;
   if (props.rooms[room_name].players[props.username].specie) {
     chosenSpecie.value = props.rooms[room_name].players[props.username].specie;
+  }
+  if (view === 'room' && props.rooms[room_name].game_state === 'playing') {
+    socket.emit('get-game-state', { username: props.username, room_name: room_name });
+    props.switchPage('game');
   }
 };
 
@@ -105,11 +125,13 @@ const submitSpecieChoice = () => {
   socket.emit('choose-specie', { username: props.username, room_name: currentRoom.value, specie: chosenSpecie.value });
 };
 
-const species = [
-  { label: 'Caylion', value: 'Caylion' },
-  { label: 'Zeth', value: 'Zeth' },
-  { label: 'Icarus', value: 'Icarus' },
-];
+const getSpecieSelectOptions = () => {
+  const res: Array<SelectOption | SelectGroupOption> = [];
+  for (const specie of species) {
+    res.push( { label: specie, value: specie, style: { color: getSpecieColor(specie) } });
+  }
+  return res;
+};
 
 </script>
 

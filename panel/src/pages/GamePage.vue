@@ -87,16 +87,14 @@ interface FactoryConfig {
 const factoryWidth = 600;
 const factoryHeight = 400;
 
-const getMe = (): Player => {
-  let me: Player = props.gameState.players[0];
-  let found = false;
+const getMe = (): Player | null => {
+  let me: Player | null = null;
   for (let player in props.gameState.players) {
     if (props.gameState.players[player].user_id === props.username) {
       me = props.gameState.players[player];
-      found = true;
     }
   }
-  if (!found) {
+  if (me === null) {
     console.log("player", props.username, "not found");
   }
   return me;
@@ -104,6 +102,9 @@ const getMe = (): Player => {
 
 const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   const me = getMe();
+  if (me === null) {
+    return {};
+  }
   const configs: {[key: string]: FactoryConfig} = {};
   let xOffset = 0;
   let xCnt = 0;
@@ -128,6 +129,14 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   }
   return configs;
 }
+
+const getStorage = (): {[key: string]: number} => {
+  const me = getMe();
+  if (me === null) {
+    return {};
+  }
+  return me.storage;
+}
 </script>
 
 <template>
@@ -135,7 +144,7 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
     <v-stage :config="stageConfig">
       <v-layer>
         <v-rect :config="{ x: 0, y: 0, width: stageConfig.width, height: stageConfig.height, fill: 'white' }" />
-        <StorageDisplayer :storage="getMe()?.storage" 
+        <StorageDisplayer :storage="getStorage()" 
           :scale-factor="props.gameProps.scaleFactor" 
           :x="0 + props.gameProps.offsetX" 
           :y="0 + props.gameProps.offsetY" 
