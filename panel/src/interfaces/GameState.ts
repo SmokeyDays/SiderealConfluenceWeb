@@ -4,7 +4,9 @@ export class Factory {
     public input_items: { [key: string]: number },
     public output_items: { [key: string]: number },
     public used: boolean,
-    public owner: string
+    public owner: string,
+    public run_in_trading: boolean,
+    public feature: { type: string, properties: { [key: string]: any } }
   ) {}
 }
 

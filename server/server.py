@@ -22,6 +22,8 @@ class Server:
     self.rooms["test"].choose_specie("Bob", "Yengii")
     self.rooms["test"].agree_to_start("Alice")
     self.rooms["test"].agree_to_start("Bob")
+    self.rooms["test"].game.develop_tech("Alice", "纳米科技")
+    self.rooms["test"].game.debug_draw_research("Alice")
   
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -209,7 +211,9 @@ class Server:
     def produce(data):
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.produce(username, data['factory_name'])
+      extra_properties = data['extra_properties'] if 'extra_properties' in data else {}
+      print(f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
+      success, message = self.rooms[room_name].game.produce(username, data['factory_name'], extra_properties)
       self.socketio.emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Produce Success" if success else "Produce Failed",

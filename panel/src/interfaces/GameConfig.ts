@@ -9,7 +9,8 @@ const specieColors: {[key: string]: string} = {
   'Unity': 'gray',
   'Faderan': 'yellow',
   'Kit': 'orange',
-  'Kjasjavikalimm': 'red'
+  'Kjasjavikalimm': 'red',
+  'None': 'white'
 };
 
 export const getSpecieColor = (specie: string) => {

@@ -1,22 +1,29 @@
 import json
 from typing import Any, Dict, List, Tuple
+import random
 
-class SpecieManager:
+class DataManager:
   def __init__(self, path: str):
     self.specie_factories = {}
     self.specie_init_players = {}
+    self.species_data = {}
+    self.species = ["Caylion", "Yengii"]
     self.load_species(path)
 
+    self.researches_data = []
+    self.researches = {}
+    self.research_deck = []
+    self.load_researches(path)
   def load_species(self, path: str):
-    species = ["Caylion", "Yengii"]
-    for specie in species:
+    for specie in self.species:
       self.load_specie_data(specie, path)
 
   def load_specie_data(self, specie: str, path: str):
-    with open(f"{path}/{specie}.json", "r", encoding="utf-8") as f:
+    with open(f"{path}/species/{specie}.json", "r", encoding="utf-8") as f:
       specie_data = json.load(f)
       self.create_factories(specie, specie_data)
       self.create_init_players(specie, specie_data)
+      self.species_data[specie] = specie_data
 
   def create_factories(self, specie: str, specie_data: dict):
     factories = {}
@@ -42,32 +49,123 @@ class SpecieManager:
   def get_factory(self, specie: str, factory_name: str):
     return self.specie_factories[specie][factory_name]
 
+  def get_zh_name(self, specie: str):
+    return self.species_data[specie]["zh_name"]
+
+  def get_factory_by_tech(self, specie: str, tech: str):
+    factory_name = self.get_zh_name(specie) + "_" + tech
+    return self.get_factory(specie, factory_name)
+
+  def load_researches(self, path: str):
+    with open(f"{path}/researches.json", "r", encoding="utf-8") as f:
+      researches_data = json.load(f)
+      self.researches_data = researches_data
+      for research in researches_data:
+        self.load_research(research)
+        self.research_deck.append(research["name"])
+      random.shuffle(self.research_deck)
+      self.research_deck.sort(key=lambda x: self.researches[x].feature["properties"]["level"])
+
+  def load_research(self, research_data: dict):
+    factory = Factory(
+      research_data["name"],
+      research_data["input_items"],
+      research_data["output_items"],
+      "None",
+      research_data["feature"],
+      True
+    )
+    self.researches[research_data["name"]] = factory
+
+  def get_research(self, research_name: str):
+    return self.researches[research_name]
+
+  def draw_research(self):
+    return self.research_deck.pop()
+
+
 class Factory:
-  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], owner: str):
+  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, run_in_trading = False):
     self.name = name
     self.input_items = input_items
     self.output_items = output_items
     self.used = False
     self.owner = owner
 
-  def produce(self, input_items: Dict[str, int]) -> Tuple[bool, Dict[str, int]]:
+    """
+    Feature is a dictionary that contains the type of the factory and its properties.
+
+    {
+      "type": "Normal",
+      "properties": {}
+    }
+
+    {
+      "type": "Colony",
+      "properties": {
+        "climate": str
+      }
+    }
+
+    {
+      "type": "Research",
+      "properties": {
+        "tech": str,
+        "level": int,
+        "research_cost": List[Dict[str, int]]
+      }
+    }
+    """
+    self.feature = feature
+    self.run_in_trading = run_in_trading
+
+  def produce(self, game, player, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, Dict[str, int]]:
     if self.used:
-      return False, {}
+      return False, "工厂已使用"
 
-    res = {}
+    if self.feature["type"] == "Normal":
+      res = {}
+      for item, quantity in self.input_items.items():
+        if player.storage.get(item, 0) < quantity:
+          return False, "玩家库存不足"
     
-    for item, quantity in self.input_items.items():
-      if input_items.get(item, 0) < quantity:
-        return False, {}
-    
-    for item, quantity in self.input_items.items():
-      input_items[item] -= quantity
+      for item, quantity in self.input_items.items():
+        player.storage[item] -= quantity
 
-    for item, quantity in self.output_items.items():
-      res[item] = quantity
-    
+      for item, quantity in self.output_items.items():
+        res[item] = quantity
+      
+      player.add_new_product_items(res)
+
+    elif self.feature["type"] == "Research":
+      assert "tech" in self.feature["properties"]
+      assert "research_cost" in self.feature["properties"]
+      assert "cost_type" in extra_properties
+      cost_type = extra_properties["cost_type"]
+      cost = self.feature["properties"]["research_cost"][cost_type]
+      tech = self.feature["properties"]["tech"]
+
+      for item, quantity in cost.items():
+        if player.storage.get(item, 0) < quantity:
+          return False, "玩家库存不足"
+
+      for item, quantity in cost.items():
+        player.storage[item] -= quantity
+
+      res = {}
+      for item, quantity in self.output_items.items():
+        res[item] = quantity
+
+      tech_spread_bonus = game.get_tech_spread_bonus(player.user_id)
+      res["Score"] += tech_spread_bonus
+      player.add_new_product_items(res)
+
+      game.develop_tech(player.user_id, tech)
+      print(f"{player.user_id} 研发了 {tech}")
+
+
     self.used = True
-    return True, res
+    return True, ""
 
   def reset(self):
     self.used = False
@@ -79,7 +177,10 @@ class Factory:
       "output_items": self.output_items,
       "used": self.used,
       "owner": self.owner,
+      "feature": self.feature,
+      "run_in_trading": self.run_in_trading
     }
+
 
 
 class Player:
@@ -95,13 +196,17 @@ class Player:
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
       self.new_factory(factory)
-  
+
   def new_factory(self, factory: Factory):
     self.factories[factory.name] = factory
     factory.owner = self.specie
 
   def add_factory(self, factory: Factory):
+    if factory.name in self.factories:
+      print(f"工厂 {factory.name} 已存在")
+      return False
     self.factories[factory.name] = factory
+    return True
 
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
@@ -148,7 +253,7 @@ class Player:
       "donation_items": self.donation_items,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
       "agreed": self.agreed
-    } 
+    }
 
 
 class Game:
@@ -157,10 +262,11 @@ class Game:
     self.current_round = 0
     self.stage = "trading"
     self.room_name = room_name
-    self.specie_manager = SpecieManager("./server/data/species")
+    self.tech_spread_list = {}
+    self.data_manager = DataManager("./server/data")
 
   def add_player(self, specie: str, user_id: str):
-    self.players.append(self.specie_manager.get_init_player(specie, user_id))
+    self.players.append(self.data_manager.get_init_player(specie, user_id))
 
   def start_game(self):
     self.current_round = 1
@@ -174,12 +280,17 @@ class Game:
       self.stage = "production"
       self.reset_player_agreements()
     elif self.stage == "production":
-      self.stage = "trading"
-      self.current_round += 1
-      self.reset_player_agreements()
-      self.reset_player_factories()
+      self.stage = "end"
       self.save_new_product_items()
+      self.reset_player_factories()
+      self.reset_player_agreements()
+
+      self.move_to_next_stage()
+    elif self.stage == 'end':
+      self.stage = "trading"
+      self.spread_tech()
       self.return_factories_to_owners()
+      self.current_round += 1
 
   def reset_player_agreements(self):
     for player in self.players:
@@ -203,6 +314,30 @@ class Game:
         if current_holder and current_holder != owner:
           factory = current_holder.remove_factory(factory.name)
           owner.add_factory(factory)
+
+  def spread_tech(self):
+    for tech in self.tech_spread_list[self.current_round]:
+      for player in self.players:
+        player.new_factory(self.data_manager.get_factory_by_tech(player.specie, tech))
+
+  def get_tech_spread_bonus(self, player_name: str):
+    return 7 - self.current_round
+
+  def develop_tech(self, player_name: str, tech: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.new_factory(self.data_manager.get_factory_by_tech(player.specie, tech))
+    if self.current_round not in self.tech_spread_list:
+      self.tech_spread_list[self.current_round] = []
+    self.tech_spread_list[self.current_round].append(tech)
+
+  def draw_research(self):
+    return self.data_manager.draw_research()
+
+  def debug_draw_research(self, player_name: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.add_factory(self.data_manager.get_research(self.draw_research()))
   
   ############################
   #                          #
@@ -237,19 +372,20 @@ class Game:
     receiver.add_factory(factory)
     return True, ""
 
-  def produce(self, player_name: str, factory_name: str) -> Tuple[bool, str]:
-    if self.stage != "production":
-      return False, "当前阶段不是生产阶段"
+  def produce(self, player_name: str, factory_name: str, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, str]:
     player = next((p for p in self.players if p.user_id == player_name), None)
 
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
-    success, new_storage = player.factories[factory_name].produce(player.storage)
+
+    if self.stage != "production" and not player.factories[factory_name].run_in_trading:
+      return False, "当前阶段不是生产阶段"
+
+    success, msg = player.factories[factory_name].produce(self, player, extra_properties)
 
     if success:
-      player.add_new_product_items(new_storage)
       return True, ""
-    return False, "工厂无法生产"
+    return False, msg
 
   def player_agree(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
@@ -262,7 +398,7 @@ class Game:
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
       player.disagree()
-    
+
   ###########################
   #                         #
   #     Other Functions     #
@@ -291,7 +427,12 @@ class Game:
                         "name": str,
                         "input": Dict[str, int],
                         "output": Dict[str, int],
-                        "owner": str
+                        "owner": str,
+                        "feature": {
+                          "type": str,
+                          "properties": Dict[str, Any]
+                        },
+                        "run_in_trading": bool
                     },
                     ...
                 },

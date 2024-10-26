@@ -6,6 +6,7 @@ import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDispla
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GamePanel from '@/components/GamePanel.vue';
 import TradePanel from '@/components/TradePanel.vue';
+import ResearchPanel from '@/components/ResearchPanel.vue';
 import { socket } from '@/utils/connect';
 
 export interface GameProps {
@@ -77,22 +78,33 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
 
+const selectedPlayer = ref(props.username);
+const handleSelectPlayer = (playerId: string) => {
+  selectedPlayer.value = playerId;
+};
 
+watch(() => props.username, (newUsername) => {
+  selectedPlayer.value = newUsername;
+});
 
 const factoryWidth = 300;
 const factoryHeight = 200;
 
 const getMe = (): Player | null => {
-  let me: Player | null = null;
+  return getPlayer(props.username);
+}
+
+const getPlayer = (playerId: string): Player | null => {
+  let res = null;
   for (let player in props.gameState.players) {
-    if (props.gameState.players[player].user_id === props.username) {
-      me = props.gameState.players[player];
+    if (props.gameState.players[player].user_id === playerId) {
+      res = props.gameState.players[player];
     }
   }
-  if (me === null) {
-    console.log("player", props.username, "not found");
+  if (res === null) {
+    console.log("player", playerId, "not found");
   }
-  return me;
+  return res;
 }
 
 const checkFactoryAffordability = (factory: Factory) => {
@@ -109,7 +121,6 @@ const checkFactoryAffordability = (factory: Factory) => {
 }
 
 const produce = (factoryName: string) => {
-  console.log("produce", factoryName);
   socket.emit("produce", {
     room_name: props.gameState.room_name,
     username: props.username,
@@ -117,8 +128,12 @@ const produce = (factoryName: string) => {
   });
 }
 
+const research = (factory: Factory) => {
+  handleResearchPanel(factory);
+}
+
 const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
-  const me = getMe();
+  const me = getPlayer(selectedPlayer.value);
   if (me === null) {
     return {};
   }
@@ -137,7 +152,8 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
       owner: me.factories[factory].owner,
       producible: checkFactoryAffordability(me.factories[factory]),
       gameState: props.gameState,
-      produce: () => produce(factory)
+      produce: () => produce(factory),
+      research: () => research(me.factories[factory])
     };
     xOffset += (factoryWidth + 50) * props.gameProps.scaleFactor / 100;
     // if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
@@ -167,11 +183,6 @@ const handleTradePanel = () => {
     console.log("trade panel already displayed");
   }
 };
-
-const displayMask = () => {
-  return displayTradePanel.value;
-};
-
 const submitTrade = (items: { [key: string]: number }, factories: string[], toWhom: string) => {
   socket.emit("trade-items", {
     room_name: props.gameState.room_name,
@@ -197,14 +208,38 @@ const closeTradePanel = () => {
   tradeItems.value = {};
 };
 
-const selectedPlayer = ref(props.username);
-const handleSelectPlayer = (playerId: string) => {
-  selectedPlayer.value = playerId;
+
+const displayResearchPanel = ref(false);
+const researchFactory = ref<Factory | null>(null);
+const handleResearchPanel = (factory: Factory) => {
+  if (!displayResearchPanel.value) {
+    displayResearchPanel.value = true;
+    researchFactory.value = factory;
+  } else {
+    console.log("research panel already displayed");
+  }
 };
 
-watch(() => props.username, (newUsername) => {
-  selectedPlayer.value = newUsername;
-});
+const submitResearch = (factoryName: string, costType: number) => {
+  socket.emit("produce", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    factory_name: factoryName,
+    extra_properties: {
+      cost_type: costType
+    }
+  });
+}
+
+const closeResearchPanel = () => {
+  displayResearchPanel.value = false;
+  researchFactory.value = null;
+}
+
+const displayMask = () => {
+  return displayTradePanel.value || displayResearchPanel.value;
+};
+
 </script>
 
 
@@ -234,6 +269,14 @@ watch(() => props.username, (newUsername) => {
       :game-state="props.gameState"
       :selected-player="selectedPlayer"
       :handle-select-player="handleSelectPlayer"
+      v-if="displayTradePanel"
+    />
+    <ResearchPanel :submit-research="submitResearch" 
+      :close-research-panel="closeResearchPanel" 
+      :username="props.username"
+      :factory="researchFactory!"
+      :game-state="props.gameState"
+      v-if="displayResearchPanel"
     />
   </div>
 </template>

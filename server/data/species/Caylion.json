@@ -1,5 +1,6 @@
 {
     "name": "Caylion",
+    "zh_name": "凯利安",
     "start_resource": {
         "factories": [
             "凯利安_分布式远程网络",
