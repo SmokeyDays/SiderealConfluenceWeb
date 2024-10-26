@@ -100,6 +100,9 @@ class Player:
     self.factories[factory.name] = factory
     factory.owner = self.specie
 
+  def remove_factory(self, factory_name: str) -> Factory:
+    return self.factories.pop(factory_name)
+
   def add_to_storage(self, item: str, quantity: int):
     self.storage[item] = self.storage.get(item, 0) + quantity
   
@@ -195,7 +198,7 @@ class Game:
       if owner:
         current_holder = next((p for p in self.players if factory.name in p.factories), None)
         if current_holder and current_holder != owner:
-          factory = current_holder.factories.pop(factory.name)
+          factory = current_holder.remove_factory(factory.name)
           owner.add_factory(factory)
   
   ############################
@@ -227,7 +230,7 @@ class Game:
     if not sender or not receiver or factory_name not in sender.factories:
       return False, "未指定玩家或工厂"
 
-    factory = sender.factories.pop(factory_name)
+    factory = sender.remove_factory(factory_name)
     receiver.add_factory(factory)
     return True, ""
 

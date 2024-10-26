@@ -172,11 +172,17 @@ const displayMask = () => {
   return displayTradePanel.value;
 };
 
-const submitTrade = (items: { [key: string]: number }, toWhom: string) => {
-  socket.emit("trade", {
+const submitTrade = (items: { [key: string]: number }, factories: string[], toWhom: string) => {
+  socket.emit("trade-items", {
     room_name: props.gameState.room_name,
     username: props.username,
     items: items,
+    to: toWhom
+  });
+  socket.emit("lend-factories", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    factories: factories,
     to: toWhom
   });
 };

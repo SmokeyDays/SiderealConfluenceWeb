@@ -165,7 +165,7 @@ class Server:
       username = data['username']
       self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
 
-    @self.socketio.on('trade', namespace=get_router_name())
+    @self.socketio.on('trade-items', namespace=get_router_name())
     def trade(data):
       room_name = data['room_name']
       username = data['username']
@@ -187,6 +187,22 @@ class Server:
         "title": "Lend Factory Success" if success else "Lend Factory Failed",
         "str": message
       }, namespace=get_router_name())
+      self.update_game_state(room_name)
+
+    @self.socketio.on('lend-factories', namespace=get_router_name())
+    def lend_factories(data):
+      room_name = data['room_name']
+      username = data['username']
+      factories = data['factories']
+      to = data['to']
+      for factory in factories:
+        success, message = self.rooms[room_name].game.lend_factory(username, to, factory)
+        if not success:
+          self.socketio.emit('alert-message', {
+            "type": "error",
+            "title": "Lend Factory Failed",
+            "str": message
+          }, namespace=get_router_name())
       self.update_game_state(room_name)
 
     @self.socketio.on('produce', namespace=get_router_name())
