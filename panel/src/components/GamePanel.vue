@@ -11,15 +11,14 @@ const props = defineProps<{
   gameState: GameState;
   username: string;
   handleTradePanel: () => void;
+  selectedPlayer: string;
+  handleSelectPlayer: (playerId: string) => void;
 }>();
 
-const selectedPlayer = ref("Alice");
-const handleSelectPlayer = (playerId: string) => {
-  selectedPlayer.value = playerId;
-};
+const selectedPlayer = ref(props.selectedPlayer);
 
 const getPlayer = () => {
-  return props.gameState.players.find(player => player.user_id === selectedPlayer.value) || null;
+  return props.gameState.players.find(player => player.user_id === props.selectedPlayer) || null;
 };
 
 const getMe = () => {
@@ -52,7 +51,12 @@ const disagreeToNextStage = () => {
         <h2>Stage: {{ gameState.stage }}</h2>
       </div>
       <n-divider />
-      <n-select v-model:value="selectedPlayer" :options="getPlayerSelectOptions()" placeholder="Choose a player" />
+      <n-select 
+        v-model:value="selectedPlayer"
+        v-on:update:value="props.handleSelectPlayer(selectedPlayer)"
+        :options="getPlayerSelectOptions()" 
+        placeholder="Choose a player" 
+      />
       <div v-if="getPlayer() !== null" class="player-info">
         <h3>Specie: {{ getPlayer()!.specie }}</h3>
         <h3>Agreed: {{ getPlayer()!.agreed ? 'Yes' : 'No' }}</h3>

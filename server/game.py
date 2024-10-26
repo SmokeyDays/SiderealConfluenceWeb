@@ -94,11 +94,14 @@ class Player:
 
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
-      self.factories[factory_name] = factory
+      self.new_factory(factory)
+  
+  def new_factory(self, factory: Factory):
+    self.factories[factory.name] = factory
+    factory.owner = self.specie
 
   def add_factory(self, factory: Factory):
     self.factories[factory.name] = factory
-    factory.owner = self.specie
 
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)

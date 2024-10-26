@@ -197,6 +197,14 @@ const closeTradePanel = () => {
   tradeItems.value = {};
 };
 
+const selectedPlayer = ref(props.username);
+const handleSelectPlayer = (playerId: string) => {
+  selectedPlayer.value = playerId;
+};
+
+watch(() => props.username, (newUsername) => {
+  selectedPlayer.value = newUsername;
+});
 </script>
 
 
@@ -204,6 +212,8 @@ const closeTradePanel = () => {
   <GamePanel :game-state="props.gameState" 
     :username="props.username" 
     :handle-trade-panel="handleTradePanel" 
+    :selected-player="selectedPlayer"
+    :handle-select-player="handleSelectPlayer"
     class="game-panel"/>
   <div class="game-stage">
     <v-stage :config="stageConfig" class="game-stage-canvas">
@@ -222,6 +232,8 @@ const closeTradePanel = () => {
       :close-trade-panel="closeTradePanel" 
       :username="props.username"
       :game-state="props.gameState"
+      :selected-player="selectedPlayer"
+      :handle-select-player="handleSelectPlayer"
     />
   </div>
 </template>
