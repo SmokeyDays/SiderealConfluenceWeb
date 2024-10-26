@@ -165,3 +165,54 @@ class Server:
       username = data['username']
       self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
 
+    @self.socketio.on('trade', namespace=get_router_name())
+    def trade(data):
+      room_name = data['room_name']
+      username = data['username']
+      success, message = self.rooms[room_name].game.trade(username, data['to'], data['items'])
+      self.socketio.emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Trade Success" if success else "Trade Failed",
+        "str": message
+      }, namespace=get_router_name())
+      self.update_game_state(room_name)
+
+    @self.socketio.on('lend-factory', namespace=get_router_name())
+    def lend_factory(data):
+      room_name = data['room_name']
+      username = data['username']
+      success, message = self.rooms[room_name].game.lend_factory(username, data['to'], data['factory_name'])
+      self.socketio.emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Lend Factory Success" if success else "Lend Factory Failed",
+        "str": message
+      }, namespace=get_router_name())
+      self.update_game_state(room_name)
+
+    @self.socketio.on('produce', namespace=get_router_name())
+    def produce(data):
+      room_name = data['room_name']
+      username = data['username']
+      success, message = self.rooms[room_name].game.produce(username, data['factory_name'])
+      self.socketio.emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Produce Success" if success else "Produce Failed",
+        "str": message
+      }, namespace=get_router_name())
+      self.update_game_state(room_name)
+
+    @self.socketio.on('agree', namespace=get_router_name())
+    def agree(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.player_agree(username)
+      self.update_game_state(room_name)
+
+    @self.socketio.on('disagree', namespace=get_router_name())
+    def disagree(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.player_disagree(username)
+      self.update_game_state(room_name)
+
+

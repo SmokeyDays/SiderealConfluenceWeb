@@ -1,5 +1,16 @@
+<template>
+  <div style="display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <p v-if="count != 1" :style="{
+      fontSize: `${0.4 * iconHeight}px`,
+      fontFamily: 'Calibri',
+      color: 'black',
+    }">{{ count }} * </p>
+    <img :src="getSvg(item)" :style="{ width: `${iconWidth}px`, height: `${iconHeight}px` }" />
+  </div>
+</template>
+
 <script setup lang="ts">
-import { defineProps, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import FoodSvg from '@/components/icons/items/Food.svg';
 import CultureSvg from '@/components/icons/items/Culture.svg';
 import IndustrySvg from '@/components/icons/items/Industry.svg';
@@ -13,7 +24,20 @@ import ShipSvg from '@/components/icons/items/Ship.svg';
 import ScoreSvg from '@/components/icons/items/Score.svg';
 import PlaceholderSvg from '@/components/icons/items/Placeholder.svg';
 
-const getIconSvg = (item: string) =>  {
+const props = defineProps<{
+  item: string,
+  count: number,
+  iconWidth: number,
+  iconHeight: number
+}>();
+
+const imageConfig = ref({
+  image: new Image(),
+  width: props.iconWidth,
+  height: props.iconHeight,
+});
+
+const getIconSvg = (item: string) => {
   switch (item) {
     case 'Food':
       return FoodSvg;
@@ -42,27 +66,9 @@ const getIconSvg = (item: string) =>  {
   }
 };
 
-const props = defineProps<{
-  item: string;
-  count: number;
-  x: number;
-  y: number;
-  iconWidth: number;
-  iconHeight: number
-  scaleFactor: number;
-}>();
-
-const imageConfig = ref({
-  x: 0.4 * props.iconWidth,
-  y: 0 * props.iconHeight,
-  image: new Image(),
-  width: props.iconWidth,
-  height: props.iconHeight,
-});
-
-function getSvg(name: string) {
+const getSvg = (name: string) => {
   return getIconSvg(name);
-} 
+};
 
 onMounted(() => {
   const imageObj = new window.Image();
@@ -74,24 +80,7 @@ onMounted(() => {
 });
 
 watch(() => [props.iconWidth, props.iconHeight], () => {
-  imageConfig.value.x = 0.4 * props.iconWidth;
-  imageConfig.value.y = 0 * props.iconHeight;
   imageConfig.value.width = props.iconWidth;
   imageConfig.value.height = props.iconHeight;
 });
-
 </script>
-
-<template>
-  <v-group :config="{ x: props.x, y: props.y }">
-    <v-text v-if="count != 1" :config="{
-      text: `${props.count} * `,
-      fontSize: 0.4 * props.iconHeight,
-      fontFamily: 'Calibri',
-      fill: 'black',
-      x: 0,
-      y: 0.05 * props.iconHeight
-    }" />
-    <v-image :config="imageConfig" />
-  </v-group>
-</template>

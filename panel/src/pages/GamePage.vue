@@ -2,8 +2,11 @@
 import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { defineProps } from 'vue';
 import { type Factory, type GameState, type Player } from '../interfaces/GameState';
-import FactoryDisplayer from '@/components/FactoryDisplayer.vue';
+import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
+import GamePanel from '@/components/GamePanel.vue';
+import TradePanel from '@/components/TradePanel.vue';
+import { socket } from '@/utils/connect';
 
 export interface GameProps {
   scaleFactor: number;
@@ -25,7 +28,7 @@ const stageConfig = ref({
 
 const handleRightClickDrag = (event: MouseEvent) => {
   if (event.button === 0) {
-    event.preventDefault();
+    // event.preventDefault();
     let startX = event.clientX;
     let startY = event.clientY;
 
@@ -74,18 +77,10 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
 
-interface FactoryConfig {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  factory: Factory;
-  scaleFactor: number;
-  owner: string;
-}
 
-const factoryWidth = 600;
-const factoryHeight = 400;
+
+const factoryWidth = 300;
+const factoryHeight = 200;
 
 const getMe = (): Player | null => {
   let me: Player | null = null;
@@ -98,6 +93,28 @@ const getMe = (): Player | null => {
     console.log("player", props.username, "not found");
   }
   return me;
+}
+
+const checkFactoryAffordability = (factory: Factory) => {
+  const me = getMe();
+  if (me === null) {
+    return false;
+  }
+  for (let item in factory.input_items) {
+    if (me.storage[item] < factory.input_items[item]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+const produce = (factoryName: string) => {
+  console.log("produce", factoryName);
+  socket.emit("produce", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    factory_name: factoryName
+  });
 }
 
 const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
@@ -117,7 +134,10 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
       height: factoryHeight * props.gameProps.scaleFactor / 100,
       scaleFactor: props.gameProps.scaleFactor,
       factory: me.factories[factory],
-      owner: me.factories[factory].owner
+      owner: me.factories[factory].owner,
+      producible: checkFactoryAffordability(me.factories[factory]),
+      gameState: props.gameState,
+      produce: () => produce(factory)
     };
     xOffset += (factoryWidth + 50) * props.gameProps.scaleFactor / 100;
     // if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
@@ -137,31 +157,66 @@ const getStorage = (): {[key: string]: number} => {
   }
   return me.storage;
 }
+
+
+const displayTradePanel = ref(false);
+const handleTradePanel = () => {
+  if (!displayTradePanel.value) {
+    displayTradePanel.value = true;
+  } else {
+    console.log("trade panel already displayed");
+  }
+};
+
+const displayMask = () => {
+  return displayTradePanel.value;
+};
+
+const submitTrade = (items: { [key: string]: number }, toWhom: string) => {
+  socket.emit("trade", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    items: items,
+    to: toWhom
+  });
+};
+
+const tradeItems = ref<{ [key: string]: number }>({});
+const updateTradeItems = (items: { [key: string]: number }) => {
+  tradeItems.value = items;
+};
+
+const closeTradePanel = () => {
+  displayTradePanel.value = false;
+  tradeItems.value = {};
+};
+
 </script>
 
+
 <template>
+  <GamePanel :game-state="props.gameState" 
+    :username="props.username" 
+    :handle-trade-panel="handleTradePanel" 
+    class="game-panel"/>
   <div class="game-stage">
-    <v-stage :config="stageConfig">
+    <v-stage :config="stageConfig" class="game-stage-canvas">
       <v-layer>
         <v-rect :config="{ x: 0, y: 0, width: stageConfig.width, height: stageConfig.height, fill: 'white' }" />
-        <StorageDisplayer :storage="getStorage()" 
-          :scale-factor="props.gameProps.scaleFactor" 
-          :x="0 + props.gameProps.offsetX" 
-          :y="0 + props.gameProps.offsetY" 
-          :width="400 * props.gameProps.scaleFactor / 100" 
-          :height="100 * props.gameProps.scaleFactor / 100"
-        />
         <template v-for="factory in getFactoryConfigs()" :key="factory.id">
-          <FactoryDisplayer :factory="factory.factory"
-            :scale-factor="factory.scaleFactor" 
-            :x="factory.x" 
-            :y="factory.y" 
-            :width="factory.width" 
-            :height="factory.height" 
-            :owner="factory.owner" />
+          <FactoryDisplayer :="factory" />
         </template>
       </v-layer>
     </v-stage>
+  </div>
+  <div v-if="displayMask()" class="mask">
+    <TradePanel :submit-trade="submitTrade" 
+      :update-trade-items="updateTradeItems" 
+      :trade-items="tradeItems" 
+      :close-trade-panel="closeTradePanel" 
+      :username="props.username"
+      :game-state="props.gameState"
+    />
   </div>
 </template>
 
@@ -169,10 +224,30 @@ const getStorage = (): {[key: string]: number} => {
 .game-stage {
   position: absolute;
   top: 0;
+  left: 250px;
+  width: calc(100vw - 250px);
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10;
+}
+.game-stage-canvas {
+  overflow: hidden;
+}
+
+.game-panel {
+  height: 100vh;
+  z-index: 100;
+}
+.mask {
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  z-index: -100;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

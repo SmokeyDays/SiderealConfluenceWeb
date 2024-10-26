@@ -13,6 +13,7 @@ export class Player {
     public user_id: string,
     public specie: string,
     public storage: { [key: string]: number },
+    public donation_items: { [key: string]: number },
     public factories: { [key: string]: Factory },
     public agreed: boolean
   ) {}
@@ -22,6 +23,7 @@ export class GameState {
   constructor(
     public players: Player[],
     public current_round: number,
-    public stage: string
+    public stage: string,
+    public room_name: string
   ) {}
 }

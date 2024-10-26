@@ -1,4 +1,5 @@
 export const species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"];
+
 const specieColors: {[key: string]: string} = {
   'Caylion': 'lightgreen',
   'Yengii': 'darkblue',
@@ -17,3 +18,5 @@ export const getSpecieColor = (specie: string) => {
   }
   return 'black';
 };
+
+export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","AnyBig", "AnySmall"];

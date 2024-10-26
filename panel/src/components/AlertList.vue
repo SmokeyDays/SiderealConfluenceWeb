@@ -53,6 +53,7 @@ PubSub.subscribe('alert-pubsub-message', (id: string, msg: {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 10000;
 }
 
 .alert-container > .n-alert {

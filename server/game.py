@@ -50,22 +50,24 @@ class Factory:
     self.used = False
     self.owner = owner
 
-  def produce(self, storage: Dict[str, int]) -> Tuple[bool, Dict[str, int]]:
+  def produce(self, input_items: Dict[str, int]) -> Tuple[bool, Dict[str, int]]:
     if self.used:
       return False, {}
+
+    res = {}
     
     for item, quantity in self.input_items.items():
-      if storage.get(item, 0) < quantity:
+      if input_items.get(item, 0) < quantity:
         return False, {}
     
     for item, quantity in self.input_items.items():
-      storage[item] -= quantity
-    
+      input_items[item] -= quantity
+
     for item, quantity in self.output_items.items():
-      storage[item] = storage.get(item, 0) + quantity
+      res[item] = quantity
     
     self.used = True
-    return True, storage
+    return True, res
 
   def reset(self):
     self.used = False
@@ -85,6 +87,7 @@ class Player:
     self.user_id = user_id
     self.specie = specie
     self.storage: Dict[str, int] = {}
+    self.donation_items: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
     self.agreed = False
@@ -136,15 +139,18 @@ class Player:
       "user_id": self.user_id,
       "specie": self.specie,
       "storage": self.storage,
+      "donation_items": self.donation_items,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
+      "agreed": self.agreed
     } 
 
 
 class Game:
-  def __init__(self):
+  def __init__(self, room_name: str):
     self.players: List[Player] = []
     self.current_round = 0
     self.stage = "trading"
+    self.room_name = room_name
     self.specie_manager = SpecieManager("./server/data/species")
 
   def add_player(self, specie: str, user_id: str):
@@ -198,47 +204,58 @@ class Game:
   #                          #
   ############################
 
-  def trade(self, from_player: str, to_player: str, items: Dict[str, int]) -> bool:
-    sender = next((p for p in self.players if p.specie == from_player), None)
-    receiver = next((p for p in self.players if p.specie == to_player), None)
+  def trade(self, from_player: str, to_player: str, items: Dict[str, int]) -> Tuple[bool, str]:
+    if self.stage != "trading":
+      return False, "当前阶段不是交易阶段"
+    sender = next((p for p in self.players if p.user_id == from_player), None)
+    receiver = next((p for p in self.players if p.user_id == to_player), None)
 
     if not sender or not receiver:
-      return False
+      return False, "未指定玩家"
 
     if sender.remove_items_from_storage(items):
       receiver.add_items_to_storage(items)
-      return True
-    return False
+      return True, ""
+    return False, "玩家库存不足"
 
-  def lend_factory(self, from_player: str, to_player: str, factory_name: str) -> bool:
-    sender = next((p for p in self.players if p.specie == from_player), None)
-    receiver = next((p for p in self.players if p.specie == to_player), None)
+  def lend_factory(self, from_player: str, to_player: str, factory_name: str) -> Tuple[bool, str]:
+    if self.stage != "trading":
+      return False, "当前阶段不是交易阶段"
+    sender = next((p for p in self.players if p.user_id == from_player), None)
+    receiver = next((p for p in self.players if p.user_id == to_player), None)
 
     if not sender or not receiver or factory_name not in sender.factories:
-      return False
+      return False, "未指定玩家或工厂"
 
     factory = sender.factories.pop(factory_name)
     receiver.add_factory(factory)
-    return True
+    return True, ""
 
-  def produce(self, player_name: str, factory_name: str) -> bool:
-    player = next((p for p in self.players if p.specie == player_name), None)
+  def produce(self, player_name: str, factory_name: str) -> Tuple[bool, str]:
+    if self.stage != "production":
+      return False, "当前阶段不是生产阶段"
+    player = next((p for p in self.players if p.user_id == player_name), None)
 
     if not player or factory_name not in player.factories:
-      return False
+      return False, "未指定玩家或工厂"
     success, new_storage = player.factories[factory_name].produce(player.storage)
 
     if success:
       player.add_new_product_items(new_storage)
-      return True
-    return False
+      return True, ""
+    return False, "工厂无法生产"
 
   def player_agree(self, player_name: str):
-    player = next((p for p in self.players if p.specie == player_name), None)
+    player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
       player.agree()
     if self.all_players_agreed():
       self.move_to_next_stage()
+  
+  def player_disagree(self, player_name: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.disagree()
     
   ###########################
   #                         #
@@ -251,6 +268,7 @@ class Game:
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
       "stage": self.stage,
+      "room_name": self.room_name
     }
 
     """
@@ -261,6 +279,7 @@ class Game:
                 "specie": str,
                 "user_id": str,
                 "storage": Dict[str, int],
+                "donation_items": Dict[str, int],
                 "factories": {
                     "factory_name": {
                         "name": str,
@@ -275,7 +294,8 @@ class Game:
             ...
         ],
         "current_round": int,
-        "stage": str
+        "stage": str,
+        "room_name": str
     }
     """
     """

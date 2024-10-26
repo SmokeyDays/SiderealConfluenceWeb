@@ -54,7 +54,7 @@ import { ref } from 'vue';
 import { NButton, NSpace, NSelect, NInput, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
-import { getSpecieColor, species } from '@/interfaces/SpecieConfig';
+import { getSpecieColor, species } from '@/interfaces/GameConfig';
 const props = defineProps<{
   rooms: RoomList;
   username: string;

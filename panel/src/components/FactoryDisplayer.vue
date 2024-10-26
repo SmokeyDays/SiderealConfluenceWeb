@@ -1,7 +1,7 @@
 <template>
   <v-group>
     <!-- Factory background -->
-    <v-rect :config="{
+    <v-rect @click="produceClick" :config="{
       x: props.x,
       y: props.y,
       width: props.width,
@@ -27,32 +27,76 @@
     </v-group>
 
     <!-- Arrow connecting input to output -->
-    <v-arrow :config="{
-      points: [props.x + 0.25 * props.width, props.y + props.height / 2, props.x + props.width - 0.35 * props.width, props.y + props.height / 2],
-      pointerLength: 0.05 * props.width,
-      pointerWidth: 0.1 * props.height,
-      fill: 'white',
-      stroke: 'white',
-      strokeWidth: 0.05 * props.height
-    }" />
+    <template>
+      <v-arrow :config="{
+        points: [props.x + 0.25 * props.width, props.y + props.height / 2, props.x + props.width - 0.35 * props.width, props.y + props.height / 2],
+        pointerLength: 0.05 * props.width,
+        pointerWidth: 0.1 * props.height,
+        fill: 'white',
+        stroke: 'white',
+        strokeWidth: 0.05 * props.height
+      }" />
+      <template v-if="!props.producible && !props.factory.used">
+        <v-line :config="{
+          points: [props.x + 0.45 * props.width, props.y + 0.45 * props.height, props.x + 0.55 * props.width, props.y + 0.55 * props.height],
+          stroke: 'red',
+          strokeWidth: 0.02 * props.height,
+          opacity: props.gameState.stage !== 'production' ? 0.5 : 1
+        }" />
+        <v-line :config="{
+          points: [props.x + 0.45 * props.width, props.y + 0.55 * props.height, props.x + 0.55 * props.width, props.y + 0.45 * props.height],
+          stroke: 'red',
+          strokeWidth: 0.02 * props.height,
+          opacity: props.gameState.stage !== 'production' ? 0.5 : 1
+        }" />
+      </template>
+      <template v-else>
+        <v-circle :config="{
+          x: props.x + props.width / 2,
+          y: props.y + props.height / 2,
+          radius: 0.05 * props.width,
+          fill: '',
+          stroke: props.factory.used ? 'gray' : 'yellow',
+          strokeWidth: 0.02 * props.height,
+          opacity: props.gameState.stage !== 'production' ? 0.5 : 1
+        }" />
+        <template v-if="props.factory.used">
+          <v-line :config="{
+            points: [props.x + 0.45 * props.width, props.y + 0.5 * props.height, props.x + 0.5 * props.width, props.y + 0.57 * props.height, props.x + 0.57 * props.width, props.y + 0.4 * props.height],
+            stroke: 'lightgreen',
+            strokeWidth: 0.02 * props.height,
+            opacity: props.gameState.stage !== 'production' ? 0.5 : 1
+          }" />
+        </template>
+      </template>
+    </template>
   </v-group>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { type Factory } from '@/interfaces/GameState';
+import { GameState, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
-import { getSpecieColor } from '@/interfaces/SpecieConfig';
+import { getSpecieColor } from '@/interfaces/GameConfig';
 
-const props = defineProps<{
-  scaleFactor: number;
-  factory: Factory;
+export interface FactoryConfig {
   x: number;
   y: number;
   width: number;
   height: number;
+  factory: Factory;
+  scaleFactor: number;
   owner: string;
-}>();
+  producible: boolean;
+  gameState: GameState;
+  produce: (factoryName: string) => void;
+}
+
+const produceClick = () => {
+  props.produce(props.factory.name);
+}
+
+const props = defineProps<FactoryConfig>();
 
 const generateItems = (items: {[key: string]: number}) => {
   const entries: { item: string, count: number, x: number, y: number, scaleFactor: number, iconWidth: number, iconHeight: number}[] = [];
@@ -65,8 +109,8 @@ const generateItems = (items: {[key: string]: number}) => {
       x: 0,
       y: num * 0.12 * props.height,
       scaleFactor: props.scaleFactor,
-      iconWidth: 100 * props.scaleFactor / 100,
-      iconHeight: 100 * props.scaleFactor / 100
+      iconWidth: 1.0 / 6 * props.width,
+      iconHeight: 1.0 / 4 * props.height
     });
     num++;
   }

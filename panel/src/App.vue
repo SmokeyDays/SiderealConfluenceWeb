@@ -26,7 +26,8 @@ const gameProps = ref({
 const gameState = ref<GameState>({
   players: [],
   current_round: 0,
-  stage: ''
+  stage: '',
+  room_name: ''
 });
 
 socket.on('game-state', (data: {state: GameState}) => {
@@ -94,13 +95,6 @@ onMounted(() => {
 
 <template>
   <div class="app">
-    <nav>
-      <n-space>
-        <n-button @click="switchPage('home')">Home</n-button>
-        <n-button @click="switchPage('lobby')">Lobby</n-button>
-        <n-button @click="switchPage('game')">Game</n-button> 
-      </n-space>
-    </nav>
     <template v-if="displayPage === 'home'">
       <HomePage :submitUsername="submitUsername" />
     </template>
@@ -119,12 +113,4 @@ onMounted(() => {
   font-family: Arial, sans-serif;
 }
 
-nav {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  margin-bottom: 20px;
-  display: none;
-  
-}
 </style>
