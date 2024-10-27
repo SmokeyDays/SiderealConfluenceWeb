@@ -1,6 +1,13 @@
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" version="1.1">
-    <polygon points="50,50 100,25 150,50 100,75" style="fill:lightgray" />
-    <polygon points="50,50 100,75 100,125 50,100" style="fill:gray" />
-    <polygon points="100,75 150,50 150,100 100,125" style="fill:darkgray" />
-    <polygon points="60,105 135,105 97,30" style="fill:none;stroke:purple;stroke-width:5" />
-  </svg>
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="100" width="100" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <polygon id="svg_1" fill="lightgray" points="0,25 50,0 100,25 50,50 "/>
+  <polygon id="svg_2" fill="gray" points="0,25 50,50 50,100 0,75 "/>
+  <polygon id="svg_3" fill="darkgray" points="50,50 100,25 100,75 50,100 "/>
+  <polygon id="svg_4" fill="none" stroke="purple" stroke-width="5" points="10,81 85,81 47,6 "/>
+ </g>
+</svg>

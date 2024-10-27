@@ -37,6 +37,7 @@ const getIcon = (item: string) =>  {
       return AnyBig;
     case 'Ship':
       return Ship;
+      
     default:
       return Placeholder;
   }

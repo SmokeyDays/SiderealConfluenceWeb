@@ -24,6 +24,15 @@ class Server:
     self.rooms["test"].agree_to_start("Bob")
     self.rooms["test"].game.develop_tech("Alice", "纳米科技")
     self.rooms["test"].game.debug_draw_research("Alice")
+    self.rooms["test"].game.debug_draw_colony("Alice")
+    self.rooms["test"].game.debug_add_item("Alice", "Ship", 5)
+    self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
+    # skip trading
+    self.rooms["test"].game.player_agree("Alice")
+    self.rooms["test"].game.player_agree("Bob")
+    # skip production
+    self.rooms['test'].game.player_agree("Alice")
+    self.rooms['test'].game.player_agree("Bob")
   
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)

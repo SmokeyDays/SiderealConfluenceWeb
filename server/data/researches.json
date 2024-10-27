@@ -20,5 +20,85 @@
         ]
       }
     }
+  },
+  {
+    "name": "机械工程师",
+    "input_items": {},
+    "output_items": {"Score": 1},
+    "feature": {
+      "type": "Research",
+      "properties": {
+        "tech": "纳米科技",
+        "level": 1,
+        "research_cost": [
+          {
+            "Energy": 4
+          },
+          {
+            "Hypertech": 2
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "计算理论学家",
+    "input_items": {},
+    "output_items": {"Score": 1},
+    "feature": {
+      "type": "Research",
+      "properties": {
+        "tech": "量子计算机",
+        "level": 1,
+        "research_cost": [
+          {
+            "Culture": 6
+          },
+          {
+            "Biotech": 4
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "语言学家",
+    "input_items": {},
+    "output_items": {"Score": 1},
+    "feature": {
+      "type": "Research",
+      "properties": {
+        "tech": "通用翻译器",
+        "level": 1,
+        "research_cost": [
+          {
+            "Food": 6
+          },
+          {
+            "Information": 4
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "有机化学家",
+    "input_items": {},
+    "output_items": {"Score": 1},
+    "feature": {
+      "type": "Research",
+      "properties": {
+        "tech": "基因工程学",
+        "level": 1,
+        "research_cost": [
+          {
+            "Industry": 6
+          },
+          {
+            "Biotech": 4
+          }
+        ]
+      }
+    }
   }
 ]

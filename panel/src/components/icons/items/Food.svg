@@ -1,5 +1,8 @@
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" version="1.1">
-    <polygon points="50,50 100,25 150,50 100,75" style="fill:lightgreen" />
-    <polygon points="50,50 100,75 100,125 50,100" style="fill:darkgreen" />
-    <polygon points="100,75 150,50 150,100 100,125" style="fill:green" />
-  </svg>
+<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>Layer 1</title>
+  <polygon id="svg_1" fill="lightgreen" points="25,50 75,25 125,50 75,75 "/>
+  <polygon id="svg_2" fill="green" points="25,50 75,75 75,125 25,100 "/>
+  <polygon id="svg_3" fill="darkgreen" points="75,75 125,50 125,100 75,125 "/>
+ </g>
+</svg>

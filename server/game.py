@@ -11,9 +11,14 @@ class DataManager:
     self.load_species(path)
 
     self.researches_data = []
-    self.researches = {}
     self.research_deck = []
     self.load_researches(path)
+
+    self.colony_data = []
+    self.colony_deck = []
+    self.upgraded_colonies = {}
+    self.load_colonies(path)
+
   def load_species(self, path: str):
     for specie in self.species:
       self.load_specie_data(specie, path)
@@ -28,7 +33,7 @@ class DataManager:
   def create_factories(self, specie: str, specie_data: dict):
     factories = {}
     for factory in specie_data["factories"]:
-      factories[factory["name"]] = Factory(factory["name"], factory["input_items"], factory["output_items"], specie)
+      factories[factory["name"]] = Factory(factory["name"], factory["input_items"], factory["output_items"], factory["donation_items"], specie)
     self.specie_factories[specie] = factories
 
   def create_init_players(self, specie: str, specie_data: dict):
@@ -61,34 +66,58 @@ class DataManager:
       researches_data = json.load(f)
       self.researches_data = researches_data
       for research in researches_data:
-        self.load_research(research)
-        self.research_deck.append(research["name"])
+        self.research_deck.append(self.load_research(research))
       random.shuffle(self.research_deck)
-      self.research_deck.sort(key=lambda x: self.researches[x].feature["properties"]["level"])
+      self.research_deck.sort(key=lambda x: x.feature["properties"]["level"])
 
   def load_research(self, research_data: dict):
     factory = Factory(
       research_data["name"],
       research_data["input_items"],
       research_data["output_items"],
+      {},
       "None",
       research_data["feature"],
       True
     )
-    self.researches[research_data["name"]] = factory
-
-  def get_research(self, research_name: str):
-    return self.researches[research_name]
+    return factory
 
   def draw_research(self):
     return self.research_deck.pop()
 
+  def load_colonies(self, path: str):
+    with open(f"{path}/colonies.json", "r", encoding="utf-8") as f:
+      colonies_data = json.load(f)
+      self.colonies_data = colonies_data
+      for colony in colonies_data:
+        factory = self.load_colony(colony)
+        if colony["name"].endswith('+'):
+          self.upgraded_colonies[colony["name"][:-1]] = factory
+        else:
+          self.colony_deck.append(factory)
+      random.shuffle(self.colony_deck)
+
+  def load_colony(self, colony_data: dict):
+    factory = Factory(
+      colony_data["name"],
+      colony_data["input_items"],
+      colony_data["output_items"],
+      colony_data["donation_items"],
+      "None",
+      colony_data["feature"],
+      False
+    )
+    return factory
+
+  def draw_colony(self):
+    return self.colony_deck.pop()
 
 class Factory:
-  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, run_in_trading = False):
+  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], donation_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, run_in_trading = False):
     self.name = name
     self.input_items = input_items
     self.output_items = output_items
+    self.donation_items = donation_items
     self.used = False
     self.owner = owner
 
@@ -103,7 +132,9 @@ class Factory:
     {
       "type": "Colony",
       "properties": {
-        "climate": str
+        "climate": str, in ["Jungle", "Water", "Desert", "Ice"],
+        "upgraded": bool,
+        "upgrade_cost": Dict[str, int]
       }
     }
 
@@ -192,6 +223,9 @@ class Player:
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
     self.agreed = False
+    self.colony_bid = 0
+    self.research_bid = 0
+    self.tie_breaker = 0
 
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
@@ -245,6 +279,20 @@ class Player:
     for factory in self.factories.values():
       factory.reset()
 
+  def get_research_priority(self):
+    research_count = 0
+    for factory in self.factories.values():
+      if factory.feature["type"] == "Research":
+        research_count += 1
+    return (-self.research_bid, research_count, -self.tie_breaker)
+  
+  def get_colony_priority(self):
+    colony_count = 0
+    for factory in self.factories.values():
+      if factory.feature["type"] == "Colony":
+        colony_count += 1
+    return (-self.colony_bid, colony_count, -self.tie_breaker)
+
   def to_dict(self) -> Dict[str, Any]:
     return {
       "user_id": self.user_id,
@@ -255,6 +303,7 @@ class Player:
       "agreed": self.agreed
     }
 
+bid_price_list = [1, 1, 2, 3]
 
 class Game:
   def __init__(self, room_name: str):
@@ -264,6 +313,27 @@ class Game:
     self.room_name = room_name
     self.tech_spread_list = {}
     self.data_manager = DataManager("./server/data")
+
+    self.research_bid_num = 4
+    self.colony_bid_num = 4
+    self.research_bid_cards = []
+    self.colony_bid_cards = []
+    self.init_bid_cards()
+    self.supply_bid_items()
+    self.research_bid_priority = []
+    self.colony_bid_priority = []
+
+  def init_bid_cards(self):
+    for i in range(self.research_bid_num):
+      self.research_bid_cards.append({"price": bid_price_list[i], "item": None})
+    for i in range(self.colony_bid_num):
+      self.colony_bid_cards.append({"price": bid_price_list[i], "item": None})
+
+  def supply_bid_items(self):
+    for i in range(self.research_bid_num):
+      self.research_bid_cards[i]["item"] = self.draw_research()
+    for i in range(self.colony_bid_num):
+      self.colony_bid_cards[i]["item"] = self.draw_colony()
 
   def add_player(self, specie: str, user_id: str):
     self.players.append(self.data_manager.get_init_player(specie, user_id))
@@ -280,12 +350,18 @@ class Game:
       self.stage = "production"
       self.reset_player_agreements()
     elif self.stage == "production":
-      self.stage = "end"
+      self.stage = "bid"
       self.save_new_product_items()
       self.reset_player_factories()
       self.reset_player_agreements()
-
+    elif self.stage == "bid":
+      self.stage = "pick"
+      self.calculate_bid_priority()
+    elif self.stage == "pick":
+      self.stage = "end"
+      self.supply_bid_items()
       self.move_to_next_stage()
+      self.reset_player_bids()
     elif self.stage == 'end':
       self.stage = "trading"
       self.spread_tech()
@@ -299,6 +375,20 @@ class Game:
   def reset_player_factories(self):
     for player in self.players:
       player.reset_factories()
+
+  def reset_player_bids(self):
+    for player in self.players:
+      player.colony_bid = 0
+      player.research_bid = 0
+
+  def calculate_bid_priority(self):
+    self.research_bid_priority = []
+    self.colony_bid_priority = []
+    for player in self.players:
+      self.research_bid_priority.append(player)
+      self.colony_bid_priority.append(player)
+    self.research_bid_priority.sort(key=lambda x: x.get_research_priority())
+    self.colony_bid_priority.sort(key=lambda x: x.get_colony_priority())
 
   def save_new_product_items(self):
     for player in self.players:
@@ -337,7 +427,20 @@ class Game:
   def debug_draw_research(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
-      player.add_factory(self.data_manager.get_research(self.draw_research()))
+      player.add_factory(self.draw_research())
+
+  def draw_colony(self):
+    return self.data_manager.draw_colony()
+    
+  def debug_draw_colony(self, player_name: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.add_factory(self.draw_colony())
+
+  def debug_add_item(self, player_name: str, item: str, quantity: int):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.add_to_storage(item, quantity)
   
   ############################
   #                          #
@@ -406,11 +509,25 @@ class Game:
   ###########################
 
   def to_dict(self) -> Dict[str, Any]:
+    research_bid_cards_dict = []
+    for card in self.research_bid_cards:
+      if card["item"]:
+        research_bid_cards_dict.append({"price": card["price"], "item": card["item"].to_dict()})
+      else:
+        research_bid_cards_dict.append({"price": card["price"], "item": None})
+    colony_bid_cards_dict = []
+    for card in self.colony_bid_cards:
+      if card["item"]:
+        colony_bid_cards_dict.append({"price": card["price"], "item": card["item"].to_dict()})
+      else:
+        colony_bid_cards_dict.append({"price": card["price"], "item": None})
     return {
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
       "stage": self.stage,
-      "room_name": self.room_name
+      "room_name": self.room_name,
+      "research_bid_cards": research_bid_cards_dict,
+      "colony_bid_cards": colony_bid_cards_dict
     }
 
     """
@@ -442,7 +559,21 @@ class Game:
         ],
         "current_round": int,
         "stage": str,
-        "room_name": str
+        "room_name": str,
+        "research_bid_cards": [
+          {
+            "price": int,
+            "item": Factory | None
+          },
+          ...
+        ],
+        "colony_bid_cards": [
+          {
+            "price": int,
+            "item": Factory | None
+          },
+          ...
+        ]
     }
     """
     """

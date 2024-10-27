@@ -1,46 +1,6 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref, watch } from 'vue';
-import FoodSvg from '@/components/icons/items/Food.svg';
-import CultureSvg from '@/components/icons/items/Culture.svg';
-import IndustrySvg from '@/components/icons/items/Industry.svg';
-import InformationSvg from '@/components/icons/items/Information.svg';
-import BiotechSvg from '@/components/icons/items/Biotech.svg';
-import EnergySvg from '@/components/icons/items/Energy.svg';
-import HypertechSvg from '@/components/icons/items/Hypertech.svg';
-import AnySmallSvg from '@/components/icons/items/AnySmall.svg';
-import AnyBigSvg from '@/components/icons/items/AnyBig.svg';
-import ShipSvg from '@/components/icons/items/Ship.svg';
-import ScoreSvg from '@/components/icons/items/Score.svg';
-import PlaceholderSvg from '@/components/icons/items/Placeholder.svg';
-
-const getIconSvg = (item: string) =>  {
-  switch (item) {
-    case 'Food':
-      return FoodSvg;
-    case 'Culture':
-      return CultureSvg;
-    case 'Industry':
-      return IndustrySvg;
-    case 'Information':
-      return InformationSvg;
-    case 'Biotech':
-      return BiotechSvg;
-    case 'Energy':
-      return EnergySvg;
-    case 'Hypertech':
-      return HypertechSvg;
-    case 'AnySmall':
-      return AnySmallSvg;
-    case 'AnyBig':
-      return AnyBigSvg;
-    case 'Ship':
-      return ShipSvg;
-    case 'Score':
-      return ScoreSvg;
-    default:
-      return PlaceholderSvg;
-  }
-};
+import { getIconSvg } from '@/utils/icon';
 
 const props = defineProps<{
   item: string;
@@ -53,7 +13,7 @@ const props = defineProps<{
 }>();
 
 const imageConfig = ref({
-  x: 0.4 * props.iconWidth,
+  x: 0 * props.iconWidth,
   y: 0 * props.iconHeight,
   image: new Image(),
   width: props.iconWidth,
@@ -74,8 +34,6 @@ onMounted(() => {
 });
 
 watch(() => [props.iconWidth, props.iconHeight], () => {
-  imageConfig.value.x = 0.4 * props.iconWidth;
-  imageConfig.value.y = 0 * props.iconHeight;
   imageConfig.value.width = props.iconWidth;
   imageConfig.value.height = props.iconHeight;
 });
@@ -84,14 +42,18 @@ watch(() => [props.iconWidth, props.iconHeight], () => {
 
 <template>
   <v-group :config="{ x: props.x, y: props.y }">
+    <v-image :config="imageConfig" />
     <v-text v-if="count != 1" :config="{
-      text: `${props.count} * `,
-      fontSize: 0.4 * props.iconHeight,
+      text: `${props.count}`,
+      fontSize: 0.8 * props.iconHeight,
       fontFamily: 'Calibri',
       fill: 'black',
-      x: 0,
-      y: 0.05 * props.iconHeight
+      x: 0.2 * props.iconWidth,
+      y: 0.2 * props.iconHeight,
+      shadowColor: 'white',
+      shadowBlur: 2,
+      shadowOffsetX: 1,
+      shadowOffsetY: 1
     }" />
-    <v-image :config="imageConfig" />
   </v-group>
 </template>

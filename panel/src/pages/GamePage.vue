@@ -6,8 +6,10 @@ import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDispla
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GamePanel from '@/components/GamePanel.vue';
 import TradePanel from '@/components/TradePanel.vue';
+import BidPanel from '@/components/BidPanel.vue';
 import ResearchPanel from '@/components/ResearchPanel.vue';
 import { socket } from '@/utils/connect';
+import { NFloatButton } from 'naive-ui';
 
 export interface GameProps {
   scaleFactor: number;
@@ -107,15 +109,29 @@ const getPlayer = (playerId: string): Player | null => {
   return res;
 }
 
-const checkFactoryAffordability = (factory: Factory) => {
-  const me = getMe();
-  if (me === null) {
+const checkFactoryAffordability = (player: Player, factory: Factory) => {
+  if (player === null) {
     return false;
   }
-  for (let item in factory.input_items) {
-    if (me.storage[item] < factory.input_items[item]) {
-      return false;
+  if (factory.feature.type === 'Normal') {
+    for (let item in factory.input_items) {
+      if (player.storage[item] < factory.input_items[item]) {
+        return false;
+      }
     }
+  } else if (factory.feature.type === 'Research') {
+    for (let cost of factory.feature.properties['research_cost']) {
+      let affordable = true;
+      for (let item in cost) {
+        if (player.storage[item] < cost[item]) {
+          affordable = false;
+        }
+      }
+      if (affordable) {
+        return true;
+      }
+    }
+    return false;
   }
   return true;
 }
@@ -132,6 +148,22 @@ const research = (factory: Factory) => {
   handleResearchPanel(factory);
 }
 
+const getFactoryConfig = (me: Player, factory: string, x: number, y: number): FactoryConfig => {
+  return {
+    x: x,
+    y: y,
+    width: factoryWidth * props.gameProps.scaleFactor / 100,
+    height: factoryHeight * props.gameProps.scaleFactor / 100,
+    scaleFactor: props.gameProps.scaleFactor,
+    factory: me.factories[factory],
+    owner: me.factories[factory].owner,
+    producible: checkFactoryAffordability(me, me.factories[factory]),
+    gameState: props.gameState,
+    produce: () => produce(factory),
+    research: () => research(me.factories[factory])
+  }
+}
+
 const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   const me = getPlayer(selectedPlayer.value);
   if (me === null) {
@@ -142,19 +174,10 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   let xCnt = 0;
   let yOffset = 300 * props.gameProps.scaleFactor / 100;
   for (let factory in me.factories) {
-    configs[factory] = {
-      x: xOffset + props.gameProps.offsetX,
-      y: yOffset + props.gameProps.offsetY,
-      width: factoryWidth * props.gameProps.scaleFactor / 100,
-      height: factoryHeight * props.gameProps.scaleFactor / 100,
-      scaleFactor: props.gameProps.scaleFactor,
-      factory: me.factories[factory],
-      owner: me.factories[factory].owner,
-      producible: checkFactoryAffordability(me.factories[factory]),
-      gameState: props.gameState,
-      produce: () => produce(factory),
-      research: () => research(me.factories[factory])
-    };
+    configs[factory] = getFactoryConfig(me, factory, 
+      xOffset + props.gameProps.offsetX, 
+      yOffset + props.gameProps.offsetY
+    );
     xOffset += (factoryWidth + 50) * props.gameProps.scaleFactor / 100;
     // if (xOffset + (factoryWidth + 50) * props.gameProps.scaleFactor / 100 > stageConfig.value.width) {
     if (xCnt++ >= 2) {
@@ -236,8 +259,29 @@ const closeResearchPanel = () => {
   researchFactory.value = null;
 }
 
+const displayBidPanel = ref(false);
+const openBidPanel = () => {
+  displayBidPanel.value = true;
+}
+
+watch(() => props.gameState.stage, (newStage) => {
+  displayBidPanel.value = (newStage === "Bid");
+});
+const submitBid = (colonyBid: number, researchBid: number) => {
+  socket.emit("bid", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    colony_bid: colonyBid,
+    research_bid: researchBid
+  });
+}
+
+const closeBidPanel = () => {
+  displayBidPanel.value = false;
+}
+
 const displayMask = () => {
-  return displayTradePanel.value || displayResearchPanel.value;
+  return displayTradePanel.value || displayResearchPanel.value || displayBidPanel.value;
 };
 
 </script>
@@ -278,7 +322,23 @@ const displayMask = () => {
       :game-state="props.gameState"
       v-if="displayResearchPanel"
     />
+    <BidPanel :submit-bid="submitBid" 
+      :close-bid-panel="closeBidPanel" 
+      :game-state="props.gameState"
+      :get-factory-config="getFactoryConfig"
+      :username="props.username"
+      v-if="displayBidPanel"
+    />
   </div>
+  <n-float-button 
+    @click="openBidPanel" 
+    v-if="props.gameState.stage === 'bid'" 
+    :top="10"
+    :right="10"
+    :style="{ zIndex: 101 }"
+  >
+    <template #description>Bid</template>
+  </n-float-button>
 </template>
 
 <style scoped>

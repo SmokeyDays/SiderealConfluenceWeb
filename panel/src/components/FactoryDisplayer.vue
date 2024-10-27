@@ -13,8 +13,8 @@
     <v-text :config="getTitleConfig(props.factory.name)" />
 
     <!-- Input items -->
-    <template v-if="props.factory.feature.type === 'Normal'">
-      <v-group :config="{ x: props.x + 0.033 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.factory.input_items).length) }">
+    <template v-if="props.factory.feature.type === 'Normal' || props.factory.feature.type === 'Colony'">
+      <v-group :config="{ x: props.x + 0.2 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.factory.input_items).length) }">
         <template v-for="entry in generateItems(props.factory.input_items)" :key="'input-' + entry.item">
           <item-entry :item="entry.item" :count="entry.count" :x="entry.x" :y="entry.y" :scale-factor="entry.scaleFactor" :icon-width="entry.iconWidth" :icon-height="entry.iconHeight"/>
         </template>
@@ -30,8 +30,8 @@
           <v-text :config="{
             text: '或',
             fontSize: 0.05 * props.height,
-            fill: 'black',
-            x: 1.0 / 6 * props.width * researchItemScaleFactor * index,
+            fill: 'white',
+            x: 0.82 / 6 * props.width * researchItemScaleFactor * index,
             y: 0.05 * props.height
           }" v-if="index != 0"/>
           <template v-for="entry in generateResearchItems(props.factory.feature.properties['research_cost'][index], index)" 
@@ -93,6 +93,27 @@
         </template>
       </template>
     </template>
+    <template v-if="props.factory.feature.type === 'Research'">
+      <v-text :config="getTechTextConfig()" />
+    </template>
+    <template v-if="props.factory.feature.type === 'Colony'">
+      <item-entry 
+        :item="props.factory.feature.properties['climate']" 
+        :count="1" 
+        :x="props.x + props.width - 0.4 * props.width" 
+        :y="props.y + 0.5 * props.height - 0.47 * props.height" 
+        :scale-factor="props.scaleFactor" 
+        :icon-width="0.6 / 6 * props.width" 
+        :icon-height="0.6 / 4 * props.height" 
+      />
+      <v-text :config="{
+        text: props.factory.feature.properties['climate'][0],
+        fontSize: 0.05 * props.height,
+        fill: 'black',
+        x: props.x + props.width - 0.4 * props.width + 0.04 * props.width,
+        y: props.y + 0.5 * props.height - 0.42 * props.height
+      }" />
+    </template>
   </v-group>
 </template>
 
@@ -101,6 +122,7 @@ import { defineProps } from 'vue';
 import { GameState, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
 import { getSpecieColor } from '@/interfaces/GameConfig';
+import { getIconSvg } from '@/utils/icon';
 
 export interface FactoryConfig {
   x: number;
@@ -116,6 +138,8 @@ export interface FactoryConfig {
   research: () => void;
 }
 
+
+const props = defineProps<FactoryConfig>();
 const stageOpacity = () => {
   const rightStage = props.factory.run_in_trading ? 'trading' : 'production';
   return props.gameState.stage === rightStage ? 1 : 0.5;
@@ -132,8 +156,6 @@ const produceClick = () => {
   }
 }
 
-const props = defineProps<FactoryConfig>();
-
 const generateItems = (items: {[key: string]: number}) => {
   const entries: { item: string, count: number, x: number, y: number, scaleFactor: number, iconWidth: number, iconHeight: number, isFirst: boolean}[] = [];
   let num = 0;
@@ -143,31 +165,30 @@ const generateItems = (items: {[key: string]: number}) => {
       item: item,
       count: items[item],
       x: 0,
-      y: num * 0.12 * props.height,
+      y: num * 0.6 / 4 * props.height,
       scaleFactor: props.scaleFactor,
-      iconWidth: 1.0 / 6 * props.width,
-      iconHeight: 1.0 / 4 * props.height,
+      iconWidth: 0.6/ 6 * props.width,
+      iconHeight: 0.6 / 4 * props.height,
       isFirst: num === 0
     });
     num++;
   }
   return entries;
 }
-const researchItemScaleFactor = 0.5;
+const researchItemScaleFactor = 0.8;
 const generateResearchItems = (items: {[key: string]: number}, column: number) => {
   const entries: { item: string, count: number, x: number, y: number, scaleFactor: number, iconWidth: number, iconHeight: number, isFirst: boolean}[] = [];
   let num = 0;
-  console.log(column);
   for (let item in items) {
     if (items[item] === 0) continue;
     entries.push({
       item: item,
       count: items[item],
-      x: column * 0.12 * props.width,
-      y: num * 0.12 * props.height,
+      x: column * 0.9 / 6 * props.width,
+      y: num * 0.8 / 4 * props.height,
       scaleFactor: props.scaleFactor * researchItemScaleFactor,
-      iconWidth: 1.0 / 6 * props.width * researchItemScaleFactor,
-      iconHeight: 1.0 / 4 * props.height * researchItemScaleFactor,
+      iconWidth: 0.8 / 6 * props.width * researchItemScaleFactor,
+      iconHeight: 0.8 / 4 * props.height * researchItemScaleFactor,
       isFirst: num === 0
     });
     num++;
@@ -188,7 +209,20 @@ const getTitleConfig = (text: string) => {
   }
 }
 
-const getEstimatedItemEntriesHeight = (len: number) => {
-  return len * 0.12 * props.height;
+const getTechTextConfig = () => {
+  const desc = '发明：' + props.factory.feature.properties['tech'];
+  const estimateWidth = desc.length * 0.05 * props.height;
+  return {
+    text: desc,
+    fontSize: 0.05 * props.height,
+    fill: 'white',
+    x: props.x + props.width / 2 - estimateWidth / 2,
+    y: props.y + props.height - 0.1 * props.height
+  }
 }
+
+const getEstimatedItemEntriesHeight = (len: number) => {
+  return len * 0.6 / 4 * props.height;
+}
+
 </script>

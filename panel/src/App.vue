@@ -27,7 +27,9 @@ const gameState = ref<GameState>({
   players: [],
   current_round: 0,
   stage: '',
-  room_name: ''
+  room_name: '',
+  research_bid_cards: [],
+  colony_bid_cards: [],
 });
 
 socket.on('game-state', (data: {state: GameState}) => {

@@ -1,0 +1,125 @@
+[
+  {
+      "name": "Acrux",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+        "type": "Colony",
+        "properties": {
+          "climate": "Desert",
+          "upgraded": false,
+          "upgrade_cost": {
+            "Culture": 2
+          }
+        }
+      }
+  },{
+    "name": "Acrux+",
+    "output_items": {
+        "Culture": 1,
+        "Industry": 1
+    },
+    "input_items": {},
+    "donation_items": {},
+    "feature": {
+      "type": "Colony",
+      "properties": {
+        "climate": "Ice",
+        "upgraded": true
+      }
+    }
+  },
+  {
+      "name": "Mimosa",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+        "type": "Colony",
+        "properties": {
+          "climate": "Ice",
+          "upgraded": false,
+          "upgrade_cost": {
+            "Biotech": 1
+          }
+        }
+      }
+  },
+  {
+      "name": "Spica",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+        "type": "Colony",
+        "properties": {
+          "climate": "Ice",
+          "upgraded": false,
+          "upgrade_cost": {
+            "Food": 2
+          }
+        }
+      }
+  },
+  {
+      "name": "Antares",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+        "type": "Colony",
+        "properties": {
+          "climate": "Jungle",
+          "upgraded": false,
+          "upgrade_cost": {
+            "Hypertech": 1
+          }
+        }
+      }
+  },
+  {
+    "name": "Regulus",
+    "output_items": {
+      "Culture": 1
+    },
+    "input_items": {},
+    "donation_items": {},
+    "feature": {
+      "type": "Colony",
+      "properties": {
+        "climate": "Jungle",
+        "upgraded": false,
+        "upgrade_cost": {
+          "Energy": 1
+        }
+      }
+    }
+  },
+  {
+    "name": "Castor",
+    "output_items": {
+      "Culture": 1
+    },
+    "input_items": {},
+    "donation_items": {},
+    "feature": {
+      "type": "Colony",
+      "properties": {
+        "climate": "Water",
+        "upgraded": false,
+        "upgrade_cost": {
+          "Information": 1
+        }
+      }
+    }
+  }
+]
