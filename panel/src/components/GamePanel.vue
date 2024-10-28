@@ -69,11 +69,13 @@ const disagreeToNextStage = () => {
       <n-divider />
       <div class="player-action">
         <template v-if="getMe() !== null">
-          <template v-if="getMe()!.agreed === false">
-            <n-button type="primary" @click="agreeToNextStage">Agree to next stage</n-button>
-          </template>
-          <template v-else>
-            <n-button type="info" @click="disagreeToNextStage">Disagree to next stage</n-button>
+          <template v-if="gameState.stage === 'trading' || gameState.stage === 'production'" >
+            <template v-if="getMe()!.agreed === false">
+              <n-button type="primary" @click="agreeToNextStage">Agree to next stage</n-button>
+            </template>
+            <template v-else>
+              <n-button type="info" @click="disagreeToNextStage">Disagree to next stage</n-button>
+            </template>
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">Trade</n-button>
         </template>

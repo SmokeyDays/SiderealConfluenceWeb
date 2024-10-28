@@ -77,7 +77,7 @@ const produceClick = () => {
   if (props.factory.converter.used || !props.producible) {
     return;
   }
-  if (props.factory.feature.type === 'Normal') {
+  if (props.factory.feature.type === 'Normal' || props.factory.feature.type === 'Colony') {
     props.produce();
   } else if (props.factory.feature.type === 'Research') {
     props.research();
@@ -158,13 +158,6 @@ const getUpgradeCostTextConfig = (text: string, id: number) => {
     x: pos[id][0] - multiplier[id] * estimateWidth,
     y: pos[id][1]
   }
-}
-
-const getMainInputItems = () => {
-  if (props.factory.feature.type === 'Research') {
-    return props.factory.feature.properties['research_cost'];
-  }
-  return props.factory.converter.input_items;
 }
 
 const getMainConverterConfig = () => {

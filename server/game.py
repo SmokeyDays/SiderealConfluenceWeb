@@ -7,7 +7,7 @@ class DataManager:
     self.specie_factories = {}
     self.specie_init_players = {}
     self.species_data = {}
-    self.species = ["Caylion", "Yengii"]
+    self.species = ["Caylion", "Yengii", "Im"]
     self.load_species(path)
 
     self.researches_data = []
@@ -114,7 +114,7 @@ class DataManager:
   def draw_research(self):
     if len(self.research_deck) == 0:
       return None
-    return self.research_deck.pop()
+    return self.research_deck.pop(0)
 
   def load_colonies(self, path: str):
     with open(f"{path}/colonies.json", "r", encoding="utf-8") as f:
@@ -143,7 +143,7 @@ class DataManager:
   def draw_colony(self):
     if len(self.colony_deck) == 0:
       return None
-    return self.colony_deck.pop()
+    return self.colony_deck.pop(0)
 
   def get_upgraded_colony(self, colony_name: str):
     if colony_name in self.upgraded_colonies:

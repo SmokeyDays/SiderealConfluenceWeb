@@ -52,6 +52,9 @@ const bidLegal = () => {
   return affordable;
 }
 
+const bidNotSubmitted = () => {
+  return props.gameState.stage === 'bid' && !props.gameState.players.find(player => player.user_id === props.username)?.agreed;
+}
 const isCurrentPick = () => {
   return props.gameState.current_pick?.player === props.username && props.gameState.stage === "pick";
 }
@@ -87,7 +90,7 @@ const submitPick = () => {
           殖民地拍卖
         </div>
         <div v-for="id in Object.keys(props.gameState.colony_bid_cards).map(Number)" :key="id">
-          <n-popover>
+          <n-popover placement="left">
             <template #trigger>
               <n-button-group>
                 <n-button 
@@ -107,7 +110,7 @@ const submitPick = () => {
             </v-stage>
           </n-popover>
         </div>
-        <n-input-number v-model:value="colonyBid" placeholder="Colony Bid" :min="0" :max="getColonyBidMax()" v-if="props.gameState.stage === 'bid'" />
+        <n-input-number v-model:value="colonyBid" placeholder="Colony Bid" :min="0" :max="getColonyBidMax()" v-if="bidNotSubmitted()" />
       </div>
       <div class="bid-divider"></div>
       <div class="research-bid-cards">
@@ -115,7 +118,7 @@ const submitPick = () => {
           科研团队拍卖
         </div>
         <div v-for="id in Object.keys(props.gameState.research_bid_cards).map(Number)" :key="id">
-          <n-popover>
+          <n-popover placement="right">
             <template #trigger>
               <n-button-group>  
                 <n-button quaternary class="bid-entry">{{ props.gameState.research_bid_cards[id].price }}</n-button>
@@ -135,7 +138,7 @@ const submitPick = () => {
             </v-stage>
           </n-popover>
         </div>
-        <n-input-number v-model:value="researchBid" placeholder="Research Bid" :min="0" :max="getResearchBidMax()" v-if="props.gameState.stage === 'bid'" />
+        <n-input-number v-model:value="researchBid" placeholder="Research Bid" :min="0" :max="getResearchBidMax()" v-if="bidNotSubmitted()" />
       </div>
     </div>
     <div class="bid-inputs">

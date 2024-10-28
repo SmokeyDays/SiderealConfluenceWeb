@@ -1,5 +1,8 @@
 <template>
   <div class="lobby-page">
+    <div class="lobby-title">
+      <h3>Welcome, {{ props.username }}</h3>
+    </div>
     <div v-if="currentView === 'list'" class="room-list">
       <n-card v-for="(room, index) in rooms" :key="index" class="room-item" :class="getRoomType(room.name)" @click="switchView('room', room.name)" hoverable>
         <h3 class="room-name">{{ room.name }}</h3>
@@ -60,6 +63,7 @@ import { NButton, NSpace, NSelect, NInput, NCard, type SelectGroupOption, type S
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
 import { getSpecieColor, species } from '@/interfaces/GameConfig';
+import type { GameState } from '@/interfaces/GameState';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
@@ -105,9 +109,14 @@ const switchView = (view: string, room_name: string) => {
   }
   if (meInRoom(room_name) && view === 'room' && props.rooms[room_name].game_state === 'playing') {
     socket.emit('get-game-state', { username: props.username, room_name: room_name });
-    props.switchPage('game');
   }
 };
+
+socket.on('game-state', (data: {state: GameState}) => {
+  if (data.state.room_name === currentRoom.value) {
+    props.switchPage('game');
+  }
+});
 
 const createRoom = (room_name: string) => {
   room_name = room_name.trim();
@@ -155,6 +164,9 @@ const getSpecieSelectOptions = () => {
 </script>
 
 <style scoped>
+.lobby-title {
+  margin-bottom: 20px;
+}
 .lobby-page {
   padding: 20px;
 }

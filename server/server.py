@@ -179,6 +179,8 @@ class Server:
       if room_name in self.rooms:
         self.rooms[room_name].agree_to_start(username)
         self.update_rooms()
+        if self.rooms[room_name].game_state == "playing":
+          self.update_game_state(room_name)
     
     @self.socketio.on('disagree-to-start', namespace=get_router_name())
     def disagree_to_start(data):
