@@ -145,7 +145,7 @@ const submitPick = () => {
       <n-button class="submit-bid-button" 
         @click="submitBid" 
         type="primary" 
-        v-if="props.gameState.stage === 'bid'" 
+        v-if="bidNotSubmitted()" 
         :disabled="!bidLegal()"
       >Submit Bid</n-button>
       <n-button class="submit-pick-button" 

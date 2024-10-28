@@ -483,6 +483,8 @@ class Game:
           owner.add_factory(factory)
 
   def spread_tech(self):
+    if self.current_round not in self.tech_spread_list:
+      return
     for tech in self.tech_spread_list[self.current_round]:
       for player in self.players:
         player.new_factory(self.data_manager.get_factory_by_tech(player.specie, tech))
