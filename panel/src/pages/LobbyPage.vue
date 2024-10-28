@@ -38,9 +38,14 @@
           <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(currentRoom) && !roomIsFull(currentRoom)">Enter Room</n-button>
           <template v-if="meInRoom(currentRoom)">
             <n-button class="leave-room-btn" @click="leaveRoom">Leave Room</n-button>
-            <n-button class="agree-start-btn" @click="agreeToStart" v-if="specieChosen(currentRoom)">Agree to Start Game</n-button>
-            <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="Choose a specie" />
-            <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
+            <template v-if="isAgreed(currentRoom)">
+              <n-button class="agree-start-btn" @click="disagreeToStart">Disagree to Start Game</n-button>
+            </template>
+            <template v-else>
+              <n-button class="agree-start-btn" @click="agreeToStart" v-if="specieChosen(currentRoom)">Agree to Start Game</n-button>
+              <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="Choose a specie" />
+              <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
+            </template> 
           </template>
           <n-button class="back-list-btn" @click="switchView('list', '')">Back to List</n-button>
         </div>
@@ -88,6 +93,10 @@ const meInRoom = (room_name: string) => {
   return props.rooms[room_name].players[props.username] !== undefined;
 };
 
+const isAgreed = (room_name: string) => {
+  return props.rooms[room_name].players[props.username].agreed;
+};
+
 const switchView = (view: string, room_name: string) => {
   currentView.value = view;
   currentRoom.value = room_name;
@@ -125,6 +134,10 @@ const leaveRoom = () => {
 
 const agreeToStart = () => {
   socket.emit('agree-to-start', { username: props.username, room_name: currentRoom.value });
+};
+
+const disagreeToStart = () => {
+  socket.emit('disagree-to-start', { username: props.username, room_name: currentRoom.value });
 };
 
 const submitSpecieChoice = () => {
