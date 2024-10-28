@@ -1,4 +1,4 @@
-from flask_socketio import emit, join_room
+from flask_socketio import emit, join_room, leave_room
 from server.game import Game
 from server.room import Room
 from server.utils.connect import create_app, get_router_name
@@ -178,6 +178,14 @@ class Server:
       username = data['username']
       if room_name in self.rooms:
         self.rooms[room_name].agree_to_start(username)
+        self.update_rooms()
+    
+    @self.socketio.on('disagree-to-start', namespace=get_router_name())
+    def disagree_to_start(data):
+      room_name = data['room_name']
+      username = data['username']
+      if room_name in self.rooms:
+        self.rooms[room_name].disagree_to_start(username)
         self.update_rooms()
 
   def update_game_state(self, room_name):

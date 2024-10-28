@@ -10,7 +10,7 @@ class Room:
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
 
   def enter_room(self, user_id):
-    if user_id in self.players:
+    if user_id in self.players or self.game_state == "playing":
       return False
     if len(self.players) < self.max_players:
       self.players[user_id] = {
@@ -29,7 +29,7 @@ class Room:
       return False
 
   def choose_specie(self, user_id, specie):
-    if user_id in self.players and specie in self.species:
+    if user_id in self.players and specie in self.species and not self.players[user_id]["agreed"]:
       self.players[user_id]["specie"] = specie
       return True
     else:
@@ -41,6 +41,13 @@ class Room:
       if all(player["agreed"] for player in self.players.values()) and len(self.players) >= 2:
         self.game_state = "started"
         self.start_game()
+      return True
+    else:
+      return False
+  
+  def disagree_to_start(self, user_id):
+    if user_id in self.players:
+      self.players[user_id]["agreed"] = False
       return True
     else:
       return False
