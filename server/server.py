@@ -33,7 +33,13 @@ class Server:
     # skip production
     self.rooms['test'].game.player_agree("Alice")
     self.rooms['test'].game.player_agree("Bob")
-  
+    self.rooms['test'].game.submit_bid("Alice", 3, 2)
+    self.rooms['test'].game.submit_bid("Bob", 1, 3)
+    self.rooms['test'].game.submit_pick("Alice", "colony", 0)
+    self.rooms['test'].game.submit_pick("Bob", "colony", 1)
+    self.rooms['test'].game.submit_pick("Bob", "research", 0)
+    
+
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
 
@@ -244,4 +250,18 @@ class Server:
       self.rooms[room_name].game.player_disagree(username)
       self.update_game_state(room_name)
 
+    @self.socketio.on('submit-bid', namespace=get_router_name())
+    def submit_bid(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
+      self.update_game_state(room_name)
+      print(f"submit-bid: {room_name}, {username}, {data['colony_bid']}, {data['research_bid']}")
+
+    @self.socketio.on('submit-pick', namespace=get_router_name())
+    def pick_item(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
+      self.update_game_state(room_name)
 

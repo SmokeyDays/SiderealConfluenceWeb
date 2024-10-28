@@ -148,19 +148,19 @@ const research = (factory: Factory) => {
   handleResearchPanel(factory);
 }
 
-const getFactoryConfig = (me: Player, factory: string, x: number, y: number): FactoryConfig => {
+const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): FactoryConfig => {
   return {
     x: x,
     y: y,
     width: factoryWidth * props.gameProps.scaleFactor / 100,
     height: factoryHeight * props.gameProps.scaleFactor / 100,
     scaleFactor: props.gameProps.scaleFactor,
-    factory: me.factories[factory],
-    owner: me.factories[factory].owner,
-    producible: checkFactoryAffordability(me, me.factories[factory]),
+    factory: factory,
+    owner: factory.owner,
+    producible: checkFactoryAffordability(me, factory),
     gameState: props.gameState,
-    produce: () => produce(factory),
-    research: () => research(me.factories[factory])
+    produce: () => produce(factory.name),
+    research: () => research(factory)
   }
 }
 
@@ -174,7 +174,7 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   let xCnt = 0;
   let yOffset = 300 * props.gameProps.scaleFactor / 100;
   for (let factory in me.factories) {
-    configs[factory] = getFactoryConfig(me, factory, 
+    configs[factory] = getFactoryConfig(me, me.factories[factory], 
       xOffset + props.gameProps.offsetX, 
       yOffset + props.gameProps.offsetY
     );
@@ -264,11 +264,15 @@ const openBidPanel = () => {
   displayBidPanel.value = true;
 }
 
+const isBidStage = (stage: string) => {
+  return stage === "bid" || stage === "pick";
+}
+
 watch(() => props.gameState.stage, (newStage) => {
-  displayBidPanel.value = (newStage === "Bid");
+  displayBidPanel.value = isBidStage(newStage);
 });
 const submitBid = (colonyBid: number, researchBid: number) => {
-  socket.emit("bid", {
+  socket.emit("submit-bid", {
     room_name: props.gameState.room_name,
     username: props.username,
     colony_bid: colonyBid,
@@ -278,6 +282,15 @@ const submitBid = (colonyBid: number, researchBid: number) => {
 
 const closeBidPanel = () => {
   displayBidPanel.value = false;
+}
+
+const submitPick = (type: string, id: number) => {
+  socket.emit("submit-pick", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    type: type,
+    pick_id: id
+  });
 }
 
 const displayMask = () => {
@@ -324,15 +337,18 @@ const displayMask = () => {
     />
     <BidPanel :submit-bid="submitBid" 
       :close-bid-panel="closeBidPanel" 
+      :submit-pick="submitPick"
       :game-state="props.gameState"
       :get-factory-config="getFactoryConfig"
+      :get-me="getMe"
+      :get-player="getPlayer"
       :username="props.username"
       v-if="displayBidPanel"
     />
   </div>
   <n-float-button 
     @click="openBidPanel" 
-    v-if="props.gameState.stage === 'bid'" 
+    v-if="isBidStage(props.gameState.stage)" 
     :top="10"
     :right="10"
     :style="{ zIndex: 101 }"

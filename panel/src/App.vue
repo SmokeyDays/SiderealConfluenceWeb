@@ -30,6 +30,10 @@ const gameState = ref<GameState>({
   room_name: '',
   research_bid_cards: [],
   colony_bid_cards: [],
+  current_pick: {
+    type: '',
+    player: ''
+  }
 });
 
 socket.on('game-state', (data: {state: GameState}) => {

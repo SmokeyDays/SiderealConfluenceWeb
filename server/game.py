@@ -41,7 +41,8 @@ class DataManager:
     for factory in specie_data["start_resource"]["factories"]:
       if factory in self.specie_factories[specie]:
         self.init_factories[factory] = self.specie_factories[specie][factory]
-    self.specie_init_players[specie] = Player(specie, specie, specie_data["start_resource"]["items"], self.init_factories)
+    specie_zh_name = specie_data["zh_name"]
+    self.specie_init_players[specie] = Player(specie, specie, specie_zh_name, specie_data["start_resource"]["items"], self.init_factories)
 
   def get_init_player(self, specie: str, user_id: str):
     player = self.specie_init_players[specie]
@@ -83,6 +84,8 @@ class DataManager:
     return factory
 
   def draw_research(self):
+    if len(self.research_deck) == 0:
+      return None
     return self.research_deck.pop()
 
   def load_colonies(self, path: str):
@@ -110,6 +113,8 @@ class DataManager:
     return factory
 
   def draw_colony(self):
+    if len(self.colony_deck) == 0:
+      return None
     return self.colony_deck.pop()
 
 class Factory:
@@ -215,9 +220,10 @@ class Factory:
 
 
 class Player:
-  def __init__(self, user_id: str, specie: str, start_storage: Dict[str, int], factories: List[Factory]):
+  def __init__(self, user_id: str, specie: str, specie_zh_name: str, start_storage: Dict[str, int], factories: List[Factory]):
     self.user_id = user_id
     self.specie = specie
+    self.specie_zh_name = specie_zh_name
     self.storage: Dict[str, int] = {}
     self.donation_items: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
@@ -297,10 +303,13 @@ class Player:
     return {
       "user_id": self.user_id,
       "specie": self.specie,
+      "specie_zh_name": self.specie_zh_name,
       "storage": self.storage,
       "donation_items": self.donation_items,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
-      "agreed": self.agreed
+      "agreed": self.agreed,
+      "colony_bid": self.colony_bid,
+      "research_bid": self.research_bid
     }
 
 bid_price_list = [1, 1, 2, 3]
@@ -322,6 +331,24 @@ class Game:
     self.supply_bid_items()
     self.research_bid_priority = []
     self.colony_bid_priority = []
+
+  @property
+  def current_pick_player(self):
+    if self.stage == "pick":
+      if len(self.colony_bid_priority) > 0:
+        return {
+          "type": "colony",
+          "player": self.colony_bid_priority[0].user_id
+        }
+      elif len(self.research_bid_priority) > 0:
+        return {
+          "type": "research",
+          "player": self.research_bid_priority[0].user_id
+        }
+    return {
+      "type": "",
+      "player": ""
+    }
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
@@ -357,11 +384,12 @@ class Game:
     elif self.stage == "bid":
       self.stage = "pick"
       self.calculate_bid_priority()
+      self.reset_player_agreements()
     elif self.stage == "pick":
       self.stage = "end"
       self.supply_bid_items()
-      self.move_to_next_stage()
       self.reset_player_bids()
+      self.move_to_next_stage()
     elif self.stage == 'end':
       self.stage = "trading"
       self.spread_tech()
@@ -502,6 +530,55 @@ class Game:
     if player:
       player.disagree()
 
+  def submit_bid(self, player_name: str, colony_bid: int, research_bid: int):
+    if self.stage != "bid":
+      return False, "当前阶段不是拍卖阶段"
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player:
+      player.colony_bid = colony_bid
+      player.research_bid = research_bid
+      self.player_agree(player_name)
+      return True, ""
+    return False, "未指定玩家"
+
+  def submit_pick(self, player_name: str, type: str, pick_id: int):
+    if self.stage != "pick":
+      return False, "当前阶段不是选择阶段"
+    if self.current_pick_player["type"] != type:
+      return False, "拍卖物品种类非法"
+    if self.current_pick_player["player"] != player_name:
+      return False, "当前选择阶段不是你"
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    if type == "colony":
+      if pick_id != -1:
+        if pick_id < 0 or pick_id >= len(self.colony_bid_cards):
+          return False, "拍卖物品不存在"
+        if not self.colony_bid_cards[pick_id]["item"]:
+          return False, "拍卖物品不存在"
+        if player.colony_bid < self.colony_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.colony_bid:
+          return False, "出价不足"
+        player.add_factory(self.colony_bid_cards[pick_id]["item"])
+        self.colony_bid_cards[pick_id]["item"] = None
+        player.remove_from_storage("Ship", player.colony_bid)
+      self.colony_bid_priority.pop(0)
+    elif type == "research":
+      if pick_id != -1:
+        if pick_id < 0 or pick_id >= len(self.research_bid_cards):
+          return False, "拍卖物品不存在"
+        if not self.research_bid_cards[pick_id]["item"]:
+          return False, "拍卖物品不存在"
+        if player.research_bid < self.research_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.research_bid:
+          return False, "出价不足"
+        player.add_factory(self.research_bid_cards[pick_id]["item"])
+        self.research_bid_cards[pick_id]["item"] = None
+        player.remove_from_storage("Ship", player.research_bid)
+      self.research_bid_priority.pop(0)
+    if self.colony_bid_priority == [] and self.research_bid_priority == []:
+      print("拍卖结束")
+      self.move_to_next_stage()
+    return True, ""
   ###########################
   #                         #
   #     Other Functions     #
@@ -527,7 +604,8 @@ class Game:
       "stage": self.stage,
       "room_name": self.room_name,
       "research_bid_cards": research_bid_cards_dict,
-      "colony_bid_cards": colony_bid_cards_dict
+      "colony_bid_cards": colony_bid_cards_dict,
+      "current_pick": self.current_pick_player
     }
 
     """
@@ -536,6 +614,7 @@ class Game:
         "players": [
             {
                 "specie": str,
+                "specie_zh_name": str,
                 "user_id": str,
                 "storage": Dict[str, int],
                 "donation_items": Dict[str, int],
@@ -573,7 +652,11 @@ class Game:
             "item": Factory | None
           },
           ...
-        ]
+        ],
+        "current_pick": {
+          "type": str,
+          "player": str
+        }
     }
     """
     """
