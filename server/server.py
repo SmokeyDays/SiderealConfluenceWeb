@@ -1,4 +1,4 @@
-from flask_socketio import join_room
+from flask_socketio import emit, join_room
 from server.game import Game
 from server.room import Room
 from server.utils.connect import create_app, get_router_name
@@ -57,7 +57,7 @@ class Server:
     @self.socketio.on('connect', namespace=get_router_name())
     def connected_success():
       print('client connected.')
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success",
         "title": "Connected",
         "str": "Connected to the server successfully."
@@ -69,12 +69,12 @@ class Server:
       # Note that the 'join_room' here is just for the socketio usage, not the room object in the server.
       # Whenever we send a message to a user, we should use the 'to' parameter and specify the username as the room name.
       join_room(username)
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success",
         "title": "Logged in",
         "str": f"Welcome, {username}!"
       }, namespace=get_router_name())
-      self.socketio.emit('login-success', {
+      emit('login-success', {
         "username": username
       }, namespace=get_router_name())
     
@@ -89,21 +89,22 @@ class Server:
       rooms = {}
       for room_name, room in self.rooms.items():
         rooms[room_name] = room.to_dict()
-      self.socketio.emit("room-list", {"rooms": rooms}, namespace=get_router_name())
+      emit("room-list", {"rooms": rooms}, namespace=get_router_name())
 
     @self.socketio.on('create-room', namespace=get_router_name())
     def create_room(data):
       room_name = data['room_name']
       max_players = 9
       if room_name in self.rooms:
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "error",
           "title": "Room already exists",
           "str": f"Room {room_name} already exists."
         }, namespace=get_router_name())
         return
       self.rooms[room_name] = Room(max_players, room_name)
-      self.socketio.emit('alert-message', {
+      self.rooms[room_name].enter_room(data['username'])
+      emit('alert-message', {
         "type": "success",
         "title": "Room created",
         "str": f"Room {room_name} created successfully."
@@ -116,14 +117,14 @@ class Server:
       username = data['username']
       if room_name in self.rooms:
         self.rooms[room_name].enter_room(username)
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "success",
           "title": "Joined room",
           "str": f"You have joined room {room_name}."
         }, namespace=get_router_name())
         self.update_rooms()
       else:
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "error",
           "title": "Room not found",
           "str": f"Room {room_name} not found."
@@ -135,14 +136,14 @@ class Server:
       username = data['username']
       if room_name in self.rooms:
         self.rooms[room_name].leave_room(username)
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "success",
           "title": "Left room",
           "str": f"You have left room {room_name}."
         }, namespace=get_router_name())
         self.update_rooms()
       else:
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "error",
           "title": "Room not found",
           "str": f"Room {room_name} not found."
@@ -159,13 +160,13 @@ class Server:
           self.rooms[room_name].choose_specie(username, specie)
           self.update_rooms()
         else:
-          self.socketio.emit('alert-message', {
+          emit('alert-message', {
             "type": "error",
             "title": "Invalid specie",
             "str": f"specie {specie} is not a valid specie."
           }, namespace=get_router_name())
       else:
-        self.socketio.emit('alert-message', {
+        emit('alert-message', {
           "type": "error",
           "title": "Room not found",
           "str": f"Room {room_name} not found."
@@ -189,14 +190,14 @@ class Server:
     def get_game_state(data):
       room_name = data['room_name']
       username = data['username']
-      self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
+      emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
 
     @self.socketio.on('trade-items', namespace=get_router_name())
     def trade(data):
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.trade(username, data['to'], data['items'])
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Trade Success" if success else "Trade Failed",
         "str": message
@@ -208,7 +209,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.lend_factory(username, data['to'], data['factory_name'])
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Lend Factory Success" if success else "Lend Factory Failed",
         "str": message
@@ -224,7 +225,7 @@ class Server:
       for factory in factories:
         success, message = self.rooms[room_name].game.lend_factory(username, to, factory)
         if not success:
-          self.socketio.emit('alert-message', {
+          emit('alert-message', {
             "type": "error",
             "title": "Lend Factory Failed",
             "str": message
@@ -238,7 +239,7 @@ class Server:
       extra_properties = data['extra_properties'] if 'extra_properties' in data else {}
       print(f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
       success, message = self.rooms[room_name].game.produce(username, data['factory_name'], extra_properties)
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Produce Success" if success else "Produce Failed",
         "str": message
@@ -286,7 +287,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.upgrade_normal(username, data['factory_name'], data['cost_type'])
-      self.socketio.emit('alert-message', {
+      emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Upgrade Success" if success else "Upgrade Failed",
         "str": message

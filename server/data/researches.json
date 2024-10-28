@@ -1,99 +1,923 @@
 [
   {
-    "name": "跨种族道德学家",
-    "input_items": [
-      {
-        "Culture": 3,
-        "Food": 4
+      "name": "机械工程师",
+      "input_items": [
+          {
+              "Energy": 4
+          },
+          {
+              "Hypertech": 2
+          }
+      ],
+      "output_items": {
+          "Score": 1
       },
-      {
-        "Energy": 2,
-        "Food": 4
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "纳米科技",
+              "level": 1
+          }
       }
-    ],
-    "output_items": {"Score": 1},
-    "feature": {
-      "type": "Research",
-      "properties": {
-        "tech": "跨种族道德平等",
-        "level": 1
-      }
-    }
   },
   {
-    "name": "机械工程师",
-    "input_items": [
-      {
-        "Energy": 4
+      "name": "计算机理论学家",
+      "input_items": [
+          {
+              "Culture": 6
+          },
+          {
+              "Biotech": 4
+          }
+      ],
+      "output_items": {
+          "Score": 1
       },
-      {
-        "Hypertech": 2
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "量子计算机",
+              "level": 1
+          }
       }
-    ],
-    "output_items": {"Score": 1},
-    "feature": {
-      "type": "Research",
-      "properties": {
-        "tech": "纳米科技",
-        "level": 1
-      }
-    }
   },
   {
-    "name": "计算理论学家",
-    "input_items": [
-      {
-        "Culture": 6
+      "name": "语言学分析师",
+      "input_items": [
+          {
+              "Food": 6
+          },
+          {
+              "Information": 4
+          }
+      ],
+      "output_items": {
+          "Score": 1
       },
-      {
-        "Biotech": 4
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "通用翻译器",
+              "level": 1
+          }
       }
-    ],
-    "output_items": {"Score": 1},
-    "feature": {
-      "type": "Research",
-      "properties": {
-        "tech": "量子计算机",
-        "level": 1
-      }
-    }
   },
   {
-    "name": "语言学家",
-    "input_items": [
-      {
-        "Culture": 6
+      "name": "有机化学家",
+      "input_items": [
+          {
+              "Industry": 6
+          },
+          {
+              "Biotech": 4
+          }
+      ],
+      "output_items": {
+          "Score": 1
       },
-      {
-        "Information": 4
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "基因工程学",
+              "level": 1
+          }
       }
-    ],
-    "output_items": {"Score": 1},
-    "feature": {
-      "type": "Research",
-      "properties": {
-        "tech": "通用翻译器",
-        "level": 1
-      }
-    }
   },
   {
-    "name": "有机化学家",
-    "input_items": [
-      {
-        "Industry": 6
+      "name": "医药学家",
+      "input_items": [
+          {
+              "Food": 6
+          },
+          {
+              "Hypertech": 2
+          }
+      ],
+      "output_items": {
+          "Score": 1
       },
-      {
-        "Biotech": 4
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "临床永生",
+              "level": 1
+          }
       }
-    ],
-    "output_items": {"Score": 1},
-    "feature": {
-      "type": "Research",
-      "properties": {
-        "tech": "基因工程学",
-        "level": 1
+  },
+  {
+      "name": "社会学家",
+      "input_items": [
+          {
+              "Culture": 6
+          },
+          {
+              "Information": 4
+          }
+      ],
+      "output_items": {
+          "Score": 1
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "泛在文化知识库",
+              "level": 1
+          }
       }
-    }
+  },
+  {
+      "name": "核物理学家",
+      "input_items": [
+          {
+              "Industry": 6
+          },
+          {
+              "Energy": 4
+          }
+      ],
+      "output_items": {
+          "Score": 1
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "原子嬗变",
+              "level": 1
+          }
+      }
+  },
+  {
+      "name": "比较生理学家",
+      "input_items": [
+          {
+              "Industry": 9
+          },
+          {
+              "Information": 6
+          }
+      ],
+      "output_items": {
+          "Score": 3
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "种族间医学交流",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "零空间数学家",
+      "input_items": [
+          {
+              "Biotech": 8
+          },
+          {
+              "Hypertech": 4
+          }
+      ],
+      "output_items": {
+          "Score": 4
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "超空间开采",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "重力拓扑学家",
+      "input_items": [
+          {
+              "Industry": 12
+          },
+          {
+              "Food": 12
+          }
+      ],
+      "output_items": {
+          "Score": 4
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "奇点控制",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "元伦理学家",
+      "input_items": [
+          {
+              "Energy": 7
+          },
+          {
+              "Information": 7
+          }
+      ],
+      "output_items": {
+          "Score": 4
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "跨种族道德平等",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "量子理论学家",
+      "input_items": [
+          {
+              "Food": 9
+          },
+          {
+              "Biotech": 6
+          }
+      ],
+      "output_items": {
+          "Score": 3
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "反物质能源",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "量子统计学家",
+      "input_items": [
+          {
+              "Culture": 12
+          },
+          {
+              "Hypertech": 4
+          }
+      ],
+      "output_items": {
+          "Score": 4
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "非时序分析",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "有机建筑师",
+      "input_items": [
+          {
+              "Culture": 9
+          },
+          {
+              "Energy": 6
+          }
+      ],
+      "output_items": {
+          "Score": 3
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "有机结构",
+              "level": 2
+          }
+      }
+  },
+  {
+      "name": "恒星建筑规划师",
+      "input_items": [
+          {
+              "Biotech": 14
+          },
+          {
+              "Energy": 14
+          }
+      ],
+      "output_items": {
+          "Score": 11
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "巨型建筑",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "心理史学家",
+      "input_items": [
+          {
+              "Information": 12
+          },
+          {
+              "Hypertech": 6
+          }
+      ],
+      "output_items": {
+          "Score": 9
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "社会迁移",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "亚量子操纵者",
+      "input_items": [
+          {
+              "Food": 18
+          },
+          {
+              "Culture": 18
+          }
+      ],
+      "output_items": {
+          "Score": 9
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "物质生成",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "模因设计师",
+      "input_items": [
+          {
+              "Industry": 18
+          },
+          {
+              "Culture": 18
+          }
+      ],
+      "output_items": {
+          "Score": 9
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "银河系通讯控制",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "种族间管理者",
+      "input_items": [
+          {
+              "Biotech": 11
+          },
+          {
+              "Information": 11
+          }
+      ],
+      "output_items": {
+          "Score": 8
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "多元种族企业",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "文化传播学者",
+      "input_items": [
+          {
+              "Food": 15
+          },
+          {
+              "Energy": 10
+          }
+      ],
+      "output_items": {
+          "Score": 7
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "异文化交流",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "时间物理学家",
+      "input_items": [
+          {
+              "Industry": 18
+          },
+          {
+              "Hypertech": 6
+          }
+      ],
+      "output_items": {
+          "Score": 9
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "时间膨胀",
+              "level": 3
+          }
+      }
+  },
+  {
+      "name": "文化多态学家",
+      "input_items": [
+          {
+              "Culture": 18
+          },
+          {
+              "Industry": 18
+          },
+          {
+              "Hypertech": 6
+          }
+      ],
+      "output_items": {
+          "Score": 8
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "重建古植物学家",
+      "input_items": [
+          {
+              "Culture": 21
+          },
+          {
+              "Food": 21
+          },
+          {
+              "Hypertech": 7
+          }
+      ],
+      "output_items": {
+          "Score": 10
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "非生物病理学家",
+      "input_items": [
+          {
+              "Culture": 24
+          },
+          {
+              "Energy": 18
+          },
+          {
+              "Hypertech": 8
+          }
+      ],
+      "output_items": {
+          "Score": 12
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "间期理论学家",
+      "input_items": [
+          {
+              "Industry": 24
+          },
+          {
+              "Food": 24
+          },
+          {
+              "Hypertech": 8
+          }
+      ],
+      "output_items": {
+          "Score": 12
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "介观尺度地质工程师",
+      "input_items": [
+          {
+              "Industry": 27
+          },
+          {
+              "Energy": 18
+          },
+          {
+              "Hypertech": 9
+          }
+      ],
+      "output_items": {
+          "Score": 14
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "智慧开发者",
+      "input_items": [
+          {
+              "Culture": 21
+          },
+          {
+              "Energy": 14
+          },
+          {
+              "Information": 14
+          }
+      ],
+      "output_items": {
+          "Score": 10
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "自主远程操作员",
+      "input_items": [
+          {
+              "Biotech": 12
+          },
+          {
+              "Energy": 12
+          },
+          {
+              "Information": 12
+          }
+      ],
+      "output_items": {
+          "Score": 8
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "分形微生物学家",
+      "input_items": [
+          {
+              "Culture": 21
+          },
+          {
+              "Food": 21
+          },
+          {
+              "Biotech": 14
+          }
+      ],
+      "output_items": {
+          "Score": 10
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "恒星等离子体流工程师",
+      "input_items": [
+          {
+              "Culture": 21
+          },
+          {
+              "Biotech": 14
+          },
+          {
+              "Information": 14
+          }
+      ],
+      "output_items": {
+          "Score": 10
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "混沌理论学家",
+      "input_items": [
+          {
+              "Food": 18
+          },
+          {
+              "Energy": 12
+          },
+          {
+              "Information": 12
+          }
+      ],
+      "output_items": {
+          "Score": 8
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "海洋生物技术学家",
+      "input_items": [
+          {
+              "Industry": 18
+          },
+          {
+              "Biotech": 12
+          },
+          {
+              "Hypertech": 6
+          }
+      ],
+      "output_items": {
+          "Score": 8
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "递归元理论学家",
+      "input_items": [
+          {
+              "Culture": 30
+          },
+          {
+              "Industry": 30
+          },
+          {
+              "Information": 20
+          }
+      ],
+      "output_items": {
+          "Score": 16
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "奇点控制技术员",
+      "input_items": [
+          {
+              "Information": 20
+          },
+          {
+              "Biotech": 20
+          },
+          {
+              "Hypertech": 10
+          }
+      ],
+      "output_items": {
+          "Score": 16
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "应用拓扑学家",
+      "input_items": [
+          {
+              "Culture": 30
+          },
+          {
+              "Industry": 30
+          },
+          {
+              "Energy": 20
+          }
+      ],
+      "output_items": {
+          "Score": 16
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "元认知生态学家",
+      "input_items": [
+          {
+              "Food": 30
+          },
+          {
+              "Biotech": 20
+          },
+          {
+              "Hypertech": 10
+          }
+      ],
+      "output_items": {
+          "Score": 16
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "等离子体奥克松斯学家",
+      "input_items": [
+          {
+              "Food": 24
+          },
+          {
+              "Industry": 24
+          },
+          {
+              "Energy": 16
+          }
+      ],
+      "output_items": {
+          "Score": 12
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "心理史学伦理学家",
+      "input_items": [
+          {
+              "Food": 27
+          },
+          {
+              "Culture": 27
+          },
+          {
+              "Information": 18
+          }
+      ],
+      "output_items": {
+          "Score": 14
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "超光速粒子航天技术人员",
+      "input_items": [
+          {
+              "Food": 30
+          },
+          {
+              "Energy": 20
+          },
+          {
+              "Biotech": 20
+          }
+      ],
+      "output_items": {
+          "Score": 16
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "原位基因编辑",
+      "input_items": [
+          {
+              "Food": 24
+          },
+          {
+              "Industry": 24
+          },
+          {
+              "Information": 16
+          }
+      ],
+      "output_items": {
+          "Score": 12
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
+  },
+  {
+      "name": "宏观生物物理学家",
+      "input_items": [
+          {
+              "Industry": 27
+          },
+          {
+              "Information": 18
+          },
+          {
+              "Biotech": 18
+          }
+      ],
+      "output_items": {
+          "Score": 14
+      },
+      "feature": {
+          "type": "Research",
+          "properties": {
+              "tech": "",
+              "level": 4
+          }
+      }
   }
 ]

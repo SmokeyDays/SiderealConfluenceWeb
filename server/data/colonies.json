@@ -1,156 +1,1337 @@
 [
   {
-      "name": "Acrux",
+      "name": "南十字二",
       "output_items": {
           "Industry": 1
       },
       "input_items": {},
       "donation_items": {},
       "feature": {
-        "type": "Colony",
-        "properties": {
-          "climate": "Desert",
-          "upgraded": false,
-          "upgrade_cost": {
-            "Culture": 2
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Culture": 2
+              }
           }
-        }
       }
-  },{
-    "name": "Acrux+",
-    "output_items": {
-        "Culture": 1,
-        "Industry": 1
-    },
-    "input_items": {},
-    "donation_items": {},
-    "feature": {
-      "type": "Colony",
-      "properties": {
-        "climate": "Ice",
-        "upgraded": true
-      }
-    }
   },
   {
-      "name": "Mimosa",
+      "name": "南十字二+",
+      "output_items": {
+          "Industry": 1,
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "角宿一",
       "output_items": {
           "Culture": 1
       },
       "input_items": {},
       "donation_items": {},
       "feature": {
-        "type": "Colony",
-        "properties": {
-          "climate": "Ice",
-          "upgraded": false,
-          "upgrade_cost": {
-            "Biotech": 1
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Food": 2
+              }
           }
-        }
       }
   },
   {
-      "name": "Spica",
+      "name": "角宿一+",
       "output_items": {
-          "Culture": 1
+          "Culture": 1,
+          "Food": 1
       },
       "input_items": {},
       "donation_items": {},
       "feature": {
-        "type": "Colony",
-        "properties": {
-          "climate": "Ice",
-          "upgraded": false,
-          "upgrade_cost": {
-            "Food": 2
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
           }
-        }
       }
   },
   {
-    "name": "Spica+",
-    "output_items": {
-      "Culture": 1,
-      "Food": 1
-    },
-    "input_items": {},
-    "donation_items": {},
-    "feature": {
-      "type": "Colony",
-      "properties": {
-        "climate": "Water",
-        "upgraded": true
-      }
-    }
-  },
-  {
-      "name": "Antares",
+      "name": "心宿二",
       "output_items": {
           "Food": 1
       },
       "input_items": {},
       "donation_items": {},
       "feature": {
-        "type": "Colony",
-        "properties": {
-          "climate": "Jungle",
-          "upgraded": false,
-          "upgrade_cost": {
-            "Hypertech": 1
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Hypertech": 1
+              }
           }
-        }
       }
   },
   {
-    "name": "Regulus",
-    "output_items": {
-      "Culture": 1
-    },
-    "input_items": {},
-    "donation_items": {},
-    "feature": {
-      "type": "Colony",
-      "properties": {
-        "climate": "Jungle",
-        "upgraded": false,
-        "upgrade_cost": {
+      "name": "心宿二+",
+      "output_items": {
+          "Hypertech": 1
+      },
+      "input_items": {
+          "Food": 1
+      },
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "南十字三",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "南十字三+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "轩辕十四",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "轩辕十四+",
+      "output_items": {
           "Energy": 1
-        }
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
       }
-    }
   },
   {
-    "name": "Castor",
-    "output_items": {
-      "Culture": 1
-    },
-    "input_items": {},
-    "donation_items": {},
-    "feature": {
-      "type": "Colony",
-      "properties": {
-        "climate": "Water",
-        "upgraded": false,
-        "upgrade_cost": {
+      "name": "北河二",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "北河二+",
+      "output_items": {
           "Information": 1
-        }
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
       }
-    }
   },
   {
-    "name": "Castor+",
-    "output_items": {
-      "Information": 1
-    },
-    "input_items": {},
-    "donation_items": {},
-    "feature": {
-      "type": "Colony",
-      "properties": {
-        "climate": "Ice",
-        "upgraded": true
+      "name": "南船五",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
       }
-    }
+  },
+  {
+      "name": "南船五+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "南门二",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "南门二+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "弧矢一",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "弧矢一+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "天船三",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "天船三+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "北斗七",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "北斗七+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "尾宿五",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "尾宿五+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "孔雀十一",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "孔雀十一+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "天社三",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "天社三+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "北极星",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "北极星+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "北落师门",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Hypertech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "北落师门+",
+      "output_items": {
+          "Hypertech": 1
+      },
+      "input_items": {
+          "Industry": 1
+      },
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "南十字一",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "南十字一+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "参宿四",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Hypertech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "参宿四+",
+      "output_items": {
+          "Hypertech": 1
+      },
+      "input_items": {
+          "Culture": 1
+      },
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "大角星",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "大角星+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "鹤一",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "鹤一+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "北斗五",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Industry": 2
+              }
+          }
+      }
+  },
+  {
+      "name": "北斗五+",
+      "output_items": {
+          "Culture": 1,
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "弧矢七",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Culture": 2
+              }
+          }
+      }
+  },
+  {
+      "name": "弧矢七+",
+      "output_items": {
+          "Food": 1,
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "天狼星",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "天狼星+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "参宿七",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "参宿七+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "娄宿三",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "娄宿三+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "毕宿五",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "毕宿五+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "三角形三",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "三角形三+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "参宿一",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Hypertech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "参宿一+",
+      "output_items": {
+          "Hypertech": 1
+      },
+      "input_items": {
+          "Food": 1
+      },
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "马腹一",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "马腹一+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "五车二",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "五车二+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "尾宿八",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Food": 2
+              }
+          }
+      }
+  },
+  {
+      "name": "尾宿八+",
+      "output_items": {
+          "Food": 1,
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "老人星",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Hypertech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "老人星+",
+      "output_items": {
+          "Hypertech": 1
+      },
+      "input_items": {
+          "Industry": 1
+      },
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "织女星",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "织女星+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "牛郎星",
+      "output_items": {
+          "Food": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "牛郎星+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "天记星",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "天记星+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "北河三",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "北河三+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "天津四",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Information": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "天津四+",
+      "output_items": {
+          "Information": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "参宿五",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "参宿五+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "水委一",
+      "output_items": {
+          "Culture": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Ice",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Biotech": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "水委一+",
+      "output_items": {
+          "Biotech": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Jungle",
+              "upgraded": true
+          }
+      }
+  },
+  {
+      "name": "南河三",
+      "output_items": {
+          "Industry": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Desert",
+              "upgraded": false,
+              "upgrade_cost": {
+                  "Energy": 1
+              }
+          }
+      }
+  },
+  {
+      "name": "南河三+",
+      "output_items": {
+          "Energy": 1
+      },
+      "input_items": {},
+      "donation_items": {},
+      "feature": {
+          "type": "Colony",
+          "properties": {
+              "climate": "Water",
+              "upgraded": true
+          }
+      }
   }
 ]

@@ -94,7 +94,7 @@ const switchView = (view: string, room_name: string) => {
   if (props.rooms[room_name].players[props.username].specie) {
     chosenSpecie.value = props.rooms[room_name].players[props.username].specie;
   }
-  if (view === 'room' && props.rooms[room_name].game_state === 'playing') {
+  if (meInRoom(room_name) && view === 'room' && props.rooms[room_name].game_state === 'playing') {
     socket.emit('get-game-state', { username: props.username, room_name: room_name });
     props.switchPage('game');
   }
@@ -102,7 +102,13 @@ const switchView = (view: string, room_name: string) => {
 
 const createRoom = (room_name: string) => {
   room_name = room_name.trim();
-  if (room_name.length < 3 || room_name.length > 16) {
+  if (room_name.length < 3 || room_name.length > 16) {PubSub.publish('alert-pubsub-message', {
+      title: '错误！',
+      str: '房间名长度必须在3到16个字符之间',
+      type: 'error',
+      dur: 2,
+      visible: true,
+    });
     return;
   }
   socket.emit('create-room', { username: props.username, room_name: room_name });

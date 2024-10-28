@@ -38,7 +38,7 @@ class Room:
   def agree_to_start(self, user_id):
     if user_id in self.players:
       self.players[user_id]["agreed"] = True
-      if all(player["agreed"] for player in self.players.values()):
+      if all(player["agreed"] for player in self.players.values()) and len(self.players) >= 2:
         self.game_state = "started"
         self.start_game()
       return True

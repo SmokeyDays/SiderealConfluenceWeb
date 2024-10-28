@@ -9,10 +9,10 @@ import { socket } from '@/utils/connect';
 import type { GameState } from './interfaces/GameState';
 import type { RoomList } from './interfaces/RoomState';
 import Logo from '@/components/Logo.vue';
+import { isProduction } from './utils/config';
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
-// const username = ref('Alice');
-const username = ref('');
+const username = ref(isProduction? '': 'Alice');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
