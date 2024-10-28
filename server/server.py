@@ -23,10 +23,12 @@ class Server:
     self.rooms["test"].agree_to_start("Alice")
     self.rooms["test"].agree_to_start("Bob")
     self.rooms["test"].game.develop_tech("Alice", "纳米科技")
+    self.rooms["test"].game.develop_tech("Alice", "基因工程学")
     self.rooms["test"].game.debug_draw_research("Alice")
     self.rooms["test"].game.debug_draw_colony("Alice")
     self.rooms["test"].game.debug_add_item("Alice", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
+    self.rooms["test"].game.debug_add_item("Alice", "Jungle", 5)
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
     self.rooms["test"].game.player_agree("Bob")
@@ -272,5 +274,17 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.upgrade_colony(username, data['factory_name'])
+      self.update_game_state(room_name)
+
+    @self.socketio.on('upgrade-normal', namespace=get_router_name())
+    def upgrade_normal(data):
+      room_name = data['room_name']
+      username = data['username']
+      success, message = self.rooms[room_name].game.upgrade_normal(username, data['factory_name'], data['cost_type'])
+      self.socketio.emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Upgrade Success" if success else "Upgrade Failed",
+        "str": message
+      }, namespace=get_router_name())
       self.update_game_state(room_name)
 

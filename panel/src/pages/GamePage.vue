@@ -8,6 +8,7 @@ import GamePanel from '@/components/GamePanel.vue';
 import TradePanel from '@/components/TradePanel.vue';
 import BidPanel from '@/components/BidPanel.vue';
 import ResearchPanel from '@/components/ResearchPanel.vue';
+import CheckPanel from '@/components/CheckPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton } from 'naive-ui';
 
@@ -155,6 +156,16 @@ const upgradeColony = (factory: Factory) => {
     factory_name: factory.name
   });
 }
+const upgradeNormal = (factoryName: string, id: number) => {
+  pleaseCheckAgain(() => {
+    socket.emit("upgrade-normal", {
+      room_name: props.gameState.room_name,
+      username: props.username,
+      factory_name: factoryName,
+      cost_type: id
+    });
+  }, `你是否确定以第 ${id} 种升级费用升级工厂 ${factoryName} ？注意这将是不可逆的操作。`);
+}
 
 const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): FactoryConfig => {
   return {
@@ -172,6 +183,11 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
     upgradeColony: () => {
       if (factory.feature.type === "Colony") {
         upgradeColony(factory);
+      }
+    },
+    upgradeNormal: (id: number) => {
+      if (factory.feature.type === "Normal") {
+        upgradeNormal(factory.name, id);
       }
     }
   }
@@ -306,8 +322,22 @@ const submitPick = (type: string, id: number) => {
   });
 }
 
+const checkPanel = ref(false);
+const checkCallback = ref<(() => void)>(() => {});
+const checkMessage = ref<string>("");
+const pleaseCheckAgain = (callback: () => void, message: string) => {
+  checkPanel.value = true;
+  checkCallback.value = callback;
+  checkMessage.value = message;
+}
+const closeCheckPanel = () => {
+  checkPanel.value = false;
+  checkCallback.value = () => {};
+  checkMessage.value = "";
+}
+
 const displayMask = () => {
-  return displayTradePanel.value || displayResearchPanel.value || displayBidPanel.value;
+  return displayTradePanel.value || displayResearchPanel.value || displayBidPanel.value || checkPanel.value;
 };
 
 </script>
@@ -358,6 +388,7 @@ const displayMask = () => {
       :username="props.username"
       v-if="displayBidPanel"
     />
+    <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
   </div>
   <n-float-button 
     @click="openBidPanel" 

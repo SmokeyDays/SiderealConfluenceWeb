@@ -30,6 +30,18 @@
       />
       <converter-entry v-if="!props.factory.feature.properties['upgraded']" :="getColonyUpgradeConverterConfig()" />
     </template>
+    <template v-if="props.factory.feature.type === 'Normal' && props.factory.feature.properties['upgrade_cost'].length > 0">
+      <template v-if="typeof props.factory.feature.properties['upgrade_cost'][0] !== 'string'">
+        <converter-entry :="getUpgradeCostConverterConfig(props.factory.feature.properties['upgrade_cost'][0], 0)" />
+      </template>
+      <template v-for="id in Object.keys(props.factory.feature.properties['upgrade_cost']).map(Number)" :key="id">
+        <template v-if="typeof props.factory.feature.properties['upgrade_cost'][id] === 'string'">
+          <v-text :config="getUpgradeCostTextConfig(props.factory.feature.properties['upgrade_cost'][id], id)" @click="() => {
+            props.upgradeNormal(id);
+          }" />
+        </template>
+      </template>
+    </template>
   </v-group>
 </template>
 
@@ -55,6 +67,7 @@ export interface FactoryConfig {
   produce: () => void;
   research: () => void;
   upgradeColony: () => void;
+  upgradeNormal: (id: number) => void;
 }
 
 
@@ -112,6 +125,38 @@ const getColonyUpgradeConverterConfig = () => {
     gameState: props.gameState,
     converter: converter,
     onClick: props.upgradeColony
+  }
+}
+
+const getUpgradeCostConverterConfig = (converter: Converter, id: number) => {
+  return {
+    x: props.x - 0.05 * props.width,
+    y: props.y + 0.65 * props.height,
+    width: props.width * 0.5,
+    height: props.height * 0.5,
+    scaleFactor: props.scaleFactor,
+    producible: props.producible(converter.input_items),
+    gameState: props.gameState,
+    converter: converter,
+    onClick: () => props.upgradeNormal(id)
+  }
+}
+
+const getUpgradeCostTextConfig = (text: string, id: number) => {
+  const pos = [
+    [props.x + 0.05 * props.width, props.y + 0.9 * props.height],
+    [props.x + 0.95 * props.width, props.y + 0.9 * props.height],
+    [props.x + 0.5 * props.width, props.y + 0.9 * props.height]
+  ]
+  const multiplier = [0, 1, 0.5];
+  const fontSize = 0.05 * props.height;
+  const estimateWidth = text.length * fontSize;
+  return {
+    text: text,
+    fontSize: fontSize,
+    fill: 'white',
+    x: pos[id][0] - multiplier[id] * estimateWidth,
+    y: pos[id][1]
   }
 }
 

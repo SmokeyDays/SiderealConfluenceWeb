@@ -33,7 +33,35 @@ class DataManager:
   def create_factories(self, specie: str, specie_data: dict):
     factories = {}
     for factory in specie_data["factories"]:
-      factories[factory["name"]] = Factory(factory["name"], factory["input_items"], factory["output_items"], factory["donation_items"], specie)
+      upgrade_cost = []
+      for cost in factory["upgrade_cost"]:
+        if isinstance(cost, str):
+          upgrade_cost.append(cost)
+        else:
+          upgrade_cost.append(Converter(
+            cost["input_items"], 
+            cost["output_items"], 
+            cost["donation_items"] if "donation_items" in cost else {}, 
+            'trading'
+          ).to_dict())
+      upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
+      feature = {
+        "type": "Normal",
+        "properties": {
+          "upgraded": factory["upgrade_factory"] == "",
+          "upgrade_factory": factory["upgrade_factory"],
+          "upgrade_cost": upgrade_cost
+        }
+      }
+      factories[factory["name"]] = Factory(
+        factory["name"], 
+        factory["input_items"], 
+        factory["output_items"], 
+        factory["donation_items"], 
+        specie,
+        feature,
+        'production'
+      )
     self.specie_factories[specie] = factories
 
   def create_init_players(self, specie: str, specie_data: dict):
@@ -142,7 +170,14 @@ class Converter:
 
 
 class Factory:
-  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], donation_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, running_stage = 'production'):
+  def __init__(self, name: str, 
+    input_items: Dict[str, int], 
+    output_items: Dict[str, int], 
+    donation_items: Dict[str, int], 
+    owner: str, 
+    feature = {"type": "Normal", "properties": {}}, 
+    running_stage = 'production'
+  ):
     self.name = name
     self.converter = Converter(input_items, output_items, donation_items, running_stage)
     self.owner = owner
@@ -152,7 +187,11 @@ class Factory:
 
     {
       "type": "Normal",
-      "properties": {}
+      "properties": {
+        "upgraded": bool,
+        "upgrade_factory": str,
+        "upgrade_cost": List[str | Converter]
+      }
     }
 
     {
@@ -181,15 +220,14 @@ class Factory:
     if self.converter.running_stage != game.stage:
       return False, "当前阶段不正确"
 
+    res = {}
+
     if self.feature["type"] == "Normal" or self.feature["type"] == "Colony":
-      res = {}
       if not player.remove_items_from_storage(self.converter.input_items):
         return False, "玩家库存不足"
 
       for item, quantity in self.converter.output_items.items():
         res[item] = quantity
-      
-      player.add_new_product_items(res)
 
     elif self.feature["type"] == "Research":
       assert "tech" in self.feature["properties"]
@@ -201,18 +239,18 @@ class Factory:
       if not player.remove_items_from_storage(cost):
         return False, "玩家库存不足"
 
-      res = {}
       for item, quantity in self.converter.output_items.items():
         res[item] = quantity
 
       tech_spread_bonus = game.get_tech_spread_bonus(player.user_id)
       res["Score"] += tech_spread_bonus
-      player.add_new_product_items(res)
-
       game.develop_tech(player.user_id, tech)
       print(f"{player.user_id} 研发了 {tech}")
 
-
+    if self.converter.running_stage == 'production':
+      player.add_new_product_items(res)
+    else:
+      player.add_items_to_storage(res)
     self.converter.used = True
     return True, ""
 
@@ -281,7 +319,7 @@ class Player:
     for item, quantity in items.items():
       self.storage[item] -= quantity
     return True
-  
+
   def add_new_product_items(self, items: Dict[str, int]):
     for item, quantity in items.items():
       self.new_product_items[item] = self.new_product_items.get(item, 0) + quantity 
@@ -539,6 +577,39 @@ class Game:
       return False, "升级的殖民地不存在"
     if not player.remove_items_from_storage(player.factories[factory_name].feature["properties"]["upgrade_cost"]):
       return False, "玩家库存不足"
+    player.remove_factory(factory_name)
+    player.add_factory(new_factory)
+    return True, ""
+
+  def upgrade_normal(self, player_name: str, factory_name: str, cost_type: int) -> Tuple[bool, str]:
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player or factory_name not in player.factories:
+      return False, "未指定玩家或工厂"
+    factory = player.factories[factory_name]
+    if factory.feature["type"] != "Normal":
+      return False, "工厂不是普通工厂"
+    if factory.feature["properties"]["upgraded"]:
+      return False, "工厂已经升级"
+    if cost_type < 0 or cost_type >= len(factory.feature["properties"]["upgrade_cost"]):
+      return False, "升级费用类型不存在"
+    new_factory = self.data_manager.get_factory(player.specie, factory.feature["properties"]["upgrade_factory"])
+    if isinstance(factory.feature["properties"]["upgrade_cost"][cost_type], str):
+      cost_factory_name = factory.feature["properties"]["upgrade_cost"][cost_type]
+      cost_factory = next((f for f in player.factories.values() if f.name == cost_factory_name), None)
+      if not cost_factory:
+        return False, "升级所需工厂不存在"
+      player.remove_factory(cost_factory_name)
+    else:
+      # cost is to run converter
+      converter = factory.feature["properties"]["upgrade_cost"][cost_type]
+      if not player.remove_items_from_storage(converter["input_items"]):
+        return False, "玩家库存不足"
+
+      res = {}
+      for item, quantity in converter["output_items"].items():
+        res[item] = quantity
+      player.add_items_to_storage(res)
+
     player.remove_factory(factory_name)
     player.add_factory(new_factory)
     return True, ""
