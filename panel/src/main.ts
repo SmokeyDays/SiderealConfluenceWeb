@@ -8,5 +8,5 @@ import { socket } from "./utils/connect"
 createApp(App)
 
 const app = createApp(App);
-app.use(VueKonva);
+app.use(VueKonva as any);
 app.mount('#app');

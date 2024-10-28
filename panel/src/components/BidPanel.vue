@@ -102,7 +102,7 @@ const submitPick = () => {
             </template>
             <v-stage :config="{ width: 300, height: 200 }">
               <v-layer>
-                <FactoryDisplayer v-if="props.gameState.colony_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.colony_bid_cards[id].item, 0, 0)" />
+                <FactoryDisplayer v-if="props.gameState.colony_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.colony_bid_cards[id].item!, 0, 0)" />
               </v-layer>
             </v-stage>
           </n-popover>
@@ -130,7 +130,7 @@ const submitPick = () => {
             </template>
             <v-stage :config="{ width: 300, height: 200 }"> 
               <v-layer>
-                <FactoryDisplayer v-if="props.gameState.research_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.research_bid_cards[id].item, 0, 0)" />
+                <FactoryDisplayer v-if="props.gameState.research_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.research_bid_cards[id].item!, 0, 0)" />
               </v-layer>
             </v-stage>
           </n-popover>

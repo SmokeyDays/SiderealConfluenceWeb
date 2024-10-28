@@ -77,6 +77,11 @@ class Server:
       self.socketio.emit('login-success', {
         "username": username
       }, namespace=get_router_name())
+    
+    @self.socketio.on('logout', namespace=get_router_name())
+    def logout(data):
+      username = data['username']
+      leave_room(username)
 
   def bind_lobby_events(self):
     @self.socketio.on('get-room-list', namespace=get_router_name())

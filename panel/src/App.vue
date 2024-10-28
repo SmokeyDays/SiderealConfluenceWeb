@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { NButton, NSpace } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
@@ -11,7 +11,8 @@ import type { RoomList } from './interfaces/RoomState';
 import Logo from '@/components/Logo.vue';
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
-const username = ref('Alice');
+// const username = ref('Alice');
+const username = ref('');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
@@ -96,6 +97,12 @@ onMounted(() => {
     visible: true,
   });
   socket.emit('get-room-list');
+})
+
+onUnmounted(() => {
+  if (username.value !== '') {
+    socket.emit('logout', {username: username.value});
+  }
 })
 </script>
 
