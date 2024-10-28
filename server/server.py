@@ -304,3 +304,10 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @self.socketio.on('exchange-colony', namespace=get_router_name())
+    def exchange_colony(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.exchange_colony(username, data['colony_name'])
+      self.update_game_state(room_name)
+

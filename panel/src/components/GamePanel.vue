@@ -13,6 +13,7 @@ const props = defineProps<{
   handleTradePanel: () => void;
   selectedPlayer: string;
   handleSelectPlayer: (playerId: string) => void;
+  handleExchangePanel: () => void;
 }>();
 
 const selectedPlayer = ref(props.selectedPlayer);
@@ -47,8 +48,8 @@ const disagreeToNextStage = () => {
   <div class="">
     <n-card vertical align="center" justify="center" class="game-panel" hoverable>
       <div class="info">
-        <h2>Round: {{ gameState.current_round }}</h2>
-        <h2>Stage: {{ gameState.stage }}</h2>
+        <h2>轮次: {{ gameState.current_round }}</h2>
+        <h2>阶段: {{ gameState.stage }}</h2>
       </div>
       <n-divider />
       <n-select 
@@ -71,13 +72,14 @@ const disagreeToNextStage = () => {
         <template v-if="getMe() !== null">
           <template v-if="gameState.stage === 'trading' || gameState.stage === 'production'" >
             <template v-if="getMe()!.agreed === false">
-              <n-button type="primary" @click="agreeToNextStage">Agree to next stage</n-button>
+              <n-button type="primary" @click="agreeToNextStage">同意进入下一阶段</n-button>
             </template>
             <template v-else>
-              <n-button type="info" @click="disagreeToNextStage">Disagree to next stage</n-button>
+              <n-button type="info" @click="disagreeToNextStage">拒绝进入下一阶段</n-button>
             </template>
           </template>
-          <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">Trade</n-button>
+          <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
+          <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading'">自由交换</n-button>
         </template>
       </div>
     </n-card>

@@ -8,6 +8,7 @@ import GamePanel from '@/components/GamePanel.vue';
 import TradePanel from '@/components/TradePanel.vue';
 import BidPanel from '@/components/BidPanel.vue';
 import ResearchPanel from '@/components/ResearchPanel.vue';
+import ExchangePanel from '@/components/ExchangePanel.vue';
 import CheckPanel from '@/components/CheckPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton } from 'naive-ui';
@@ -116,7 +117,7 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
   }
   if (!Array.isArray(input_items)) {
     for (let item in input_items) {
-      if (player.storage[item] < input_items[item]) {
+      if ((player.storage[item] || 0) < input_items[item]) {
         return false;
       }
     }
@@ -124,7 +125,7 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
     for (let cost of input_items) {
       let affordable = true;
       for (let item in cost) {
-        if (player.storage[item] < cost[item]) {
+        if ((player.storage[item] || 0) < cost[item]) {
           affordable = false;
         }
       }
@@ -260,6 +261,22 @@ const closeTradePanel = () => {
   tradeItems.value = {};
 };
 
+const displayExchangePanel = ref(false);
+const handleExchangePanel = () => {
+  displayExchangePanel.value = true;
+}
+const closeExchangePanel = () => {
+  displayExchangePanel.value = false;
+}
+const submitExchange = (colonies: string[]) => {
+  for (const colony of colonies) {
+    socket.emit("exchange-colony", {
+      room_name: props.gameState.room_name,
+      username: props.username,
+      colony_name: colony
+    });
+  }
+}
 
 const displayResearchPanel = ref(false);
 const researchFactory = ref<Factory | null>(null);
@@ -337,7 +354,11 @@ const closeCheckPanel = () => {
 }
 
 const displayMask = () => {
-  return displayTradePanel.value || displayResearchPanel.value || displayBidPanel.value || checkPanel.value;
+  return displayTradePanel.value
+    || displayResearchPanel.value
+    || displayBidPanel.value
+    || checkPanel.value
+    || displayExchangePanel.value;
 };
 
 </script>
@@ -349,6 +370,7 @@ const displayMask = () => {
     :handle-trade-panel="handleTradePanel" 
     :selected-player="selectedPlayer"
     :handle-select-player="handleSelectPlayer"
+    :handle-exchange-panel="handleExchangePanel"
     class="game-panel"/>
   <div class="game-stage">
     <v-stage :config="stageConfig" class="game-stage-canvas">
@@ -389,6 +411,14 @@ const displayMask = () => {
       v-if="displayBidPanel"
     />
     <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
+    <ExchangePanel 
+      :submit-exchange="submitExchange" 
+      :close-exchange-panel="closeExchangePanel" 
+      :username="props.username" 
+      :game-state="props.gameState" 
+      :get-me="getMe" 
+      v-if="displayExchangePanel" 
+    />
   </div>
   <n-float-button 
     @click="openBidPanel" 

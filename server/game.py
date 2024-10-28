@@ -677,6 +677,14 @@ class Game:
       print("拍卖结束")
       self.move_to_next_stage()
     return True, ""
+
+  def exchange_colony(self, player_name: str, colony_name: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    colony = player.remove_factory(colony_name)
+    player.add_to_storage(colony.feature["properties"]["climate"], 1)
+    return True, ""
   ###########################
   #                         #
   #     Other Functions     #
