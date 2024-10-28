@@ -11,7 +11,7 @@ import { NAlert } from 'naive-ui'
 const props = defineProps<{
   title: string
   content: string
-  type: string
+  type: "default" | "error" | "info" | "success" | "warning" | undefined
   visible: boolean
 }>()
 

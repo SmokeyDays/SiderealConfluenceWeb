@@ -17,7 +17,7 @@ interface AlertInfo {
   title: string;
   str: string;
   dur: number;
-  type: string;
+  type: "default" | "error" | "info" | "success" | "warning" | undefined;
   visible: boolean;
 }
 
@@ -26,7 +26,7 @@ const alertList = ref<AlertInfo[]>([]);
 PubSub.subscribe('alert-pubsub-message', (id: string, msg: {
   title: string;
   str: string;
-  type: string;
+  type: "default" | "error" | "info" | "success" | "warning" | undefined;
   dur: number;
 }) => {
   alertList.value.push({
