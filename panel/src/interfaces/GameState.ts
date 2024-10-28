@@ -1,11 +1,18 @@
+export class Converter {
+  constructor(
+    public input_items: { [key: string]: number } | [{ [key: string]: number }],
+    public output_items: { [key: string]: number },
+    public donation_items: { [key: string]: number },
+    public running_stage: string,
+    public used: boolean
+  ) {}
+}
+
 export class Factory {
   constructor(
     public name: string,
-    public input_items: { [key: string]: number },
-    public output_items: { [key: string]: number },
-    public used: boolean,
+    public converter: Converter,
     public owner: string,
-    public run_in_trading: boolean,
     public feature: { type: string, properties: { [key: string]: any } }
   ) {}
 }

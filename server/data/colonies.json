@@ -69,6 +69,22 @@
       }
   },
   {
+    "name": "Spica+",
+    "output_items": {
+      "Culture": 1,
+      "Food": 1
+    },
+    "input_items": {},
+    "donation_items": {},
+    "feature": {
+      "type": "Colony",
+      "properties": {
+        "climate": "Water",
+        "upgraded": true
+      }
+    }
+  },
+  {
       "name": "Antares",
       "output_items": {
           "Food": 1
@@ -119,6 +135,21 @@
         "upgrade_cost": {
           "Information": 1
         }
+      }
+    }
+  },
+  {
+    "name": "Castor+",
+    "output_items": {
+      "Information": 1
+    },
+    "input_items": {},
+    "donation_items": {},
+    "feature": {
+      "type": "Colony",
+      "properties": {
+        "climate": "Ice",
+        "upgraded": true
       }
     }
   }

@@ -109,18 +109,18 @@ const getPlayer = (playerId: string): Player | null => {
   return res;
 }
 
-const checkFactoryAffordability = (player: Player, factory: Factory) => {
+const checkFactoryAffordability = (player: Player, input_items: { [key: string]: number } | [{ [key: string]: number }]) => {
   if (player === null) {
     return false;
   }
-  if (factory.feature.type === 'Normal') {
-    for (let item in factory.input_items) {
-      if (player.storage[item] < factory.input_items[item]) {
+  if (!Array.isArray(input_items)) {
+    for (let item in input_items) {
+      if (player.storage[item] < input_items[item]) {
         return false;
       }
     }
-  } else if (factory.feature.type === 'Research') {
-    for (let cost of factory.feature.properties['research_cost']) {
+  } else if (Array.isArray(input_items)) {
+    for (let cost of input_items) {
       let affordable = true;
       for (let item in cost) {
         if (player.storage[item] < cost[item]) {
@@ -148,6 +148,14 @@ const research = (factory: Factory) => {
   handleResearchPanel(factory);
 }
 
+const upgradeColony = (factory: Factory) => {
+  socket.emit("upgrade-colony", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    factory_name: factory.name
+  });
+}
+
 const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): FactoryConfig => {
   return {
     x: x,
@@ -157,10 +165,15 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
     scaleFactor: props.gameProps.scaleFactor,
     factory: factory,
     owner: factory.owner,
-    producible: checkFactoryAffordability(me, factory),
+    producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => checkFactoryAffordability(me, input_items),
     gameState: props.gameState,
     produce: () => produce(factory.name),
-    research: () => research(factory)
+    research: () => research(factory),
+    upgradeColony: () => {
+      if (factory.feature.type === "Colony") {
+        upgradeColony(factory);
+      }
+    }
   }
 }
 

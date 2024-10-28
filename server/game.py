@@ -79,7 +79,7 @@ class DataManager:
       {},
       "None",
       research_data["feature"],
-      True
+      "trading"
     )
     return factory
 
@@ -108,7 +108,7 @@ class DataManager:
       colony_data["donation_items"],
       "None",
       colony_data["feature"],
-      False
+      "production"
     )
     return factory
 
@@ -117,13 +117,34 @@ class DataManager:
       return None
     return self.colony_deck.pop()
 
-class Factory:
-  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], donation_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, run_in_trading = False):
-    self.name = name
+  def get_upgraded_colony(self, colony_name: str):
+    if colony_name in self.upgraded_colonies:
+      return self.upgraded_colonies[colony_name]
+    print(f"{colony_name} 的升级殖民地不存在")
+    return None
+
+class Converter:
+  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], donation_items: Dict[str, int], running_stage: str):
     self.input_items = input_items
     self.output_items = output_items
     self.donation_items = donation_items
+    self.running_stage = running_stage
     self.used = False
+
+  def to_dict(self) -> Dict[str, Any]:
+    return {
+      "input_items": self.input_items,
+      "output_items": self.output_items,
+      "donation_items": self.donation_items,
+      "running_stage": self.running_stage,
+      "used": self.used
+    }
+
+
+class Factory:
+  def __init__(self, name: str, input_items: Dict[str, int], output_items: Dict[str, int], donation_items: Dict[str, int], owner: str, feature = {"type": "Normal", "properties": {}}, running_stage = 'production'):
+    self.name = name
+    self.converter = Converter(input_items, output_items, donation_items, running_stage)
     self.owner = owner
 
     """
@@ -153,43 +174,35 @@ class Factory:
     }
     """
     self.feature = feature
-    self.run_in_trading = run_in_trading
 
   def produce(self, game, player, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, Dict[str, int]]:
-    if self.used:
+    if self.converter.used:
       return False, "工厂已使用"
+    if self.converter.running_stage != game.stage:
+      return False, "当前阶段不正确"
 
-    if self.feature["type"] == "Normal":
+    if self.feature["type"] == "Normal" or self.feature["type"] == "Colony":
       res = {}
-      for item, quantity in self.input_items.items():
-        if player.storage.get(item, 0) < quantity:
-          return False, "玩家库存不足"
-    
-      for item, quantity in self.input_items.items():
-        player.storage[item] -= quantity
+      if not player.remove_items_from_storage(self.converter.input_items):
+        return False, "玩家库存不足"
 
-      for item, quantity in self.output_items.items():
+      for item, quantity in self.converter.output_items.items():
         res[item] = quantity
       
       player.add_new_product_items(res)
 
     elif self.feature["type"] == "Research":
       assert "tech" in self.feature["properties"]
-      assert "research_cost" in self.feature["properties"]
       assert "cost_type" in extra_properties
       cost_type = extra_properties["cost_type"]
-      cost = self.feature["properties"]["research_cost"][cost_type]
+      cost = self.converter.input_items[cost_type]
       tech = self.feature["properties"]["tech"]
 
-      for item, quantity in cost.items():
-        if player.storage.get(item, 0) < quantity:
-          return False, "玩家库存不足"
-
-      for item, quantity in cost.items():
-        player.storage[item] -= quantity
+      if not player.remove_items_from_storage(cost):
+        return False, "玩家库存不足"
 
       res = {}
-      for item, quantity in self.output_items.items():
+      for item, quantity in self.converter.output_items.items():
         res[item] = quantity
 
       tech_spread_bonus = game.get_tech_spread_bonus(player.user_id)
@@ -200,21 +213,18 @@ class Factory:
       print(f"{player.user_id} 研发了 {tech}")
 
 
-    self.used = True
+    self.converter.used = True
     return True, ""
 
   def reset(self):
-    self.used = False
+    self.converter.used = False
 
   def to_dict(self) -> Dict[str, Any]:
     return {
       "name": self.name,
-      "input_items": self.input_items,
-      "output_items": self.output_items,
-      "used": self.used,
+      "converter": self.converter.to_dict(),
       "owner": self.owner,
       "feature": self.feature,
-      "run_in_trading": self.run_in_trading
     }
 
 
@@ -268,6 +278,7 @@ class Player:
     for item, quantity in items.items():
       if self.storage.get(item, 0) < quantity:
         return False
+    for item, quantity in items.items():
       self.storage[item] -= quantity
     return True
   
@@ -509,14 +520,28 @@ class Game:
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
 
-    if self.stage != "production" and not player.factories[factory_name].run_in_trading:
-      return False, "当前阶段不是生产阶段"
-
     success, msg = player.factories[factory_name].produce(self, player, extra_properties)
 
     if success:
       return True, ""
     return False, msg
+
+  def upgrade_colony(self, player_name: str, factory_name: str) -> Tuple[bool, str]:
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player or factory_name not in player.factories:
+      return False, "未指定玩家或工厂"
+    if player.factories[factory_name].feature["type"] != "Colony":
+      return False, "工厂不是殖民地"
+    if player.factories[factory_name].feature["properties"]["upgraded"]:
+      return False, "殖民地已经升级"
+    new_factory = self.data_manager.get_upgraded_colony(factory_name)
+    if not new_factory:
+      return False, "升级的殖民地不存在"
+    if not player.remove_items_from_storage(player.factories[factory_name].feature["properties"]["upgrade_cost"]):
+      return False, "玩家库存不足"
+    player.remove_factory(factory_name)
+    player.add_factory(new_factory)
+    return True, ""
 
   def player_agree(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
@@ -621,14 +646,18 @@ class Game:
                 "factories": {
                     "factory_name": {
                         "name": str,
-                        "input": Dict[str, int],
-                        "output": Dict[str, int],
+                        "converter": {
+                          "input_items": Dict[str, int] | List[Dict[str, int]],
+                          "output_items": Dict[str, int],
+                          "donation_items": Dict[str, int],
+                          "running_stage": str,
+                          "used": bool
+                        },
                         "owner": str,
                         "feature": {
                           "type": str,
                           "properties": Dict[str, Any]
                         },
-                        "run_in_trading": bool
                     },
                     ...
                 },

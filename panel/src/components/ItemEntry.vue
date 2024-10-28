@@ -10,6 +10,7 @@ const props = defineProps<{
   iconWidth: number;
   iconHeight: number
   scaleFactor: number;
+  desc?: string;
 }>();
 
 const imageConfig = ref({
@@ -46,6 +47,18 @@ watch(() => [props.iconWidth, props.iconHeight], () => {
     <v-text v-if="count != 1" :config="{
       text: `${props.count}`,
       fontSize: 0.8 * props.iconHeight,
+      fontFamily: 'Calibri',
+      fill: 'black',
+      x: 0.2 * props.iconWidth,
+      y: 0.2 * props.iconHeight,
+      shadowColor: 'white',
+      shadowBlur: 2,
+      shadowOffsetX: 1,
+      shadowOffsetY: 1
+    }" />
+    <v-text v-if="props.desc" :config="{
+      text: props.desc,
+      fontSize: 0.7 * props.iconHeight,
       fontFamily: 'Calibri',
       fill: 'black',
       x: 0.2 * props.iconWidth,

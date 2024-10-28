@@ -38,7 +38,9 @@ class Server:
     self.rooms['test'].game.submit_pick("Alice", "colony", 0)
     self.rooms['test'].game.submit_pick("Bob", "colony", 1)
     self.rooms['test'].game.submit_pick("Bob", "research", 0)
+    self.rooms['test'].game.submit_pick("Alice", "research", 1)
     
+
 
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -263,5 +265,12 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
+      self.update_game_state(room_name)
+
+    @self.socketio.on('upgrade-colony', namespace=get_router_name())
+    def upgrade_colony(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.upgrade_colony(username, data['factory_name'])
       self.update_game_state(room_name)
 

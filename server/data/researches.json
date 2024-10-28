@@ -1,103 +1,98 @@
 [
   {
     "name": "跨种族道德学家",
-    "input_items": {},
+    "input_items": [
+      {
+        "Culture": 3,
+        "Food": 4
+      },
+      {
+        "Energy": 2,
+        "Food": 4
+      }
+    ],
     "output_items": {"Score": 1},
     "feature": {
       "type": "Research",
       "properties": {
         "tech": "跨种族道德平等",
-        "level": 1,
-        "research_cost": [
-          {
-            "Culture": 3,
-            "Food": 4
-          },
-          {
-            "Energy": 2,
-            "Food": 4
-          }
-        ]
+        "level": 1
       }
     }
   },
   {
     "name": "机械工程师",
-    "input_items": {},
+    "input_items": [
+      {
+        "Energy": 4
+      },
+      {
+        "Hypertech": 2
+      }
+    ],
     "output_items": {"Score": 1},
     "feature": {
       "type": "Research",
       "properties": {
         "tech": "纳米科技",
-        "level": 1,
-        "research_cost": [
-          {
-            "Energy": 4
-          },
-          {
-            "Hypertech": 2
-          }
-        ]
+        "level": 1
       }
     }
   },
   {
     "name": "计算理论学家",
-    "input_items": {},
+    "input_items": [
+      {
+        "Culture": 6
+      },
+      {
+        "Biotech": 4
+      }
+    ],
     "output_items": {"Score": 1},
     "feature": {
       "type": "Research",
       "properties": {
         "tech": "量子计算机",
-        "level": 1,
-        "research_cost": [
-          {
-            "Culture": 6
-          },
-          {
-            "Biotech": 4
-          }
-        ]
+        "level": 1
       }
     }
   },
   {
     "name": "语言学家",
-    "input_items": {},
+    "input_items": [
+      {
+        "Culture": 4
+      },
+      {
+        "Information": 4
+      }
+    ],
     "output_items": {"Score": 1},
     "feature": {
       "type": "Research",
       "properties": {
         "tech": "通用翻译器",
-        "level": 1,
-        "research_cost": [
-          {
-            "Food": 6
-          },
-          {
-            "Information": 4
-          }
-        ]
+        "level": 1
       }
     }
   },
   {
     "name": "有机化学家",
-    "input_items": {},
+    "input_items": [
+      {
+        "Industry": 6
+      },
+      {
+        "Biotech": 4
+      }
+    ],
     "output_items": {"Score": 1},
     "feature": {
       "type": "Research",
       "properties": {
         "tech": "基因工程学",
-        "level": 1,
-        "research_cost": [
-          {
-            "Industry": 6
-          },
-          {
-            "Biotech": 4
-          }
-        ]
+        "level": 1
       }
     }
   }

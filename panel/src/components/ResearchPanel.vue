@@ -24,11 +24,14 @@ const submitClose = () => {
 };
 
 const getCostTypeOptions = () => {
+  if (!(props.factory.converter.input_items instanceof Array)) {
+    return [];
+  }
   const res: { label: string, value: number }[] = [];
-  for (const cost of Object.keys(props.factory.feature.properties['research_cost']).map(Number)) {
+  for (const cost of Object.keys(props.factory.converter.input_items).map(Number)) {
     let description = "";
-    for (const item in props.factory.feature.properties['research_cost'][cost]) {
-      description += `${item}: ${props.factory.feature.properties['research_cost'][cost][item]} `;
+    for (const item in props.factory.converter.input_items[cost]) {
+      description += `${item}: ${props.factory.converter.input_items[cost][item]} `;
     }
     res.push({ label: description, value: cost });
   }
@@ -36,12 +39,15 @@ const getCostTypeOptions = () => {
 }
 
 const affordCost = () => {
+  if (!(props.factory.converter.input_items instanceof Array)) {
+    return false;
+  }
   const player = props.gameState.players.find(player => player.user_id === props.username);
   if (player === undefined) {
     return false;
   }
-  for (const item in props.factory.feature.properties['research_cost'][costType.value]) {
-    if (player.storage[item] < props.factory.feature.properties['research_cost'][costType.value][item]) {
+  for (const item in props.factory.converter.input_items[costType.value]) {
+    if (player.storage[item] < props.factory.converter.input_items[costType.value][item]) {
       return false;
     }
   }
