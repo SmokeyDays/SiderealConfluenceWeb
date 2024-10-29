@@ -198,6 +198,7 @@ class Factory:
     self.converter = Converter(input_items, output_items, donation_items, running_stage)
     self.preview = None
     self.owner = owner
+    self.run_count = 0
 
     """
     Feature is a dictionary that contains the type of the factory and its properties.
@@ -269,11 +270,18 @@ class Factory:
       player.add_new_product_items(res)
     else:
       player.add_items_to_storage(res)
-    self.converter.used = True
+    
+    if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
+      self.run_count += 1
+      if self.run_count >= 2:
+        self.converter.used = True
+    else:
+      self.converter.used = True
     return True, ""
 
   def reset(self):
     self.converter.used = False
+    self.run_count = 0
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -281,7 +289,8 @@ class Factory:
       "converter": self.converter.to_dict(),
       "owner": self.owner,
       "feature": self.feature,
-      "preview": self.preview.to_dict() if self.preview else None
+      "preview": self.preview.to_dict() if self.preview else None,
+      "run_count": self.run_count
     }
 
 
@@ -299,6 +308,8 @@ class Player:
     self.colony_bid = 0
     self.research_bid = 0
     self.tie_breaker = 0
+    self.tech = []
+    self.invented_tech = []
 
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
@@ -314,6 +325,15 @@ class Player:
       return False
     self.factories[factory.name] = factory
     return True
+  
+  def add_colony(self, colony: Factory):
+    if self.specie == "Caylion":
+      colony.feature["properties"]["caylion_colony"] = True
+    self.add_factory(colony)
+  
+  def add_tech(self, factory: Factory, tech: str):
+    self.add_factory(factory)
+    self.tech.append(tech)
 
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
@@ -353,6 +373,15 @@ class Player:
     for factory in self.factories.values():
       factory.reset()
 
+  def has_tech(self, tech: str):
+    return tech in self.tech
+  
+  def invent_tech(self, tech: str):
+    self.invented_tech.append(tech)
+  
+  def has_invented_tech(self, tech: str):
+    return tech in self.invented_tech
+
   def get_research_priority(self):
     research_count = 0
     for factory in self.factories.values():
@@ -377,7 +406,9 @@ class Player:
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
       "agreed": self.agreed,
       "colony_bid": self.colony_bid,
-      "research_bid": self.research_bid
+      "research_bid": self.research_bid,
+      "tech": self.tech,
+      "invented_tech": self.invented_tech
     }
 
 bid_price_list = [1, 1, 2, 3]
@@ -501,23 +532,32 @@ class Game:
           factory = current_holder.remove_factory(factory.name)
           owner.add_factory(factory)
 
+  def get_tech(self, player: Player, tech: str):
+    player.add_tech(self.data_manager.get_factory_by_tech(player.specie, tech), tech)
+
   def spread_tech(self):
     if self.current_round not in self.tech_spread_list:
       return
     for tech in self.tech_spread_list[self.current_round]:
       for player in self.players:
-        player.new_factory(self.data_manager.get_factory_by_tech(player.specie, tech))
+        self.get_tech(player, tech)
 
   def get_tech_spread_bonus(self, player_name: str):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if player and player.specie == "Yengii":
+      return round((7 - self.current_round) / 2)
     return 7 - self.current_round
 
   def develop_tech(self, player_name: str, tech: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
-      player.new_factory(self.data_manager.get_factory_by_tech(player.specie, tech))
-    if self.current_round not in self.tech_spread_list:
-      self.tech_spread_list[self.current_round] = []
-    self.tech_spread_list[self.current_round].append(tech)
+      self.get_tech(player, tech)
+      player.invent_tech(tech)
+
+    if player.specie != "Yengii":
+      if self.current_round not in self.tech_spread_list:
+        self.tech_spread_list[self.current_round] = []
+      self.tech_spread_list[self.current_round].append(tech)
 
   def draw_research(self):
     return self.data_manager.draw_research()
@@ -529,11 +569,11 @@ class Game:
 
   def draw_colony(self):
     return self.data_manager.draw_colony()
-    
+  
   def debug_draw_colony(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
-      player.add_factory(self.draw_colony())
+      player.add_colony(self.draw_colony())
 
   def debug_add_item(self, player_name: str, item: str, quantity: int):
     player = next((p for p in self.players if p.user_id == player_name), None)
@@ -677,9 +717,7 @@ class Game:
         if player.colony_bid < self.colony_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.colony_bid:
           return False, "出价不足"
         colony = self.colony_bid_cards[pick_id]["item"]
-        if player.specie == "Caylion":
-          colony.feature["caylion_colony"] = True
-        player.add_factory(colony)
+        player.add_colony(colony)
         self.colony_bid_cards[pick_id]["item"] = None
         player.remove_from_storage("Ship", player.colony_bid)
       self.colony_bid_priority.pop(0)
@@ -708,6 +746,16 @@ class Game:
       return False, "未指定玩家"
     colony = player.remove_factory(colony_name)
     player.add_to_storage(colony.feature["properties"]["climate"], 1)
+    return True, ""
+  
+  def grant_tech(self, from_player: str, to_player: str, tech: str):
+    from_player = next((p for p in self.players if p.user_id == from_player), None)
+    to_player = next((p for p in self.players if p.user_id == to_player), None)
+    if not from_player or not to_player:
+      return False, "未指定玩家"
+    if not from_player.has_invented_tech(tech) or to_player.has_tech(tech):
+      return False, "玩家没有该科技或对方已有该科技"
+    self.get_tech(to_player, tech)
     return True, ""
   ###########################
   #                         #
@@ -769,11 +817,14 @@ class Game:
                           "donation_items": Dict[str, int],
                           "running_stage": str,
                           "used": bool
-                        }
+                        },
+                        "run_count": int
                     },
                     ...
                 },
-                "agreed": bool
+                "agreed": bool,
+                "tech": [str, ...],
+                "invented_tech": [str, ...]
             },
             ...
         ],

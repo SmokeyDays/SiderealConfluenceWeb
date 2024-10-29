@@ -191,7 +191,8 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
       if (factory.feature.type === "Normal") {
         upgradeNormal(factory.name, id);
       }
-    }
+    },
+    me: me
   }
 }
 
@@ -237,7 +238,7 @@ const handleTradePanel = () => {
     console.log("trade panel already displayed");
   }
 };
-const submitTrade = (items: { [key: string]: number }, factories: string[], toWhom: string) => {
+const submitTrade = (items: { [key: string]: number }, factories: string[], techs: string[], toWhom: string) => {
   socket.emit("trade-items", {
     room_name: props.gameState.room_name,
     username: props.username,
@@ -248,6 +249,12 @@ const submitTrade = (items: { [key: string]: number }, factories: string[], toWh
     room_name: props.gameState.room_name,
     username: props.username,
     factories: factories,
+    to: toWhom
+  });
+  socket.emit("grant-techs", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    techs: techs,
     to: toWhom
   });
 };

@@ -27,6 +27,7 @@ class Server:
     self.rooms["test"].game.debug_draw_colony("Alice")
     self.rooms["test"].game.debug_add_item("Alice", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
+    return
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
     self.rooms["test"].game.player_agree("Bob")
@@ -309,3 +310,15 @@ class Server:
       self.rooms[room_name].game.exchange_colony(username, data['colony_name'])
       self.update_game_state(room_name)
 
+    @self.socketio.on('grant-techs', namespace=get_router_name())
+    def grant_tech(data):
+      room_name = data['room_name']
+      username = data['username']
+      for tech in data['techs']:
+        success, message = self.rooms[room_name].game.grant_tech(username, data['to'], tech)
+        emit('alert-message', {
+          "type": "success" if success else "error",
+          "title": "Grant Tech Success" if success else "Grant Tech Failed",
+          "str": message
+        }, namespace=get_router_name())
+      self.update_game_state(room_name)

@@ -38,7 +38,9 @@
       <template v-for="id in Object.keys(props.factory.feature.properties['upgrade_cost']).map(Number)" :key="id">
         <template v-if="typeof props.factory.feature.properties['upgrade_cost'][id] === 'string'">
           <v-text :config="getUpgradeCostTextConfig(props.factory.feature.properties['upgrade_cost'][id], id)" @click="() => {
-            props.upgradeNormal(id);
+            if (props.me.factories[props.factory.feature.properties['upgrade_cost'][id]]) {
+              props.upgradeNormal(id);
+            }
           }" />
         </template>
       </template>
@@ -47,17 +49,21 @@
       <converter-entry :="getPreviewConverterConfig()" />
       <v-text :config="getPreviewConverterValueTextConfig()" />
     </template>
+    <template v-if="props.factory.feature.type === 'Colony' && props.factory.feature.properties['caylion_colony']">
+      <v-text :config="getCaylionDescConfig()" />
+    </template>
   </v-group>
 </template>
 
 <script setup lang="ts">
 import { defineProps } from 'vue';
-import { GameState, type Factory } from '@/interfaces/GameState';
+import { GameState, Player, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
 import ConverterEntry from '@/components/ConverterEntry.vue';
 import { Converter } from '@/interfaces/GameState';
 import { getItemsValue, getSpecieColor } from '@/interfaces/GameConfig';
 import { getIconSvg } from '@/utils/icon';
+import { factory } from 'typescript';
 
 
 const getConverterValue = (converter: Converter) => {
@@ -72,7 +78,7 @@ const getConverterValue = (converter: Converter) => {
   }
   let outputValue = getItemsValue(converter.output_items).toString();
   let donationValue = getItemsValue(converter.donation_items).toString();
-  const donationText = donationValue === "0" ? "" : " + " + donationValue;
+  const donationText = donationValue === "0" ? "" : " + (" + donationValue + ")";
   return inputValue + " -> " + outputValue + donationText;
 }
 
@@ -90,6 +96,7 @@ export interface FactoryConfig {
   research: () => void;
   upgradeColony: () => void;
   upgradeNormal: (id: number) => void;
+  me: Player;
 }
 
 
@@ -233,12 +240,14 @@ const getUpgradeCostTextConfig = (text: string, id: number) => {
   const multiplier = [0, 1, 0.5];
   const fontSize = 0.05 * props.height;
   const estimateWidth = text.length * fontSize;
+  const opacity = props.me.factories[text]? 1: 0.4;
   return {
     text: text,
     fontSize: fontSize,
-    fill: 'white',
+    fill: getSpecieColor(props.owner),
     x: pos[id][0] - multiplier[id] * estimateWidth,
-    y: pos[id][1]
+    y: pos[id][1],
+    opacity: opacity
   }
 }
 
@@ -275,6 +284,17 @@ const getConverterValueTextConfig = () => {
     fill: 'white',
     x: props.x + 0.5 * props.width - estimateWidth / 4,
     y: props.y + 0.15 * props.height
+  }
+}
+
+const getCaylionDescConfig = () => {
+  const desc = 2 - props.factory.run_count;
+  return {
+    text: "x" + desc,
+    fontSize: 0.1 * props.height,
+    fill: getSpecieColor("Caylion"),
+    x: props.x + 0.9 * props.width,
+    y: props.y + 0.05 * props.height
   }
 }
 </script>

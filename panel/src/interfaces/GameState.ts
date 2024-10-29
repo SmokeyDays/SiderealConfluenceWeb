@@ -14,7 +14,8 @@ export class Factory {
     public converter: Converter,
     public preview: Converter | null,
     public owner: string,
-    public feature: { type: string, properties: { [key: string]: any } }
+    public feature: { type: string, properties: { [key: string]: any } },
+    public run_count: number
   ) {}
 }
 
@@ -28,7 +29,9 @@ export class Player {
     public factories: { [key: string]: Factory },
     public agreed: boolean,
     public colony_bid: number,
-    public research_bid: number
+    public research_bid: number,
+    public tech: string[],
+    public invented_tech: string[]
   ) {}
 }
 

@@ -7,7 +7,7 @@ import { socket } from '@/utils/connect';
 import type { GameState } from '@/interfaces/GameState';
 
 const props = defineProps<{
-  submitTrade: (items: { [key: string]: number }, factories: string[], toWhom: string) => void;
+  submitTrade: (items: { [key: string]: number }, factories: string[], techs: string[], toWhom: string) => void;
   updateTradeItems: (items: { [key: string]: number }) => void;
   closeTradePanel: () => void;
   tradeItems: { [key: string]: number };
@@ -19,6 +19,7 @@ const defaultItemCount = 1;
 const newItem = ref(defaultItem);
 const newItemCount = ref(defaultItemCount);
 const factories = ref([]);
+const techs = ref([]);
 const toWhom = ref("Choose a player");
 
 const addItem = () => {
@@ -32,7 +33,7 @@ const addItem = () => {
 };
 
 const submitTrade = () => {
-  props.submitTrade(props.tradeItems, factories.value, toWhom.value);
+  props.submitTrade(props.tradeItems, factories.value, techs.value, toWhom.value);
   submitClose();
 };
 
@@ -94,11 +95,49 @@ const getFactoryOptions = () => {
 const removeItem = (item: string) => {
   props.updateTradeItems({...props.tradeItems, [item]: 0});
 }
+
+const getGrantableTechs = () => {
+  const me = props.gameState.players.find(player => player.user_id === props.username);
+  const to = props.gameState.players.find(player => player.user_id === toWhom.value);
+  if (me && !to) {
+    return me.invented_tech
+  }
+  if (me && to) {
+    return me.invented_tech.filter(tech => !to.tech.includes(tech));
+  }
+  return [];
+}
+
+const getTechOptions = () => {
+  return getGrantableTechs().map(tech => ({ label: tech, value: tech }));
+}
+
+const checkSubmit = () => {
+  const me = props.gameState.players.find(player => player.user_id === props.username);
+  if (!me) {
+    return false;
+  }
+  const to = props.gameState.players.find(player => player.user_id === toWhom.value);
+  if (!to) {
+    return false;
+  }
+  for (const item of Object.keys(props.tradeItems)) {
+    if (getItemRestriction(item) < props.tradeItems[item]) {
+      return false;
+    }
+  }
+  for (const tech of techs.value) {
+    if (!me.invented_tech.includes(tech) || to.tech.includes(tech)) {
+      return false;
+    }
+  }
+  return true;
+}
 </script>
 
 <template>
   <n-card hoverable class="trade-panel">
-    <div class="trade-item-title">Trade those items:</div>
+    <div class="trade-item-title">赠送如下物品：</div>
     <div class="trade-item-container" v-if="Object.values(tradeItems).some(count => count > 0)">
       <template v-for="(count, item) in tradeItems" :key="item">
         <div class="trade-item-entry" v-if="count > 0">
@@ -112,13 +151,15 @@ const removeItem = (item: string) => {
       <n-input-number v-model:value="newItemCount" :min="1" :max="getItemRestriction(newItem)" />
       <n-button @click="addItem" :disabled="getItemRestriction(newItem) < newItemCount">Add Item</n-button>
     </div>
-    <div class="trade-item-title">And lend those factories</div>
-    <n-select v-model:value="factories" :options="getFactoryOptions()" multiple placeholder="Choose a factory" />
+    <div class="trade-item-title">并借出（若绑定种族）或赠送如下工厂：</div>
+    <n-select v-model:value="factories" :options="getFactoryOptions()" multiple placeholder="选择一个工厂" />
+    <div class="trade-item-title">并授权如下科技的专利：</div>
+    <n-select v-model:value="techs" :options="getTechOptions()" multiple placeholder="选择一个科技" />
 
-    <n-button class="submit-trade-button" @click="submitTrade" type="primary" :disabled="toWhom === 'Choose a player'">Submit Trade</n-button>
+    <n-button class="submit-trade-button" @click="submitTrade" type="primary" :disabled="!checkSubmit()">Submit Trade</n-button>
     <n-button class="close-trade-button" @click="submitClose" type="error">Close</n-button>
     <div class="to-whom-container">
-      <p style="font-size: 1.2rem; font-weight: bold;">To:</p>
+      <p style="font-size: 1.2rem; font-weight: bold;">给:</p>
       <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="Choose a player" />
     </div>
   </n-card>
