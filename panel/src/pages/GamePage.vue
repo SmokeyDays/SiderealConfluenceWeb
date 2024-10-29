@@ -24,6 +24,7 @@ const props = defineProps<{
   updateGameProps: (props: GameProps) => void;
   gameState: GameState;
   username: string;
+  switchPage: (page: string) => void;
 }>();
 
 const stageConfig = ref({
@@ -371,6 +372,7 @@ const displayMask = () => {
     :selected-player="selectedPlayer"
     :handle-select-player="handleSelectPlayer"
     :handle-exchange-panel="handleExchangePanel"
+    :exit-game="() => props.switchPage('lobby')"
     class="game-panel"/>
   <div class="game-stage">
     <v-stage :config="stageConfig" class="game-stage-canvas">

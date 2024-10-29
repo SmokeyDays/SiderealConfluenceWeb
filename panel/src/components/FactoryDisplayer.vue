@@ -14,6 +14,7 @@
 
     <converter-entry :="getMainConverterConfig()" />
     
+    <v-text :config="getConverterValueTextConfig()" /> 
     <template v-if="props.factory.feature.type === 'Research'">
       <v-text :config="getTechTextConfig()" />
     </template>
@@ -42,6 +43,10 @@
         </template>
       </template>
     </template>
+    <template v-if="props.factory.preview">
+      <converter-entry :="getPreviewConverterConfig()" />
+      <v-text :config="getPreviewConverterValueTextConfig()" />
+    </template>
   </v-group>
 </template>
 
@@ -51,8 +56,25 @@ import { GameState, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
 import ConverterEntry from '@/components/ConverterEntry.vue';
 import { Converter } from '@/interfaces/GameState';
-import { getSpecieColor } from '@/interfaces/GameConfig';
+import { getItemsValue, getSpecieColor } from '@/interfaces/GameConfig';
 import { getIconSvg } from '@/utils/icon';
+
+
+const getConverterValue = (converter: Converter) => {
+  let inputValue = "";
+  if (Array.isArray(converter.input_items)) {
+    for (let index = 0; index < converter.input_items.length; index++) {
+      if (index != 0) inputValue += " / ";
+      inputValue += getItemsValue(converter.input_items[index]).toString();
+    }
+  } else {
+    inputValue = getItemsValue(converter.input_items).toString();
+  }
+  let outputValue = getItemsValue(converter.output_items).toString();
+  let donationValue = getItemsValue(converter.donation_items).toString();
+  const donationText = donationValue === "0" ? "" : " + " + donationValue;
+  return inputValue + " -> " + outputValue + donationText;
+}
 
 export interface FactoryConfig {
   x: number;
@@ -110,13 +132,73 @@ const getTechTextConfig = () => {
   }
 }
 
-const getTechPreviewConverterConfig = () => {
+const getPreviewConverterConfig = () => {
+  let x = props.x + props.width * 0.28;
+  let y = props.y + props.height * 0.65;
+  let width = props.width * 0.4;
+  let height = props.height * 0.4; 
+  if (props.factory.feature.type === 'Research') {
+    x = props.x + props.width * 0.125;
+    y = props.y + props.height * 0.425;
+    width = props.width * 0.75;
+    height = props.height * 0.75;
+  }
+  if (props.factory.feature.type === 'Colony') {
+    x = props.x + props.width * 0.375;
+    y = props.y + props.height * 0.5;
+    width = props.width * 0.75;
+    height = props.height * 0.75;
+  }
+  return {
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    scaleFactor: props.scaleFactor,
+    converter: props.factory.preview!, 
+    producible: props.producible(props.factory.preview!.input_items),
+    gameState: props.gameState,
+    onClick: () => {}
+  }
 }
 
-const getColonyUpgradeConverterConfig = () => {
-  const converter: Converter = new Converter(props.factory.feature.properties['upgrade_cost'], {}, {}, 'trading', false);
+const getPreviewConverterValueTextConfig = () => {
+  let value = getConverterValue(props.factory.preview!);
+  let fontSize = 0.03 * props.height;
+  let x = props.x + props.width * 0.5;
+  let y = props.y + props.height * 0.93;
+  if (props.factory.feature.type !== 'Research') {
+    value = "升级后：" + value;
+    if (props.factory.feature.type === 'Colony') {
+      x = props.x + props.width * 0.9;
+      y = props.y + props.height * 0.75;
+      fontSize = 0.05 * props.height;
+    }
+  } else if (props.factory.feature.type === 'Research') {
+    x = props.x + props.width * 0.55;
+    y = props.y + props.height * 0.68;
+    fontSize = 0.06 * props.height;
+  }
+  let estimateWidth = value.length * fontSize;
   return {
-    x: props.x - 0.05 * props.width,
+    x: x - estimateWidth / 2,
+    y: y,
+    fontFamily: 'Calibri',
+    fontStyle: 'italic',
+    text: value,
+    fontSize: fontSize,
+    fill: 'white',
+  }
+}
+
+
+
+const getColonyUpgradeConverterConfig = () => {
+  const newClimate = props.factory.feature.properties['upgrade_climate'];
+  console.log(props.factory.feature.properties);
+  const converter: Converter = new Converter(props.factory.feature.properties['upgrade_cost'], { [newClimate]: 1 }, {}, 'trading', false);
+  return {
+    x: props.x - 0.18 * props.width,
     y: props.y + 0.5 * props.height,
     width: props.width * 0.75,
     height: props.height * 0.75,
@@ -130,7 +212,7 @@ const getColonyUpgradeConverterConfig = () => {
 
 const getUpgradeCostConverterConfig = (converter: Converter, id: number) => {
   return {
-    x: props.x - 0.05 * props.width,
+    x: props.x - 0.12 * props.width,
     y: props.y + 0.65 * props.height,
     width: props.width * 0.5,
     height: props.height * 0.5,
@@ -144,9 +226,9 @@ const getUpgradeCostConverterConfig = (converter: Converter, id: number) => {
 
 const getUpgradeCostTextConfig = (text: string, id: number) => {
   const pos = [
-    [props.x + 0.05 * props.width, props.y + 0.9 * props.height],
-    [props.x + 0.95 * props.width, props.y + 0.9 * props.height],
-    [props.x + 0.5 * props.width, props.y + 0.9 * props.height]
+    [props.x + 0.01 * props.width, props.y + 0.91 * props.height],
+    [props.x + 0.98 * props.width, props.y + 0.91 * props.height],
+    [props.x + 0.5 * props.width, props.y + 0.91 * props.height]
   ]
   const multiplier = [0, 1, 0.5];
   const fontSize = 0.05 * props.height;
@@ -178,6 +260,21 @@ const getMainConverterConfig = () => {
     gameState: props.gameState,
     converter: props.factory.converter, 
     onClick: produceClick
+  }
+}
+
+const getConverterValueTextConfig = () => {
+  const fontSize = 0.08 * props.height;
+  const converterValue = getConverterValue(props.factory.converter);
+  const estimateWidth = converterValue.length * fontSize;
+  return {
+    text: converterValue,
+    fontSize: fontSize,
+    fontStyle: 'italic',
+    fontFamily: 'Calibri',
+    fill: 'white',
+    x: props.x + 0.5 * props.width - estimateWidth / 4,
+    y: props.y + 0.15 * props.height
   }
 }
 </script>

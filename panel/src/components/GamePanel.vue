@@ -14,6 +14,7 @@ const props = defineProps<{
   selectedPlayer: string;
   handleSelectPlayer: (playerId: string) => void;
   handleExchangePanel: () => void;
+  exitGame: () => void;
 }>();
 
 const selectedPlayer = ref(props.selectedPlayer);
@@ -80,6 +81,7 @@ const disagreeToNextStage = () => {
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
           <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading'">自由交换</n-button>
+          <n-button type="error" @click="props.exitGame">退出游戏</n-button>
         </template>
       </div>
     </n-card>

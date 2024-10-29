@@ -112,7 +112,7 @@ onUnmounted(() => {
       <HomePage :submitUsername="submitUsername" />
     </template>
     <template v-else-if="displayPage === 'game'">
-      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState"/>
+      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
     </template>
     <template v-else-if="displayPage === 'lobby'">
       <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" />

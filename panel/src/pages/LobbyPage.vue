@@ -38,7 +38,7 @@
           </p>
         </div>
         <div class="room-actions">
-          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(currentRoom) && !roomIsFull(currentRoom)">Enter Room</n-button>
+          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(currentRoom) && !roomIsFull(currentRoom) && props.rooms[currentRoom].game_state !== 'playing'">Enter Room</n-button>
           <template v-if="meInRoom(currentRoom)">
             <n-button class="leave-room-btn" @click="leaveRoom">Leave Room</n-button>
             <template v-if="isAgreed(currentRoom)">

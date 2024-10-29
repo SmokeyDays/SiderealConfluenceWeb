@@ -41,3 +41,28 @@ export const getSpecieZhName = (specie: string) => {
 };
 
 export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","AnyBig", "AnySmall"];
+
+const itemValues: {[key: string]: number} = {
+  'Food': 1,
+  'Culture': 1,
+  'Industry': 1,
+  'Energy': 1.5,
+  'Information': 1.5,
+  'Biotech': 1.5,
+  'Hypertech': 3,
+  'Ship': 1,
+  'Score': 3,
+  'AnyBig': 1.5,
+  'AnySmall': 1,
+}
+
+export const getItemValue = (item: string) => {
+  if (item in itemValues) {
+    return itemValues[item];
+  }
+  return 0;
+}
+
+export const getItemsValue = (items: {[key: string]: number}) => {
+  return Object.keys(items).reduce((sum, item) => sum + getItemValue(item) * items[item], 0);
+}

@@ -14,6 +14,17 @@ import JungleSvg from '@/components/icons/items/Jungle.svg';
 import IceSvg from '@/components/icons/items/Ice.svg';
 import DesertSvg from '@/components/icons/items/Desert.svg';
 import WaterSvg from '@/components/icons/items/Water.svg';
+import FoodDonationSvg from '@/components/icons/items/FoodDonation.svg';
+import CultureDonationSvg from '@/components/icons/items/CultureDonation.svg';
+import IndustryDonationSvg from '@/components/icons/items/IndustryDonation.svg';
+import InformationDonationSvg from '@/components/icons/items/InformationDonation.svg';
+import BiotechDonationSvg from '@/components/icons/items/BiotechDonation.svg';
+import EnergyDonationSvg from '@/components/icons/items/EnergyDonation.svg';
+import HypertechDonationSvg from '@/components/icons/items/HypertechDonation.svg';
+import AnySmallDonationSvg from '@/components/icons/items/AnySmallDonation.svg';
+import AnyBigDonationSvg from '@/components/icons/items/AnyBigDonation.svg';
+import ShipDonationSvg from '@/components/icons/items/ShipDonation.svg';
+import ScoreDonationSvg from '@/components/icons/items/ScoreDonation.svg';
 
 export const getIconSvg = (item: string) =>  {
   switch (item) {
@@ -47,6 +58,29 @@ export const getIconSvg = (item: string) =>  {
       return DesertSvg;
     case 'Water':
       return WaterSvg;
+    // Donation items
+    case 'FoodDonation':
+      return FoodDonationSvg;
+    case 'CultureDonation':
+      return CultureDonationSvg;
+    case 'IndustryDonation':
+      return IndustryDonationSvg;
+    case 'InformationDonation':
+      return InformationDonationSvg;
+    case 'BiotechDonation':
+      return BiotechDonationSvg;
+    case 'EnergyDonation':
+      return EnergyDonationSvg;
+    case 'HypertechDonation':
+      return HypertechDonationSvg;
+    case 'AnySmallDonation':
+      return AnySmallDonationSvg;
+    case 'AnyBigDonation':
+      return AnyBigDonationSvg;
+    case 'ShipDonation':
+      return ShipDonationSvg;
+    case 'ScoreDonation':
+      return ScoreDonationSvg;
     default:
       return PlaceholderSvg;
   }

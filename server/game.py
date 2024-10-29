@@ -18,7 +18,23 @@ class DataManager:
     self.colony_deck = []
     self.upgraded_colonies = {}
     self.load_colonies(path)
+    self.generate_preview()
 
+  def generate_preview(self):
+    for specie in self.species:
+      for factory in self.specie_factories[specie].values():
+        if factory.feature["properties"]["upgraded"]:
+          continue
+        upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
+        if upgraded_factory:
+          factory.preview = upgraded_factory.converter
+    for colony in self.colony_deck:
+      if colony.feature["properties"]["upgraded"]:
+        continue
+      upgraded_colony = self.get_upgraded_colony(colony.name)
+      if upgraded_colony:
+        colony.preview = upgraded_colony.converter
+        colony.feature["properties"]["upgrade_climate"] = upgraded_colony.feature["properties"]["climate"]
   def load_species(self, path: str):
     for specie in self.species:
       self.load_specie_data(specie, path)
@@ -180,6 +196,7 @@ class Factory:
   ):
     self.name = name
     self.converter = Converter(input_items, output_items, donation_items, running_stage)
+    self.preview = None
     self.owner = owner
 
     """
@@ -198,6 +215,7 @@ class Factory:
       "type": "Colony",
       "properties": {
         "climate": str, in ["Jungle", "Water", "Desert", "Ice"],
+        "upgrade_climate": str, in ["Jungle", "Water", "Desert", "Ice"],
         "upgraded": bool,
         "upgrade_cost": Dict[str, int]
       }
@@ -263,6 +281,7 @@ class Factory:
       "converter": self.converter.to_dict(),
       "owner": self.owner,
       "feature": self.feature,
+      "preview": self.preview.to_dict() if self.preview else None
     }
 
 
@@ -657,7 +676,10 @@ class Game:
           return False, "拍卖物品不存在"
         if player.colony_bid < self.colony_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.colony_bid:
           return False, "出价不足"
-        player.add_factory(self.colony_bid_cards[pick_id]["item"])
+        colony = self.colony_bid_cards[pick_id]["item"]
+        if player.specie == "Caylion":
+          colony.feature["caylion_colony"] = True
+        player.add_factory(colony)
         self.colony_bid_cards[pick_id]["item"] = None
         player.remove_from_storage("Ship", player.colony_bid)
       self.colony_bid_priority.pop(0)
@@ -669,7 +691,9 @@ class Game:
           return False, "拍卖物品不存在"
         if player.research_bid < self.research_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.research_bid:
           return False, "出价不足"
-        player.add_factory(self.research_bid_cards[pick_id]["item"])
+        research = self.research_bid_cards[pick_id]["item"]
+        research.preview = self.data_manager.get_factory_by_tech(player.specie, research.feature["properties"]["tech"]).converter
+        player.add_factory(research)
         self.research_bid_cards[pick_id]["item"] = None
         player.remove_from_storage("Ship", player.research_bid)
       self.research_bid_priority.pop(0)
@@ -739,6 +763,13 @@ class Game:
                           "type": str,
                           "properties": Dict[str, Any]
                         },
+                        "preview": {
+                          "input_items": Dict[str, int] | List[Dict[str, int]],
+                          "output_items": Dict[str, int],
+                          "donation_items": Dict[str, int],
+                          "running_stage": str,
+                          "used": bool
+                        }
                     },
                     ...
                 },
