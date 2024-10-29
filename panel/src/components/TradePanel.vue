@@ -48,17 +48,20 @@ const getItemRestriction = (item: string) => {
   if (myStorage === undefined) {
     return 0;
   }
+  let myStorageItem = myStorage[item] || 0;
+  if (item === "Score") {
+    myStorageItem = 0;
+  }
   const myDonation = props.gameState.players.find(player => player.user_id === props.username)?.donation_items;
   if (myDonation === undefined) {
-    return myStorage[item] - (props.tradeItems[item] || 0);
+    return myStorageItem - (props.tradeItems[item] || 0);
   }
-  return (myStorage[item] || 0) + (myDonation[item] || 0) - (props.tradeItems[item] || 0);
+  return myStorageItem + (myDonation[item] || 0) - (props.tradeItems[item] || 0);
 }
 
 const getItemOptions = () => {
   const res: { label: string, value: string }[] = [];
   items.forEach(item => {
-    console.log(item, getItemRestriction(item));
     if (getItemRestriction(item) > 0) {
       res.push({ label: item, value: item });
     }
@@ -122,7 +125,7 @@ const checkSubmit = () => {
     return false;
   }
   for (const item of Object.keys(props.tradeItems)) {
-    if (getItemRestriction(item) < props.tradeItems[item]) {
+    if (getItemRestriction(item) < 0) {
       return false;
     }
   }

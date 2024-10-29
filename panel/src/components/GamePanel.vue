@@ -4,7 +4,7 @@ import { NSpace, NSelect, NButton, NDivider, NCard } from 'naive-ui';
 import { GameState, Player } from '@/interfaces/GameState';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
-import { getSpecieColor } from '@/interfaces/GameConfig';
+import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
 import { socket } from '@/utils/connect';
 
 const props = defineProps<{
@@ -48,10 +48,7 @@ const disagreeToNextStage = () => {
 <template>
   <div class="">
     <n-card vertical align="center" justify="center" class="game-panel" hoverable>
-      <div class="info">
-        <h2>轮次: {{ gameState.current_round }}</h2>
-        <h2>阶段: {{ gameState.stage }}</h2>
-      </div>
+      <div class="game-info">轮次: {{ gameState.current_round }} ，阶段: {{ gameState.stage }}</div>
       <n-divider />
       <n-select 
         v-model:value="selectedPlayer"
@@ -60,11 +57,18 @@ const disagreeToNextStage = () => {
         placeholder="Choose a player" 
       />
       <div v-if="getPlayer() !== null" class="player-info">
-        <h3>Specie: {{ getPlayer()!.specie }}</h3>
-        <h3>Agreed: {{ getPlayer()!.agreed ? 'Yes' : 'No' }}</h3>
+        <div class="player-basic-info">
+          <div class="player-specie" :style="{ fontWeight: 'bold', color: getSpecieColor(getPlayer()!.specie) }">{{ getSpecieZhName(getPlayer()!.specie) }}</div>
+          <div class="player-agreed" :style="{ fontWeight: 'bold', color: getPlayer()!.agreed ? 'green' : 'red' }">{{ getPlayer()!.agreed ? '已动完' : '没动完' }}</div>
+        </div>
         <div class="storage-container">
           <template v-for="(item_count, item_id) in getPlayer()!.storage">
             <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0"/>
+          </template>
+        </div>
+        <div class="donation-item-container">
+          <template v-for="(item_count, item_id) in getPlayer()!.donation_items">
+            <ItemEntryDiv :item="item_id as string + 'Donation'" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0"/>
           </template>
         </div>
       </div>
@@ -73,15 +77,15 @@ const disagreeToNextStage = () => {
         <template v-if="getMe() !== null">
           <template v-if="gameState.stage === 'trading' || gameState.stage === 'production'" >
             <template v-if="getMe()!.agreed === false">
-              <n-button type="primary" @click="agreeToNextStage">同意进入下一阶段</n-button>
+              <n-button type="primary" @click="agreeToNextStage">宣布已动完</n-button>
             </template>
             <template v-else>
-              <n-button type="info" @click="disagreeToNextStage">拒绝进入下一阶段</n-button>
+              <n-button type="info" @click="disagreeToNextStage">宣布未动完</n-button>
             </template>
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
-          <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading'">自由交换</n-button>
-          <n-button type="error" @click="props.exitGame">退出游戏</n-button>
+          <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading'">自由转换</n-button>
+          <n-button type="error" @click="props.exitGame">退出</n-button>
         </template>
       </div>
     </n-card>
@@ -100,15 +104,35 @@ const disagreeToNextStage = () => {
   width: 250px;
   /* padding: 100px; */
 }
-
+.game-info {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 .player-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-
+.player-basic-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.player-basic-info > * {
+  margin: 5px;
+}
 .storage-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+.donation-item-container {
   display: flex;
   flex-direction: row;
   align-items: center;

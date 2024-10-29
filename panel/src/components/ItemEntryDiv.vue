@@ -1,10 +1,14 @@
 <template>
-  <div style="display: flex; align-items: center; justify-content: center; overflow: hidden;">
-    <p v-if="count != 1" :style="{
+  <div class="item-entry-div" style="display: flex; align-items: center; justify-content: center; overflow: hidden;">
+    <p class="count-text" v-if="count != 1" :style="{
       fontSize: `${0.4 * iconHeight}px`,
       fontFamily: 'Calibri',
       color: 'black',
-    }">{{ count }} * </p>
+      position: 'absolute',
+      top: `${0.2 * iconHeight}px`,
+      left: `${0.4 * iconWidth}px`,
+      textShadow: '2px 1px 1px #ccc',
+    }">{{ count }}</p>
     <img :src="getSvg(item)" :style="{ width: `${iconWidth}px`, height: `${iconHeight}px` }" />
   </div>
 </template>
@@ -44,3 +48,15 @@ watch(() => [props.iconWidth, props.iconHeight], () => {
   imageConfig.value.height = props.iconHeight;
 });
 </script>
+
+<style scoped>
+.item-entry-div {
+  position: relative;
+}
+.count-text {
+  position: absolute;
+  top: 0.4;
+  left: 0;
+}
+</style>
+

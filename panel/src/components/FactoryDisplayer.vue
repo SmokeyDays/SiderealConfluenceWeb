@@ -202,7 +202,6 @@ const getPreviewConverterValueTextConfig = () => {
 
 const getColonyUpgradeConverterConfig = () => {
   const newClimate = props.factory.feature.properties['upgrade_climate'];
-  console.log(props.factory.feature.properties);
   const converter: Converter = new Converter(props.factory.feature.properties['upgrade_cost'], { [newClimate]: 1 }, {}, 'trading', false);
   return {
     x: props.x - 0.18 * props.width,

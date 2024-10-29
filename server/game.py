@@ -270,6 +270,8 @@ class Factory:
       player.add_new_product_items(res)
     else:
       player.add_items_to_storage(res)
+      
+    player.add_items_to_donation(self.converter.donation_items)
     
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
       self.run_count += 1
@@ -338,12 +340,19 @@ class Player:
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
 
-  def add_to_storage(self, item: str, quantity: int):
-    self.storage[item] = self.storage.get(item, 0) + quantity
+  def add_to_storage(self, item: str, quantity: int, donation: bool = False):
+    if not donation:
+      self.storage[item] = self.storage.get(item, 0) + quantity
+    else:
+      self.donation_items[item] = self.donation_items.get(item, 0) + quantity
   
   def add_items_to_storage(self, items: Dict[str, int]):
     for item, quantity in items.items():
       self.storage[item] = self.storage.get(item, 0) + quantity
+
+  def add_items_to_donation(self, items: Dict[str, int]):
+    for item, quantity in items.items():
+      self.donation_items[item] = self.donation_items.get(item, 0) + quantity
 
   def remove_from_storage(self, item: str, quantity: int) -> bool:
     if self.storage.get(item, 0) < quantity:
@@ -351,11 +360,16 @@ class Player:
     self.storage[item] -= quantity
     return True
 
-  def remove_items_from_storage(self, items: Dict[str, int]) -> bool:
+  def remove_items_from_storage(self, items: Dict[str, int], donation: bool = False) -> bool:
     for item, quantity in items.items():
-      if self.storage.get(item, 0) < quantity:
+      donation_count = self.donation_items.get(item, 0) if donation else 0
+      if self.storage.get(item, 0) + donation_count < quantity:
         return False
     for item, quantity in items.items():
+      if donation:
+        donation_count = min(self.donation_items.get(item, 0), quantity)
+        self.donation_items[item] = self.donation_items.get(item, 0) - donation_count
+        quantity -= donation_count
       self.storage[item] -= quantity
     return True
 
@@ -575,10 +589,13 @@ class Game:
     if player:
       player.add_colony(self.draw_colony())
 
-  def debug_add_item(self, player_name: str, item: str, quantity: int):
+  def debug_add_item(self, player_name: str, item: str, quantity: int, donation: bool = False):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
-      player.add_to_storage(item, quantity)
+      if not donation:
+        player.add_to_storage(item, quantity)
+      else:
+        player.add_to_storage(item, quantity, donation)
   
   ############################
   #                          #
@@ -595,7 +612,7 @@ class Game:
     if not sender or not receiver:
       return False, "未指定玩家"
 
-    if sender.remove_items_from_storage(items):
+    if sender.remove_items_from_storage(items, True):
       receiver.add_items_to_storage(items)
       return True, ""
     return False, "玩家库存不足"
