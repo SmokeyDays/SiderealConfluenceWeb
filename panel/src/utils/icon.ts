@@ -25,6 +25,9 @@ import WildSmallDonationSvg from '@/components/icons/items/WildSmallDonation.svg
 import WildBigDonationSvg from '@/components/icons/items/WildBigDonation.svg';
 import ShipDonationSvg from '@/components/icons/items/ShipDonation.svg';
 import ScoreDonationSvg from '@/components/icons/items/ScoreDonation.svg';
+import ArbitrarySmallSvg from '@/components/icons/items/ArbitrarySmall.svg';
+import ArbitraryBigSvg from '@/components/icons/items/ArbitraryBig.svg';
+import ArbitraryWorldSvg from '@/components/icons/items/ArbitraryWorld.svg';
 
 export const getIconSvg = (item: string) =>  {
   switch (item) {
@@ -81,6 +84,13 @@ export const getIconSvg = (item: string) =>  {
       return ShipDonationSvg;
     case 'ScoreDonation':
       return ScoreDonationSvg;
+    // Arbitrary inputs
+    case 'ArbitrarySmall':
+      return ArbitrarySmallSvg;
+    case 'ArbitraryBig':
+      return ArbitraryBigSvg;
+    case 'ArbitraryWorld':
+      return ArbitraryWorldSvg;
     default:
       return PlaceholderSvg;
   }

@@ -33,7 +33,6 @@ const addItem = () => {
 };
 
 const submitTrade = () => {
-  console.log(props.tradeItems);
   props.submitTrade(props.tradeItems, factories.value, techs.value, toWhom.value);
   submitClose();
 };

@@ -1,0 +1,8 @@
+<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>Layer 1</title>
+  <polygon id="svg_1" fill="green" points="25,50 75,25 125,50 75,75 "/>
+  <polygon id="svg_2" fill="rgb(85, 66, 54)" points="25,50 75,75 75,125 25,100 "/>
+  <polygon id="svg_3" fill="white" points="75,75 125,50 125,100 75,125 "/>
+ </g>
+</svg>

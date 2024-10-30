@@ -24,13 +24,16 @@ class DataManager:
   def generate_preview(self):
     for specie in self.species:
       for factory in self.specie_factories[specie].values():
-        if factory.feature["type"] != "Normal":
-          continue
-        if factory.feature["properties"]["upgraded"]:
-          continue
-        upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
-        if upgraded_factory:
-          factory.preview = upgraded_factory.converter
+        if factory.feature["type"] == "Normal":
+          if factory.feature["properties"]["upgraded"]:
+            continue
+          upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
+          if upgraded_factory:
+            factory.preview = upgraded_factory.converter
+        elif factory.feature["type"] == "Meta":
+          unlock_factory = self.get_factory(specie, factory.feature["properties"]["unlock_factory"])
+          if unlock_factory:
+            factory.preview = unlock_factory.converter
     for colony in self.colony_deck:
       if colony.feature["properties"]["upgraded"]:
         continue
@@ -66,21 +69,27 @@ class DataManager:
             ).to_dict())
         upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
         feature["properties"]["upgrade_cost"] = upgrade_cost
+      product_stage = "production"
+      if factory["feature"]["type"] == "Meta":
+        product_stage = "trading"
       factories[factory["name"]] = Factory(
         factory["name"], 
         factory["input_items"], 
         factory["output_items"], 
         specie,
         feature,
-        'production'
+        product_stage
       )
     self.specie_factories[specie] = factories
 
   def create_init_players(self, specie: str, specie_data: dict):
-    self.init_factories = {}
+    init_factories = {}
     for factory in specie_data["start_resource"]["factories"]:
       if factory in self.specie_factories[specie]:
-        self.init_factories[factory] = self.specie_factories[specie][factory]
+        init_factories[factory] = self.specie_factories[specie][factory]
+    for factory in self.specie_factories[specie].values():
+      if factory.feature["type"] == "Meta":
+        init_factories[factory.name] = factory
     specie_zh_name = specie_data["zh_name"]
     max_colony = 2
     tie_breaker = 2
@@ -91,7 +100,7 @@ class DataManager:
       specie, 
       specie_zh_name, 
       specie_data["start_resource"]["items"], 
-      self.init_factories,
+      init_factories,
       max_colony=max_colony,
       tie_breaker=tie_breaker,
       init_colony=init_colony,
@@ -254,14 +263,7 @@ class Factory:
 
     res = {}
 
-    if self.feature["type"] == "Normal" or self.feature["type"] == "Colony":
-      if not player.remove_items_from_storage(self.converter.input_items):
-        return False, "玩家库存不足"
-
-      for item, quantity in self.converter.output_items.items():
-        res[item] = quantity
-
-    elif self.feature["type"] == "Research":
+    if self.feature["type"] == "Research":
       assert "tech" in self.feature["properties"]
       assert "cost_type" in extra_properties
       cost_type = extra_properties["cost_type"]
@@ -278,6 +280,17 @@ class Factory:
       res["Score"] += tech_spread_bonus
       game.develop_tech(player.user_id, tech)
       print(f"{player.user_id} 研发了 {tech}")
+    else:
+      if not player.remove_items_from_storage(self.converter.input_items):
+        return False, "玩家库存不足"
+
+      for item, quantity in self.converter.output_items.items():
+        res[item] = quantity
+
+    if self.feature["type"] == "Meta":
+      unlock_factory = game.data_manager.get_factory(player.specie, self.feature["properties"]["unlock_factory"])
+      player.add_factory(unlock_factory)
+      player.remove_factory(self.name)
 
     if self.converter.running_stage == 'production':
       player.add_new_product_items(res)
@@ -809,6 +822,47 @@ class Game:
     colony = player.remove_factory(colony_name)
     player.add_to_storage(colony.feature["properties"]["climate"], 1)
     return True, ""
+  
+  def exchange_arbitrary(self, player_name: str, items: Dict[str, int]):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    new_items = {}
+    small_item = ["Food", "Culture", "Industry", "WildSmall"]
+    big_item = ["Energy", "Information", "Biotech", "WildBig"]
+    world_item = ["Jungle", "Ice", "Desert", "Water"]
+    for item, quantity in items.items():
+      if item in small_item:
+        new_items["ArbitrarySmall"] = new_items.get("ArbitrarySmall", 0) + quantity
+      elif item in big_item:
+        new_items["ArbitraryBig"] = new_items.get("ArbitraryBig", 0) + quantity
+      elif item in world_item:
+        new_items["ArbitraryWorld"] = new_items.get("ArbitraryWorld", 0) + quantity
+      else:
+        return False, "非法物品"
+    if player.remove_items_from_storage(items):
+      player.add_items_to_storage(new_items)
+      return True, ""
+    return False, "玩家库存不足"
+  
+  def exchange_wild(self, player_name: str, items: Dict[str, int]):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    new_items = {}
+    small_item = ["Food", "Culture", "Industry", "ArbitrarySmall"]
+    big_item = ["Energy", "Information", "Biotech", "ArbitraryBig"]
+    for item, quantity in items.items():
+      if item in small_item:
+        new_items["WildSmall"] = new_items.get("WildSmall", 0) + quantity
+      elif item in big_item:
+        new_items["WildBig"] = new_items.get("WildBig", 0) + quantity
+      else:
+        return False, "非法物品"
+    if player.remove_items_from_storage(new_items):
+      player.add_items_to_storage(items)
+      return True, ""
+    return False, "玩家库存不足"
   
   def grant_tech(self, from_player: str, to_player: str, tech: str):
     from_player = next((p for p in self.players if p.user_id == from_player), None)

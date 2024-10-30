@@ -271,13 +271,23 @@ const closeTradePanel = () => {
 };
 
 const displayExchangePanel = ref(false);
+const arbitraryItems = ref<{ [key: string]: number }>({});
+const wildItems = ref<{ [key: string]: number }>({});
 const handleExchangePanel = () => {
   displayExchangePanel.value = true;
 }
 const closeExchangePanel = () => {
   displayExchangePanel.value = false;
+  arbitraryItems.value = {};
+  wildItems.value = {};
 }
-const submitExchange = (colonies: string[]) => {
+const updateArbitraryItems = (items: { [key: string]: number }) => {
+  arbitraryItems.value = items;
+}
+const updateWildItems = (items: { [key: string]: number }) => {
+  wildItems.value = items;
+}
+const submitExchange = (colonies: string[], arbitraryItems: { [key: string]: number }, wildItems: { [key: string]: number }) => {
   for (const colony of colonies) {
     socket.emit("exchange-colony", {
       room_name: props.gameState.room_name,
@@ -285,7 +295,18 @@ const submitExchange = (colonies: string[]) => {
       colony_name: colony
     });
   }
+  socket.emit("exchange-arbitrary", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    items: arbitraryItems
+  });
+  socket.emit("exchange-wild", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    items: wildItems
+  });
 }
+
 
 const displayResearchPanel = ref(false);
 const researchFactory = ref<Factory | null>(null);
@@ -456,6 +477,10 @@ const displayMask = () => {
       :username="props.username" 
       :game-state="props.gameState" 
       :get-me="getMe" 
+      :arbitrary-items="arbitraryItems"
+      :update-arbitrary-items="updateArbitraryItems"
+      :wild-items="wildItems"
+      :update-wild-items="updateWildItems"
       v-if="displayExchangePanel" 
     />
     <DiscardColonyPanel :submit-discard-colony="submitDiscardColony" 

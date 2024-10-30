@@ -26,10 +26,10 @@
         {
             "name": "恩尼艾特_文化包容",
             "output_items": {
-                "ArbitarySmall": 13
+                "ArbitrarySmall": 13
             },
             "input_items": {
-                "ArbitarySmall": 8
+                "ArbitrarySmall": 8
             },
             "donation_items": {},
             "feature": {
@@ -47,11 +47,11 @@
         {
             "name": "恩尼艾特_全向文化动态包容",
             "output_items": {
-                "ArbitarySmall": 7,
+                "ArbitrarySmall": 7,
                 "Score": 3
             },
             "input_items": {
-                "ArbitarySmall": 8
+                "ArbitrarySmall": 8
             },
             "donation_items": {},
             "feature": {
@@ -64,10 +64,10 @@
         {
             "name": "恩尼艾特_志愿医疗运动",
             "output_items": {
-                "ArbitarySmall": 9
+                "ArbitrarySmall": 9
             },
             "input_items": {
-                "ArbitarySmall": 6
+                "ArbitrarySmall": 6
             },
             "donation_items": {},
             "feature": {
@@ -85,11 +85,11 @@
         {
             "name": "恩尼艾特_全民健康",
             "output_items": {
-                "ArbitarySmall": 5,
+                "ArbitrarySmall": 5,
                 "Score": 2
             },
             "input_items": {
-                "ArbitarySmall": 6
+                "ArbitrarySmall": 6
             },
             "donation_items": {},
             "feature": {
@@ -102,10 +102,10 @@
         {
             "name": "恩尼艾特_相互理解",
             "output_items": {
-                "ArbitarySmall": 4
+                "ArbitrarySmall": 4
             },
             "input_items": {
-                "ArbitarySmall": 2
+                "ArbitrarySmall": 2
             },
             "donation_items": {},
             "feature": {
@@ -123,11 +123,11 @@
         {
             "name": "恩尼艾特_种族间共情",
             "output_items": {
-                "ArbitarySmall": 3,
+                "ArbitrarySmall": 3,
                 "Score": 1
             },
             "input_items": {
-                "ArbitarySmall": 2
+                "ArbitrarySmall": 2
             },
             "donation_items": {},
             "feature": {
@@ -140,10 +140,10 @@
         {
             "name": "恩尼艾特_长者的智慧",
             "output_items": {
-                "ArbitaryBig": 10
+                "ArbitraryBig": 10
             },
             "input_items": {
-                "ArbitaryBig": 6
+                "ArbitraryBig": 6
             },
             "donation_items": {},
             "feature": {
@@ -161,11 +161,11 @@
         {
             "name": "恩尼艾特_永生者的智慧",
             "output_items": {
-                "ArbitaryBig": 7,
+                "ArbitraryBig": 7,
                 "Score": 2
             },
             "input_items": {
-                "ArbitaryBig": 6
+                "ArbitraryBig": 6
             },
             "donation_items": {},
             "feature": {
@@ -178,10 +178,10 @@
         {
             "name": "恩尼艾特_跨文化档案",
             "output_items": {
-                "ArbitaryBig": 4
+                "ArbitraryBig": 4
             },
             "input_items": {
-                "ArbitaryBig": 3
+                "ArbitraryBig": 3
             },
             "donation_items": {},
             "feature": {
@@ -199,11 +199,11 @@
         {
             "name": "恩尼艾特_泛在文化影响",
             "output_items": {
-                "ArbitaryBig": 3,
+                "ArbitraryBig": 3,
                 "Score": 1
             },
             "input_items": {
-                "ArbitaryBig": 3
+                "ArbitraryBig": 3
             },
             "donation_items": {},
             "feature": {

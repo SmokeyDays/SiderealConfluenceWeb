@@ -18,7 +18,7 @@ class Server:
     self.rooms["test"] = Room(2, "test")
     self.rooms["test"].enter_room("Alice")
     self.rooms["test"].enter_room("Bob")
-    self.rooms["test"].choose_specie("Alice", "Caylion")
+    self.rooms["test"].choose_specie("Alice", "Unity")
     self.rooms["test"].choose_specie("Bob", "Yengii")
     self.rooms["test"].agree_to_start("Alice")
     self.rooms["test"].agree_to_start("Bob")
@@ -309,6 +309,20 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.exchange_colony(username, data['colony_name'])
+      self.update_game_state(room_name)
+
+    @self.socketio.on('exchange-arbitrary', namespace=get_router_name())
+    def exchange_arbitrary(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.exchange_arbitrary(username, data['items'])
+      self.update_game_state(room_name)
+    
+    @self.socketio.on('exchange-wild', namespace=get_router_name())
+    def exchange_wild(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.exchange_wild(username, data['items'])
       self.update_game_state(room_name)
 
     @self.socketio.on('grant-techs', namespace=get_router_name())
