@@ -31,7 +31,8 @@
       />
       <converter-entry v-if="!props.factory.feature.properties['upgraded']" :="getColonyUpgradeConverterConfig()" />
     </template>
-    <template v-if="props.factory.feature.type === 'Normal' && props.factory.feature.properties['upgrade_cost'].length > 0">
+    <template 
+      v-if="props.factory.feature.type === 'Normal' && props.factory.feature.properties['upgrade_cost'] && props.factory.feature.properties['upgrade_cost'].length > 0">
       <template v-if="typeof props.factory.feature.properties['upgrade_cost'][0] !== 'string'">
         <converter-entry :="getUpgradeCostConverterConfig(props.factory.feature.properties['upgrade_cost'][0], 0)" />
       </template>
@@ -106,10 +107,10 @@ const produceClick = () => {
   if (props.factory.converter.used || !props.producible) {
     return;
   }
-  if (props.factory.feature.type === 'Normal' || props.factory.feature.type === 'Colony') {
-    props.produce();
-  } else if (props.factory.feature.type === 'Research') {
+  if (props.factory.feature.type === 'Research') {
     props.research();
+  } else {
+    props.produce();
   }
 }
 

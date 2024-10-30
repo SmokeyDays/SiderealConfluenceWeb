@@ -21,27 +21,6 @@ translator = {
     'N': 'ArbitraryWorld',
     'F': 'Fleet'
 }
-translator_donation = {
-    'g': 'FoodDonation',
-    'b': 'IndustryDonation',
-    'w': 'CultureDonation',
-    'B': 'InformationDonation',
-    'T': 'BiotechDonation',
-    'Y': 'EnergyDonation',
-    'U': 'HypertechDonation',
-    '*': 'ShipDonation',
-    '$': 'ScoreDonation',
-    's': 'ArbitarySmallDonation',
-    'L': 'ArbitaryBigDonation',
-    'A': 'WildBigDonation',
-    'a': 'WildSmallDonation',
-    'J': 'JungleDonation',
-    'D': 'DesertDonation',
-    'W': 'WaterDonation',
-    'I': 'IceDonation',
-    'N': 'ArbitraryWorldDonation',
-    'F': 'FleetDonation'
-}
 def factory_gen(fac):
     input=re.match('.*(?=➪|→)',fac).group()
     input_items={
@@ -65,9 +44,10 @@ def factory_gen(fac):
         output_donation=re.search('(?=\+).*',output).group()[1:]
         for i in output_donation:
             matched = False
-            for key in translator_donation.keys():
+            for key in translator.keys():
                 if i==key:
-                    output_items[translator_donation[key]] = output_items.get(translator_donation[key], 0) + 1
+                    key_donation = translator[key] + 'Donation'
+                    output_items[key_donation] = output_items.get(key_donation, 0) + 1
                     matched = True
                     break                      
             if not matched:
@@ -127,7 +107,7 @@ def factory_from_csv(fac):
     return factory,back_factory
 
 
-a=pd.read_csv('工作簿1.csv')
+a=pd.read_csv('data.csv')
 import json
 
 factory_list=[]

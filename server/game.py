@@ -723,7 +723,7 @@ class Game:
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
     factory = player.factories[factory_name]
-    if factory.feature["type"] != "Normal":
+    if factory.feature["type"] != "Normal" and factory.feature["type"] != "EnietInterest":
       return False, "工厂不是普通工厂"
     if factory.feature["properties"]["upgraded"]:
       return False, "工厂已经升级"
