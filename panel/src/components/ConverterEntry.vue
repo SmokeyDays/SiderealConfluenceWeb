@@ -30,8 +30,8 @@
     </template>
     
     <!-- Output items -->
-    <v-group :config="{ x: props.x + props.width - 0.33 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(getOutputItemWithDonation()).length) }">
-      <template v-for="entry in generateItems(getOutputItemWithDonation())" :key="'output-' + entry.item">
+    <v-group :config="{ x: props.x + props.width - 0.33 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.converter.output_items).length) }">
+      <template v-for="entry in generateItems(props.converter.output_items)" :key="'output-' + entry.item">
         <item-entry :item="entry.item" :count="entry.count" :x="entry.x" :y="entry.y" :scale-factor="entry.scaleFactor" :icon-width="entry.iconWidth" :icon-height="entry.iconHeight"/>
       </template>
     </v-group>
@@ -127,16 +127,6 @@ const generateItems = (items: {[key: string]: number}) => {
   return entries;
 }
 
-const getOutputItemWithDonation = () => {
-  const outputItems = props.converter.output_items;
-  if (props.converter.donation_items) {
-    for (let item in props.converter.donation_items) {
-      const newEntry = item + "Donation"
-      outputItems[newEntry] = props.converter.donation_items[item];
-    }
-  }
-  return outputItems;
-}
 const researchItemScaleFactor = 0.8;
 const generateResearchItems = (items: {[key: string]: number}, column: number) => {
   const entries: { item: string, count: number, x: number, y: number, scaleFactor: number, iconWidth: number, iconHeight: number, isFirst: boolean}[] = [];

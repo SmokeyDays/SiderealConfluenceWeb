@@ -61,7 +61,7 @@ import { GameState, Player, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
 import ConverterEntry from '@/components/ConverterEntry.vue';
 import { Converter } from '@/interfaces/GameState';
-import { getItemsValue, getSpecieColor } from '@/interfaces/GameConfig';
+import { getItemsDonationValue, getItemsValue, getSpecieColor } from '@/interfaces/GameConfig';
 import { getIconSvg } from '@/utils/icon';
 import { factory } from 'typescript';
 
@@ -77,7 +77,7 @@ const getConverterValue = (converter: Converter) => {
     inputValue = getItemsValue(converter.input_items).toString();
   }
   let outputValue = getItemsValue(converter.output_items).toString();
-  let donationValue = getItemsValue(converter.donation_items).toString();
+  let donationValue = getItemsDonationValue(converter.output_items).toString();
   const donationText = donationValue === "0" ? "" : " + (" + donationValue + ")";
   return inputValue + " -> " + outputValue + donationText;
 }
@@ -202,7 +202,7 @@ const getPreviewConverterValueTextConfig = () => {
 
 const getColonyUpgradeConverterConfig = () => {
   const newClimate = props.factory.feature.properties['upgrade_climate'];
-  const converter: Converter = new Converter(props.factory.feature.properties['upgrade_cost'], { [newClimate]: 1 }, {}, 'trading', false);
+  const converter: Converter = new Converter(props.factory.feature.properties['upgrade_cost'], { [newClimate]: 1 }, 'trading', false);
   return {
     x: props.x - 0.18 * props.width,
     y: props.y + 0.5 * props.height,

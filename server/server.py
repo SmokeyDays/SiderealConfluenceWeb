@@ -28,7 +28,7 @@ class Server:
     self.rooms["test"].game.debug_add_item("Alice", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Alice", "Score", 5)
-    self.rooms["test"].game.debug_add_item("Alice", "Score", 1, True)
+    self.rooms["test"].game.debug_add_item("Alice", "ScoreDonation", 1)
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
     self.rooms["test"].game.player_agree("Bob")

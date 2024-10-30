@@ -33,6 +33,7 @@ const addItem = () => {
 };
 
 const submitTrade = () => {
+  console.log(props.tradeItems);
   props.submitTrade(props.tradeItems, factories.value, techs.value, toWhom.value);
   submitClose();
 };
@@ -52,11 +53,7 @@ const getItemRestriction = (item: string) => {
   if (item === "Score") {
     myStorageItem = 0;
   }
-  const myDonation = props.gameState.players.find(player => player.user_id === props.username)?.donation_items;
-  if (myDonation === undefined) {
-    return myStorageItem - (props.tradeItems[item] || 0);
-  }
-  return myStorageItem + (myDonation[item] || 0) - (props.tradeItems[item] || 0);
+  return myStorageItem - (props.tradeItems[item] || 0);
 }
 
 const getItemOptions = () => {

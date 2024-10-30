@@ -2,7 +2,6 @@ export class Converter {
   constructor(
     public input_items: { [key: string]: number } | [{ [key: string]: number }],
     public output_items: { [key: string]: number },
-    public donation_items: { [key: string]: number },
     public running_stage: string,
     public used: boolean
   ) {}
@@ -25,7 +24,6 @@ export class Player {
     public specie: string,
     public specie_zh_name: string,
     public storage: { [key: string]: number },
-    public donation_items: { [key: string]: number },
     public factories: { [key: string]: Factory },
     public max_colony: number,
     public tie_breaker: number,

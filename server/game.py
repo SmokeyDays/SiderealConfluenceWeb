@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 from typing import Any, Dict, List, Tuple
 import random
@@ -61,7 +62,6 @@ class DataManager:
             upgrade_cost.append(Converter(
               cost["input_items"], 
               cost["output_items"], 
-              cost["donation_items"] if "donation_items" in cost else {}, 
               'trading'
             ).to_dict())
         upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
@@ -70,7 +70,6 @@ class DataManager:
         factory["name"], 
         factory["input_items"], 
         factory["output_items"], 
-        factory["donation_items"], 
         specie,
         feature,
         'production'
@@ -139,7 +138,6 @@ class DataManager:
       research_data["name"],
       research_data["input_items"],
       research_data["output_items"],
-      {},
       "None",
       research_data["feature"],
       "trading"
@@ -168,7 +166,6 @@ class DataManager:
       colony_data["name"],
       colony_data["input_items"],
       colony_data["output_items"],
-      colony_data["donation_items"],
       "None",
       colony_data["feature"],
       "production"
@@ -187,10 +184,9 @@ class DataManager:
     return None
 
 class Converter:
-  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], donation_items: Dict[str, int], running_stage: str):
+  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], running_stage: str):
     self.input_items = input_items
     self.output_items = output_items
-    self.donation_items = donation_items
     self.running_stage = running_stage
     self.used = False
 
@@ -198,7 +194,6 @@ class Converter:
     return {
       "input_items": self.input_items,
       "output_items": self.output_items,
-      "donation_items": self.donation_items,
       "running_stage": self.running_stage,
       "used": self.used
     }
@@ -208,13 +203,12 @@ class Factory:
   def __init__(self, name: str, 
     input_items: Dict[str, int], 
     output_items: Dict[str, int], 
-    donation_items: Dict[str, int], 
     owner: str, 
     feature = {"type": "Normal", "properties": {}}, 
     running_stage = 'production'
   ):
     self.name = name
-    self.converter = Converter(input_items, output_items, donation_items, running_stage)
+    self.converter = Converter(input_items, output_items, running_stage)
     self.preview = None
     self.owner = owner
     self.run_count = 0
@@ -289,8 +283,6 @@ class Factory:
       player.add_new_product_items(res)
     else:
       player.add_items_to_storage(res)
-      
-    player.add_items_to_donation(self.converter.donation_items)
     
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
       self.run_count += 1
@@ -333,7 +325,6 @@ class Player:
     self.specie = specie
     self.specie_zh_name = specie_zh_name
     self.storage: Dict[str, int] = {}
-    self.donation_items: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
     self.tie_breaker = tie_breaker
@@ -378,19 +369,21 @@ class Player:
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
 
-  def add_to_storage(self, item: str, quantity: int, donation: bool = False):
-    if not donation:
-      self.storage[item] = self.storage.get(item, 0) + quantity
-    else:
-      self.donation_items[item] = self.donation_items.get(item, 0) + quantity
+  def add_to_storage(self, item: str, quantity: int):
+    self.storage[item] = self.storage.get(item, 0) + quantity
   
   def add_items_to_storage(self, items: Dict[str, int]):
     for item, quantity in items.items():
       self.storage[item] = self.storage.get(item, 0) + quantity
 
-  def add_items_to_donation(self, items: Dict[str, int]):
+  def receive_items(self, items: Dict[str, int]):
+    new_items = deepcopy(items)
     for item, quantity in items.items():
-      self.donation_items[item] = self.donation_items.get(item, 0) + quantity
+      if item.endswith('Donation'):
+        new_items.pop(item)
+        item = item.replace('Donation', '')
+        new_items[item] = new_items.get(item, 0) + quantity
+    self.add_items_to_storage(new_items)
 
   def remove_from_storage(self, item: str, quantity: int) -> bool:
     if self.storage.get(item, 0) < quantity:
@@ -398,16 +391,11 @@ class Player:
     self.storage[item] -= quantity
     return True
 
-  def remove_items_from_storage(self, items: Dict[str, int], donation: bool = False) -> bool:
+  def remove_items_from_storage(self, items: Dict[str, int]) -> bool:
     for item, quantity in items.items():
-      donation_count = self.donation_items.get(item, 0) if donation else 0
-      if self.storage.get(item, 0) + donation_count < quantity:
+      if self.storage.get(item, 0) < quantity:
         return False
     for item, quantity in items.items():
-      if donation:
-        donation_count = min(self.donation_items.get(item, 0), quantity)
-        self.donation_items[item] = self.donation_items.get(item, 0) - donation_count
-        quantity -= donation_count
       self.storage[item] -= quantity
     return True
 
@@ -453,7 +441,6 @@ class Player:
       "specie": self.specie,
       "specie_zh_name": self.specie_zh_name,
       "storage": self.storage,
-      "donation_items": self.donation_items,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
       "max_colony": self.max_colony,
       "tie_breaker": self.tie_breaker,
@@ -651,13 +638,10 @@ class Game:
     if player:
       player.add_colony(self.draw_colony())
 
-  def debug_add_item(self, player_name: str, item: str, quantity: int, donation: bool = False):
+  def debug_add_item(self, player_name: str, item: str, quantity: int):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
-      if not donation:
-        player.add_to_storage(item, quantity)
-      else:
-        player.add_to_storage(item, quantity, donation)
+      player.add_to_storage(item, quantity)
   
   ############################
   #                          #
@@ -673,9 +657,9 @@ class Game:
 
     if not sender or not receiver:
       return False, "未指定玩家"
-
-    if sender.remove_items_from_storage(items, True):
-      receiver.add_items_to_storage(items)
+    print(items)
+    if sender.remove_items_from_storage(items):
+      receiver.receive_items(items)
       return True, ""
     return False, "玩家库存不足"
 
@@ -893,14 +877,12 @@ class Game:
                 "specie_zh_name": str,
                 "user_id": str,
                 "storage": Dict[str, int],
-                "donation_items": Dict[str, int],
                 "factories": {
                     "factory_name": {
                         "name": str,
                         "converter": {
                           "input_items": Dict[str, int] | List[Dict[str, int]],
                           "output_items": Dict[str, int],
-                          "donation_items": Dict[str, int],
                           "running_stage": str,
                           "used": bool
                         },
@@ -912,7 +894,6 @@ class Game:
                         "preview": {
                           "input_items": Dict[str, int] | List[Dict[str, int]],
                           "output_items": Dict[str, int],
-                          "donation_items": Dict[str, int],
                           "running_stage": str,
                           "used": bool
                         },

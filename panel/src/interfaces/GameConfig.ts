@@ -40,7 +40,7 @@ export const getSpecieZhName = (specie: string) => {
   return '未知';
 };
 
-export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall"];
+export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall", "FoodDonation", "CultureDonation", "IndustryDonation", "EnergyDonation", "InformationDonation", "BiotechDonation", "HypertechDonation", "ShipDonation", "ScoreDonation", "WildBigDonation", "WildSmallDonation"];
 
 const itemValues: {[key: string]: number} = {
   'Food': 1,
@@ -65,4 +65,13 @@ export const getItemValue = (item: string) => {
 
 export const getItemsValue = (items: {[key: string]: number}) => {
   return Object.keys(items).reduce((sum, item) => sum + getItemValue(item) * items[item], 0);
+}
+
+export const getItemsDonationValue = (items: {[key: string]: number}) => {
+  return Object.keys(items).reduce((sum, item) => {
+    if (item.endsWith('Donation')) {
+      return sum + getItemValue(item.replace('Donation', '')) * items[item];
+    }
+    return sum;
+  }, 0);
 }

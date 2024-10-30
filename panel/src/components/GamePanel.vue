@@ -66,11 +66,6 @@ const disagreeToNextStage = () => {
             <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0"/>
           </template>
         </div>
-        <div class="donation-item-container">
-          <template v-for="(item_count, item_id) in getPlayer()!.donation_items">
-            <ItemEntryDiv :item="item_id as string + 'Donation'" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0"/>
-          </template>
-        </div>
       </div>
       <n-divider />
       <div class="player-action">
@@ -124,15 +119,6 @@ const disagreeToNextStage = () => {
   margin: 5px;
 }
 .storage-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-
-.donation-item-container {
   display: flex;
   flex-direction: row;
   align-items: center;
