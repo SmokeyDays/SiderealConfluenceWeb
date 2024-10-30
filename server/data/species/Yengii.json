@@ -62,11 +62,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_纳米制造",
-            "upgrade_cost": [
-                "岩基艾_原子嬗变",
-                "岩基艾_基因工程学"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_纳米制造",
+                    "upgrade_cost": [
+                        "岩基艾_原子嬗变",
+                        "岩基艾_基因工程学"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_纳米制造",
@@ -106,8 +112,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_基因工程学",
@@ -147,11 +157,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_基因再合成",
-            "upgrade_cost": [
-                "岩基艾_临床永生",
-                "岩基艾_纳米科技"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_基因再合成",
+                    "upgrade_cost": [
+                        "岩基艾_临床永生",
+                        "岩基艾_纳米科技"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_基因再合成",
@@ -191,8 +207,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_通用翻译器",
@@ -232,11 +252,17 @@
             "input": 3.0,
             "output": 4.5,
             "efficiency": 1.5,
-            "upgrade_factory": "岩基艾_通用共情交流",
-            "upgrade_cost": [
-                "岩基艾_量子计算机",
-                "岩基艾_泛在文化知识库"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_通用共情交流",
+                    "upgrade_cost": [
+                        "岩基艾_量子计算机",
+                        "岩基艾_泛在文化知识库"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_通用共情交流",
@@ -276,8 +302,12 @@
             "input": 3.0,
             "output": 6.5,
             "efficiency": 2.167,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_反物质能源",
@@ -317,11 +347,17 @@
             "input": 4.0,
             "output": 5.5,
             "efficiency": 1.375,
-            "upgrade_factory": "岩基艾_反物质化合物",
-            "upgrade_cost": [
-                "岩基艾_有机结构",
-                "岩基艾_超空间开采"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_反物质化合物",
+                    "upgrade_cost": [
+                        "岩基艾_有机结构",
+                        "岩基艾_超空间开采"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_反物质化合物",
@@ -361,8 +397,12 @@
             "input": 4.0,
             "output": 7.5,
             "efficiency": 1.875,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_种族间医学交流",
@@ -402,11 +442,17 @@
             "input": 4.0,
             "output": 6.0,
             "efficiency": 1.5,
-            "upgrade_factory": "岩基艾_泛生物医学",
-            "upgrade_cost": [
-                "岩基艾_有机结构",
-                "岩基艾_跨种族道德平等"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_泛生物医学",
+                    "upgrade_cost": [
+                        "岩基艾_有机结构",
+                        "岩基艾_跨种族道德平等"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_泛生物医学",
@@ -446,8 +492,12 @@
             "input": 4.0,
             "output": 8.5,
             "efficiency": 2.125,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_跨种族道德平等",
@@ -487,11 +537,17 @@
             "input": 4.0,
             "output": 7.0,
             "efficiency": 1.75,
-            "upgrade_factory": "岩基艾_具体共相元理论学",
-            "upgrade_cost": [
-                "岩基艾_非时序分析",
-                "岩基艾_种族间医学交流"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_具体共相元理论学",
+                    "upgrade_cost": [
+                        "岩基艾_非时序分析",
+                        "岩基艾_种族间医学交流"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_具体共相元理论学",
@@ -531,8 +587,12 @@
             "input": 4.0,
             "output": 10.0,
             "efficiency": 2.5,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_异文化交流",
@@ -572,11 +632,17 @@
             "input": 5.0,
             "output": 11.5,
             "efficiency": 2.3,
-            "upgrade_factory": "岩基艾_多种族混合文化",
-            "upgrade_cost": [
-                "岩基艾_社会迁移",
-                "岩基艾_巨型建筑"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_多种族混合文化",
+                    "upgrade_cost": [
+                        "岩基艾_社会迁移",
+                        "岩基艾_巨型建筑"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_多种族混合文化",
@@ -616,8 +682,12 @@
             "input": 5.0,
             "output": 17.0,
             "efficiency": 3.4,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_多元种族企业",
@@ -657,11 +727,17 @@
             "input": 5.0,
             "output": 12.0,
             "efficiency": 2.4,
-            "upgrade_factory": "岩基艾_全种族间融合",
-            "upgrade_cost": [
-                "岩基艾_异文化交流",
-                "岩基艾_银河系通讯控制"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_全种族间融合",
+                    "upgrade_cost": [
+                        "岩基艾_异文化交流",
+                        "岩基艾_银河系通讯控制"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_全种族间融合",
@@ -701,8 +777,12 @@
             "input": 5.0,
             "output": 16.0,
             "efficiency": 3.2,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_社会迁移",
@@ -742,11 +822,17 @@
             "input": 5.0,
             "output": 14.5,
             "efficiency": 2.9,
-            "upgrade_factory": "岩基艾_银河系殖民",
-            "upgrade_cost": [
-                "岩基艾_异文化交流",
-                "岩基艾_银河系通讯控制"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_银河系殖民",
+                    "upgrade_cost": [
+                        "岩基艾_异文化交流",
+                        "岩基艾_银河系通讯控制"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_银河系殖民",
@@ -786,8 +872,12 @@
             "input": 5.0,
             "output": 18.5,
             "efficiency": 3.7,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_量子计算机",
@@ -827,11 +917,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_非确定性多项式塌缩",
-            "upgrade_cost": [
-                "岩基艾_临床永生",
-                "岩基艾_通用翻译器"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_非确定性多项式塌缩",
+                    "upgrade_cost": [
+                        "岩基艾_临床永生",
+                        "岩基艾_通用翻译器"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_非确定性多项式塌缩",
@@ -871,8 +967,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_临床永生",
@@ -912,11 +1012,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_实用永生",
-            "upgrade_cost": [
-                "岩基艾_原子嬗变",
-                "岩基艾_基因工程学"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_实用永生",
+                    "upgrade_cost": [
+                        "岩基艾_原子嬗变",
+                        "岩基艾_基因工程学"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_实用永生",
@@ -956,8 +1062,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_泛在文化知识库",
@@ -997,11 +1107,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_模因生命体",
-            "upgrade_cost": [
-                "岩基艾_量子计算机",
-                "岩基艾_通用翻译器"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_模因生命体",
+                    "upgrade_cost": [
+                        "岩基艾_量子计算机",
+                        "岩基艾_通用翻译器"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_模因生命体",
@@ -1041,8 +1157,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_非时序分析",
@@ -1082,11 +1202,17 @@
             "input": 4.5,
             "output": 6.5,
             "efficiency": 1.444,
-            "upgrade_factory": "岩基艾_时间查看器",
-            "upgrade_cost": [
-                "岩基艾_奇点控制",
-                "岩基艾_反物质能源"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_时间查看器",
+                    "upgrade_cost": [
+                        "岩基艾_奇点控制",
+                        "岩基艾_反物质能源"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_时间查看器",
@@ -1126,8 +1252,12 @@
             "input": 4.5,
             "output": 9.0,
             "efficiency": 2.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_有机结构",
@@ -1167,11 +1297,17 @@
             "input": 4.5,
             "output": 6.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_活体基础设施",
-            "upgrade_cost": [
-                "岩基艾_跨种族道德平等",
-                "岩基艾_种族间医学交流"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_活体基础设施",
+                    "upgrade_cost": [
+                        "岩基艾_跨种族道德平等",
+                        "岩基艾_种族间医学交流"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_活体基础设施",
@@ -1211,8 +1347,12 @@
             "input": 4.5,
             "output": 7.5,
             "efficiency": 1.667,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_超空间开采",
@@ -1252,11 +1392,17 @@
             "input": 4.5,
             "output": 7.5,
             "efficiency": 1.667,
-            "upgrade_factory": "岩基艾_超空间定居点",
-            "upgrade_cost": [
-                "岩基艾_奇点控制",
-                "岩基艾_反物质能源"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_超空间定居点",
+                    "upgrade_cost": [
+                        "岩基艾_奇点控制",
+                        "岩基艾_反物质能源"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_超空间定居点",
@@ -1296,8 +1442,12 @@
             "input": 4.5,
             "output": 11.0,
             "efficiency": 2.444,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_银河系通讯控制",
@@ -1337,11 +1487,17 @@
             "input": 6.0,
             "output": 12.0,
             "efficiency": 2.0,
-            "upgrade_factory": "岩基艾_银河系统治",
-            "upgrade_cost": [
-                "岩基艾_社会迁移",
-                "岩基艾_多元种族企业"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_银河系统治",
+                    "upgrade_cost": [
+                        "岩基艾_社会迁移",
+                        "岩基艾_多元种族企业"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_银河系统治",
@@ -1381,8 +1537,12 @@
             "input": 6.0,
             "output": 16.5,
             "efficiency": 2.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_时间膨胀",
@@ -1422,11 +1582,17 @@
             "input": 6.0,
             "output": 12.0,
             "efficiency": 2.0,
-            "upgrade_factory": "岩基艾_静滞场",
-            "upgrade_cost": [
-                "岩基艾_物质生成",
-                "岩基艾_巨型建筑"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_静滞场",
+                    "upgrade_cost": [
+                        "岩基艾_物质生成",
+                        "岩基艾_巨型建筑"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_静滞场",
@@ -1466,8 +1632,12 @@
             "input": 6.0,
             "output": 18.0,
             "efficiency": 3.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_物质生成",
@@ -1507,11 +1677,17 @@
             "input": 6.0,
             "output": 12.5,
             "efficiency": 2.083,
-            "upgrade_factory": "岩基艾_大规模传送",
-            "upgrade_cost": [
-                "岩基艾_时间膨胀",
-                "岩基艾_多元种族企业"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_大规模传送",
+                    "upgrade_cost": [
+                        "岩基艾_时间膨胀",
+                        "岩基艾_多元种族企业"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_大规模传送",
@@ -1551,8 +1727,12 @@
             "input": 6.0,
             "output": 16.5,
             "efficiency": 2.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_道之选择",
@@ -1592,35 +1772,41 @@
             "input": 3.5,
             "output": 5.0,
             "efficiency": 1.429,
-            "upgrade_factory": "岩基艾_外星种族决策融合",
-            "upgrade_cost": [
-                "岩基艾_泛在文化知识库",
-                {
-                    "input_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 2,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 0,
-                        "Water": 1
-                    },
-                    "output_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 1
-                    }
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_外星种族决策融合",
+                    "upgrade_cost": [
+                        "岩基艾_泛在文化知识库",
+                        {
+                            "input_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 2,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 0,
+                                "water": 1
+                            },
+                            "output_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 1
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         },
         {
             "name": "岩基艾_外星种族决策融合",
@@ -1660,8 +1846,12 @@
             "input": 3.5,
             "output": 7.0,
             "efficiency": 2.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_言之共情",
@@ -1701,35 +1891,41 @@
             "input": 3.5,
             "output": 5.0,
             "efficiency": 1.429,
-            "upgrade_factory": "岩基艾_种族间外交领域",
-            "upgrade_cost": [
-                "岩基艾_跨种族道德平等",
-                {
-                    "input_items": {
-                        "Food": 2,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 0,
-                        "Jungle": 1
-                    },
-                    "output_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 1
-                    }
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_种族间外交领域",
+                    "upgrade_cost": [
+                        "岩基艾_跨种族道德平等",
+                        {
+                            "input_items": {
+                                "Food": 2,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 0,
+                                "jungle": 1
+                            },
+                            "output_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 1
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         },
         {
             "name": "岩基艾_种族间外交领域",
@@ -1769,8 +1965,12 @@
             "input": 3.5,
             "output": 6.5,
             "efficiency": 1.857,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_原子嬗变",
@@ -1810,11 +2010,17 @@
             "input": 3.0,
             "output": 4.0,
             "efficiency": 1.333,
-            "upgrade_factory": "岩基艾_虚材料",
-            "upgrade_cost": [
-                "岩基艾_纳米科技",
-                "岩基艾_泛在文化知识库"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_虚材料",
+                    "upgrade_cost": [
+                        "岩基艾_纳米科技",
+                        "岩基艾_泛在文化知识库"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_虚材料",
@@ -1854,8 +2060,12 @@
             "input": 3.0,
             "output": 5.5,
             "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_手之创新",
@@ -1895,35 +2105,41 @@
             "input": 3.0,
             "output": 4.5,
             "efficiency": 1.5,
-            "upgrade_factory": "岩基艾_跨时空智库",
-            "upgrade_cost": [
-                "岩基艾_非时序分析",
-                {
-                    "input_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 2,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 0,
-                        "Desert": 1
-                    },
-                    "output_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 1
-                    }
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_跨时空智库",
+                    "upgrade_cost": [
+                        "岩基艾_非时序分析",
+                        {
+                            "input_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 2,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 0,
+                                "desert": 1
+                            },
+                            "output_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 1
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         },
         {
             "name": "岩基艾_跨时空智库",
@@ -1963,8 +2179,12 @@
             "input": 3.0,
             "output": 6.5,
             "efficiency": 2.167,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_骡之劳作",
@@ -2004,35 +2224,41 @@
             "input": 3.5,
             "output": 5.5,
             "efficiency": 1.571,
-            "upgrade_factory": "岩基艾_重力装配",
-            "upgrade_cost": [
-                "岩基艾_奇点控制",
-                {
-                    "input_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 1,
-                        "Ship": 0,
-                        "Score": 0,
-                        "Ice": 1
-                    },
-                    "output_items": {
-                        "Food": 0,
-                        "Culture": 0,
-                        "Industry": 0,
-                        "Information": 0,
-                        "Biotech": 0,
-                        "Energy": 0,
-                        "Hypertech": 0,
-                        "Ship": 0,
-                        "Score": 1
-                    }
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_重力装配",
+                    "upgrade_cost": [
+                        "岩基艾_奇点控制",
+                        {
+                            "input_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 1,
+                                "Ship": 0,
+                                "Score": 0,
+                                "ice": 1
+                            },
+                            "output_items": {
+                                "Food": 0,
+                                "Culture": 0,
+                                "Industry": 0,
+                                "Information": 0,
+                                "Biotech": 0,
+                                "Energy": 0,
+                                "Hypertech": 0,
+                                "Ship": 0,
+                                "Score": 1
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         },
         {
             "name": "岩基艾_重力装配",
@@ -2072,8 +2298,12 @@
             "input": 3.5,
             "output": 8.5,
             "efficiency": 2.429,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_奇点控制",
@@ -2113,11 +2343,17 @@
             "input": 6.0,
             "output": 8.5,
             "efficiency": 1.417,
-            "upgrade_factory": "岩基艾_虫洞网格",
-            "upgrade_cost": [
-                "岩基艾_非时序分析",
-                "岩基艾_超空间开采"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_虫洞网格",
+                    "upgrade_cost": [
+                        "岩基艾_非时序分析",
+                        "岩基艾_超空间开采"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_虫洞网格",
@@ -2157,8 +2393,12 @@
             "input": 6.0,
             "output": 10.5,
             "efficiency": 1.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_巨型建筑",
@@ -2198,11 +2438,17 @@
             "input": 9.0,
             "output": 17.0,
             "efficiency": 1.889,
-            "upgrade_factory": "岩基艾_戴森群",
-            "upgrade_cost": [
-                "岩基艾_物质生成",
-                "岩基艾_时间膨胀"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_戴森群",
+                    "upgrade_cost": [
+                        "岩基艾_物质生成",
+                        "岩基艾_时间膨胀"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_戴森群",
@@ -2242,8 +2488,12 @@
             "input": 9.0,
             "output": 21.5,
             "efficiency": 2.389,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "岩基艾_社会生态互利共生",
@@ -2283,11 +2533,17 @@
             "input": 0.0,
             "output": 4.5,
             "efficiency": 1000.0,
-            "upgrade_factory": "岩基艾_互利共生式外星种族融合",
-            "upgrade_cost": [
-                "岩基艾_反物质能源",
-                "岩基艾_种族间医学交流"
-            ]
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "岩基艾_互利共生式外星种族融合",
+                    "upgrade_cost": [
+                        "岩基艾_反物质能源",
+                        "岩基艾_种族间医学交流"
+                    ]
+                }
+            }
         },
         {
             "name": "岩基艾_互利共生式外星种族融合",
@@ -2327,8 +2583,12 @@
             "input": 0.0,
             "output": 6.5,
             "efficiency": 1000.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         }
     ]
 }

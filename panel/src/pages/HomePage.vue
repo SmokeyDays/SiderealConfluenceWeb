@@ -9,8 +9,8 @@ import Ship from '@/components/icons/items/Ship.vue';
 import Biotech from '@/components/icons/items/Biotech.vue';
 import Energy from '@/components/icons/items/Energy.vue';
 import Hypertech from '@/components/icons/items/Hypertech.vue';
-import AnySmall from '@/components/icons/items/AnySmall.vue';
-import AnyBig from '@/components/icons/items/AnyBig.vue';
+import WildSmall from '@/components/icons/items/WildSmall.vue';
+import WildBig from '@/components/icons/items/WildBig.vue';
 import Score from '@/components/icons/items/Score.vue';
 import { isProduction } from '@/utils/config';
 const username = ref(isProduction? '': 'Alice');
@@ -42,8 +42,8 @@ const handleSubmit = () => {
         <Biotech />
         <Energy />
         <Hypertech />
-        <AnySmall />
-        <AnyBig />
+        <WildSmall />
+        <WildBig />
         <Score />
       </div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />

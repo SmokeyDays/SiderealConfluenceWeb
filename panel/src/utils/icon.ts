@@ -5,8 +5,8 @@ import InformationSvg from '@/components/icons/items/Information.svg';
 import BiotechSvg from '@/components/icons/items/Biotech.svg';
 import EnergySvg from '@/components/icons/items/Energy.svg';
 import HypertechSvg from '@/components/icons/items/Hypertech.svg';
-import AnySmallSvg from '@/components/icons/items/AnySmall.svg';
-import AnyBigSvg from '@/components/icons/items/AnyBig.svg';
+import WildSmallSvg from '@/components/icons/items/WildSmall.svg';
+import WildBigSvg from '@/components/icons/items/WildBig.svg';
 import ShipSvg from '@/components/icons/items/Ship.svg';
 import ScoreSvg from '@/components/icons/items/Score.svg';
 import PlaceholderSvg from '@/components/icons/items/Placeholder.svg';
@@ -21,8 +21,8 @@ import InformationDonationSvg from '@/components/icons/items/InformationDonation
 import BiotechDonationSvg from '@/components/icons/items/BiotechDonation.svg';
 import EnergyDonationSvg from '@/components/icons/items/EnergyDonation.svg';
 import HypertechDonationSvg from '@/components/icons/items/HypertechDonation.svg';
-import AnySmallDonationSvg from '@/components/icons/items/AnySmallDonation.svg';
-import AnyBigDonationSvg from '@/components/icons/items/AnyBigDonation.svg';
+import WildSmallDonationSvg from '@/components/icons/items/WildSmallDonation.svg';
+import WildBigDonationSvg from '@/components/icons/items/WildBigDonation.svg';
 import ShipDonationSvg from '@/components/icons/items/ShipDonation.svg';
 import ScoreDonationSvg from '@/components/icons/items/ScoreDonation.svg';
 
@@ -42,10 +42,10 @@ export const getIconSvg = (item: string) =>  {
       return EnergySvg;
     case 'Hypertech':
       return HypertechSvg;
-    case 'AnySmall':
-      return AnySmallSvg;
-    case 'AnyBig':
-      return AnyBigSvg;
+    case 'WildSmall':
+      return WildSmallSvg;
+    case 'WildBig':
+      return WildBigSvg;
     case 'Ship':
       return ShipSvg;
     case 'Score':
@@ -73,10 +73,10 @@ export const getIconSvg = (item: string) =>  {
       return EnergyDonationSvg;
     case 'HypertechDonation':
       return HypertechDonationSvg;
-    case 'AnySmallDonation':
-      return AnySmallDonationSvg;
-    case 'AnyBigDonation':
-      return AnyBigDonationSvg;
+    case 'WildSmallDonation':
+      return WildSmallDonationSvg;
+    case 'WildBigDonation':
+      return WildBigDonationSvg;
     case 'ShipDonation':
       return ShipDonationSvg;
     case 'ScoreDonation':

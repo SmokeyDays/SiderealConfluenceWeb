@@ -40,7 +40,7 @@ export const getSpecieZhName = (specie: string) => {
   return '未知';
 };
 
-export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","AnyBig", "AnySmall"];
+export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall"];
 
 const itemValues: {[key: string]: number} = {
   'Food': 1,
@@ -52,8 +52,8 @@ const itemValues: {[key: string]: number} = {
   'Hypertech': 3,
   'Ship': 1,
   'Score': 3,
-  'AnyBig': 1.5,
-  'AnySmall': 1,
+  'WildBig': 1.5,
+  'WildSmall': 1,
 }
 
 export const getItemValue = (item: string) => {

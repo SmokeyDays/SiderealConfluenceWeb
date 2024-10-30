@@ -7,7 +7,7 @@ class DataManager:
     self.specie_factories = {}
     self.specie_init_players: list[Player] = {}
     self.species_data = {}
-    self.species = ["Caylion", "Yengii", "Im"]
+    self.species = ["Caylion", "Yengii", "Eni", "Unity"]
     self.load_species(path)
 
     self.researches_data = []
@@ -23,6 +23,8 @@ class DataManager:
   def generate_preview(self):
     for specie in self.species:
       for factory in self.specie_factories[specie].values():
+        if factory.feature["type"] != "Normal":
+          continue
         if factory.feature["properties"]["upgraded"]:
           continue
         upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
@@ -49,26 +51,21 @@ class DataManager:
   def create_factories(self, specie: str, specie_data: dict):
     factories = {}
     for factory in specie_data["factories"]:
-      upgrade_cost = []
-      for cost in factory["upgrade_cost"]:
-        if isinstance(cost, str):
-          upgrade_cost.append(cost)
-        else:
-          upgrade_cost.append(Converter(
-            cost["input_items"], 
-            cost["output_items"], 
-            cost["donation_items"] if "donation_items" in cost else {}, 
-            'trading'
-          ).to_dict())
-      upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
-      feature = {
-        "type": "Normal",
-        "properties": {
-          "upgraded": factory["upgrade_factory"] == "",
-          "upgrade_factory": factory["upgrade_factory"],
-          "upgrade_cost": upgrade_cost
-        }
-      }
+      feature = factory["feature"]
+      if "upgrade_cost" in factory["feature"]["properties"]:
+        upgrade_cost = []
+        for cost in factory["feature"]["properties"]["upgrade_cost"]:
+          if isinstance(cost, str):
+            upgrade_cost.append(cost)
+          else:
+            upgrade_cost.append(Converter(
+              cost["input_items"], 
+              cost["output_items"], 
+              cost["donation_items"] if "donation_items" in cost else {}, 
+              'trading'
+            ).to_dict())
+        upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
+        feature["properties"]["upgrade_cost"] = upgrade_cost
       factories[factory["name"]] = Factory(
         factory["name"], 
         factory["input_items"], 
@@ -965,8 +962,8 @@ class Game:
       - Energy / Big Yellow Cube
       - Hypertech / Brown Column
 
-      - AnySmall / Gray Small Cube
-      - AnyBig / Gray Big Cube
+      - WildSmall / Gray Small Cube
+      - WildBig / Gray Big Cube
 
       - Ship / Red Triangle
       - Score

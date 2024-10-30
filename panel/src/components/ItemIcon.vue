@@ -6,8 +6,8 @@ import Information from '@/components/icons/items/Information.vue';
 import Biotech from '@/components/icons/items/Biotech.vue';
 import Energy from '@/components/icons/items/Energy.vue';
 import Hypertech from '@/components/icons/items/Hypertech.vue';
-import AnySmall from '@/components/icons/items/AnySmall.vue';
-import AnyBig from '@/components/icons/items/AnyBig.vue';
+import WildSmall from '@/components/icons/items/WildSmall.vue';
+import WildBig from '@/components/icons/items/WildBig.vue';
 import Ship from '@/components/icons/items/Ship.vue';
 import Placeholder from '@/components/icons/items/Placeholder.vue';
 
@@ -31,10 +31,10 @@ const getIcon = (item: string) =>  {
       return Energy;
     case 'Hypertech':
       return Hypertech;
-    case 'AnySmall':
-      return AnySmall;
-    case 'AnyBig':
-      return AnyBig;
+    case 'WildSmall':
+      return WildSmall;
+    case 'WildBig':
+      return WildBig;
     case 'Ship':
       return Ship;
       
