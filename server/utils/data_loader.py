@@ -91,7 +91,6 @@ def factory_from_csv(fac):
     output_items,input_items=factory_gen(fac['Front Factory'])
     factory["output_items"]=output_items
     factory['input_items']=input_items
-    factory['donation_items']=donation_items
     factory['input']=float(fac['Input'])
     factory['output']=fac['Front Output']
     factory['efficiency']=fac['Front Efficiency']
@@ -104,7 +103,7 @@ def factory_from_csv(fac):
     upgrade.append(f'{fac['Faction']}_{fac['Upgrade2']}')
     if re.search('→',fac['Upgrade1']):
         upgrade_substance={}
-        output_items,donation_items,input_items=factory_gen(fac['Upgrade1'])
+        output_items,input_items=factory_gen(fac['Upgrade1'])
         upgrade_substance['input_items']=input_items
         upgrade_substance['output_items']=output_items
         upgrade.append(upgrade_substance)
@@ -117,7 +116,6 @@ def factory_from_csv(fac):
     output_items,input_items=factory_gen(fac['Back Factory'])
     back_factory["output_items"]=output_items
     back_factory['input_items']=input_items
-    back_factory['donation_items']=donation_items
     back_factory['input']=float(fac['Input'])
     back_factory['output']=fac['Back Output']
     back_factory['efficiency']=fac['Back Efficiency']
