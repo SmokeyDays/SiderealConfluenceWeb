@@ -34,7 +34,8 @@ const gameState = ref<GameState>({
   current_pick: {
     type: '',
     player: ''
-  }
+  },
+  current_discard_colony_player: ''
 });
 
 socket.on('game-state', (data: {state: GameState}) => {

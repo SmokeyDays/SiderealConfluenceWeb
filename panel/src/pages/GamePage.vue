@@ -10,6 +10,7 @@ import BidPanel from '@/components/BidPanel.vue';
 import ResearchPanel from '@/components/ResearchPanel.vue';
 import ExchangePanel from '@/components/ExchangePanel.vue';
 import CheckPanel from '@/components/CheckPanel.vue';
+import DiscardColonyPanel from '@/components/DiscardColonyPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton } from 'naive-ui';
 
@@ -361,12 +362,41 @@ const closeCheckPanel = () => {
   checkMessage.value = "";
 }
 
+const displayDiscardColonyPanel = ref(false);
+const isDiscardColonyStage = () => {
+  return props.gameState.stage === "discard_colony" && props.gameState.current_discard_colony_player === props.username;
+}
+watch(() => props.gameState.stage, (newStage) => {
+  displayDiscardColonyPanel.value = isDiscardColonyStage();
+});
+const submitDiscardColony = (colonies: string[]) => {
+  socket.emit("discard-colonies", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    colonies: colonies
+  });
+}
+const openDiscardColonyPanel = () => {
+  displayDiscardColonyPanel.value = true;
+}
+const closeDiscardColonyPanel = () => {
+  displayDiscardColonyPanel.value = false;
+}
+const getDiscardNum = () => {
+  const me = getMe()!;
+  const maxColony = me.max_colony;
+  const colonies = Object.keys(me.factories).filter(factory => me.factories[factory].feature.type === "Colony");
+  console.log(colonies, maxColony);
+  return colonies.length > maxColony ? colonies.length - maxColony : 0;
+}
+
 const displayMask = () => {
   return displayTradePanel.value
     || displayResearchPanel.value
     || displayBidPanel.value
     || checkPanel.value
-    || displayExchangePanel.value;
+    || displayExchangePanel.value
+    || displayDiscardColonyPanel.value;
 };
 
 </script>
@@ -428,6 +458,14 @@ const displayMask = () => {
       :get-me="getMe" 
       v-if="displayExchangePanel" 
     />
+    <DiscardColonyPanel :submit-discard-colony="submitDiscardColony" 
+      :close-discard-colony-panel="closeDiscardColonyPanel" 
+      :username="props.username"
+      :game-state="props.gameState"
+      :get-me="() => getMe()!"
+      :discard-num="getDiscardNum()"
+      v-if="displayDiscardColonyPanel"
+    />
   </div>
   <n-float-button 
     @click="openBidPanel" 
@@ -437,6 +475,15 @@ const displayMask = () => {
     :style="{ zIndex: 101 }"
   >
     <template #description>Bid</template>
+  </n-float-button>
+  <n-float-button 
+    @click="openDiscardColonyPanel" 
+    v-if="isDiscardColonyStage()"
+    :top="10"
+    :right="10"
+    :style="{ zIndex: 101 }"
+  >
+    <template #description>Discard Colony</template>
   </n-float-button>
 </template>
 

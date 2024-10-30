@@ -5,7 +5,7 @@ import random
 class DataManager:
   def __init__(self, path: str):
     self.specie_factories = {}
-    self.specie_init_players = {}
+    self.specie_init_players: list[Player] = {}
     self.species_data = {}
     self.species = ["Caylion", "Yengii", "Im"]
     self.load_species(path)
@@ -86,7 +86,29 @@ class DataManager:
       if factory in self.specie_factories[specie]:
         self.init_factories[factory] = self.specie_factories[specie][factory]
     specie_zh_name = specie_data["zh_name"]
-    self.specie_init_players[specie] = Player(specie, specie, specie_zh_name, specie_data["start_resource"]["items"], self.init_factories)
+    max_colony = 2
+    tie_breaker = 2
+    init_colony = 1
+    init_research = 1
+    player = Player(
+      specie, 
+      specie, 
+      specie_zh_name, 
+      specie_data["start_resource"]["items"], 
+      self.init_factories,
+      max_colony=max_colony,
+      tie_breaker=tie_breaker,
+      init_colony=init_colony,
+      init_research=init_research
+    )
+    self.specie_init_players[specie] = player
+  
+  def load_init_colony_and_research(self, player: "Player"):
+    for i in range(player.init_colony):
+      player.add_colony(self.draw_colony())
+    for i in range(player.init_research):
+      player.add_research(self, self.draw_research())
+    return player
 
   def get_init_player(self, specie: str, user_id: str):
     player = self.specie_init_players[specie]
@@ -298,7 +320,18 @@ class Factory:
 
 
 class Player:
-  def __init__(self, user_id: str, specie: str, specie_zh_name: str, start_storage: Dict[str, int], factories: List[Factory]):
+  def __init__(
+      self, 
+      user_id: str, 
+      specie: str, 
+      specie_zh_name: str, 
+      start_storage: Dict[str, int], 
+      factories: List[Factory], 
+      tie_breaker: int, 
+      max_colony: int,
+      init_colony: int,
+      init_research: int
+    ):
     self.user_id = user_id
     self.specie = specie
     self.specie_zh_name = specie_zh_name
@@ -306,10 +339,13 @@ class Player:
     self.donation_items: Dict[str, int] = {}
     self.factories: Dict[str, Factory] = {}
     self.new_product_items: Dict[str, int] = {}
+    self.tie_breaker = tie_breaker
+    self.max_colony = max_colony
+    self.init_colony = init_colony
+    self.init_research = init_research
     self.agreed = False
     self.colony_bid = 0
     self.research_bid = 0
-    self.tie_breaker = 0
     self.tech = []
     self.invented_tech = []
 
@@ -332,6 +368,11 @@ class Player:
     if self.specie == "Caylion":
       colony.feature["properties"]["caylion_colony"] = True
     self.add_factory(colony)
+
+  def add_research(self, data_manager: DataManager, research: Factory):
+    preview = data_manager.get_factory_by_tech(self.specie, research.feature["properties"]["tech"]).converter
+    research.preview = preview
+    self.add_factory(research)
   
   def add_tech(self, factory: Factory, tech: str):
     self.add_factory(factory)
@@ -396,19 +437,18 @@ class Player:
   def has_invented_tech(self, tech: str):
     return tech in self.invented_tech
 
-  def get_research_priority(self):
-    research_count = 0
+  def get_factory_num_by_type(self, query_type: str):
+    res = 0
     for factory in self.factories.values():
-      if factory.feature["type"] == "Research":
-        research_count += 1
-    return (-self.research_bid, research_count, -self.tie_breaker)
+      if factory.feature["type"] == query_type:
+        res += 1
+    return res
+
+  def get_research_priority(self):
+    return (-self.research_bid, self.get_factory_num_by_type("Research"), -self.tie_breaker)
   
   def get_colony_priority(self):
-    colony_count = 0
-    for factory in self.factories.values():
-      if factory.feature["type"] == "Colony":
-        colony_count += 1
-    return (-self.colony_bid, colony_count, -self.tie_breaker)
+    return (-self.colony_bid, self.get_factory_num_by_type("Colony"), -self.tie_breaker)
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -418,6 +458,10 @@ class Player:
       "storage": self.storage,
       "donation_items": self.donation_items,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
+      "max_colony": self.max_colony,
+      "tie_breaker": self.tie_breaker,
+      "init_colony": self.init_colony,
+      "init_research": self.init_research,
       "agreed": self.agreed,
       "colony_bid": self.colony_bid,
       "research_bid": self.research_bid,
@@ -444,6 +488,7 @@ class Game:
     self.supply_bid_items()
     self.research_bid_priority = []
     self.colony_bid_priority = []
+    self.discard_colony = []
 
   @property
   def current_pick_player(self):
@@ -463,6 +508,13 @@ class Game:
       "player": ""
     }
 
+  @property
+  def current_discard_colony_player(self):
+    if self.stage == 'discard_colony':
+      if len(self.discard_colony) > 0:
+        return self.discard_colony[0]
+    return ""
+
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
       self.research_bid_cards.append({"price": bid_price_list[i], "item": None})
@@ -476,7 +528,9 @@ class Game:
       self.colony_bid_cards[i]["item"] = self.draw_colony()
 
   def add_player(self, specie: str, user_id: str):
-    self.players.append(self.data_manager.get_init_player(specie, user_id))
+    player = self.data_manager.get_init_player(specie, user_id)
+    player = self.data_manager.load_init_colony_and_research(player)
+    self.players.append(player)
 
   def start_game(self):
     self.current_round = 1
@@ -487,8 +541,13 @@ class Game:
 
   def move_to_next_stage(self):
     if self.stage == "trading":
-      self.stage = "production"
+      self.stage = "discard_colony"
       self.reset_player_agreements()
+      self.calculate_discard_colony()
+      if len(self.discard_colony) == 0:
+        self.move_to_next_stage()
+    elif self.stage == 'discard_colony':
+      self.stage = 'production'
     elif self.stage == "production":
       self.stage = "bid"
       self.save_new_product_items()
@@ -530,6 +589,12 @@ class Game:
       self.colony_bid_priority.append(player)
     self.research_bid_priority.sort(key=lambda x: x.get_research_priority())
     self.colony_bid_priority.sort(key=lambda x: x.get_colony_priority())
+
+  def calculate_discard_colony(self):
+    self.discard_colony = []
+    for player in self.players:
+      if (player.get_factory_num_by_type("Colony") > player.max_colony):
+        self.discard_colony.append(player.user_id)
 
   def save_new_product_items(self):
     for player in self.players:
@@ -747,8 +812,7 @@ class Game:
         if player.research_bid < self.research_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.research_bid:
           return False, "出价不足"
         research = self.research_bid_cards[pick_id]["item"]
-        research.preview = self.data_manager.get_factory_by_tech(player.specie, research.feature["properties"]["tech"]).converter
-        player.add_factory(research)
+        player.add_research(self.data_manager, research)
         self.research_bid_cards[pick_id]["item"] = None
         player.remove_from_storage("Ship", player.research_bid)
       self.research_bid_priority.pop(0)
@@ -774,6 +838,25 @@ class Game:
       return False, "玩家没有该科技或对方已有该科技"
     self.get_tech(to_player, tech)
     return True, ""
+  
+  def discard_colonies(self, player_name: str, colonies: list[str]):
+    if self.stage != "discard_colony": 
+      return False, "当前阶段不是弃置殖民地阶段"
+    if self.discard_colony[0] != player_name:
+      return False, "当前弃置殖民地的不是你"
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    discard_num = player.get_factory_num_by_type("Colony") - player.max_colony
+    if len(colonies) != discard_num:
+      return False, "需要弃置的殖民地数量不符"
+    for colony in colonies:
+      player.remove_factory(colony)
+    self.discard_colony.pop(0)
+    if len(self.discard_colony) == 0:
+      self.move_to_next_stage()
+    return True, ""
+    
   ###########################
   #                         #
   #     Other Functions     #
@@ -800,7 +883,8 @@ class Game:
       "room_name": self.room_name,
       "research_bid_cards": research_bid_cards_dict,
       "colony_bid_cards": colony_bid_cards_dict,
-      "current_pick": self.current_pick_player
+      "current_pick": self.current_pick_player,
+      "current_discard_colony_player": self.current_discard_colony_player
     }
 
     """
@@ -839,6 +923,8 @@ class Game:
                     },
                     ...
                 },
+                "max_colony": number,
+                "tie_breaker": number,
                 "agreed": bool,
                 "tech": [str, ...],
                 "invented_tech": [str, ...]
@@ -866,6 +952,7 @@ class Game:
           "type": str,
           "player": str
         }
+        "current_discard_colony_player": str
     }
     """
     """

@@ -29,7 +29,6 @@ class Server:
     self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Alice", "Score", 5)
     self.rooms["test"].game.debug_add_item("Alice", "Score", 1, True)
-    return
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
     self.rooms["test"].game.player_agree("Bob")
@@ -324,3 +323,11 @@ class Server:
           "str": message
         }, namespace=get_router_name())
       self.update_game_state(room_name)
+
+    @self.socketio.on('discard-colonies', namespace=get_router_name())
+    def discard_colonies(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.discard_colonies(username, data['colonies'])
+      self.update_game_state(room_name)
+    
