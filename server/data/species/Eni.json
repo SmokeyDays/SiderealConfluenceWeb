@@ -6,7 +6,13 @@
             "恩尼艾特_骨骼雕刻",
             "恩尼艾特_深潜狩猎",
             "恩尼艾特_合唱之歌",
-            "恩尼艾特_通用应用元伦理学"
+            "恩尼艾特_通用应用元伦理学",
+            "恩尼艾特_文化包容",
+            "恩尼艾特_志愿医疗运动",
+            "恩尼艾特_相互理解",
+            "恩尼艾特_长者的智慧",
+            "恩尼艾特_跨文化档案",
+            "恩尼艾特_异种科技库"
         ],
         "items": {
             "Food": 1,
@@ -56,9 +62,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
@@ -72,14 +79,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_全民健康",
                     "upgrade_cost": [
                         "恩尼艾特_种族间医学交流",
                         "恩尼艾特_有机结构"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
@@ -94,9 +102,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
@@ -110,14 +119,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_种族间共情",
                     "upgrade_cost": [
                         "恩尼艾特_量子计算机",
                         "恩尼艾特_通用翻译器"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
@@ -132,9 +142,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
@@ -148,14 +159,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_永生者的智慧",
                     "upgrade_cost": [
                         "恩尼艾特_量子计算机",
                         "恩尼艾特_临床永生"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
@@ -170,9 +182,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
@@ -186,14 +199,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_泛在文化影响",
                     "upgrade_cost": [
                         "恩尼艾特_通用翻译器",
                         "恩尼艾特_泛在文化知识库"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
@@ -208,9 +222,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
@@ -224,14 +239,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_超科技共同体",
                     "upgrade_cost": [
                         "恩尼艾特_超空间开采",
                         "恩尼艾特_奇点控制"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
@@ -246,9 +262,10 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "EnietInterest": true
                 }
             }
         },
