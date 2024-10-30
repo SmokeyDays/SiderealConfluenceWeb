@@ -18,7 +18,7 @@ class Server:
     self.rooms["test"] = Room(2, "test")
     self.rooms["test"].enter_room("Alice")
     self.rooms["test"].enter_room("Bob")
-    self.rooms["test"].choose_specie("Alice", "Unity")
+    self.rooms["test"].choose_specie("Alice", "Eni")
     self.rooms["test"].choose_specie("Bob", "Yengii")
     self.rooms["test"].agree_to_start("Alice")
     self.rooms["test"].agree_to_start("Bob")

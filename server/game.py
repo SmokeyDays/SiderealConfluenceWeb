@@ -24,7 +24,7 @@ class DataManager:
   def generate_preview(self):
     for specie in self.species:
       for factory in self.specie_factories[specie].values():
-        if factory.feature["type"] == "Normal":
+        if factory.feature["type"] == "Normal" or factory.feature["type"] == "EnietInterest":
           if factory.feature["properties"]["upgraded"]:
             continue
           upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
@@ -88,7 +88,7 @@ class DataManager:
       if factory in self.specie_factories[specie]:
         init_factories[factory] = self.specie_factories[specie][factory]
     for factory in self.specie_factories[specie].values():
-      if factory.feature["type"] == "Meta":
+      if factory.feature["type"] == "Meta" or factory.feature["type"] == "EnietInterest":
         init_factories[factory.name] = factory
     specie_zh_name = specie_data["zh_name"]
     max_colony = 2

@@ -25,7 +25,7 @@
     },
     "factories": [
         {
-            "name": "联合体_极限_meta",
+            "name": "联合体_极限_打出",
             "output_items": {
                 "Score": 1
             },
@@ -41,7 +41,7 @@
             }
         },
         {
-            "name": "联合体_分形对称_meta",
+            "name": "联合体_分形对称_打出",
             "output_items": {
                 "Score": 1
             },
@@ -58,7 +58,7 @@
             }
         },
         {
-            "name": "联合体_贝塞尔_meta",
+            "name": "联合体_贝塞尔_打出",
             "output_items": {
                 "Score": 1
             },
@@ -74,7 +74,7 @@
             }
         },
         {
-            "name": "联合体_色彩空间_meta",
+            "name": "联合体_色彩空间_打出",
             "output_items": {
                 "Score": 1
             },

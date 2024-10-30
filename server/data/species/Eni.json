@@ -33,14 +33,15 @@
             },
             "donation_items": {},
             "feature": {
-                "type": "EnietInterest",
+                "type": "Normal",
                 "properties": {
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_全向文化动态包容",
                     "upgrade_cost": [
                         "恩尼艾特_跨种族道德平等",
                         "恩尼艾特_反物质能源"
-                    ]
+                    ],
+                    "EnietInterest": true
                 }
             }
         },
