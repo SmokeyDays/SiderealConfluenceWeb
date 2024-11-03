@@ -904,7 +904,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "water": 1
+                                "Water": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -958,7 +958,7 @@
                         {
                             "input_items": {
                                 "Food": 2,
-                                "jungle": 1
+                                "Jungle": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -1058,7 +1058,7 @@
                         {
                             "input_items": {
                                 "Information": 2,
-                                "desert": 1
+                                "Desert": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -1114,7 +1114,7 @@
                         {
                             "input_items": {
                                 "Hypertech": 1,
-                                "ice": 1
+                                "Ice": 1
                             },
                             "output_items": {
                                 "Score": 1

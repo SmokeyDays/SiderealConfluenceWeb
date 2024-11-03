@@ -24,7 +24,7 @@ class DataManager:
   def generate_preview(self):
     for specie in self.species:
       for factory in self.specie_factories[specie].values():
-        if factory.feature["type"] == "Normal" or factory.feature["type"] == "EnietInterest":
+        if factory.feature["type"] == "Normal":
           if factory.feature["properties"]["upgraded"]:
             continue
           upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
@@ -88,7 +88,7 @@ class DataManager:
       if factory in self.specie_factories[specie]:
         init_factories[factory] = self.specie_factories[specie][factory]
     for factory in self.specie_factories[specie].values():
-      if factory.feature["type"] == "Meta" or factory.feature["type"] == "EnietInterest":
+      if factory.feature["type"] == "Meta":
         init_factories[factory.name] = factory
     specie_zh_name = specie_data["zh_name"]
     max_colony = 2
@@ -255,13 +255,61 @@ class Factory:
     """
     self.feature = feature
 
+  def eniet_interest(self, game, player, extra_properties):
+    """
+    extra_properties: {
+      "output_type": str,
+      "input_combination": Dict[str, int]
+      }
+    """
+    output_type = extra_properties["output_type"]
+    input_combination = extra_properties["input_combination"]
+    small_item = ["Food", "Culture", "Industry"]
+    big_item = ["Energy", "Information", "Biotech"]
+    res = {}
+    if self.converter.input_items.get("ArbitrarySmall", 0) > 0 or self.converter.input_items.get("ArbitraryBig", 0) > 0:
+      isSmall = self.converter.input_items.get("ArbitrarySmall", 0) > 0
+      item_list = small_item if isSmall else big_item
+      if output_type not in item_list:  
+        return False, "类型不正确"
+      wildInput = input_combination.get("Wild" + ("Small" if isSmall else "Big"), 0)
+      normalInput = input_combination.get(output_type, 0)
+      if wildInput + normalInput != self.converter.input_items["Arbitrary" + ("Small" if isSmall else "Big")]:
+        return False, "输入数量不足"
+      for item in input_combination:
+        if item not in ["Wild" + ("Small" if isSmall else "Big"), output_type]:
+          return False, "输入多余"
+      output_count = self.converter.output_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
+      if not player.remove_items_from_storage(input_combination):
+        return False, "玩家库存不足"
+      for item, quantity in self.converter.output_items.items():
+        if item == "Arbitrary" + ("Small" if isSmall else "Big"):
+          res[output_type] = quantity - self.converter.input_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
+          continue
+        res[item] = quantity
+      for item, quantity in input_combination.items():
+        res[item] = res.get(item, 0) + quantity
+    else:
+      return False, "类型不正确"
+    player.add_new_product_items(res)
+    return True, ""
+
   def produce(self, game, player, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, Dict[str, int]]:
     if self.converter.used:
       return False, "工厂已使用"
     if self.converter.running_stage != game.stage:
       return False, "当前阶段不正确"
-
+    
+    if 'MustLend' in self.feature['properties']:
+      if self.owner == player.specie:
+        return False, "这个转换器必须借出"
     res = {}
+
+    special_factory = False
+    for tag in ["EnietInterest"]:
+      if tag in self.feature["properties"]:
+        special_factory = True
+        break
 
     if self.feature["type"] == "Research":
       assert "tech" in self.feature["properties"]
@@ -281,22 +329,29 @@ class Factory:
       game.develop_tech(player.user_id, tech)
       print(f"{player.user_id} 研发了 {tech}")
     else:
-      if not player.remove_items_from_storage(self.converter.input_items):
-        return False, "玩家库存不足"
+      if not special_factory:
+        if not player.remove_items_from_storage(self.converter.input_items):
+          return False, "玩家库存不足"
 
-      for item, quantity in self.converter.output_items.items():
-        res[item] = quantity
+        for item, quantity in self.converter.output_items.items():
+          res[item] = quantity
 
     if self.feature["type"] == "Meta":
       unlock_factory = game.data_manager.get_factory(player.specie, self.feature["properties"]["unlock_factory"])
       player.add_factory(unlock_factory)
       player.remove_factory(self.name)
 
-    if self.converter.running_stage == 'production':
-      player.add_new_product_items(res)
-    else:
-      player.add_items_to_storage(res)
-    
+    if not special_factory:
+      if self.converter.running_stage == 'production':
+        player.add_new_product_items(res)
+      else:
+        player.add_items_to_storage(res)
+
+    success = True
+    if "EnietInterest" in self.feature["properties"]:
+      success, msg = self.eniet_interest(game, player, extra_properties)
+    if not success:
+      return False, msg
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
       self.run_count += 1
       if self.run_count >= 2:
@@ -409,6 +464,8 @@ class Player:
       if self.storage.get(item, 0) < quantity:
         return False
     for item, quantity in items.items():
+      if quantity == 0:
+        continue
       self.storage[item] -= quantity
     return True
 
@@ -723,7 +780,7 @@ class Game:
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
     factory = player.factories[factory_name]
-    if factory.feature["type"] != "Normal" and factory.feature["type"] != "EnietInterest":
+    if factory.feature["type"] != "Normal":
       return False, "工厂不是普通工厂"
     if factory.feature["properties"]["upgraded"]:
       return False, "工厂已经升级"

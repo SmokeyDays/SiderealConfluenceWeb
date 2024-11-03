@@ -18,8 +18,8 @@ class Server:
     self.rooms["test"] = Room(2, "test")
     self.rooms["test"].enter_room("Alice")
     self.rooms["test"].enter_room("Bob")
-    self.rooms["test"].choose_specie("Alice", "Eni")
-    self.rooms["test"].choose_specie("Bob", "Yengii")
+    self.rooms["test"].choose_specie("Alice", "Caylion")
+    self.rooms["test"].choose_specie("Bob", "Eni")
     self.rooms["test"].agree_to_start("Alice")
     self.rooms["test"].agree_to_start("Bob")
     self.rooms["test"].game.develop_tech("Alice", "跨种族道德平等")
@@ -29,9 +29,16 @@ class Server:
     self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
     self.rooms["test"].game.debug_add_item("Alice", "Score", 5)
     self.rooms["test"].game.debug_add_item("Alice", "ScoreDonation", 1)
+    self.rooms["test"].game.debug_add_item("Alice", "Hypertech", 5)
+    # self.rooms["test"].game.debug_add_item("Alice", "WildSmall", 5)
+    self.rooms["test"].game.debug_add_item("Alice", "WildBig", 5)
+    self.rooms["test"].game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
     self.rooms["test"].game.player_agree("Bob")
+    self.rooms["test"].game.player_agree("Bob")
+    # success, msg = self.rooms["test"].game.produce("Alice", "恩尼艾特_相互理解", {"output_type": "Culture", "input_combination": {"Culture": 1, "WildSmall": 1}})
+    return
     # skip production
     self.rooms['test'].game.player_agree("Alice")
     self.rooms['test'].game.player_agree("Bob")

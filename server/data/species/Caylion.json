@@ -895,7 +895,7 @@
                         {
                             "input_items": {
                                 "Information": 2,
-                                "jungle": 1
+                                "Jungle": 1
                             },
                             "output_items": {
                                 "Score": 1,
@@ -948,7 +948,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "jungle": 1
+                                "Jungle": 1
                             },
                             "output_items": {
                                 "Score": 1,
@@ -1045,7 +1045,7 @@
                         {
                             "input_items": {
                                 "Information": 2,
-                                "jungle": 1
+                                "Jungle": 1
                             },
                             "output_items": {
                                 "Score": 1,
@@ -1098,7 +1098,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "jungle": 1
+                                "Jungle": 1
                             },
                             "output_items": {
                                 "Score": 1,

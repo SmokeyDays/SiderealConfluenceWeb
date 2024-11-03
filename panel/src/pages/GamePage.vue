@@ -11,8 +11,10 @@ import ResearchPanel from '@/components/ResearchPanel.vue';
 import ExchangePanel from '@/components/ExchangePanel.vue';
 import CheckPanel from '@/components/CheckPanel.vue';
 import DiscardColonyPanel from '@/components/DiscardColonyPanel.vue';
+import EnietInterestPanel from '@/components/EnietInterestPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton } from 'naive-ui';
+import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
 
 export interface GameProps {
   scaleFactor: number;
@@ -113,9 +115,40 @@ const getPlayer = (playerId: string): Player | null => {
   return res;
 }
 
-const checkFactoryAffordability = (player: Player, input_items: { [key: string]: number } | [{ [key: string]: number }]) => {
+const checkFactoryAffordability = (player: Player, input_items: { [key: string]: number } | [{ [key: string]: number }], feature: { type: string, properties: any }) => {
   if (player === null) {
     return false;
+  }
+  // if (feature.properties['MustLend']) {
+  //   if (player.specie === "Eni") {
+  //     return false;
+  //   }
+  // }
+  if (feature.properties['EnietInterest']) {
+    if (Array.isArray(input_items)) {
+      return false;
+    }
+    if (input_items["ArbitrarySmall"] > 0) {
+      let maxSingleSmall = 0;
+      for (let item of arbitrarySmallSource) {
+        maxSingleSmall = Math.max(maxSingleSmall, (player.storage[item] || 0));
+      }
+      maxSingleSmall += (player.storage["WildSmall"] || 0);
+      if (input_items["ArbitrarySmall"] > maxSingleSmall) {
+        return false;
+      }
+      return true;
+    } else if (input_items["ArbitraryBig"] > 0) {
+      let maxSingleBig = 0;
+      for (let item of arbitraryBigSource) {
+        maxSingleBig = Math.max(maxSingleBig, (player.storage[item] || 0));
+      }
+      maxSingleBig += (player.storage["WildBig"] || 0);
+      if (input_items["ArbitraryBig"] > maxSingleBig) {
+        return false;
+      }
+      return true;
+    }
   }
   if (!Array.isArray(input_items)) {
     for (let item in input_items) {
@@ -140,16 +173,26 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
   return true;
 }
 
-const produce = (factoryName: string) => {
+const emitProduce = (factoryName: string, extra_properties: any) => {
   socket.emit("produce", {
     room_name: props.gameState.room_name,
     username: props.username,
-    factory_name: factoryName
+    factory_name: factoryName,
+    extra_properties: extra_properties ? extra_properties : {}
   });
 }
 
-const research = (factory: Factory) => {
-  handleResearchPanel(factory);
+const produce = (factory: Factory, extra_properties?: any) => {
+  if (factory.feature.type === "Research") {
+    handleResearchPanel(factory);
+    return;
+  }
+  console.log(factory.feature);
+  if (factory.feature.properties["EnietInterest"]) {
+    handleEnietInterestPanel(factory);
+    return
+  }
+  emitProduce(factory.name, extra_properties);
 }
 
 const upgradeColony = (factory: Factory) => {
@@ -179,10 +222,9 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
     scaleFactor: props.gameProps.scaleFactor,
     factory: factory,
     owner: factory.owner,
-    producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => checkFactoryAffordability(me, input_items),
+    producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => checkFactoryAffordability(me, input_items, factory.feature),
     gameState: props.gameState,
-    produce: () => produce(factory.name),
-    research: () => research(factory),
+    produce: () => produce(factory),
     upgradeColony: () => {
       if (factory.feature.type === "Colony") {
         upgradeColony(factory);
@@ -411,13 +453,36 @@ const getDiscardNum = () => {
   return colonies.length > maxColony ? colonies.length - maxColony : 0;
 }
 
+const displayEnietInterestPanel = ref(false);
+const enietInterestFactory = ref<Factory | null>(null);
+const handleEnietInterestPanel = (factory: Factory) => {
+  displayEnietInterestPanel.value = true;
+  enietInterestFactory.value = factory;
+}
+const closeEnietInterestPanel = () => {
+  displayEnietInterestPanel.value = false;
+  enietInterestFactory.value = null;
+}
+
+
+const submitEnietInterestSelect = (factoryName: string, properties: {"output_type": string, "input_combination": {[key: string]: number}}) => {
+  socket.emit("produce", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    factory_name: factoryName,
+    extra_properties: properties
+  });
+}
+
+
 const displayMask = () => {
   return displayTradePanel.value
     || displayResearchPanel.value
     || displayBidPanel.value
     || checkPanel.value
     || displayExchangePanel.value
-    || displayDiscardColonyPanel.value;
+    || displayDiscardColonyPanel.value
+    || displayEnietInterestPanel.value;
 };
 
 </script>
@@ -490,6 +555,14 @@ const displayMask = () => {
       :get-me="() => getMe()!"
       :discard-num="getDiscardNum()"
       v-if="displayDiscardColonyPanel"
+    />
+    <EnietInterestPanel
+      :submit-eniet-interest-select="submitEnietInterestSelect"
+      :close-eniet-interest-panel="closeEnietInterestPanel"
+      :factory="enietInterestFactory!"
+      :me="getMe()!"
+      :game-state="props.gameState"
+      v-if="displayEnietInterestPanel"
     />
   </div>
   <n-float-button 

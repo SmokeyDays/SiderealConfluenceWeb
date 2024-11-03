@@ -41,12 +41,14 @@ export const getSpecieZhName = (specie: string) => {
 };
 
 export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall", "ArbitrarySmall", "ArbitraryBig", "FoodDonation", "CultureDonation", "IndustryDonation", "EnergyDonation", "InformationDonation", "BiotechDonation", "HypertechDonation", "ShipDonation", "ScoreDonation", "WildBigDonation", "WildSmallDonation", "ArbitrarySmallDonation", "ArbitraryBigDonation"];
-export const arbitrarySmallSource = ["Food", "Culture", "Industry", "WildSmall"];
-export const arbitraryBigSource = ["Energy", "Information", "Biotech", "WildBig"];
-export const arbitraryWorldSource = ["Jungle", "Ice", "Desert", "Water"];
-export const wildSmallTarget = ["Food", "Culture", "Industry", "ArbitrarySmall"];
-export const wildBigTarget = ["Energy", "Information", "Biotech", "ArbitraryBig"];
 
+export const smallItem = ["Food", "Culture", "Industry"];
+export const bigItem = ["Energy", "Information", "Biotech"];
+export const wildSmallTarget = [...smallItem, "ArbitrarySmall"];
+export const wildBigTarget = [...bigItem, "ArbitraryBig"];
+export const arbitrarySmallSource = [...smallItem, "WildSmall"];
+export const arbitraryBigSource = [...bigItem, "WildBig"];
+export const arbitraryWorldSource = ["Jungle", "Ice", "Desert", "Water"];
 const itemValues: {[key: string]: number} = {
   'Food': 1,
   'Culture': 1,

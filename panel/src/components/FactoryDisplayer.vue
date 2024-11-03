@@ -94,7 +94,6 @@ export interface FactoryConfig {
   producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => boolean;
   gameState: GameState;
   produce: () => void;
-  research: () => void;
   upgradeColony: () => void;
   upgradeNormal: (id: number) => void;
   me: Player;
@@ -104,14 +103,7 @@ export interface FactoryConfig {
 const props = defineProps<FactoryConfig>();
 
 const produceClick = () => {
-  if (props.factory.converter.used || !props.producible) {
-    return;
-  }
-  if (props.factory.feature.type === 'Research') {
-    props.research();
-  } else {
-    props.produce();
-  }
+  props.produce();
 }
 
 

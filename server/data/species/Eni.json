@@ -47,7 +47,8 @@
                         "恩尼艾特_跨种族道德平等",
                         "恩尼艾特_反物质能源"
                     ],
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -65,7 +66,8 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -87,7 +89,8 @@
                         "恩尼艾特_种族间医学交流",
                         "恩尼艾特_有机结构"
                     ],
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -105,7 +108,8 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -127,7 +131,8 @@
                         "恩尼艾特_量子计算机",
                         "恩尼艾特_通用翻译器"
                     ],
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -145,7 +150,8 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -167,7 +173,8 @@
                         "恩尼艾特_量子计算机",
                         "恩尼艾特_临床永生"
                     ],
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -185,7 +192,8 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -207,7 +215,8 @@
                         "恩尼艾特_通用翻译器",
                         "恩尼艾特_泛在文化知识库"
                     ],
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -225,7 +234,8 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "EnietInterest": true,
+                    "MustLend": true
                 }
             }
         },
@@ -247,7 +257,7 @@
                         "恩尼艾特_超空间开采",
                         "恩尼艾特_奇点控制"
                     ],
-                    "EnietInterest": true
+                    "MustLend": true
                 }
             }
         },
@@ -265,7 +275,7 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true,
-                    "EnietInterest": true
+                    "MustLend": true
                 }
             }
         },
@@ -1142,7 +1152,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "water": 1
+                                "Water": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -1192,7 +1202,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "water": 1
+                                "Water": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -1290,7 +1300,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "water": 1
+                                "Water": 1
                             },
                             "output_items": {
                                 "Score": 1
@@ -1344,7 +1354,7 @@
                         {
                             "input_items": {
                                 "Biotech": 2,
-                                "water": 1
+                                "Water": 1
                             },
                             "output_items": {
                                 "Score": 1

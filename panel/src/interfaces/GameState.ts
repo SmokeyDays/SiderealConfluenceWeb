@@ -35,6 +35,10 @@ export class Player {
   ) {}
 }
 
+export function getStorage(player: Player, item: string): number {
+  return (player.storage[item] || 0);
+}
+
 export class GameState {
   constructor(
     public players: Player[],
