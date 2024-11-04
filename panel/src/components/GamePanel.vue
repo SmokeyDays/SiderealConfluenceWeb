@@ -79,7 +79,7 @@ const disagreeToNextStage = () => {
             </template>
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
-          <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading'">自由转换</n-button>
+          <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading' || gameState.stage === 'production'">自由转换</n-button>
           <n-button type="error" @click="props.exitGame">退出</n-button>
         </template>
       </div>

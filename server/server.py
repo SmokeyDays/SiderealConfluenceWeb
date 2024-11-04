@@ -33,9 +33,9 @@ class Server:
     # self.rooms["test"].game.debug_add_item("Alice", "WildSmall", 5)
     self.rooms["test"].game.debug_add_item("Alice", "WildBig", 5)
     self.rooms["test"].game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
+    return
     # skip trading
     self.rooms["test"].game.player_agree("Alice")
-    self.rooms["test"].game.player_agree("Bob")
     self.rooms["test"].game.player_agree("Bob")
     # success, msg = self.rooms["test"].game.produce("Alice", "恩尼艾特_相互理解", {"output_type": "Culture", "input_combination": {"Culture": 1, "WildSmall": 1}})
     return

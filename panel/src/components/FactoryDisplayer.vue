@@ -168,7 +168,7 @@ const getPreviewConverterValueTextConfig = () => {
   let x = props.x + props.width * 0.5;
   let y = props.y + props.height * 0.93;
   if (props.factory.feature.type !== 'Research') {
-    if (props.factory.feature.type === 'Normal') {
+    if (props.factory.feature.type === 'Normal' || props.factory.feature.type === 'Colony') {
       value = "升级后：" + value;
     }
     if (props.factory.feature.type === 'Meta') {

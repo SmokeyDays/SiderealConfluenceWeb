@@ -431,8 +431,9 @@ class Player:
     self.add_factory(research)
   
   def add_tech(self, factory: Factory, tech: str):
-    self.add_factory(factory)
-    self.tech.append(tech)
+    if tech not in self.tech:
+      self.add_factory(factory)
+      self.tech.append(tech)
 
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
@@ -480,8 +481,15 @@ class Player:
     self.agreed = False
 
   def reset_factories(self):
+    factories_to_remove = []
     for factory in self.factories.values():
-      factory.reset()
+      if factory.feature["type"] == "Research" or factory.feature["type"] == "Meta":
+        if factory.converter.used:
+          factories_to_remove.append(factory.name)
+      else:
+        factory.reset()
+    for factory_name in factories_to_remove:
+      self.remove_factory(factory_name)
 
   def has_tech(self, tech: str):
     return tech in self.tech
@@ -503,7 +511,10 @@ class Player:
     return (-self.research_bid, self.get_factory_num_by_type("Research"), -self.tie_breaker)
   
   def get_colony_priority(self):
-    return (-self.colony_bid, self.get_factory_num_by_type("Colony"), -self.tie_breaker)
+    colony_bid = self.colony_bid
+    if self.specie == "Caylion":
+      colony_bid = self.colony_bid / 2.0
+    return (-colony_bid, self.get_factory_num_by_type("Colony"), -self.tie_breaker)
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -576,10 +587,28 @@ class Game:
       self.colony_bid_cards.append({"price": bid_price_list[i], "item": None})
 
   def supply_bid_items(self):
+    research_cards = []
+    research_supply_count = 0
     for i in range(self.research_bid_num):
-      self.research_bid_cards[i]["item"] = self.draw_research()
+      if self.research_bid_cards[i]["item"] and self.research_bid_cards[i]["price"] > 1:
+        research_cards.append(self.research_bid_cards[i]["item"])
+      else:
+        research_supply_count += 1
+    for i in range(research_supply_count):
+      research_cards.append(self.draw_research())
+    for i in range(self.research_bid_num):
+      self.research_bid_cards[i]["item"] = research_cards[i]
+    colony_cards = []
+    colony_supply_count = 0
     for i in range(self.colony_bid_num):
-      self.colony_bid_cards[i]["item"] = self.draw_colony()
+      if self.colony_bid_cards[i]["item"]:
+        colony_cards.append(self.colony_bid_cards[i]["item"])
+      else:
+        colony_supply_count += 1
+    for i in range(colony_supply_count):
+      colony_cards.append(self.draw_colony())
+    for i in range(self.colony_bid_num):
+      self.colony_bid_cards[i]["item"] = colony_cards[i]
 
   def add_player(self, specie: str, user_id: str):
     player = self.data_manager.get_init_player(specie, user_id)
@@ -771,6 +800,8 @@ class Game:
       return False, "升级的殖民地不存在"
     if not player.remove_items_from_storage(player.factories[factory_name].feature["properties"]["upgrade_cost"]):
       return False, "玩家库存不足"
+    if player.factories[factory_name].feature["properties"]["caylion_colony"]:
+      new_factory.feature["properties"]["caylion_colony"] = True
     player.remove_factory(factory_name)
     player.add_factory(new_factory)
     return True, ""

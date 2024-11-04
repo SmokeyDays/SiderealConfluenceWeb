@@ -81,6 +81,9 @@ const submitPick = () => {
     <div class="bid-info" v-if="props.gameState.stage === 'bid'">
       选择你的出价
     </div>
+    <div class="bid-info" v-if="props.gameState.stage === 'bid' && props.getMe()?.specie === 'Caylion'">
+      作为凯利安，你的出价将折半
+    </div>
     <div class="pick-info" v-if="props.gameState.stage === 'pick'">
       由{{ getSpecieZhName(props.getPlayer(props.gameState.current_pick.player)?.specie || 'None') }}选择{{ props.gameState.current_pick.type === "colony" ? "殖民地" : "科研团队" }}
     </div>
