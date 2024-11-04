@@ -3,6 +3,41 @@ import json
 from typing import Any, Dict, List, Tuple
 import random
 
+def get_bid_board(player_num):
+  num_dict={
+    3:[1,2,3],
+    4:[1,1,2,3],
+    5:[1,1,2,3,3],
+    6:[1,1,1,2,3,3],
+    7:[1,1,1,2,2,3,4],
+    8:[1,1,1,1,2,2,3,4],
+    9:[1,1,1,1,2,2,3,4,4],
+    10:[1,1,1,1,1,2,2,3,4,4]
+  }
+  return num_dict[player_num]
+
+def get_share_score(player_num,turn):
+  yengii_table=[
+    [3,2,2,1,1,0],
+    [3,2,2,1,1,0],
+    [3,2,1,1,1,0],
+    [3,2,1,1,0,0],
+    [2,2,1,1,0,0],
+    [2,2,1,1,0,0],
+    [2,2,1,1,0,0]
+  ]
+  normal_table=[
+    [6,5,4,4,3,2],
+    [6,5,4,4,3,2],
+    [6,6,5,4,3,1],
+    [6,6,5,4,2,1],
+    [7,6,5,4,2,0],
+    [7,6,5,4,2,0],
+    [7,6,5,4,2,0]
+  ]
+  return normal_table[player_num-3][turn],yengii_table[player_num-3][turn]
+    
+
 class DataManager:
   def __init__(self, path: str):
     self.specie_factories = {}
