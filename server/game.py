@@ -35,7 +35,7 @@ def get_share_score(player_num,turn):
     [7,6,5,4,2,0],
     [7,6,5,4,2,0]
   ]
-  return normal_table[player_num-3][turn],yengii_table[player_num-3][turn]
+  return normal_table[player_num-3][turn], yengii_table[player_num-3][turn]
     
 
 class DataManager:
@@ -569,7 +569,6 @@ class Player:
       "invented_tech": self.invented_tech
     }
 
-bid_price_list = [1, 1, 2, 3]
 
 class Game:
   def __init__(self, room_name: str):
@@ -589,6 +588,8 @@ class Game:
     self.research_bid_priority = []
     self.colony_bid_priority = []
     self.discard_colony = []
+
+    self.bid_board = get_bid_board(len(self.players) + 2)
 
   @property
   def current_pick_player(self):
@@ -617,9 +618,9 @@ class Game:
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
-      self.research_bid_cards.append({"price": bid_price_list[i], "item": None})
+      self.research_bid_cards.append({"price": self.bid_board[i], "item": None})
     for i in range(self.colony_bid_num):
-      self.colony_bid_cards.append({"price": bid_price_list[i], "item": None})
+      self.colony_bid_cards.append({"price": self.bid_board[i], "item": None})
 
   def supply_bid_items(self):
     research_cards = []
@@ -741,9 +742,10 @@ class Game:
 
   def get_tech_spread_bonus(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
+    share_score, yengii_score = get_share_score(len(self.players) + 2, self.current_round)
     if player and player.specie == "Yengii":
-      return round((7 - self.current_round) / 2)
-    return 7 - self.current_round
+      return yengii_score
+    return share_score
 
   def develop_tech(self, player_name: str, tech: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
