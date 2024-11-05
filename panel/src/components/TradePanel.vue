@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { NButton, NInputNumber, NSelect, NCard } from 'naive-ui';
-import { getSpecieColor, items } from '@/interfaces/GameConfig';
+import { getItemOption, getSpecieColor, items } from '@/interfaces/GameConfig';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { socket } from '@/utils/connect';
 import type { GameState } from '@/interfaces/GameState';
@@ -59,7 +59,7 @@ const getItemOptions = () => {
   const res: { label: string, value: string }[] = [];
   items.forEach(item => {
     if (getItemRestriction(item) > 0) {
-      res.push({ label: item, value: item });
+      res.push(getItemOption(item));
     }
   });
   return res;

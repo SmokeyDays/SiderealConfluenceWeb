@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type CSSProperties } from 'vue';
 import { NButton, NSelect, NCard, NInputNumber, NSwitch } from 'naive-ui';
-import { arbitraryBigSource, arbitrarySmallSource, arbitraryWorldSource, getSpecieColor, items, wildBigTarget, wildSmallTarget } from '@/interfaces/GameConfig';
+import { arbitraryBigSource, arbitrarySmallSource, arbitraryWorldSource, getItemOption, getItemZhNameDesc, getSpecieColor, items, wildBigTarget, wildSmallTarget } from '@/interfaces/GameConfig';
 import type { Factory, GameState, Player } from '@/interfaces/GameState';
 import ItemEntryDiv from './ItemEntryDiv.vue';
 const props = defineProps<{
@@ -93,14 +93,14 @@ const getItemOptions = () => {
     const arbitrarySource = arbitrarySmallSource.concat(arbitraryBigSource).concat(arbitraryWorldSource);
     arbitrarySource.forEach(item => {
     if (getItemRestriction(item) > 0) {
-      res.push({ label: item, value: item });
+      res.push(getItemOption(item));
       }
     });
   } else {
     const wildSource = wildSmallTarget.concat(wildBigTarget);
     wildSource.forEach(item => {
       if (getItemRestriction(item) > 0) {
-        res.push({ label: item, value: item });
+        res.push(getItemOption(item));
       }
     });
   }
@@ -185,7 +185,8 @@ const railStyle = ({
     </n-switch>
     <template v-if="dealingArbitrary">
       <div class="exchange-item-title">将物品转换为任意投入。</div>
-      <div class="exchange-item-description">注意：任意投入将不再能转换回物品！这项交换产生的物品通常仅用于联合体的特定转换器，请检查你是否真的需要它们！</div>
+      <div class="exchange-item-description">任意投入指的是一种特殊的彩色方块投入，通常仅用于联合体的特定转换器，请检查你是否真的需要它们！</div>
+      <div class="exchange-item-description">注意：任意投入将不再能转换回普通物品！</div>
     </template>
     <template v-else>
       <div class="exchange-item-title">将百搭方块转换为特定方块</div>

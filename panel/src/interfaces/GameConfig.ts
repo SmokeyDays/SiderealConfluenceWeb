@@ -84,3 +84,93 @@ export const getItemsDonationValue = (items: {[key: string]: number}) => {
     return sum;
   }, 0);
 }
+
+const itemZhNames: {[key: string]: string} = {
+  'Food': '食物',
+  'Culture': '文化',
+  'Industry': '工业',
+  'Energy': '能源',
+  'Information': '信息',
+  'Biotech': '生物科技',
+  'Hypertech': '超科技',
+  'Ship': '飞船',
+  'Score': '分数',
+  'WildBig': '大型万能方块',
+  'WildSmall': '小型万能方块',
+  'ArbitrarySmall': '小型任意',
+  'ArbitraryBig': '大型任意',
+}
+
+const itemZhDescs: {[key: string]: string} = {
+  'Food': '小绿',
+  'Culture': '小白',
+  'Industry': '小棕',
+  'Energy': '大黄',
+  'Information': '大黑',
+  'Biotech': '大蓝',
+  'Hypertech': '柱子',
+  'Ship': '红三角',
+  'Score': '星星',
+  'WildBig': '大灰',
+  'WildSmall': '小灰',
+  'ArbitrarySmall': '小彩色',
+  'ArbitraryBig': '大彩色',
+}
+
+export const getItemZhName = (item: string) => {
+  let donation = false;
+  if (item.endsWith('Donation')) {
+    item = item.replace('Donation', '');
+    donation = true;
+  }
+  if (item in itemZhNames) {
+    return itemZhNames[item] + (donation ? '捐赠' : '');
+  }
+  return '未知';
+}
+
+export const getItemZhDesc = (item: string) => {
+  if (item.endsWith('Donation')) {
+    item = item.replace('Donation', '');
+  }
+  if (item in itemZhDescs) {
+    return itemZhDescs[item];
+  }
+  return '未知';
+}
+
+export const getItemZhNameDesc = (item: string) => {
+  return getItemZhName(item) + '(' + getItemZhDesc(item) + ')';
+}
+
+const itemColors: {[key: string]: string} = {
+  'Food': 'lightgreen',
+  'Culture': 'rgb(200, 200, 200)',
+  'Industry': 'brown',
+  'Energy': 'yellow',
+  'Information': 'black',
+  'Biotech': 'blue',
+  'Hypertech': 'gray',
+  'Ship': 'red',
+  'Score': 'purple',
+  'WildBig': 'gray',
+  'WildSmall': 'gray',
+  'ArbitrarySmall': 'gray',
+  'ArbitraryBig': 'gray',
+}
+
+const getItemColor = (item: string) => {
+  let donation = false;
+  if (item.endsWith('Donation')) {
+    item = item.replace('Donation', '');
+    donation = true;
+  }
+  if (item in itemColors) {
+    return itemColors[item];
+  }
+  return 'black';
+}
+
+export const getItemOption = (item: string) => {
+  return { label: getItemZhNameDesc(item), value: item, style: { color: getItemColor(item) } };
+}

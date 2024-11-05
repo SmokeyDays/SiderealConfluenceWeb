@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { NButton, NSelect, NCard } from 'naive-ui';
-import { getSpecieColor, items } from '@/interfaces/GameConfig';
+import { getItemZhDesc, getSpecieColor, items } from '@/interfaces/GameConfig';
 import type { Factory, GameState } from '@/interfaces/GameState';
 
 const props = defineProps<{
@@ -31,7 +31,7 @@ const getCostTypeOptions = () => {
   for (const cost of Object.keys(props.factory.converter.input_items).map(Number)) {
     let description = "";
     for (const item in props.factory.converter.input_items[cost]) {
-      description += `${item}: ${props.factory.converter.input_items[cost][item]} `;
+      description += `${getItemZhDesc(item)}: ${props.factory.converter.input_items[cost][item]} `;
     }
     res.push({ label: description, value: cost });
   }
