@@ -589,7 +589,6 @@ class Game:
     self.colony_bid_priority = []
     self.discard_colony = []
 
-    self.bid_board = get_bid_board(len(self.players) + 2)
 
   @property
   def current_pick_player(self):
@@ -618,9 +617,9 @@ class Game:
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
-      self.research_bid_cards.append({"price": self.bid_board[i], "item": None})
+      self.research_bid_cards.append({"price": get_bid_board(len(self.players) + 4)[i], "item": None})
     for i in range(self.colony_bid_num):
-      self.colony_bid_cards.append({"price": self.bid_board[i], "item": None})
+      self.colony_bid_cards.append({"price": get_bid_board(len(self.players) + 4)[i], "item": None})
 
   def supply_bid_items(self):
     research_cards = []
