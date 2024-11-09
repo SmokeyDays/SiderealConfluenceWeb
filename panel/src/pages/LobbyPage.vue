@@ -24,7 +24,7 @@
       </n-space>
     </div>
 
-    <div v-if="currentView === 'room'" class="room-view">
+    <div v-if="currentView === 'room'" class="room-view" style="max-width: 400px; margin: 0 auto;">
       <h3 class="room-title">{{ currentRoom }} ({{ Object.keys(props.rooms[currentRoom].players).length }} / {{ props.rooms[currentRoom].max_players }})</h3>
       <div class="room-content">
         <div v-for="(info, name) in props.rooms[currentRoom].players" :key="name" class="player-info">
@@ -166,9 +166,41 @@ const getSpecieSelectOptions = () => {
 <style scoped>
 .lobby-title {
   margin-bottom: 20px;
+  text-align: center;
 }
+
+.lobby-title h3 {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
 .lobby-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
+  background-image: url('/images/lobby-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 .room-list {
@@ -176,6 +208,7 @@ const getSpecieSelectOptions = () => {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
 .room-item {
@@ -198,8 +231,10 @@ const getSpecieSelectOptions = () => {
 .create-room-section {
   width: 200px;
   padding: 10px;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .room-view {
