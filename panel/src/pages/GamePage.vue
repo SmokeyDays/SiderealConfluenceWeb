@@ -4,14 +4,14 @@ import { defineProps } from 'vue';
 import { type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
-import GamePanel from '@/components/GamePanel.vue';
-import TradePanel from '@/components/TradePanel.vue';
-import BidPanel from '@/components/BidPanel.vue';
-import ResearchPanel from '@/components/ResearchPanel.vue';
-import ExchangePanel from '@/components/ExchangePanel.vue';
-import CheckPanel from '@/components/CheckPanel.vue';
-import DiscardColonyPanel from '@/components/DiscardColonyPanel.vue';
-import EnietInterestPanel from '@/components/EnietInterestPanel.vue';
+import GamePanel from '@/components/panels/GamePanel.vue';
+import TradePanel from '@/components/panels/TradePanel.vue';
+import BidPanel from '@/components/panels/BidPanel.vue';
+import ResearchPanel from '@/components/panels/ResearchPanel.vue';
+import ExchangePanel from '@/components/panels/ExchangePanel.vue';
+import CheckPanel from '@/components/panels/CheckPanel.vue';
+import DiscardColonyPanel from '@/components/panels/DiscardColonyPanel.vue';
+import EnietInterestPanel from '@/components/panels/EnietInterestPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
@@ -507,64 +507,62 @@ const displayMask = () => {
       </v-layer>
     </v-stage>
   </div>
-  <div v-if="displayMask()" class="mask">
-    <TradePanel :submit-trade="submitTrade" 
-      :update-trade-items="updateTradeItems" 
-      :trade-items="tradeItems" 
-      :close-trade-panel="closeTradePanel" 
-      :username="props.username"
-      :game-state="props.gameState"
-      :selected-player="selectedPlayer"
-      :handle-select-player="handleSelectPlayer"
-      v-if="displayTradePanel"
-    />
-    <ResearchPanel :submit-research="submitResearch" 
-      :close-research-panel="closeResearchPanel" 
-      :username="props.username"
-      :factory="researchFactory!"
-      :game-state="props.gameState"
-      v-if="displayResearchPanel"
-    />
-    <BidPanel :submit-bid="submitBid" 
-      :close-bid-panel="closeBidPanel" 
-      :submit-pick="submitPick"
-      :game-state="props.gameState"
-      :get-factory-config="getFactoryConfig"
-      :get-me="getMe"
-      :get-player="getPlayer"
-      :username="props.username"
-      v-if="displayBidPanel"
-    />
-    <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
-    <ExchangePanel 
-      :submit-exchange="submitExchange" 
-      :close-exchange-panel="closeExchangePanel" 
-      :username="props.username" 
-      :game-state="props.gameState" 
-      :get-me="getMe" 
-      :arbitrary-items="arbitraryItems"
-      :update-arbitrary-items="updateArbitraryItems"
-      :wild-items="wildItems"
-      :update-wild-items="updateWildItems"
-      v-if="displayExchangePanel" 
-    />
-    <DiscardColonyPanel :submit-discard-colony="submitDiscardColony" 
-      :close-discard-colony-panel="closeDiscardColonyPanel" 
-      :username="props.username"
-      :game-state="props.gameState"
-      :get-me="() => getMe()!"
-      :discard-num="getDiscardNum()"
-      v-if="displayDiscardColonyPanel"
-    />
-    <EnietInterestPanel
-      :submit-eniet-interest-select="submitEnietInterestSelect"
-      :close-eniet-interest-panel="closeEnietInterestPanel"
-      :factory="enietInterestFactory!"
-      :me="getMe()!"
-      :game-state="props.gameState"
-      v-if="displayEnietInterestPanel"
-    />
-  </div>
+  <TradePanel :submit-trade="submitTrade" 
+    :update-trade-items="updateTradeItems" 
+    :trade-items="tradeItems" 
+    :close-trade-panel="closeTradePanel" 
+    :username="props.username"
+    :game-state="props.gameState"
+    :selected-player="selectedPlayer"
+    :handle-select-player="handleSelectPlayer"
+    v-if="displayTradePanel"
+  />
+  <ResearchPanel :submit-research="submitResearch" 
+    :close-research-panel="closeResearchPanel" 
+    :username="props.username"
+    :factory="researchFactory!"
+    :game-state="props.gameState"
+    v-if="displayResearchPanel"
+  />
+  <BidPanel :submit-bid="submitBid" 
+    :close-bid-panel="closeBidPanel" 
+    :submit-pick="submitPick"
+    :game-state="props.gameState"
+    :get-factory-config="getFactoryConfig"
+    :get-me="getMe"
+    :get-player="getPlayer"
+    :username="props.username"
+    v-if="displayBidPanel"
+  />
+  <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
+  <ExchangePanel 
+    :submit-exchange="submitExchange" 
+    :close-exchange-panel="closeExchangePanel" 
+    :username="props.username" 
+    :game-state="props.gameState" 
+    :get-me="getMe" 
+    :arbitrary-items="arbitraryItems"
+    :update-arbitrary-items="updateArbitraryItems"
+    :wild-items="wildItems"
+    :update-wild-items="updateWildItems"
+    v-if="displayExchangePanel" 
+  />
+  <DiscardColonyPanel :submit-discard-colony="submitDiscardColony" 
+    :close-discard-colony-panel="closeDiscardColonyPanel" 
+    :username="props.username"
+    :game-state="props.gameState"
+    :get-me="() => getMe()!"
+    :discard-num="getDiscardNum()"
+    v-if="displayDiscardColonyPanel"
+  />
+  <EnietInterestPanel
+    :submit-eniet-interest-select="submitEnietInterestSelect"
+    :close-eniet-interest-panel="closeEnietInterestPanel"
+    :factory="enietInterestFactory!"
+    :me="getMe()!"
+    :game-state="props.gameState"
+    v-if="displayEnietInterestPanel"
+  />
   <n-float-button 
     @click="openBidPanel" 
     v-if="isBidStage(props.gameState.stage)" 
@@ -602,17 +600,5 @@ const displayMask = () => {
 .game-panel {
   height: 100vh;
   z-index: 100;
-}
-.mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { NButton, NSelect, NCard } from 'naive-ui';
 import { getSpecieColor, items } from '@/interfaces/GameConfig';
 import type { Factory, GameState, Player } from '@/interfaces/GameState';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
   submitDiscardColony: (colonies: string[]) => void;
@@ -39,14 +40,16 @@ const checkValid = () => {
 </script>
 
 <template>
-  <n-card hoverable class="research-panel">
-    <div class="research-cost-title">你必须弃置{{ discardNum }}个殖民地</div>
+  <PanelTemplate>
+    <n-card hoverable class="research-panel">
+      <div class="research-cost-title">你必须弃置{{ discardNum }}个殖民地</div>
     <div class="research-cost-input"> 
       <n-select v-model:value="colonies" :options="getColonyOptions()" placeholder="选择殖民地" multiple/>
       <n-button class="submit-research-button" @click="submitDiscardColony" type="primary" :disabled="!checkValid()">确定</n-button>
       <n-button class="close-research-button" @click="submitClose" type="error">关闭</n-button>
-    </div>
-  </n-card>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>
@@ -73,5 +76,5 @@ const checkValid = () => {
 .research-cost-title {
   font-size: 1.2rem;
   font-weight: bold;
-}
+} 
 </style>

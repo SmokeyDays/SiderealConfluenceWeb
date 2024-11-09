@@ -3,7 +3,9 @@ import { ref, type CSSProperties } from 'vue';
 import { NButton, NSelect, NCard, NInputNumber, NSwitch } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource, arbitraryWorldSource, getItemOption, getItemZhNameDesc, getSpecieColor, items, wildBigTarget, wildSmallTarget } from '@/interfaces/GameConfig';
 import type { Factory, GameState, Player } from '@/interfaces/GameState';
-import ItemEntryDiv from './ItemEntryDiv.vue';
+import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
+
 const props = defineProps<{
   submitExchange: (colonies: string[], arbitraryItems: { [key: string]: number }, wildItems: { [key: string]: number }) => void;
   closeExchangePanel: () => void;
@@ -168,8 +170,9 @@ const railStyle = ({
 </script>
 
 <template>
-  <n-card hoverable class="exchange-panel">
-    <div class="exchange-colony-title">将殖民地转换为物品以用于升级</div>
+  <PanelTemplate>
+    <n-card hoverable class="exchange-panel">
+      <div class="exchange-colony-title">将殖民地转换为物品以用于升级</div>
     <div class="exchange-colony-description">注意：殖民地转换为物品后，殖民地将不复存在！这项交换产生的物品仅用于运行殖民地作为投入的转换器！</div>
     <div class="exchange-colony-input"> 
       <n-select v-model:value="selectedColonies" :options="getColonyOptions()" placeholder="Choose colonies" multiple/>
@@ -207,8 +210,9 @@ const railStyle = ({
       <n-button @click="addItem" :disabled="getItemRestriction(newArbitraryItem) < newArbitraryItemCount">添加</n-button>
     </div>
     <n-button class="submit-exchange-button" @click="submitExchange" type="primary" :disabled="!checkSubmit()">确认</n-button>
-    <n-button class="close-exchange-button" @click="submitClose" type="error">取消</n-button>
-  </n-card>
+      <n-button class="close-exchange-button" @click="submitClose" type="error">取消</n-button>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

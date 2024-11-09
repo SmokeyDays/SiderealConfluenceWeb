@@ -1,13 +1,18 @@
+import datetime
 from flask_socketio import emit, join_room, leave_room
 from server.game import Game
 from server.room import Room
 from server.utils.connect import create_app, get_router_name
+from server.utils.logger import log
+from server.message import Message, MessageManager
 
 class Server:
   def __init__(self):
     self.app, self.socketio = create_app()
     
-    self.rooms = {}
+    self.online_users = {}
+    self.rooms: dict[str, Room] = {}
+    self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     
     self.mock()
     self.bind_basic_events()
@@ -16,28 +21,29 @@ class Server:
   
   def mock(self):
     self.rooms["test"] = Room(2, "test")
-    self.rooms["test"].enter_room("Alice")
-    self.rooms["test"].enter_room("Bob")
-    self.rooms["test"].choose_specie("Alice", "Caylion")
-    self.rooms["test"].choose_specie("Bob", "Eni")
-    self.rooms["test"].agree_to_start("Alice")
-    self.rooms["test"].agree_to_start("Bob")
-    self.rooms["test"].game.develop_tech("Alice", "跨种族道德平等")
-    self.rooms["test"].game.develop_tech("Alice", "基因工程学")
-    self.rooms["test"].game.debug_draw_colony("Alice")
-    self.rooms["test"].game.debug_add_item("Alice", "Ship", 5)
-    self.rooms["test"].game.debug_add_item("Bob", "Ship", 5)
-    self.rooms["test"].game.debug_add_item("Alice", "Score", 5)
-    self.rooms["test"].game.debug_add_item("Alice", "ScoreDonation", 1)
-    self.rooms["test"].game.debug_add_item("Alice", "Hypertech", 5)
-    # self.rooms["test"].game.debug_add_item("Alice", "WildSmall", 5)
-    self.rooms["test"].game.debug_add_item("Alice", "WildBig", 5)
-    self.rooms["test"].game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
+    test_room = self.rooms['test']
+    test_room.enter_room("Alice")
+    test_room.enter_room("Bob")
+    test_room.choose_specie("Alice", "Caylion")
+    test_room.choose_specie("Bob", "Eni")
+    test_room.agree_to_start("Alice")
+    test_room.agree_to_start("Bob")
+    test_room.game.develop_tech("Alice", "跨种族道德平等")
+    test_room.game.develop_tech("Alice", "基因工程学")
+    test_room.game.debug_draw_colony("Alice")
+    test_room.game.debug_add_item("Alice", "Ship", 5)
+    test_room.game.debug_add_item("Bob", "Ship", 5)
+    test_room.game.debug_add_item("Alice", "Score", 5)
+    test_room.game.debug_add_item("Alice", "ScoreDonation", 1)
+    test_room.game.debug_add_item("Alice", "Hypertech", 5)
+    # test_room.game.debug_add_item("Alice", "WildSmall", 5)
+    test_room.game.debug_add_item("Alice", "WildBig", 5)
+    test_room.game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
     return
     # skip trading
-    self.rooms["test"].game.player_agree("Alice")
-    self.rooms["test"].game.player_agree("Bob")
-    # success, msg = self.rooms["test"].game.produce("Alice", "恩尼艾特_相互理解", {"output_type": "Culture", "input_combination": {"Culture": 1, "WildSmall": 1}})
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bob")
+    # success, msg = test_room.game.produce("Alice", "恩尼艾特_相互理解", {"output_type": "Culture", "input_combination": {"Culture": 1, "WildSmall": 1}})
     return
     # skip production
     self.rooms['test'].game.player_agree("Alice")
@@ -54,11 +60,34 @@ class Server:
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
 
-  def update_rooms(self):
-    rooms = {}
-    for room_name, room in self.rooms.items():
-      rooms[room_name] = room.to_dict()
-    self.socketio.emit("room-list", {"rooms": rooms}, namespace=get_router_name())
+  def send_new_msg(self, user_id, msg):
+    self.socketio.emit("new-message", {"msg": msg.to_dict()}, namespace=get_router_name(), to=user_id)
+
+  def on_new_msg(self, msg: Message):
+    room = msg.room
+    user = msg.user
+    receivers = []
+    if room is None:
+      if user is None:
+        for online_user, _ in self.online_users.items():
+          receivers.append(online_user)
+      else:
+        receivers.append(user)
+    else:
+      if room not in self.rooms:
+        log('error', f"Room {room} not found")
+      if user is None:
+        for user_id in self.rooms[room].players:
+          receivers.append(user_id)
+      else:
+        if user not in self.rooms[room].players:
+          log('error', f"User {user} not found in room {room}")
+          return
+        receivers.append(user)
+      for receiver in receivers:
+        if receiver != msg.sender:
+          self.send_new_msg(receiver, msg)
+    
 
   def bind_basic_events(self):
     @self.socketio.on('connect', namespace=get_router_name())
@@ -76,6 +105,9 @@ class Server:
       # Note that the 'join_room' here is just for the socketio usage, not the room object in the server.
       # Whenever we send a message to a user, we should use the 'to' parameter and specify the username as the room name.
       join_room(username)
+      self.online_users[username] = self.online_users.get(username, 0) + 1
+      msgs = self.message_manager.get_msgs_by_user(username)
+      emit('sync-chat', {"msgs": [msg.to_dict() for msg in msgs]}, namespace=get_router_name())
       emit('alert-message', {
         "type": "success",
         "title": "Logged in",
@@ -89,6 +121,26 @@ class Server:
     def logout(data):
       username = data['username']
       leave_room(username)
+      self.online_users[username] = self.online_users.get(username, 0) - 1
+      if self.online_users[username] <= 0:
+        self.online_users.pop(username)
+
+    @self.socketio.on('send-message', namespace=get_router_name())
+    def send_msg(data):
+      msg = Message(
+        data['sender'],
+        data['msg'], 
+        data['date'], 
+        data['room'] if 'room' in data else None, 
+        data['user'] if 'user' in data else None
+      )
+      self.message_manager.new_msg(msg)
+
+  def update_rooms(self):
+    rooms = {}
+    for room_name, room in self.rooms.items():
+      rooms[room_name] = room.to_dict()
+    self.socketio.emit("room-list", {"rooms": rooms}, namespace=get_router_name())
 
   def bind_lobby_events(self):
     @self.socketio.on('get-room-list', namespace=get_router_name())

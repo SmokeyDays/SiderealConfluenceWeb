@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NSelect, NCard } from 'naive-ui';
-import { getSpecieColor, items } from '@/interfaces/GameConfig';
-import type { Factory, GameState } from '@/interfaces/GameState';
-
+import { NButton, NCard } from 'naive-ui';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 const props = defineProps<{
   checkMessage: string;
   checkCallback: () => void;
@@ -21,13 +19,15 @@ const submitCheck = () => {
 </script>
 
 <template>
-  <n-card hoverable class="research-panel">
-    <div class="research-cost-title">{{ props.checkMessage }}</div>
+  <PanelTemplate>
+    <n-card hoverable class="research-panel">
+      <div class="research-cost-title">{{ props.checkMessage }}</div>
       <div class="research-cost-input"> 
-      <n-button class="submit-research-button" @click="submitCheck" type="primary">确定</n-button>
-      <n-button class="close-research-button" @click="closeCheckPanel" type="error">取消</n-button>
-    </div>
-  </n-card>
+        <n-button class="submit-research-button" @click="submitCheck" type="primary">确定</n-button>
+        <n-button class="close-research-button" @click="closeCheckPanel" type="error">取消</n-button>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

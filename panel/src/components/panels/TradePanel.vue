@@ -5,6 +5,7 @@ import { getItemOption, getSpecieColor, items } from '@/interfaces/GameConfig';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { socket } from '@/utils/connect';
 import type { GameState } from '@/interfaces/GameState';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
   submitTrade: (items: { [key: string]: number }, factories: string[], techs: string[], toWhom: string) => void;
@@ -135,8 +136,9 @@ const checkSubmit = () => {
 </script>
 
 <template>
-  <n-card hoverable class="trade-panel">
-    <div class="trade-item-title">赠送如下物品：</div>
+  <PanelTemplate>
+    <n-card hoverable class="trade-panel">
+      <div class="trade-item-title">赠送如下物品：</div>
     <div class="trade-item-container" v-if="Object.values(tradeItems).some(count => count > 0)">
       <template v-for="(count, item) in tradeItems" :key="item">
         <div class="trade-item-entry" v-if="count > 0">
@@ -160,8 +162,9 @@ const checkSubmit = () => {
     <div class="to-whom-container">
       <p style="font-size: 1.2rem; font-weight: bold;">给:</p>
       <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="Choose a player" />
-    </div>
-  </n-card>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

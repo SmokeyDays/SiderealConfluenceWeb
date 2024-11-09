@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { NButton, NSpace } from 'naive-ui';
+import { NButton, NSpace, NFloatButton, NIcon } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
 import LobbyPage from '@/pages/LobbyPage.vue';
@@ -10,6 +10,9 @@ import type { GameState } from './interfaces/GameState';
 import type { RoomList } from './interfaces/RoomState';
 import Logo from '@/components/Logo.vue';
 import { isProduction } from './utils/config';
+import { messageEqual, type Message } from './interfaces/ChatState';
+import IconChat from '@/components/icons/IconChat.vue';
+import ChatPanel from '@/components/panels/ChatPanel.vue';
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
 const username = ref(isProduction? '': 'Alice');
@@ -37,6 +40,8 @@ const gameState = ref<GameState>({
   },
   current_discard_colony_player: ''
 });
+
+const messages = ref<Message[]>([]);
 
 socket.on('game-state', (data: {state: GameState}) => {
   gameState.value = data.state;
@@ -105,6 +110,59 @@ onUnmounted(() => {
     socket.emit('logout', {username: username.value});
   }
 })
+
+const addMessage = (message: Message) => {
+  messages.value.sort((a, b) => {
+    const aDate = new Date(a.date);
+    const bDate = new Date(b.date);
+    return aDate.getTime() - bDate.getTime();
+  });
+  if (messages.value.length > 0 && messageEqual(messages.value[messages.value.length - 1], message)) {
+    return;
+  }
+  PubSub.publish('alert-pubsub-message', {
+    title: '新消息：' + message.sender + "->" + (message.user? message.user : "All") + " in  " + (message.room? message.room : "All"),
+    str: message.msg,
+    type: 'info',
+    dur: 2,
+    visible: true,
+  });
+  messages.value.push(message);
+}
+
+const sendMessage = (msg: string, room: string | null, user: string | null) => {
+  const newMessage: Message = {
+    sender: username.value,
+    msg: msg,
+    date: new Date().toISOString(),
+    room: room,
+    user: user,
+  };
+  addMessage(newMessage);
+  socket.emit('send-message', newMessage);
+};
+
+socket.on('new-message', (data: {msg: Message}) => {
+  addMessage(data.msg);
+});
+socket.on('sync-chat', (data: {msgs: Message[]}) => {
+  console.log(data);
+  messages.value = data.msgs;
+});
+
+const displayMessagePanel = ref(false);
+
+const getDisplayMessagePanel = () => {
+  return displayMessagePanel.value && username.value !== '';
+}
+
+const openMessagePanel = () => {
+  displayMessagePanel.value = true;
+}
+
+const closeMessagePanel = () => {
+  displayMessagePanel.value = false;
+}
 </script>
 
 <template>
@@ -119,6 +177,19 @@ onUnmounted(() => {
       <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" />
     </template>
     <AlertList/>
+    <ChatPanel
+      v-if="getDisplayMessagePanel()"
+      :sendMessage="sendMessage"
+      :messages="messages"
+      :rooms="rooms"
+      :username="username"
+      :closeMessagePanel="closeMessagePanel"
+    />
+    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''">
+      <n-icon>
+        <IconChat />
+      </n-icon>
+    </n-float-button>
   </div>
 </template>
 

@@ -4,6 +4,7 @@ import IconRenew from '@/components/icons/IconRenew.vue';
 import IconSaveImg from '@/components/icons/IconSaveImg.vue';
 import { NButton, NButtonGroup, NFloatButton, NIcon } from 'naive-ui';
 import { socket } from '@/utils/connect';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 // props
 defineProps<{
@@ -18,8 +19,9 @@ const cityTick = () => {
 </script>
 
 <template>
-  <div class="control-panel" style="height: 200px; transform: translate(0)">
-    <n-float-button :right="0" :top="0" @click="cityTick" size="large" type="primary">
+  <PanelTemplate>
+    <div class="control-panel" style="height: 200px; transform: translate(0)">
+      <n-float-button :right="0" :top="0" @click="cityTick" size="large" type="primary">
       <n-icon color="white" size="30">
         <IconArrowForwardOutlined/>
       </n-icon>
@@ -33,11 +35,9 @@ const cityTick = () => {
       <n-icon color="white" size="30">
         <IconSaveImg/>
       </n-icon>
-    </n-float-button>
-  </div>
-  <div class="control-panel">
-    
-  </div>
+      </n-float-button>
+    </div>
+  </PanelTemplate>
 </template>
 
 <style scoped>
@@ -47,6 +47,5 @@ const cityTick = () => {
   right: 0;
   margin: 1rem;
 }
-
 
 </style>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { NButton, NSelect, NCard, NInputNumber } from 'naive-ui';
-import { bigItem, getSpecieColor, items, smallItem } from '@/interfaces/GameConfig';
+import { bigItem, smallItem } from '@/interfaces/GameConfig';
 import { getStorage, type Factory, type GameState, type Player } from '@/interfaces/GameState';
-import ItemEntryDiv from './ItemEntryDiv.vue';
+import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
   submitEnietInterestSelect: (factoryName: string, properties: {"output_type": string, "input_combination": {[key: string]: number}}) => void
@@ -115,8 +116,9 @@ const onOutputTypeChange = () => {
 </script>
 
 <template>
-  <n-card hoverable class="eniet-interest-panel">
-    <div class="eniet-interest-cost-title">选择存放的利息类型</div>
+  <PanelTemplate>
+    <n-card hoverable class="eniet-interest-panel">
+      <div class="eniet-interest-cost-title">选择存放的利息类型</div>
     <div class="eniet-interest-cost-input"> 
       <n-select v-model:value="outputType" :options="getOutputTypeOptions()" placeholder="选择存放的利息类型" @update:value="onOutputTypeChange"/>
       <template v-if="outputType != ''">
@@ -144,8 +146,9 @@ const onOutputTypeChange = () => {
     </template>
       <n-button class="submit-eniet-interest-button" @click="submit" type="primary" :disabled="!affordCost()">Submit Research</n-button>
       <n-button class="close-eniet-interest-button" @click="submitClose" type="error">Close</n-button>
-    </div>
-  </n-card>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

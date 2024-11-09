@@ -6,6 +6,7 @@ import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
 import { socket } from '@/utils/connect';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
   gameState: GameState;
@@ -46,7 +47,7 @@ const disagreeToNextStage = () => {
 </script>
 
 <template>
-  <div class="">
+  <PanelTemplate>
     <n-card vertical align="center" justify="center" class="game-panel" hoverable>
       <div class="game-info">轮次: {{ gameState.current_round }} ，阶段: {{ gameState.stage }}</div>
       <n-divider />
@@ -84,7 +85,7 @@ const disagreeToNextStage = () => {
         </template>
       </div>
     </n-card>
-  </div>
+  </PanelTemplate>
 </template>
 
 <style scoped>

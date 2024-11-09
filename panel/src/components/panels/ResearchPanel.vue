@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { NButton, NSelect, NCard } from 'naive-ui';
 import { getItemZhDesc, getSpecieColor, items } from '@/interfaces/GameConfig';
 import type { Factory, GameState } from '@/interfaces/GameState';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
   submitResearch: (factoryName: string, costType: number) => void;
@@ -56,14 +57,16 @@ const affordCost = () => {
 </script>
 
 <template>
-  <n-card hoverable class="research-panel">
-    <div class="research-cost-title">Choose a cost type:</div>
+  <PanelTemplate>
+    <n-card hoverable class="research-panel">
+      <div class="research-cost-title">Choose a cost type:</div>
     <div class="research-cost-input"> 
       <n-select v-model:value="costType" :options="getCostTypeOptions()" placeholder="Choose a cost type" />
       <n-button class="submit-research-button" @click="submitResearch" type="primary" :disabled="!affordCost()">Submit Research</n-button>
       <n-button class="close-research-button" @click="submitClose" type="error">Close</n-button>
-    </div>
-  </n-card>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

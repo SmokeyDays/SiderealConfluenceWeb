@@ -4,6 +4,7 @@ import { NButton, NPopover, NInputNumber, NCard } from 'naive-ui';
 import type { GameState, Player, Factory } from '@/interfaces/GameState';
 import type { FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import FactoryDisplayer from '@/components/FactoryDisplayer.vue';
+import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 import { getSpecieZhName } from '@/interfaces/GameConfig';
 
 const props = defineProps<{
@@ -77,8 +78,9 @@ const submitPick = () => {
 </script>
 
 <template>
-  <n-card hoverable class="bid-panel">
-    <div class="bid-info" v-if="props.gameState.stage === 'bid'">
+  <PanelTemplate>
+    <n-card hoverable class="bid-panel">
+      <div class="bid-info" v-if="props.gameState.stage === 'bid'">
       选择你的出价
     </div>
     <div class="bid-info" v-if="props.gameState.stage === 'bid' && props.getMe()?.specie === 'Caylion'">
@@ -156,9 +158,10 @@ const submitPick = () => {
         type="primary" 
         v-if="isCurrentPick()" 
       >Submit Pick</n-button>
-      <n-button class="close-bid-button" @click="props.closeBidPanel" type="error">Close</n-button>
-    </div>
-  </n-card>
+        <n-button class="close-bid-button" @click="props.closeBidPanel" type="error">Close</n-button>
+      </div>
+    </n-card>
+  </PanelTemplate>
 </template>
 
 <style>

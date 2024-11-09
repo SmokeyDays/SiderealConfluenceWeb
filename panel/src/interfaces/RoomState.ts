@@ -11,4 +11,3 @@ export interface RoomState {
 }
 
 export type RoomList = Record<string, RoomState>;
-
