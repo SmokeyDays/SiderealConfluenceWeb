@@ -185,7 +185,7 @@ const closeMessagePanel = () => {
       :username="username"
       :closeMessagePanel="closeMessagePanel"
     />
-    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''">
+    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button">
       <n-icon>
         <IconChat />
       </n-icon>
@@ -201,17 +201,8 @@ const closeMessagePanel = () => {
   font-family: Arial, sans-serif;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+.chat-float-button {
+  z-index: 1000;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
 </style>

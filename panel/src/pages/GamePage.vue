@@ -568,7 +568,6 @@ const displayMask = () => {
     v-if="isBidStage(props.gameState.stage)" 
     :top="10"
     :right="10"
-    :style="{ zIndex: 101 }"
   >
     <template #description>Bid</template>
   </n-float-button>
@@ -577,7 +576,6 @@ const displayMask = () => {
     v-if="isDiscardColonyStage()"
     :top="10"
     :right="10"
-    :style="{ zIndex: 101 }"
   >
     <template #description>Discard Colony</template>
   </n-float-button>
@@ -591,7 +589,6 @@ const displayMask = () => {
   width: calc(100vw - 250px);
   height: 100vh;
   overflow: hidden;
-  z-index: 10;
 }
 .game-stage-canvas {
   overflow: hidden;
@@ -599,6 +596,5 @@ const displayMask = () => {
 
 .game-panel {
   height: 100vh;
-  z-index: 100;
 }
 </style>
