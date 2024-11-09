@@ -194,8 +194,8 @@ const closeMessagePanel = () => {
 </template>
 
 <style scoped>
-#app {
-  /* max-width: 1280px; */
+.app {
+  width: 100vw;
   margin: 0 auto;
   font-weight: normal;
   font-family: Arial, sans-serif;
