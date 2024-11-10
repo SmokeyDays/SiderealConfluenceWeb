@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch , reactive } from 'vue';
 import { defineProps } from 'vue';
 import { type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
@@ -31,8 +31,11 @@ const props = defineProps<{
 }>();
 
 const stageConfig = ref({
+  x: 0,
+  y: 0,
   width: window.innerWidth,
   height: window.innerHeight,
+  image: new Image(),
 });
 
 const handleRightClickDrag = (event: MouseEvent) => {
@@ -79,6 +82,15 @@ const handleResize = () => {
 window.addEventListener('wheel', handleWheel);
 window.addEventListener('mousedown', handleRightClickDrag);
 window.addEventListener('resize', handleResize);
+
+onMounted(() => {
+  const imageObj = new window.Image();
+  imageObj.src = '/images/game-bg.webp';
+
+  imageObj.onload = () => {
+    stageConfig.value.image = imageObj;
+  };
+});
 
 onUnmounted(() => {
   window.removeEventListener('wheel', handleWheel);
@@ -500,7 +512,7 @@ const displayMask = () => {
   <div class="game-stage">
     <v-stage :config="stageConfig" class="game-stage-canvas">
       <v-layer>
-        <v-rect :config="{ x: 0, y: 0, width: stageConfig.width, height: stageConfig.height, fill: 'white' }" />
+        <v-image :config="stageConfig"/>
         <template v-for="factory in getFactoryConfigs()" :key="factory.id">
           <FactoryDisplayer :="factory" />
         </template>
