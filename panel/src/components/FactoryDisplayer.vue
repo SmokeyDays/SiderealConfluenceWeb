@@ -1,13 +1,14 @@
 <template>
   <v-group>
     <!-- Factory background -->
-    <v-rect :config="{
+    <v-image :config="{
       x: props.x,
       y: props.y,
       width: props.width,
       height: props.height,
-      fill: '#555',
-      cornerRadius: 5
+      cornerRadius: 10,
+      opacity: 0.9,
+      image: getFactoryBackgroundImage()
     }" />
 
     <v-text :config="getTitleConfig(props.factory.name)" />
@@ -101,6 +102,12 @@ export interface FactoryConfig {
 
 
 const props = defineProps<FactoryConfig>();
+
+const getFactoryBackgroundImage = () => {
+  const img = new Image();
+  img.src = new URL('/images/factory-bg.webp', import.meta.url).href; // 确保图片路径正确
+  return img;
+};
 
 const produceClick = () => {
   props.produce();
