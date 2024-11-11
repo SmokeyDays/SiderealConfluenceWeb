@@ -7,6 +7,7 @@ import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GamePanel from '@/components/panels/GamePanel.vue';
 import TradePanel from '@/components/panels/TradePanel.vue';
 import BidPanel from '@/components/panels/BidPanel.vue';
+import EndPanel from '@/components/panels/EndPanel.vue';
 import ResearchPanel from '@/components/panels/ResearchPanel.vue';
 import ExchangePanel from '@/components/panels/ExchangePanel.vue';
 import CheckPanel from '@/components/panels/CheckPanel.vue';
@@ -423,6 +424,23 @@ const submitPick = (type: string, id: number) => {
   });
 }
 
+const displayEndPanel = ref(false);
+const openEndPanel = () => {
+  displayEndPanel.value = true;
+}
+
+const isEndStage = (stage: string) => {
+  return stage === "gameend";
+}
+
+watch(() => props.gameState.stage, (newStage) => {
+  displayEndPanel.value = isEndStage(newStage);
+});
+
+const closeEndPanel = () => {
+  displayEndPanel.value = false;
+}
+
 const checkPanel = ref(false);
 const checkCallback = ref<(() => void)>(() => {});
 const checkMessage = ref<string>("");
@@ -491,6 +509,7 @@ const displayMask = () => {
   return displayTradePanel.value
     || displayResearchPanel.value
     || displayBidPanel.value
+    || displayEndPanel.value
     || checkPanel.value
     || displayExchangePanel.value
     || displayDiscardColonyPanel.value
@@ -546,6 +565,13 @@ const displayMask = () => {
     :username="props.username"
     v-if="displayBidPanel"
   />
+  <EndPanel :close-end-panel="closeEndPanel" 
+    :get-me="getMe"
+    :get-player="getPlayer"
+    :username="props.username"
+    :players="props.gameState.players"
+    v-if="displayEndPanel"
+  />
   <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
   <ExchangePanel 
     :submit-exchange="submitExchange" 
@@ -582,6 +608,14 @@ const displayMask = () => {
     :right="10"
   >
     <template #description>Bid</template>
+  </n-float-button>
+  <n-float-button 
+    @click="openEndPanel" 
+    v-if="isEndStage(props.gameState.stage)" 
+    :top="10"
+    :right="10"
+  >
+    <template #description>End</template>
   </n-float-button>
   <n-float-button 
     @click="openDiscardColonyPanel" 

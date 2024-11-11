@@ -61,6 +61,7 @@ class Room:
     for user_id, player in self.players.items():
       self.game.add_player(player["specie"], user_id)
     self.game_state = "playing"
+    self.game.start_game()
 
   def to_dict(self):
     return {

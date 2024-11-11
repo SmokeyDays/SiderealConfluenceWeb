@@ -582,7 +582,7 @@ class Game:
     self.players: List[Player] = []
     self.current_round = 0
     self.end_round = end_round
-    self.stage = "trading"
+    self.stage = ""
     self.room_name = room_name
     self.tech_spread_list = {}
     self.data_manager = DataManager("./server/data")

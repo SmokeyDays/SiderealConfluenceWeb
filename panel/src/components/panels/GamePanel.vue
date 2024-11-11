@@ -43,6 +43,10 @@ const agreeToNextStage = () => {
 const disagreeToNextStage = () => {
   socket.emit('disagree', { username: props.username, room_name: props.gameState.room_name });
 };
+const leaveRoomAndReturnToLobby = () => {
+  socket.emit('leave-room', { username: props.username, room_name: props.gameState.room_name });
+  props.exitGame();
+};
 
 </script>
 
@@ -81,7 +85,8 @@ const disagreeToNextStage = () => {
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
           <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading' || gameState.stage === 'production'">自由转换</n-button>
-          <n-button type="error" @click="props.exitGame">退出</n-button>
+          <n-button type="error" @click="props.exitGame">返回大厅</n-button>
+          <n-button type="error" @click="leaveRoomAndReturnToLobby">退出游戏</n-button>
         </template>
       </div>
       <n-divider />
