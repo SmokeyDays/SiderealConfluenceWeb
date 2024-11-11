@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { NButton, NSpace, NFloatButton, NIcon } from 'naive-ui';
+import { NButton, NSpace, NFloatButton, NIcon, NBadge } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
 import LobbyPage from '@/pages/LobbyPage.vue';
@@ -148,6 +148,13 @@ socket.on('new-message', (data: {msg: Message}) => {
 socket.on('sync-chat', (data: {msgs: Message[]}) => {
   console.log(data);
   messages.value = data.msgs;
+  PubSub.publish('alert-pubsub-message', {
+    title: '聊天同步',
+    str: '聊天同步成功！同步了' + data.msgs.length + '条消息！',
+    type: 'success',
+    dur: 2,
+    visible: true,
+  });
 });
 
 const displayMessagePanel = ref(false);
@@ -156,8 +163,11 @@ const getDisplayMessagePanel = () => {
   return displayMessagePanel.value && username.value !== '';
 }
 
+const viewedCount = ref(0);
+
 const openMessagePanel = () => {
   displayMessagePanel.value = true;
+  viewedCount.value = messages.value.length;
 }
 
 const closeMessagePanel = () => {
@@ -185,10 +195,12 @@ const closeMessagePanel = () => {
       :username="username"
       :closeMessagePanel="closeMessagePanel"
     />
-    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button">
-      <n-icon>
-        <IconChat />
-      </n-icon>
+    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">
+      <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
+        <n-icon>
+          <IconChat />
+        </n-icon>
+      </n-badge>
     </n-float-button>
   </div>
 </template>
