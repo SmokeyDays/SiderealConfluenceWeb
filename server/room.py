@@ -1,8 +1,9 @@
 from server.game import Game
 
 class Room:
-  def __init__(self, max_players, name):
+  def __init__(self, max_players, name, end_round):
     self.name = name
+    self.end_round = end_round
     self.max_players = max_players
     self.players = {}
     self.game_state = "waiting"
@@ -52,8 +53,11 @@ class Room:
     else:
       return False
     
+  def set_end_round(self, end_round):
+    self.end_round = end_round
+    return True
   def start_game(self): 
-    self.game = Game(self.name)
+    self.game = Game(self.name, self.end_round)
     for user_id, player in self.players.items():
       self.game.add_player(player["specie"], user_id)
     self.game_state = "playing"

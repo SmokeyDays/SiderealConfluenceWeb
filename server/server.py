@@ -20,7 +20,7 @@ class Server:
     self.bind_game_events()
   
   def mock(self):
-    self.rooms["test"] = Room(2, "test")
+    self.rooms["test"] = Room(2, "test", 5)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
@@ -161,7 +161,7 @@ class Server:
           "str": f"Room {room_name} already exists."
         }, namespace=get_router_name())
         return
-      self.rooms[room_name] = Room(max_players, room_name)
+      self.rooms[room_name] = Room(max_players, room_name, 5)
       self.rooms[room_name].enter_room(data['username'])
       emit('alert-message', {
         "type": "success",
@@ -201,6 +201,33 @@ class Server:
           "str": f"You have left room {room_name}."
         }, namespace=get_router_name())
         self.update_rooms()
+      else:
+        emit('alert-message', {
+          "type": "error",
+          "title": "Room not found",
+          "str": f"Room {room_name} not found."
+        }, namespace=get_router_name())
+    
+    @self.socketio.on('delete-room', namespace=get_router_name())
+    def delete_room(data):
+      room_name = data['room_name']
+      if room_name in self.rooms:
+          room = self.rooms[room_name]
+          
+          if len(room.players) == 0:
+              del self.rooms[room_name]
+              self.update_rooms()
+              emit('alert-message', {
+                "type": "success",
+                "title": "Delete room",
+                "str": f"You have delete room {room_name}."
+              }, namespace=get_router_name())
+          else:
+              emit('alert-message', {
+                "type": "error",
+                "title": "Can not delete room",
+                "str": f"Room {room_name} is not empty."
+              }, namespace=get_router_name())
       else:
         emit('alert-message', {
           "type": "error",
@@ -248,6 +275,20 @@ class Server:
       if room_name in self.rooms:
         self.rooms[room_name].disagree_to_start(username)
         self.update_rooms()
+    
+    @self.socketio.on('set-end-round', namespace=get_router_name())
+    def handle_set_end_round(data):
+        room_name = data['room_name']
+        end_round = data['end_round']
+        
+        if room_name in self.rooms:
+          self.rooms[room_name].set_end_round(end_round)
+          self.update_rooms()
+          emit('alert-message', {
+            "type": "success",
+            "title": "End round changed",
+            "str": f"You have changed end round of room {room_name} to {end_round}."
+          }, namespace=get_router_name())
 
   def update_game_state(self, room_name):
     if room_name in self.rooms:

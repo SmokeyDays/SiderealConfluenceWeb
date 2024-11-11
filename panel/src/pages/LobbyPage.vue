@@ -8,6 +8,9 @@
         <h3 class="room-name">{{ room.name }}</h3>
         <p class="room-info">Players: {{ Object.keys(room.players).length }} / {{ room.max_players }}</p>
         <p class="room-info">Game State: {{ room.game_state }}</p>
+        <n-button v-if="Object.keys(room.players).length === 0" @click.stop="deleteRoom(room.name)" class="delete-room-btn">
+          Delete Room
+        </n-button>
         <template v-if="meInRoom(room.name)">
           <template v-if="props.rooms[room.name].players[props.username].specie">
             <p class="room-info">Playing <span class="specie" :style="{ color: getSpecieColor(props.rooms[room.name].players[props.username].specie) }">{{ props.rooms[room.name].players[props.username].specie }}</span></p>
@@ -49,6 +52,10 @@
               <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="Choose a specie" />
               <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
             </template> 
+            <div class="end-round-setting">
+              <n-input-number v-model:value="endRound" placeholder="Enter end round (e.g., 5)" :min="1" />
+              <n-button @click="setEndRound">Set End Round</n-button>
+            </div>
           </template>
           <n-button class="back-list-btn" @click="switchView('list', '')">Back to List</n-button>
         </div>
@@ -59,7 +66,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NSpace, NSelect, NInput, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
+import { NButton, NSpace, NSelect, NInput, NInputNumber, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
 import { getSpecieColor, species } from '@/interfaces/GameConfig';
@@ -74,6 +81,7 @@ const currentView = ref('list');
 const currentRoom = ref('');
 const chosenSpecie = ref('');
 const newRoomName = ref('');
+const endRound = ref(5);
 
 const roomIsFull = (room_name: string) => {
   return Object.keys(props.rooms[room_name].players).length >= props.rooms[room_name].max_players;
@@ -110,6 +118,10 @@ const switchView = (view: string, room_name: string) => {
   if (meInRoom(room_name) && view === 'room' && props.rooms[room_name].game_state === 'playing') {
     socket.emit('get-game-state', { username: props.username, room_name: room_name });
   }
+};
+
+const deleteRoom = (roomName: string) => {
+  socket.emit('delete-room', { room_name: roomName });
 };
 
 socket.on('game-state', (data: {state: GameState}) => {
@@ -151,6 +163,10 @@ const disagreeToStart = () => {
 
 const submitSpecieChoice = () => {
   socket.emit('choose-specie', { username: props.username, room_name: currentRoom.value, specie: chosenSpecie.value });
+};
+
+const setEndRound = () => {
+  socket.emit('set-end-round', { username: props.username, room_name: currentRoom.value, end_round: endRound.value });
 };
 
 const getSpecieSelectOptions = () => {
@@ -280,4 +296,11 @@ body, html {
 .specie {
   font-weight: bold;
 }
+
+.delete-room-btn {
+  margin-top: 10px;
+  color: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
 </style>

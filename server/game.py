@@ -578,10 +578,10 @@ class Player:
 
 
 class Game:
-  def __init__(self, room_name: str):
+  def __init__(self, room_name: str, end_round: int):
     self.players: List[Player] = []
     self.current_round = 0
-    self.end_round = 5
+    self.end_round = end_round
     self.stage = "trading"
     self.room_name = room_name
     self.tech_spread_list = {}
