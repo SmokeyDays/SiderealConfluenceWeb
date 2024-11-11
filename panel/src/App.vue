@@ -12,7 +12,9 @@ import Logo from '@/components/Logo.vue';
 import { isProduction } from './utils/config';
 import { messageEqual, type Message } from './interfaces/ChatState';
 import IconChat from '@/components/icons/IconChat.vue';
+import IconRules from '@/components/icons/IconRules.vue';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
+import RulesPanel from '@/components/panels/RulesPanel.vue';
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
 const username = ref(isProduction? '': 'Alice');
@@ -30,6 +32,7 @@ const gameProps = ref({
 const gameState = ref<GameState>({
   players: [],
   current_round: 0,
+  end_round: 5,
   stage: '',
   room_name: '',
   research_bid_cards: [],
@@ -173,6 +176,16 @@ const openMessagePanel = () => {
 const closeMessagePanel = () => {
   displayMessagePanel.value = false;
 }
+
+const displayRulesPanel = ref(false);
+
+const openRulesPanel = () => {
+  displayRulesPanel.value = true;
+};
+
+const closeRulesPanel = () => {
+  displayRulesPanel.value = false;
+};
 </script>
 
 <template>
@@ -195,10 +208,18 @@ const closeMessagePanel = () => {
       :username="username"
       :closeMessagePanel="closeMessagePanel"
     />
+    <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
     <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">
       <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
         <n-icon>
           <IconChat />
+        </n-icon>
+      </n-badge>
+    </n-float-button>
+    <n-float-button @click="openRulesPanel" :bottom="10" :left="70" v-if="username !== ''" class="rules-float-button" type="primary">
+      <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
+        <n-icon>
+          <IconRules />
         </n-icon>
       </n-badge>
     </n-float-button>
@@ -217,4 +238,7 @@ const closeMessagePanel = () => {
   z-index: 1000;
 }
 
+.rules-float-button {
+  z-index: 1000;
+}
 </style>
