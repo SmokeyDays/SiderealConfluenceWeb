@@ -439,7 +439,8 @@ class Player:
     self.research_bid = 0
     self.tech = []
     self.invented_tech = []
-
+    self.score = 0
+    
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
       self.new_factory(factory)
@@ -472,13 +473,18 @@ class Player:
 
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
-
-  def add_to_storage(self, item: str, quantity: int):
+  
+  def modify_storage(self, item: str, quantity: int):
     self.storage[item] = self.storage.get(item, 0) + quantity
+    if item == "Score" or item == "ScoreDonation":
+      self.score = self.storage.get("Score", 0) + self.storage.get("ScoreDonation", 0)
+    
+  def add_to_storage(self, item: str, quantity: int):
+    self.modify_storage(item, quantity)
   
   def add_items_to_storage(self, items: Dict[str, int]):
     for item, quantity in items.items():
-      self.storage[item] = self.storage.get(item, 0) + quantity
+      self.modify_storage(item, quantity)
 
   def receive_items(self, items: Dict[str, int]):
     new_items = deepcopy(items)
@@ -492,7 +498,7 @@ class Player:
   def remove_from_storage(self, item: str, quantity: int) -> bool:
     if self.storage.get(item, 0) < quantity:
       return False
-    self.storage[item] -= quantity
+    self.modify_storage(item, -quantity)
     return True
 
   def remove_items_from_storage(self, items: Dict[str, int]) -> bool:
@@ -502,7 +508,7 @@ class Player:
     for item, quantity in items.items():
       if quantity == 0:
         continue
-      self.storage[item] -= quantity
+      self.modify_storage(item, -quantity)
     return True
 
   def add_new_product_items(self, items: Dict[str, int]):
@@ -566,7 +572,8 @@ class Player:
       "colony_bid": self.colony_bid,
       "research_bid": self.research_bid,
       "tech": self.tech,
-      "invented_tech": self.invented_tech
+      "invented_tech": self.invented_tech,
+      "score": self.score
     }
 
 
@@ -574,6 +581,7 @@ class Game:
   def __init__(self, room_name: str):
     self.players: List[Player] = []
     self.current_round = 0
+    self.end_round = 5
     self.stage = "trading"
     self.room_name = room_name
     self.tech_spread_list = {}
@@ -656,7 +664,7 @@ class Game:
 
   def all_players_agreed(self) -> bool:
     return all(player.agreed for player in self.players)
-
+  
   def move_to_next_stage(self):
     if self.stage == "trading":
       self.stage = "discard_colony"
@@ -681,10 +689,13 @@ class Game:
       self.reset_player_bids()
       self.move_to_next_stage()
     elif self.stage == 'end':
-      self.stage = "trading"
-      self.spread_tech()
-      self.return_factories_to_owners()
-      self.current_round += 1
+      if self.current_round == self.end_round:
+        self.stage = "gameend"
+      else:
+        self.stage = "trading"
+        self.spread_tech()
+        self.return_factories_to_owners()
+        self.current_round += 1
 
   def reset_player_agreements(self):
     for player in self.players:
@@ -1038,6 +1049,7 @@ class Game:
     return {
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
+      "end_round": self.end_round,
       "stage": self.stage,
       "room_name": self.room_name,
       "research_bid_cards": research_bid_cards_dict,
@@ -1083,7 +1095,8 @@ class Game:
                 "tie_breaker": number,
                 "agreed": bool,
                 "tech": [str, ...],
-                "invented_tech": [str, ...]
+                "invented_tech": [str, ...],
+                "score": number
             },
             ...
         ],

@@ -49,7 +49,7 @@ const disagreeToNextStage = () => {
 <template>
   <PanelTemplate>
     <n-card vertical align="center" justify="center" class="game-panel" hoverable>
-      <div class="game-info">轮次: {{ gameState.current_round }} ，阶段: {{ gameState.stage }}</div>
+      <div class="game-info">轮次: {{ gameState.current_round }} / {{ gameState.end_round }} ，阶段: {{ gameState.stage }}</div>
       <n-divider />
       <n-select 
         v-model:value="selectedPlayer"
@@ -83,6 +83,24 @@ const disagreeToNextStage = () => {
           <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading' || gameState.stage === 'production'">自由转换</n-button>
           <n-button type="error" @click="props.exitGame">退出</n-button>
         </template>
+      </div>
+      <n-divider />
+      <div class="score-table">
+        <h3>玩家分数</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>玩家</th>
+              <th>分数</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="player in gameState.players" :key="player.user_id">
+              <td>{{ player.specie }}{{ player.user_id === props.username ? ' (You)' : '' }}</td>
+              <td>{{ player.score }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </n-card>
   </PanelTemplate>
@@ -136,5 +154,24 @@ const disagreeToNextStage = () => {
 }
 .player-action > * {
   margin: 10px;
+}
+.score-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+.score-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.score-table th, .score-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+.score-table th {
+  font-weight: bold;
+  background-color: #f2f2f2;
 }
 </style>

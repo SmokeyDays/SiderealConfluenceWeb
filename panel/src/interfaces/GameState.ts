@@ -31,7 +31,8 @@ export class Player {
     public colony_bid: number,
     public research_bid: number,
     public tech: string[],
-    public invented_tech: string[]
+    public invented_tech: string[],
+    public score: number
   ) {}
 }
 
@@ -43,6 +44,7 @@ export class GameState {
   constructor(
     public players: Player[],
     public current_round: number,
+    public end_round: number,
     public stage: string,
     public room_name: string,
     public research_bid_cards: { price: number, item: Factory | null }[],
