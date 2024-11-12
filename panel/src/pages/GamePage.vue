@@ -4,7 +4,7 @@ import { defineProps } from 'vue';
 import { type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
-import GamePanel from '@/components/panels/GamePanel.vue';
+import GameBoard from '@/components/GameBoard.vue';
 import TradePanel from '@/components/panels/TradePanel.vue';
 import BidPanel from '@/components/panels/BidPanel.vue';
 import EndPanel from '@/components/panels/EndPanel.vue';
@@ -520,7 +520,7 @@ const displayMask = () => {
 
 
 <template>
-  <GamePanel :game-state="props.gameState" 
+  <GameBoard :game-state="props.gameState" 
     :username="props.username" 
     :handle-trade-panel="handleTradePanel" 
     :selected-player="selectedPlayer"
@@ -631,8 +631,8 @@ const displayMask = () => {
 .game-stage {
   position: absolute;
   top: 0;
-  left: 250px;
-  width: calc(100vw - 250px);
+  left: 300px;
+  width: calc(100vw - 300px);
   height: 100vh;
   overflow: hidden;
 }

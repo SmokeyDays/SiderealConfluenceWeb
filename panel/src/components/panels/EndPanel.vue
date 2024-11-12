@@ -4,6 +4,7 @@
   import type { Player } from '@/interfaces/GameState';
   import PanelTemplate from '@/components/panels/PanelTemplate.vue';
   import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
+  import { getSpecieZhName } from '@/interfaces/GameConfig';
   const props = defineProps<{
     closeEndPanel: () => void;
     getMe: () => Player | null;
@@ -50,7 +51,7 @@
       </table>
 
       <div v-if="winner" class="winner-message">
-        <h2>恭喜 {{ winner.specie }} 获得胜利！</h2>
+        <h2>恭喜 {{ winner.user_id }} ({{ getSpecieZhName(winner.specie) }}) 获得胜利！</h2>
         <p>得分：{{ getPlayerScore(winner) }}</p>
       </div>
 

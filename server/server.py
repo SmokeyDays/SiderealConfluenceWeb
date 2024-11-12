@@ -20,7 +20,7 @@ class Server:
     self.bind_game_events()
   
   def mock(self):
-    self.rooms["test"] = Room(2, "test", 1)
+    self.rooms["test"] = Room(2, "test", 2)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
@@ -56,7 +56,9 @@ class Server:
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
     # skip t1 production
+    # test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
+    return
     
 
 
