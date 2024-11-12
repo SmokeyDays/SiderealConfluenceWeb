@@ -635,8 +635,8 @@ class Game:
     self.data_manager = DataManager("./server/data")
     self.proposals = {}
 
-    self.research_bid_num = 4
-    self.colony_bid_num = 4
+    self.research_bid_num = self.get_player_num()
+    self.colony_bid_num = self.get_player_num()
     self.research_bid_cards = []
     self.colony_bid_cards = []
     self.init_bid_cards()
