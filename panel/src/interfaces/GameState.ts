@@ -32,7 +32,8 @@ export class Player {
     public research_bid: number,
     public tech: string[],
     public invented_tech: string[],
-    public score: number
+    public score: number,
+    public item_value: number
   ) {}
 }
 

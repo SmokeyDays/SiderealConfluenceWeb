@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NSpace, NSelect, NButton, NDivider, NCard } from 'naive-ui';
+import { NSpace, NSelect, NButton, NDivider, NCard, NTooltip, NCollapse, NCollapseItem } from 'naive-ui';
 import { GameState, Player } from '@/interfaces/GameState';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
 import { socket } from '@/utils/connect';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
-
+import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
 const props = defineProps<{
   gameState: GameState;
   username: string;
@@ -48,6 +48,10 @@ const leaveRoomAndReturnToLobby = () => {
   props.exitGame();
 };
 
+const isOtherPlayerScore = (player_id: string, item: string) => {
+  return (player_id !== props.selectedPlayer && item === "Score") && props.gameState.stage !== 'gameend';
+}
+
 </script>
 
 <template>
@@ -63,12 +67,12 @@ const leaveRoomAndReturnToLobby = () => {
       />
       <div v-if="getPlayer() !== null" class="player-info">
         <div class="player-basic-info">
-          <div class="player-specie" :style="{ fontWeight: 'bold', color: getSpecieColor(getPlayer()!.specie) }">{{ getSpecieZhName(getPlayer()!.specie) }}</div>
+          <SpecieZhDiv :specie="getPlayer()!.specie" :is-me="getPlayer()!.user_id === props.username" :style="{fontWeight: 'bold'}" />
           <div class="player-agreed" :style="{ fontWeight: 'bold', color: getPlayer()!.agreed ? 'green' : 'red' }">{{ getPlayer()!.agreed ? '已动完' : '没动完' }}</div>
         </div>
         <div class="storage-container">
           <template v-for="(item_count, item_id) in getPlayer()!.storage">
-            <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0"/>
+            <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0 && !isOtherPlayerScore(getPlayer()!.user_id, item_id as string)"/>
           </template>
         </div>
       </div>
@@ -90,23 +94,45 @@ const leaveRoomAndReturnToLobby = () => {
         </template>
       </div>
       <n-divider />
-      <div class="score-table">
-        <h3>玩家分数</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>玩家</th>
-              <th>分数</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="player in gameState.players" :key="player.user_id">
-              <td>{{ player.specie }}{{ player.user_id === props.username ? ' (You)' : '' }}</td>
-              <td>{{ player.score }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <n-collapse>
+        <n-collapse-item title="玩家分数" name="score">
+          <template #header-extra>
+            {{ getMe()!.score + ' (' + getMe()!.item_value + ')' }}
+          </template>
+          <div class="score-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>玩家</th>
+                  <n-tooltip placement="top" trigger="hover">
+                    <template #trigger>
+                      <th>分数</th>
+                    </template>
+                    <div>
+                      终局计分时，玩家得分 = 分数 + 物品价值 * 0.5
+                    </div>
+                  </n-tooltip>
+                  <n-tooltip placement="top" trigger="hover">
+                    <template #trigger>
+                      <th>物品</th>
+                    </template>
+                    <div>
+                      终局计分时，玩家得分 = 分数 + 物品价值 * 0.5
+                    </div>
+                  </n-tooltip>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="player in gameState.players" :key="player.user_id">
+                  <td><SpecieZhDiv :specie="player.specie" :is-me="player.user_id === props.username" :style="{fontWeight: 'bold'}" /></td>
+                  <td>{{ !isOtherPlayerScore(player.user_id, 'Score') ? player.score : '?'}}</td>
+                  <td>{{ player.item_value }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </n-collapse-item>
+      </n-collapse>
     </n-card>
   </PanelTemplate>
 </template>
@@ -122,6 +148,7 @@ const leaveRoomAndReturnToLobby = () => {
   height: 100vh;
   width: 250px;
   /* padding: 100px; */
+  overflow-y: auto;
 }
 .game-info {
   font-size: 1.2rem;

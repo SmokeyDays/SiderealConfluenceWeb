@@ -37,7 +37,25 @@ def get_share_score(player_num,turn):
   ]
   return normal_table[player_num-3][turn], yengii_table[player_num-3][turn]
     
-
+def get_item_value(item: str):
+  if item.endswith("Donation"):
+    item = item.replace("Donation", "")
+  item_values = {
+    'Food': 1,
+    'Culture': 1,
+    'Industry': 1,
+    'Energy': 1.5,
+    'Information': 1.5,
+    'Biotech': 1.5,
+    'Hypertech': 3,
+    'Ship': 1,
+    'Score': 3,
+    'WildBig': 1.5,
+    'WildSmall': 1,
+    'ArbitrarySmall': 1,
+    'ArbitraryBig': 1.5,
+  }
+  return item_values.get(item, 0)
 class DataManager:
   def __init__(self, path: str):
     self.specie_factories = {}
@@ -440,6 +458,7 @@ class Player:
     self.tech = []
     self.invented_tech = []
     self.score = 0
+    self.item_value = 0
     
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
@@ -474,10 +493,17 @@ class Player:
   def remove_factory(self, factory_name: str) -> Factory:
     return self.factories.pop(factory_name)
   
+  def calculate_score(self):
+    self.score = self.storage.get("Score", 0) + self.storage.get("ScoreDonation", 0)
+    self.item_value = 0
+    for item, quantity in self.storage.items():
+      if item != "Score" and item != "ScoreDonation":
+        self.item_value += quantity * get_item_value(item)
+
+
   def modify_storage(self, item: str, quantity: int):
     self.storage[item] = self.storage.get(item, 0) + quantity
-    if item == "Score" or item == "ScoreDonation":
-      self.score = self.storage.get("Score", 0) + self.storage.get("ScoreDonation", 0)
+    self.calculate_score()
     
   def add_to_storage(self, item: str, quantity: int):
     self.modify_storage(item, quantity)
@@ -573,7 +599,8 @@ class Player:
       "research_bid": self.research_bid,
       "tech": self.tech,
       "invented_tech": self.invented_tech,
-      "score": self.score
+      "score": self.score,
+      "item_value": self.item_value
     }
 
 
@@ -596,6 +623,7 @@ class Game:
     self.research_bid_priority = []
     self.colony_bid_priority = []
     self.discard_colony = []
+    self.endgame_score = {}
 
 
   @property
@@ -675,10 +703,14 @@ class Game:
     elif self.stage == 'discard_colony':
       self.stage = 'production'
     elif self.stage == "production":
-      self.stage = "bid"
-      self.save_new_product_items()
-      self.reset_player_factories()
-      self.reset_player_agreements()
+      if self.current_round == self.end_round:
+        self.stage = "gameend"
+        self.save_new_product_items()
+      else:
+        self.stage = "bid"
+        self.save_new_product_items()
+        self.reset_player_factories()
+        self.reset_player_agreements()
     elif self.stage == "bid":
       self.stage = "pick"
       self.calculate_bid_priority()
@@ -689,13 +721,10 @@ class Game:
       self.reset_player_bids()
       self.move_to_next_stage()
     elif self.stage == 'end':
-      if self.current_round == self.end_round:
-        self.stage = "gameend"
-      else:
-        self.stage = "trading"
-        self.spread_tech()
-        self.return_factories_to_owners()
-        self.current_round += 1
+      self.stage = "trading"
+      self.spread_tech()
+      self.return_factories_to_owners()
+      self.current_round += 1
 
   def reset_player_agreements(self):
     for player in self.players:

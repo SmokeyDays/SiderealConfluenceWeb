@@ -3,7 +3,7 @@
   import { NButton } from 'naive-ui';
   import type { Player } from '@/interfaces/GameState';
   import PanelTemplate from '@/components/panels/PanelTemplate.vue';
-
+  import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
   const props = defineProps<{
     closeEndPanel: () => void;
     getMe: () => Player | null;
@@ -12,8 +12,12 @@
     players: Player[];
   }>();
 
+  const getPlayerScore = (player: Player) => {
+    return player.score + player.item_value * 0.5;
+  }
+
   const sortedPlayers = computed(() => {
-    return [...props.players].sort((a, b) => b.score - a.score);
+    return [...props.players].sort((a, b) => getPlayerScore(b) - getPlayerScore(a));
   });
 
   const winner = computed(() => sortedPlayers.value[0]);
@@ -31,21 +35,23 @@
           <tr>
             <th>名次</th>
             <th>玩家</th>
+            <th>种族</th>
             <th>得分</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(player, index) in sortedPlayers" :key="player.user_id">
             <td>{{ index + 1 }}</td>
-            <td>{{ player.specie }}{{ player.user_id === props.username ? ' (You)' : '' }}</td>
-            <td>{{ player.score }}</td>
+            <td>{{ player.user_id }}</td>
+            <td><SpecieZhDiv :specie="player.specie" :is-me="player.user_id === props.username" /></td>
+            <td>{{ getPlayerScore(player) + ' (' + player.score + ' + ' + player.item_value * 0.5 + ')' }}</td>
           </tr>
         </tbody>
       </table>
 
       <div v-if="winner" class="winner-message">
         <h2>恭喜 {{ winner.specie }} 获得胜利！</h2>
-        <p>得分：{{ winner.score }}</p>
+        <p>得分：{{ getPlayerScore(winner) }}</p>
       </div>
 
       <n-button type="error" @click="props.closeEndPanel">Close</n-button>

@@ -20,7 +20,7 @@ class Server:
     self.bind_game_events()
   
   def mock(self):
-    self.rooms["test"] = Room(2, "test", 5)
+    self.rooms["test"] = Room(2, "test", 1)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
@@ -39,21 +39,24 @@ class Server:
     # test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
     test_room.game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
-    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
-    # success, msg = test_room.game.produce("Alice", "恩尼艾特_相互理解", {"output_type": "Culture", "input_combination": {"Culture": 1, "WildSmall": 1}})
-    return
     # skip production
-    self.rooms['test'].game.player_agree("Alice")
-    self.rooms['test'].game.player_agree("Bob")
-    self.rooms['test'].game.submit_bid("Alice", 3, 2)
-    self.rooms['test'].game.submit_bid("Bob", 1, 3)
-    self.rooms['test'].game.submit_pick("Alice", "colony", 0)
-    self.rooms['test'].game.submit_pick("Bob", "colony", 1)
-    self.rooms['test'].game.submit_pick("Bob", "research", 0)
-    self.rooms['test'].game.submit_pick("Alice", "research", 1)
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bob")
+    # skip bidding
+    test_room.game.submit_bid("Alice", 3, 2)
+    test_room.game.submit_bid("Bob", 1, 3)
+    test_room.game.submit_pick("Alice", "colony", 0)
+    test_room.game.submit_pick("Bob", "colony", 1)
+    test_room.game.submit_pick("Bob", "research", 0)
+    test_room.game.submit_pick("Alice", "research", 1)
+    # skip t1 trading
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bob")
+    # skip t1 production
+    test_room.game.player_agree("Bob")
     
 
 
