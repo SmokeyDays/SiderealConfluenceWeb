@@ -1,3 +1,21 @@
+export class Gift {
+  constructor(
+    public items: { [key: string]: number },
+    public factories: string[],
+    public techs: string[]
+  ) {}
+}
+
+export class TradeProposal {
+  constructor(
+    public id: number,
+    public from_player: string,
+    public to_players: string[],
+    public send_gift: Gift,
+    public receive_gift: Gift
+  ) {}
+}
+
 export class Converter {
   constructor(
     public input_items: { [key: string]: number } | [{ [key: string]: number }],
@@ -51,6 +69,7 @@ export class GameState {
     public research_bid_cards: { price: number, item: Factory | null }[],
     public colony_bid_cards: { price: number, item: Factory | null }[],
     public current_pick: { type: string, player: string },
-    public current_discard_colony_player: string
+    public current_discard_colony_player: string,
+    public proposals: { [key: string]: TradeProposal[] }
   ) {}
 }

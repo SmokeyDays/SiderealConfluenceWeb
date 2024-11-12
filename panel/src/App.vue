@@ -41,7 +41,8 @@ const gameState = ref<GameState>({
     type: '',
     player: ''
   },
-  current_discard_colony_player: ''
+  current_discard_colony_player: '',
+  proposals: {}
 });
 
 const messages = ref<Message[]>([]);

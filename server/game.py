@@ -1,6 +1,6 @@
 from copy import deepcopy
 import json
-from typing import Any, Dict, List, Tuple
+from typing import Any, Callable, Dict, List, Tuple
 import random
 
 def get_bid_board(player_num):
@@ -56,6 +56,26 @@ def get_item_value(item: str):
     'ArbitraryBig': 1.5,
   }
   return item_values.get(item, 0)
+
+class TradeProposal:
+  trade_proposal_id = 1
+  def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
+    self.id = TradeProposal.trade_proposal_id
+    TradeProposal.trade_proposal_id += 1
+    self.from_player = from_player
+    self.to_players = to_players
+    self.send_gift = send_gift
+    self.receive_gift = receive_gift
+
+  def to_dict(self):
+    return {
+      "id": self.id,
+      "from_player": self.from_player,
+      "to_players": self.to_players,
+      "send_gift": self.send_gift,
+      "receive_gift": self.receive_gift
+    }
+
 class DataManager:
   def __init__(self, path: str):
     self.specie_factories = {}
@@ -613,6 +633,7 @@ class Game:
     self.room_name = room_name
     self.tech_spread_list = {}
     self.data_manager = DataManager("./server/data")
+    self.proposals = {}
 
     self.research_bid_num = 4
     self.colony_bid_num = 4
@@ -698,6 +719,7 @@ class Game:
       self.stage = "discard_colony"
       self.reset_player_agreements()
       self.calculate_discard_colony()
+      self.trade_proposal = {}
       if len(self.discard_colony) == 0:
         self.move_to_next_stage()
     elif self.stage == 'discard_colony':
@@ -817,40 +839,34 @@ class Game:
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
       player.add_to_storage(item, quantity)
+
+  def give_items(self, sender: Player, receiver: Player, items: Dict[str, int]) -> Tuple[bool, str, Callable]:
+    if sender.remove_items_from_storage(items):
+      def callback():
+        receiver.receive_items(items)
+      return True, "", callback
+    return False, "玩家库存不足", lambda: None
   
+  def lend_factory(self, sender: Player, receiver: Player, factory_name: str) -> Tuple[bool, str, Callable]:
+    if factory_name not in sender.factories:
+      return False, "工厂不存在于发送者库存", lambda: None
+
+    def callback():
+      factory = sender.remove_factory(factory_name)
+      receiver.add_factory(factory)
+    return True, "", callback
+  
+  def grant_tech(self, sender: Player, receiver: Player, tech: str) -> Tuple[bool, str, Callable]:
+    if not sender.has_invented_tech(tech) or receiver.has_tech(tech):
+      return False, "玩家没有该科技或对方已有该科技", lambda: None
+    def callback():
+      self.get_tech(receiver, tech)
+    return True, "", callback
   ############################
   #                          #
   # Game Interface Functions #
   #                          #
   ############################
-
-  def trade(self, from_player: str, to_player: str, items: Dict[str, int]) -> Tuple[bool, str]:
-    if self.stage != "trading":
-      return False, "当前阶段不是交易阶段"
-    sender = next((p for p in self.players if p.user_id == from_player), None)
-    receiver = next((p for p in self.players if p.user_id == to_player), None)
-
-    if not sender or not receiver:
-      return False, "未指定玩家"
-    print(items)
-    if sender.remove_items_from_storage(items):
-      receiver.receive_items(items)
-      return True, ""
-    return False, "玩家库存不足"
-
-  def lend_factory(self, from_player: str, to_player: str, factory_name: str) -> Tuple[bool, str]:
-    if self.stage != "trading":
-      return False, "当前阶段不是交易阶段"
-    sender = next((p for p in self.players if p.user_id == from_player), None)
-    receiver = next((p for p in self.players if p.user_id == to_player), None)
-
-    if not sender or not receiver or factory_name not in sender.factories:
-      return False, "未指定玩家或工厂"
-
-    factory = sender.remove_factory(factory_name)
-    receiver.add_factory(factory)
-    return True, ""
-
   def produce(self, player_name: str, factory_name: str, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, str]:
     player = next((p for p in self.players if p.user_id == player_name), None)
 
@@ -1028,16 +1044,6 @@ class Game:
       return True, ""
     return False, "玩家库存不足"
   
-  def grant_tech(self, from_player: str, to_player: str, tech: str):
-    from_player = next((p for p in self.players if p.user_id == from_player), None)
-    to_player = next((p for p in self.players if p.user_id == to_player), None)
-    if not from_player or not to_player:
-      return False, "未指定玩家"
-    if not from_player.has_invented_tech(tech) or to_player.has_tech(tech):
-      return False, "玩家没有该科技或对方已有该科技"
-    self.get_tech(to_player, tech)
-    return True, ""
-  
   def discard_colonies(self, player_name: str, colonies: list[str]):
     if self.stage != "discard_colony": 
       return False, "当前阶段不是弃置殖民地阶段"
@@ -1055,7 +1061,84 @@ class Game:
     if len(self.discard_colony) == 0:
       self.move_to_next_stage()
     return True, ""
+  
+  def give_many_things(self, from_player: str, to_player: str, gift: Dict[str, Any]):
+    items = gift.get("items", {})
+    factories = gift.get("factories", [])
+    techs = gift.get("techs", [])
+    if self.stage != "trading":
+      return False, "当前阶段不是交易阶段", []
+    sender = next((p for p in self.players if p.user_id == from_player), None)
+    receiver = next((p for p in self.players if p.user_id == to_player), None)
+    if not sender or not receiver:
+      return False, "未指定玩家", []
     
+    msg, callbacks = "", []
+    give_items_res = self.give_items(sender, receiver, items)
+    if not give_items_res[0]:
+      return give_items_res
+    msg += give_items_res[1]
+    callbacks.append(give_items_res[2])
+
+    for factory in factories:
+      lend_factory_res = self.lend_factory(sender, receiver, factory)
+      if not lend_factory_res[0]:
+        return lend_factory_res
+      msg += lend_factory_res[1]
+      callbacks.append(lend_factory_res[2])
+    
+    for tech in techs:
+      grant_tech_res = self.grant_tech(sender, receiver, tech)
+      if not grant_tech_res[0]:
+        return grant_tech_res
+      msg += grant_tech_res[1]
+      callbacks.append(grant_tech_res[2])
+
+    return True, msg, callbacks
+  
+  def gift(self, from_player: str, to_player: str, gift: Dict[str, Any]):
+    success, msg, callbacks = self.give_many_things(from_player, to_player, gift)
+    if not success:
+      return success, msg
+    for callback in callbacks:
+      callback()
+    return True, ""
+  
+  def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
+    proposal = TradeProposal(from_player, to_players, send_gift, receive_gift)
+    self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
+    return True, ""
+
+  def decline_trade_proposal(self, from_player: str, id: int):
+    if from_player in self.proposals:
+      for proposal in self.proposals[from_player]:
+        if proposal.id == id:
+          self.proposals[from_player].remove(proposal)
+          return True, ""
+    return False, "交易提案不存在"
+  
+  def accept_trade_proposal(self, accept_player: str, id: int):
+    for sender, proposals in self.proposals.items():
+      for proposal in proposals:
+        if proposal.id == id:
+          self.trade(sender, accept_player, proposal.send_gift, proposal.receive_gift)
+          self.proposals[sender].remove(proposal)
+          return True, ""
+    return False, "交易提案不存在"
+
+  def trade(self, from_player: str, to_player: str, send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
+    success, msg, send_callbacks = self.give_many_things(from_player, to_player, send_gift)
+    if not success:
+      return success, msg
+    success, msg, receive_callbacks = self.give_many_things(to_player, from_player, receive_gift)
+    if not success:
+      return success, msg
+    for callback in send_callbacks:
+      callback()
+    for callback in receive_callbacks:
+      callback()
+    return True, ""
+
   ###########################
   #                         #
   #     Other Functions     #
@@ -1075,6 +1158,7 @@ class Game:
         colony_bid_cards_dict.append({"price": card["price"], "item": card["item"].to_dict()})
       else:
         colony_bid_cards_dict.append({"price": card["price"], "item": None})
+    print(self.proposals)
     return {
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
@@ -1084,7 +1168,8 @@ class Game:
       "research_bid_cards": research_bid_cards_dict,
       "colony_bid_cards": colony_bid_cards_dict,
       "current_pick": self.current_pick_player,
-      "current_discard_colony_player": self.current_discard_colony_player
+      "current_discard_colony_player": self.current_discard_colony_player,
+      "proposals": {sender: [proposal.to_dict() for proposal in proposals] for sender, proposals in self.proposals.items()}
     }
 
     """
@@ -1150,7 +1235,19 @@ class Game:
           "type": str,
           "player": str
         }
-        "current_discard_colony_player": str
+        "current_discard_colony_player": str,
+        "proposals": {
+          "sender": [
+            {
+              "id": int,
+              "from_player": str,
+              "to_players": [str, ...],
+              "send_gift": Dict[str, Any],
+              "receive_gift": Dict[str, Any]
+            },
+            ...
+          ],
+        }
     }
     """
     """

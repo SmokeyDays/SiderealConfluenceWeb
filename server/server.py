@@ -46,7 +46,12 @@ class Server:
     test_room.game.debug_add_item("Alice", "Hypertech", 5)
     # test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
-    test_room.game.lend_factory("Bob", "Alice", "恩尼艾特_相互理解")
+    test_room.game.gift("Bob", "Alice", {"factories": ["恩尼艾特_相互理解"]})
+    test_room.game.trade_proposal("Alice", 
+                                  ["Bob"], 
+                                  {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
+                                  {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
+    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -317,44 +322,52 @@ class Server:
       username = data['username']
       emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name())
 
-    @self.socketio.on('trade-items', namespace=get_router_name())
-    def trade(data):
+    @self.socketio.on('gift', namespace=get_router_name())
+    def gift(data):
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.trade(username, data['to'], data['items'])
+      success, message = self.rooms[room_name].game.gift(username, data['to'], data['gift'])
       emit('alert-message', {
         "type": "success" if success else "error",
-        "title": "Trade Success" if success else "Trade Failed",
+        "title": "Gift Success" if success else "Gift Failed",
         "str": message
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
-    @self.socketio.on('lend-factory', namespace=get_router_name())
-    def lend_factory(data):
+    @self.socketio.on('trade-proposal', namespace=get_router_name())
+    def trade_proposal(data):
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.lend_factory(username, data['to'], data['factory_name'])
+      success, message = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'])
       emit('alert-message', {
         "type": "success" if success else "error",
-        "title": "Lend Factory Success" if success else "Lend Factory Failed",
+        "title": "Trade Proposal Success" if success else "Trade Proposal Failed",
         "str": message
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
-    @self.socketio.on('lend-factories', namespace=get_router_name())
-    def lend_factories(data):
+    @self.socketio.on('decline-trade-proposal', namespace=get_router_name())
+    def decline_trade_proposal(data):
       room_name = data['room_name']
       username = data['username']
-      factories = data['factories']
-      to = data['to']
-      for factory in factories:
-        success, message = self.rooms[room_name].game.lend_factory(username, to, factory)
-        if not success:
-          emit('alert-message', {
-            "type": "error",
-            "title": "Lend Factory Failed",
-            "str": message
-          }, namespace=get_router_name())
+      success, message = self.rooms[room_name].game.decline_trade_proposal(username, data['id'])
+      emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Decline Trade Proposal Success" if success else "Decline Trade Proposal Failed",
+        "str": message
+      }, namespace=get_router_name())
+      self.update_game_state(room_name)
+
+    @self.socketio.on('accept-trade-proposal', namespace=get_router_name())
+    def accept_trade_proposal(data):
+      room_name = data['room_name']
+      username = data['username']
+      success, message = self.rooms[room_name].game.accept_trade_proposal(username, data['id'])
+      emit('alert-message', {
+        "type": "success" if success else "error",
+        "title": "Accept Trade Proposal Success" if success else "Accept Trade Proposal Failed",
+        "str": message
+      }, namespace=get_router_name())
       self.update_game_state(room_name)
 
     @self.socketio.on('produce', namespace=get_router_name())
@@ -438,19 +451,6 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.exchange_wild(username, data['items'])
-      self.update_game_state(room_name)
-
-    @self.socketio.on('grant-techs', namespace=get_router_name())
-    def grant_tech(data):
-      room_name = data['room_name']
-      username = data['username']
-      for tech in data['techs']:
-        success, message = self.rooms[room_name].game.grant_tech(username, data['to'], tech)
-        emit('alert-message', {
-          "type": "success" if success else "error",
-          "title": "Grant Tech Success" if success else "Grant Tech Failed",
-          "str": message
-        }, namespace=get_router_name())
       self.update_game_state(room_name)
 
     @self.socketio.on('discard-colonies', namespace=get_router_name())

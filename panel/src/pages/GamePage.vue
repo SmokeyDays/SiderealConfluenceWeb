@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch , reactive } from 'vue';
 import { defineProps } from 'vue';
-import { type Factory, type GameState, type Player } from '../interfaces/GameState';
+import { Gift, type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GameBoard from '@/components/GameBoard.vue';
@@ -294,27 +294,37 @@ const handleTradePanel = () => {
     console.log("trade panel already displayed");
   }
 };
-const submitTrade = (items: { [key: string]: number }, factories: string[], techs: string[], toWhom: string) => {
-  socket.emit("trade-items", {
+const submitGift = (gift: Gift, toWhom: string) => {
+  socket.emit("gift", {
     room_name: props.gameState.room_name,
     username: props.username,
-    items: items,
-    to: toWhom
-  });
-  socket.emit("lend-factories", {
-    room_name: props.gameState.room_name,
-    username: props.username,
-    factories: factories,
-    to: toWhom
-  });
-  socket.emit("grant-techs", {
-    room_name: props.gameState.room_name,
-    username: props.username,
-    techs: techs,
+    gift: gift,
     to: toWhom
   });
 };
-
+const submitProposal = (sendGift: Gift, receiveGift: Gift, to: string[]) => {
+  socket.emit("trade-proposal", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    send: sendGift,
+    receive: receiveGift,
+    to: to
+  });
+};
+const declineProposal = (proposal_id: number) => {
+  socket.emit("decline-trade-proposal", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    id: proposal_id
+  });
+}
+const acceptProposal = (proposal_id: number) => {
+  socket.emit("accept-trade-proposal", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    id: proposal_id
+  });
+} 
 const tradeItems = ref<{ [key: string]: number }>({});
 const updateTradeItems = (items: { [key: string]: number }) => {
   tradeItems.value = items;
@@ -538,10 +548,13 @@ const displayMask = () => {
       </v-layer>
     </v-stage>
   </div>
-  <TradePanel :submit-trade="submitTrade" 
+  <TradePanel :submit-gift="submitGift" 
+    :submit-proposal="submitProposal"
     :update-trade-items="updateTradeItems" 
     :trade-items="tradeItems" 
     :close-trade-panel="closeTradePanel" 
+    :decline-proposal="declineProposal"
+    :accept-proposal="acceptProposal"
     :username="props.username"
     :game-state="props.gameState"
     :selected-player="selectedPlayer"
