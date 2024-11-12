@@ -24,6 +24,14 @@ class Server:
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
+
+    self.new_msg(Message("Alice", "HelloGlobal", str(datetime.datetime.now()), None, None))
+    self.new_msg(Message("Bob", "HelloGlobal", str(datetime.datetime.now()), None, None))
+    self.new_msg(Message("Alice", "HelloRoom", str(datetime.datetime.now()), "test"))
+    self.new_msg(Message("Bob", "HelloRoom", str(datetime.datetime.now()), "test"))
+    self.new_msg(Message("Alice", "HelloBob", str(datetime.datetime.now()), None, "Bob"))
+    self.new_msg(Message("Bob", "HelloAlice", str(datetime.datetime.now()), None, "Alice"))
+
     test_room.choose_specie("Alice", "Caylion")
     test_room.choose_specie("Bob", "Eni")
     test_room.agree_to_start("Alice")
@@ -92,7 +100,9 @@ class Server:
       for receiver in receivers:
         if receiver != msg.sender:
           self.send_new_msg(receiver, msg)
-    
+  
+  def new_msg(self, msg: Message):
+    self.message_manager.new_msg(msg)
 
   def bind_basic_events(self):
     @self.socketio.on('connect', namespace=get_router_name())
@@ -139,7 +149,7 @@ class Server:
         data['room'] if 'room' in data else None, 
         data['user'] if 'user' in data else None
       )
-      self.message_manager.new_msg(msg)
+      self.new_msg(msg)
 
   def update_rooms(self):
     rooms = {}

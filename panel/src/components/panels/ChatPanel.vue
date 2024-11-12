@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NSelect, NCard, NTag, NInput } from 'naive-ui';
+import { NButton, NSelect, NCard, NTag, NInput, NList, NListItem, NTooltip, NAvatar } from 'naive-ui';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 import type { Message } from '@/interfaces/ChatState';
 import type { RoomList } from '@/interfaces/RoomState';
-
+import { getAvatarSrc } from '@/utils/icon';
 const props = defineProps<{
   sendMessage: (msg: string, room: string | null, user: string | null) => void;
   messages: Message[];
@@ -27,8 +27,8 @@ const submitMessage = () => {
 };
 
 const getRoomOptions = () => {
-  const options: { label: string, value: string }[] = Object.keys(props.rooms).map(room => ({ label: room, value: room }));
-  options.push({ label: "All", value: "" });
+  const options: { label: string, value: string }[] = Object.keys(props.rooms).map(room => ({ label: "[房间] " + room, value: room }));
+  options.push({ label: "[大厅]", value: "" });
   return options;
 };
 
@@ -39,21 +39,33 @@ const getUserOptions = () => {
       users.add(user);
     }
   }
-  const options: { label: string, value: string }[]   = Array.from(users).map(user => ({ label: user, value: user }));
-  options.push({ label: "All", value: "" });
+  const options: { label: string, value: string }[] = [];
+  for (const user of Array.from(users)) {
+    if (user === props.username) {
+      continue;
+    }
+    options.push({ label: "[私聊] " + user, value: user });
+  }
+  options.push({ label: "[所有人]", value: "" });
   return options;
 };
 
 const getMessages = () => {
   return props.messages.filter(msg => 
-    (selectedRoom.value === "" || msg.room === selectedRoom.value) &&
-    (selectedUser.value === "" || msg.user === selectedUser.value)
+    ((selectedRoom.value === "" && msg.room === null) || msg.room === selectedRoom.value) &&
+    ((selectedUser.value === "" && msg.user === null) ||
+      msg.user === selectedUser.value || 
+      (msg.sender === selectedUser.value && msg.user !== null))
   );
 };
 
 const getMessageInputDisabled = () => {
   return selectedUser.value === props.username || message.value === "";
 };
+
+// const getMsgPrefix = (msg: Message) => {
+//   return `[${msg.room ? msg.room : "大厅"}] [${msg.user ? "私聊" : "所有人"}]`;
+// };
 </script>
 
 <template>
@@ -64,9 +76,43 @@ const getMessageInputDisabled = () => {
         <n-select v-model:value="selectedUser" :options="getUserOptions()" placeholder="Choose a user" class="chat-user-select" />
       </div>
       <div class="chat-messages">
-        <n-tag v-for="msg in getMessages()" :key="msg.date" closable>{{ msg.sender }}: {{ msg.msg }}</n-tag>
+        <n-list hoverable :show-divider="false">
+          <template v-for="msg in getMessages()" :key="msg.date">
+            <n-list-item>
+              <div class="outer-chat-message-block">
+                <div class="chat-message-avatar" v-if="msg.sender !== username">
+                  <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
+                </div>
+                <div :class="msg.sender === username ? 'chat-message-block-self' : 'chat-message-block'">
+                  <div class="chat-message-sender">
+                    {{ msg.sender }}
+                  </div>
+                  <n-tooltip :placement="msg.sender === username ? 'right' : 'left'" trigger="click">
+                    <template #trigger>
+                      <div class="chat-message-content">{{ msg.msg }}</div>
+                    </template>
+                    <div>{{ msg.date }}</div>
+                  </n-tooltip>
+                </div>
+                <div class="chat-message-avatar" v-if="msg.sender === username">
+                  <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
+                </div>
+              </div>
+            </n-list-item>
+          </template>
+        </n-list>
       </div>
-      <n-input v-model:value="message" placeholder="Enter your message" :disabled="selectedUser === username" class="chat-message-input" />
+      <n-input 
+        type="textarea" 
+        v-model:value="message" 
+        placeholder="Enter your message" 
+        :disabled="selectedUser === username" 
+        class="chat-message-input" 
+        :autosize="{
+          minRows: 1,
+          maxRows: 4,
+        }"
+      />
       <n-button class="submit-message-button" @click="submitMessage" type="primary" :disabled="getMessageInputDisabled()">Send Message</n-button>
       <n-button class="close-message-button" @click="closeMessagePanel" type="error">Close</n-button>
     </n-card>
@@ -92,10 +138,39 @@ const getMessageInputDisabled = () => {
   right: 100px;
 }
 .chat-messages {
-  position: absolute;
-  top: 120px;
-  bottom: 80px;
+  width: auto;
+  max-height: 40vh;
   overflow-y: auto;
+  margin: 20px 0;
+}
+.chat-message-avatar {
+  margin: 0 5px;
+}
+.outer-chat-message-block {
+  display: flex;
+  flex-direction: row;
+}
+.chat-message-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+.chat-message-block-self {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+}
+.chat-message-sender {
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.chat-message-content {
+  max-width: 60%;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
 }
 .close-message-button {
   position: absolute;

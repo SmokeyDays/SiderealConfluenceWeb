@@ -13,6 +13,8 @@ import WildSmall from '@/components/icons/items/WildSmall.vue';
 import WildBig from '@/components/icons/items/WildBig.vue';
 import Score from '@/components/icons/items/Score.vue';
 import { isProduction } from '@/utils/config';
+import ItemEntry from '@/components/ItemEntry.vue';
+import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 const username = ref(isProduction? '': 'Alice');
 
 const props = defineProps<{
@@ -34,17 +36,17 @@ const handleSubmit = () => {
         <h4>A game of trading and diplomacy in a sci-fi universe</h4>
       </div>
       <div class="icon-display">
-        <Culture />
-        <Industry />
-        <Food />
-        <Information />
-        <Ship />
-        <Biotech />
-        <Energy />
-        <Hypertech />
-        <WildSmall />
-        <WildBig />
-        <Score />
+        <ItemEntryDiv item="Culture" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Industry" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Food" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Information" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Ship" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Biotech" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Energy" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Hypertech" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="WildSmall" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="WildBig" :count="1" :icon-width="80" :icon-height="80" />
+        <ItemEntryDiv item="Score" :count="1" :icon-width="80" :icon-height="80" />
       </div>
       <n-input v-model:value="username" placeholder="Enter your username" @keyup.enter="handleSubmit" />
       <n-button type="primary" @click="handleSubmit" :disabled="!username.trim()">

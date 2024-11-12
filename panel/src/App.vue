@@ -217,11 +217,9 @@ const closeRulesPanel = () => {
       </n-badge>
     </n-float-button>
     <n-float-button @click="openRulesPanel" :bottom="10" :left="70" v-if="username !== ''" class="rules-float-button" type="primary">
-      <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
-        <n-icon>
-          <IconRules />
-        </n-icon>
-      </n-badge>
+      <n-icon>
+        <IconRules />
+      </n-icon>
     </n-float-button>
   </div>
 </template>

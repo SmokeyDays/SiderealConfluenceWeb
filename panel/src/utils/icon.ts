@@ -95,3 +95,7 @@ export const getIconSvg = (item: string) =>  {
       return PlaceholderSvg;
   }
 };
+
+export const getAvatarSrc = (username: string) => {
+  return `https://github.com/${username}.png`;
+};
