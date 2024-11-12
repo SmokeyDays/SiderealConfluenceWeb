@@ -56,6 +56,7 @@ const getReceivers = () => {
         </div>
       </div>
     </div>
+    <div class="proposal-message" v-if="props.proposal.message">备注：{{ props.proposal.message }}</div>
     <template v-if="props.declineProposal">
       <n-button @click="props.declineProposal" class="decline-proposal-button" type="error">撤回提议</n-button>
     </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NInputNumber, NSelect, NCard, NTabs, NTabPane, NTooltip } from 'naive-ui';
+import { NButton, NInputNumber, NSelect, NCard, NTabs, NTabPane, NTooltip, NInput } from 'naive-ui';
 import { getItemOption, getSpecieColor, getSpecieZhName, items } from '@/interfaces/GameConfig';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { Gift, TradeProposal, type GameState } from '@/interfaces/GameState';
@@ -9,7 +9,7 @@ import ProposalDiv from '@/components/ProposalDiv.vue';
 
 const props = defineProps<{
   submitGift: (gift: Gift, toWhom: string) => void;
-  submitProposal: (sendGift: Gift, receiveGift: Gift, receivers: string[]) => void;
+  submitProposal: (sendGift: Gift, receiveGift: Gift, receivers: string[], message: string) => void;
   closeTradePanel: () => void;
   declineProposal: (proposal_id: number) => void;
   acceptProposal: (proposal_id: number) => void;
@@ -23,6 +23,7 @@ const newItemCount = ref(defaultItemCount);
 const sendGift = ref(new Gift({}, [], []));
 const receiveGift = ref(new Gift({}, [], []));
 const toWhom = ref("Choose a player");
+const proposalMessage = ref("");
 const receivers = ref<string[]>([]);
 const tab = ref("market");
 const gift_type = ref("send");
@@ -60,12 +61,12 @@ const submitGift = () => {
 };
 
 const submitProposal = () => {
-  props.submitProposal(sendGift.value, receiveGift.value, receivers.value);
+  props.submitProposal(sendGift.value, receiveGift.value, receivers.value, proposalMessage.value);
   submitClose();
 };
 
 const getCurrentProposal = () => {
-  const proposal = new TradeProposal(0, props.username, receivers.value, sendGift.value, receiveGift.value);
+  const proposal = new TradeProposal(0, props.username, receivers.value, sendGift.value, receiveGift.value, proposalMessage.value);
   return proposal;
 }
 
@@ -76,6 +77,9 @@ const submitClose = () => {
 };
 
 const getItemRestriction = (item: string) => {
+  if (item === "Score") {
+    return 0;
+  }
   if (gift_type.value === "receive") {
     return 1000000;
   }
@@ -84,9 +88,6 @@ const getItemRestriction = (item: string) => {
     return 0;
   }
   let myStorageItem = myStorage[item] || 0;
-  if (item === "Score") {
-    myStorageItem = 0;
-  }
   return myStorageItem - (getGift().items[item] || 0);
 }
 
@@ -210,75 +211,79 @@ const onTabChange = (value: string) => {
 <template>
   <PanelTemplate>
     <n-card hoverable class="trade-panel">
-      <n-tabs v-model:value="tab" type="line" animated @update:value="onTabChange">
-        <n-tab-pane name="market" tab="市场">
-          <div class="trade-item-title">市场上的提议：</div>
-          <div class="proposal-container">
-            <template v-for="player in props.gameState.players" :key="player.user_id">
-              <template v-for="proposal in props.gameState.proposals[player.user_id]" :key="proposal.id">
-                <ProposalDiv 
-                  :proposal="proposal"
-                  :declineProposal="proposal.from_player === props.username ? () => {
-                    props.declineProposal(proposal.id);
-                  } : undefined"
-                  :acceptProposal="proposal.to_players.includes(props.username) ? () => {
-                    props.acceptProposal(proposal.id);
-                  } : undefined"
-                />
+      <div class="trade-panel-content">
+        <n-tabs v-model:value="tab" type="line" animated @update:value="onTabChange">
+          <n-tab-pane name="market" tab="市场">
+            <div class="trade-item-title">市场上的提议：</div>
+            <div class="proposal-container">
+              <template v-for="player in props.gameState.players" :key="player.user_id">
+                <template v-for="proposal in props.gameState.proposals[player.user_id]" :key="proposal.id">
+                  <ProposalDiv 
+                    :proposal="proposal"
+                    :declineProposal="proposal.from_player === props.username ? () => {
+                      props.declineProposal(proposal.id);
+                    } : undefined"
+                    :acceptProposal="proposal.to_players.includes(props.username) ? () => {
+                      props.acceptProposal(proposal.id);
+                    } : undefined"
+                  />
+                </template>
               </template>
+            </div>
+          </n-tab-pane>
+          <n-tab-pane name="gift" tab="赠送">
+            <div class="trade-item-title">赠送如下物品：</div>
+          </n-tab-pane>
+          <n-tab-pane name="trade" tab="交易">
+            <n-tabs v-model:value="gift_type" type="line" animated>
+              <n-tab-pane name="send" tab="希望用……"></n-tab-pane>
+              <n-tab-pane name="receive" tab="换取……"></n-tab-pane>
+            </n-tabs>
+            <div class="trade-item-title">如下物品：</div>
+          </n-tab-pane>
+        </n-tabs>
+        <template v-if="tab === 'gift' || tab === 'trade'">
+          <div class="trade-item-container" v-if="Object.values(getGift().items).some(count => count > 0)">
+            <template v-for="(count, item) in getGift().items" :key="item">
+              <div class="trade-item-entry" v-if="count > 0">
+                <ItemEntryDiv :item="item as string" :count="count" :iconWidth="60" :iconHeight="60" />
+                <n-button @click="removeItem(item as string)" circle type="error" size="tiny" class="remove-item-button">-</n-button>
+              </div>
             </template>
           </div>
-        </n-tab-pane>
-        <n-tab-pane name="gift" tab="赠送">
-          <div class="trade-item-title">赠送如下物品：</div>
-        </n-tab-pane>
-        <n-tab-pane name="trade" tab="交易">
-          <n-tabs v-model:value="gift_type" type="line" animated>
-            <n-tab-pane name="send" tab="希望用……"></n-tab-pane>
-            <n-tab-pane name="receive" tab="换取……"></n-tab-pane>
-          </n-tabs>
-          <div class="trade-item-title">如下物品：</div>
-        </n-tab-pane>
-      </n-tabs>
-      <template v-if="tab === 'gift' || tab === 'trade'">
-        <div class="trade-item-container" v-if="Object.values(getGift().items).some(count => count > 0)">
-          <template v-for="(count, item) in getGift().items" :key="item">
-            <div class="trade-item-entry" v-if="count > 0">
-              <ItemEntryDiv :item="item as string" :count="count" :iconWidth="60" :iconHeight="60" />
-              <n-button @click="removeItem(item as string)" circle type="error" size="tiny" class="remove-item-button">-</n-button>
-            </div>
-          </template>
-        </div>
-        <div class="trade-item-input"> 
-          <n-select v-model:value="newItem" :options="getItemOptions()" placeholder="Choose an item" />
-          <n-input-number v-model:value="newItemCount" :min="1" :max="getItemRestriction(newItem)" />
-          <n-button @click="addItem" :disabled="getItemRestriction(newItem) < newItemCount">Add Item</n-button>
-        </div>
-        <div class="trade-item-title">并借出（若绑定种族）或给予如下工厂：</div>
-        <n-select v-model:value="getGift().factories" :options="getFactoryOptions()" multiple placeholder="选择一个工厂" />
-        <div class="trade-item-title">并授权如下科技的专利：</div>
-        <n-select v-model:value="getGift().techs" :options="getTechOptions()" multiple placeholder="选择一个科技" />
-      </template>
-      <template v-if="tab === 'gift'">
-        <n-button class="submit-trade-button" @click="submitGift" type="primary" :disabled="!checkSubmit()">赠送</n-button>
-        <div class="to-whom-container">
-          <p style="font-size: 1.2rem; font-weight: bold;">赠送给：</p>
-          <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="Choose a player" />
-        </div>
-      </template>
-      <template v-if="tab === 'trade'">
-        <n-tooltip>
-          <template #trigger>
-            <n-button class="submit-trade-button" @click="submitProposal" type="primary" :disabled="!checkSubmit()">提交</n-button>
-          </template>
-          <ProposalDiv :proposal="getCurrentProposal()"/>
-        </n-tooltip>
-        <div class="potential-receiver-container">
-          <p style="font-size: 1.2rem; font-weight: bold;">向以下玩家提议：</p>
-          <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="Choose a player" multiple />
-        </div>
-      </template>
-      <n-button class="close-trade-button" @click="submitClose" type="error">关闭</n-button>
+          <div class="trade-item-input"> 
+            <n-select v-model:value="newItem" :options="getItemOptions()" placeholder="Choose an item" />
+            <n-input-number v-model:value="newItemCount" :min="1" :max="getItemRestriction(newItem)" />
+            <n-button @click="addItem" :disabled="getItemRestriction(newItem) < newItemCount">Add Item</n-button>
+          </div>
+          <div class="trade-item-title">并借出（若绑定种族）或给予如下工厂：</div>
+          <n-select v-model:value="getGift().factories" :options="getFactoryOptions()" multiple placeholder="选择一个工厂" />
+          <div class="trade-item-title">并授权如下科技的专利：</div>
+          <n-select v-model:value="getGift().techs" :options="getTechOptions()" multiple placeholder="选择一个科技" />
+        </template>
+        <template v-if="tab === 'gift'">
+          <n-button class="submit-trade-button" @click="submitGift" type="primary" :disabled="!checkSubmit()">赠送</n-button>
+          <div class="to-whom-container">
+            <p style="font-size: 1.2rem; font-weight: bold;">赠送给：</p>
+            <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="Choose a player" />
+          </div>
+        </template>
+        <template v-if="tab === 'trade'">
+          <div class="trade-item-title">并备注信息：</div>
+          <n-input v-model:value="proposalMessage" placeholder="输入备注信息" type="textarea" :autosize="{ minRows: 1, maxRows: 2 }"/>
+          <n-tooltip>
+            <template #trigger>
+              <n-button class="submit-trade-button" @click="submitProposal" type="primary" :disabled="!checkSubmit()">提交</n-button>
+            </template>
+            <ProposalDiv :proposal="getCurrentProposal()"/>
+          </n-tooltip>
+          <div class="potential-receiver-container">
+            <p style="font-size: 1.2rem; font-weight: bold;">向以下玩家提议：</p>
+            <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="Choose a player" multiple />
+          </div>
+        </template>
+        <n-button class="close-trade-button" @click="submitClose" type="error">关闭</n-button>
+      </div>
     </n-card>
   </PanelTemplate>
 </template>
@@ -286,6 +291,10 @@ const onTabChange = (value: string) => {
 <style>
 .trade-panel {
   width: 60vw;
+}
+.trade-panel-content {
+  overflow: auto;
+  padding-bottom: 100px;
   height: 75vh;
 }
 .proposal-container {

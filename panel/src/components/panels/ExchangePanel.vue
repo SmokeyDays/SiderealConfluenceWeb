@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, type CSSProperties } from 'vue';
-import { NButton, NSelect, NCard, NInputNumber, NSwitch } from 'naive-ui';
+import { computed, ref, type CSSProperties } from 'vue';
+import { NButton, NSelect, NCard, NInputNumber, NSwitch, NTabs, NTabPane } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource, arbitraryWorldSource, getItemOption, getItemZhNameDesc, getSpecieColor, items, wildBigTarget, wildSmallTarget } from '@/interfaces/GameConfig';
 import type { Factory, GameState, Player } from '@/interfaces/GameState';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
@@ -18,7 +18,9 @@ const props = defineProps<{
   updateWildItems: (items: { [key: string]: number }) => void;
 }>();
 const selectedColonies = ref<string[]>([]);
-const dealingArbitrary = ref<boolean>(true);
+const exchangeType = ref<string>("wild");
+const dealingArbitrary = computed(() => exchangeType.value === "arbitrary");
+
 const newArbitraryItem = ref<string>("");
 const newArbitraryItemCount = ref<number>(1);
 
@@ -178,21 +180,17 @@ const railStyle = ({
       <n-select v-model:value="selectedColonies" :options="getColonyOptions()" placeholder="Choose colonies" multiple/>
     </div>
 
-    <n-switch v-model:value="dealingArbitrary" :rail-style="railStyle">
-      <template #checked>
-        切换到：将百搭方块转换为特定方块
-      </template>
-      <template #unchecked>
-        切换到：将物品转换为任意投入
-      </template>
-    </n-switch>
+    <n-tabs v-model:value="exchangeType" type="line" animated>
+      <n-tab-pane name="arbitrary" tab="销毁物品 → 任意投入">
+      </n-tab-pane>
+      <n-tab-pane name="wild" tab="特化百搭方块 → 特定方块">
+      </n-tab-pane>
+    </n-tabs>
     <template v-if="dealingArbitrary">
-      <div class="exchange-item-title">将物品转换为任意投入。</div>
       <div class="exchange-item-description">任意投入指的是一种特殊的彩色方块投入，通常仅用于联合体的特定转换器，请检查你是否真的需要它们！</div>
       <div class="exchange-item-description">注意：任意投入将不再能转换回普通物品！</div>
     </template>
     <template v-else>
-      <div class="exchange-item-title">将百搭方块转换为特定方块</div>
       <div class="exchange-item-description">注意：百搭方块转换为特定方块后将不能再转换回百搭方块！</div>
       <div class="exchange-item-description">恩尼艾特的利息转换器不需要预先转换。</div>
     </template>

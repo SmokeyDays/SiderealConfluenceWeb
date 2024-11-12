@@ -23,7 +23,6 @@ class MessageManager:
 
   def get_msgs_by_user(self, user_id):
     res = []
-    print(self.msgs)
     for msg in self.msgs:
       if msg.user is None or msg.user == user_id or msg.sender == user_id:
         res.append(msg)

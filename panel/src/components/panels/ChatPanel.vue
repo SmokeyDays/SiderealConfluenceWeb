@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { NButton, NSelect, NCard, NTag, NInput, NList, NListItem, NTooltip, NAvatar } from 'naive-ui';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 import type { Message } from '@/interfaces/ChatState';
@@ -11,6 +11,7 @@ const props = defineProps<{
   rooms: RoomList;
   username: string;
   closeMessagePanel: () => void;
+  readMessage: (msg: Message) => void;
 }>();
 
 const selectedRoom = ref<string>("");
@@ -66,6 +67,21 @@ const getMessageInputDisabled = () => {
 // const getMsgPrefix = (msg: Message) => {
 //   return `[${msg.room ? msg.room : "大厅"}] [${msg.user ? "私聊" : "所有人"}]`;
 // };
+
+const scrollChatMessages = () => {
+  nextTick(() => {
+    const chatMessagesDiv = document.querySelector('.chat-messages');
+    if (chatMessagesDiv) {
+      chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+    }
+    props.readMessage(props.messages[props.messages.length - 1]);
+  });
+};
+watch(message, scrollChatMessages);
+
+onMounted(() => {
+  scrollChatMessages();
+});
 </script>
 
 <template>
@@ -111,10 +127,20 @@ const getMessageInputDisabled = () => {
         :autosize="{
           minRows: 1,
           maxRows: 4,
-        }"
+        }" 
+        @keydown.ctrl.enter="submitMessage"
       />
-      <n-button class="submit-message-button" @click="submitMessage" type="primary" :disabled="getMessageInputDisabled()">Send Message</n-button>
-      <n-button class="close-message-button" @click="closeMessagePanel" type="error">Close</n-button>
+      <n-tooltip>
+        <template #trigger>
+          <n-button class="submit-message-button"
+            @click="submitMessage" 
+            type="primary" 
+            :disabled="getMessageInputDisabled()"
+          >发送</n-button>
+        </template>
+        <div>Ctrl + Enter 发送</div>
+      </n-tooltip>
+      <n-button class="close-message-button" @click="closeMessagePanel" type="error">关闭</n-button>
     </n-card>
   </PanelTemplate>
 </template>

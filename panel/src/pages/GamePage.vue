@@ -302,13 +302,14 @@ const submitGift = (gift: Gift, toWhom: string) => {
     to: toWhom
   });
 };
-const submitProposal = (sendGift: Gift, receiveGift: Gift, to: string[]) => {
+const submitProposal = (sendGift: Gift, receiveGift: Gift, to: string[], message: string) => {
   socket.emit("trade-proposal", {
     room_name: props.gameState.room_name,
     username: props.username,
     send: sendGift,
     receive: receiveGift,
-    to: to
+    to: to,
+    message: message
   });
 };
 const declineProposal = (proposal_id: number) => {

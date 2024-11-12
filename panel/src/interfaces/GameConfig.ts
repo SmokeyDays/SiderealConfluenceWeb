@@ -41,7 +41,6 @@ export const getSpecieZhName = (specie: string) => {
 };
 
 export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall", "ArbitrarySmall", "ArbitraryBig", "FoodDonation", "CultureDonation", "IndustryDonation", "EnergyDonation", "InformationDonation", "BiotechDonation", "HypertechDonation", "ShipDonation", "ScoreDonation", "WildBigDonation", "WildSmallDonation", "ArbitrarySmallDonation", "ArbitraryBigDonation"];
-
 export const smallItem = ["Food", "Culture", "Industry"];
 export const bigItem = ["Energy", "Information", "Biotech"];
 export const wildSmallTarget = [...smallItem, "ArbitrarySmall"];
@@ -99,6 +98,10 @@ const itemZhNames: {[key: string]: string} = {
   'WildSmall': '小型万能方块',
   'ArbitrarySmall': '小型任意',
   'ArbitraryBig': '大型任意',
+  'Ice': '冰川殖民地',
+  'Jungle': '丛林殖民地',
+  'Desert': '沙漠殖民地',
+  'Water': '海洋殖民地',
 }
 
 const itemZhDescs: {[key: string]: string} = {

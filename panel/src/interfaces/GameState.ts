@@ -12,7 +12,8 @@ export class TradeProposal {
     public from_player: string,
     public to_players: string[],
     public send_gift: Gift,
-    public receive_gift: Gift
+    public receive_gift: Gift,
+    public message: string
   ) {}
 }
 

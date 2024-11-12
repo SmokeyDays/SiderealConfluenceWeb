@@ -51,7 +51,6 @@ class Server:
                                   ["Bob"], 
                                   {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
                                   {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
-    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -59,12 +58,13 @@ class Server:
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
     # skip bidding
-    test_room.game.submit_bid("Alice", 3, 2)
-    test_room.game.submit_bid("Bob", 1, 3)
-    test_room.game.submit_pick("Alice", "colony", 0)
-    test_room.game.submit_pick("Bob", "colony", 1)
+    test_room.game.submit_bid("Alice", 4, 2)
+    test_room.game.submit_bid("Bob", 2, 3)
+    test_room.game.submit_pick("Bob", "colony", 0)
+    test_room.game.submit_pick("Alice", "colony", 1)
     test_room.game.submit_pick("Bob", "research", 0)
     test_room.game.submit_pick("Alice", "research", 1)
+    return
     # skip t1 trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -112,7 +112,6 @@ class Server:
   def bind_basic_events(self):
     @self.socketio.on('connect', namespace=get_router_name())
     def connected_success():
-      print('client connected.')
       emit('alert-message', {
         "type": "success",
         "title": "Connected",
@@ -338,7 +337,7 @@ class Server:
     def trade_proposal(data):
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'])
+      success, message = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
       emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Trade Proposal Success" if success else "Trade Proposal Failed",

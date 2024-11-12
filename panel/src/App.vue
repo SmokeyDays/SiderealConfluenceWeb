@@ -171,11 +171,14 @@ const viewedCount = ref(0);
 
 const openMessagePanel = () => {
   displayMessagePanel.value = true;
-  viewedCount.value = messages.value.length;
 }
 
 const closeMessagePanel = () => {
   displayMessagePanel.value = false;
+}
+
+const readMessage = (msg: Message) => {
+  viewedCount.value = messages.value.length;
 }
 
 const displayRulesPanel = ref(false);
@@ -208,6 +211,7 @@ const closeRulesPanel = () => {
       :rooms="rooms"
       :username="username"
       :closeMessagePanel="closeMessagePanel"
+      :readMessage="readMessage"
     />
     <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
     <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">

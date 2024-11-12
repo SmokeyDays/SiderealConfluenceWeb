@@ -64,7 +64,10 @@ const maySelect = (type: string, price: number) => {
   if (isCurrentPick()) {
     const me = props.getMe();
     if (!me) return false;
-    const bidNum = type === "colony" ? me.colony_bid : me.research_bid;
+    let bidNum = type === "colony" ? me.colony_bid : me.research_bid;
+    if (me.specie === "Caylion") {
+      bidNum = bidNum / 2.0;
+    }
     return type === props.gameState.current_pick?.type && price <= bidNum;
   }
   return false;

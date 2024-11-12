@@ -59,21 +59,22 @@ def get_item_value(item: str):
 
 class TradeProposal:
   trade_proposal_id = 1
-  def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
+  def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
     self.id = TradeProposal.trade_proposal_id
     TradeProposal.trade_proposal_id += 1
     self.from_player = from_player
     self.to_players = to_players
     self.send_gift = send_gift
     self.receive_gift = receive_gift
-
+    self.message = message
   def to_dict(self):
     return {
       "id": self.id,
       "from_player": self.from_player,
       "to_players": self.to_players,
       "send_gift": self.send_gift,
-      "receive_gift": self.receive_gift
+      "receive_gift": self.receive_gift,
+      "message": self.message
     }
 
 class DataManager:
@@ -541,6 +542,12 @@ class Player:
         new_items[item] = new_items.get(item, 0) + quantity
     self.add_items_to_storage(new_items)
 
+  def check_storage(self, items: Dict[str, int]) -> bool:
+    for item, quantity in items.items():
+      if self.storage.get(item, 0) < quantity:
+        return False
+    return True
+
   def remove_from_storage(self, item: str, quantity: int) -> bool:
     if self.storage.get(item, 0) < quantity:
       return False
@@ -548,9 +555,8 @@ class Player:
     return True
 
   def remove_items_from_storage(self, items: Dict[str, int]) -> bool:
-    for item, quantity in items.items():
-      if self.storage.get(item, 0) < quantity:
-        return False
+    if not self.check_storage(items):
+      return False
     for item, quantity in items.items():
       if quantity == 0:
         continue
@@ -597,11 +603,13 @@ class Player:
   def get_research_priority(self):
     return (-self.research_bid, self.get_factory_num_by_type("Research"), -self.tie_breaker)
   
-  def get_colony_priority(self):
-    colony_bid = self.colony_bid
+  def get_colony_bid(self):
     if self.specie == "Caylion":
-      colony_bid = self.colony_bid / 2.0
-    return (-colony_bid, self.get_factory_num_by_type("Colony"), -self.tie_breaker)
+      return self.colony_bid / 2.0
+    return self.colony_bid
+
+  def get_colony_priority(self):
+    return (-self.get_colony_bid(), self.get_factory_num_by_type("Colony"), -self.tie_breaker)
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -721,7 +729,7 @@ class Game:
       self.stage = "discard_colony"
       self.reset_player_agreements()
       self.calculate_discard_colony()
-      self.trade_proposal = {}
+      self.proposals = {}
       if len(self.discard_colony) == 0:
         self.move_to_next_stage()
     elif self.stage == 'discard_colony':
@@ -843,8 +851,9 @@ class Game:
       player.add_to_storage(item, quantity)
 
   def give_items(self, sender: Player, receiver: Player, items: Dict[str, int]) -> Tuple[bool, str, Callable]:
-    if sender.remove_items_from_storage(items):
+    if sender.check_storage(items):
       def callback():
+        sender.remove_items_from_storage(items)
         receiver.receive_items(items)
       return True, "", callback
     return False, "玩家库存不足", lambda: None
@@ -972,11 +981,12 @@ class Game:
           return False, "拍卖物品不存在"
         if not self.colony_bid_cards[pick_id]["item"]:
           return False, "拍卖物品不存在"
-        if player.colony_bid < self.colony_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.colony_bid:
+        if player.colony_bid < self.colony_bid_cards[pick_id]["price"] or player.storage.get("Ship", 0) < player.get_colony_bid():
           return False, "出价不足"
         colony = self.colony_bid_cards[pick_id]["item"]
         player.add_colony(colony)
         self.colony_bid_cards[pick_id]["item"] = None
+        # 注意这里要用 player.colony_bid 因为 get_colony_bid 计算的是经过 Caylion 修正后的出价
         player.remove_from_storage("Ship", player.colony_bid)
       self.colony_bid_priority.pop(0)
     elif type == "research":
@@ -1106,8 +1116,8 @@ class Game:
       callback()
     return True, ""
   
-  def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
-    proposal = TradeProposal(from_player, to_players, send_gift, receive_gift)
+  def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
+    proposal = TradeProposal(from_player, to_players, send_gift, receive_gift, message)
     self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
     return True, ""
 
@@ -1123,9 +1133,11 @@ class Game:
     for sender, proposals in self.proposals.items():
       for proposal in proposals:
         if proposal.id == id:
-          self.trade(sender, accept_player, proposal.send_gift, proposal.receive_gift)
-          self.proposals[sender].remove(proposal)
-          return True, ""
+          success, msg = self.trade(sender, accept_player, proposal.send_gift, proposal.receive_gift)
+          if success:
+            self.proposals[sender].remove(proposal)
+            return True, msg
+          return success, msg
     return False, "交易提案不存在"
 
   def trade(self, from_player: str, to_player: str, send_gift: Dict[str, Any], receive_gift: Dict[str, Any]):
@@ -1160,7 +1172,6 @@ class Game:
         colony_bid_cards_dict.append({"price": card["price"], "item": card["item"].to_dict()})
       else:
         colony_bid_cards_dict.append({"price": card["price"], "item": None})
-    print(self.proposals)
     return {
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
