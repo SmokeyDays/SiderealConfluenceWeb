@@ -647,7 +647,7 @@ class Game:
     self.endgame_score = {}
 
   def get_player_num(self):
-    return min(len(self.players), 3)
+    return max(len(self.players), 3)
 
   @property
   def current_pick_player(self):
