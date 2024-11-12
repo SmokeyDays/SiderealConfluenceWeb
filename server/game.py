@@ -646,6 +646,8 @@ class Game:
     self.discard_colony = []
     self.endgame_score = {}
 
+  def get_player_num(self):
+    return min(len(self.players), 3)
 
   @property
   def current_pick_player(self):
@@ -674,9 +676,9 @@ class Game:
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
-      self.research_bid_cards.append({"price": get_bid_board(len(self.players) + 4)[i], "item": None})
+      self.research_bid_cards.append({"price": get_bid_board(self.get_player_num())[i], "item": None})
     for i in range(self.colony_bid_num):
-      self.colony_bid_cards.append({"price": get_bid_board(len(self.players) + 4)[i], "item": None})
+      self.colony_bid_cards.append({"price": get_bid_board(self.get_player_num())[i], "item": None})
 
   def supply_bid_items(self):
     research_cards = []
@@ -803,7 +805,7 @@ class Game:
 
   def get_tech_spread_bonus(self, player_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
-    share_score, yengii_score = get_share_score(len(self.players) + 2, self.current_round)
+    share_score, yengii_score = get_share_score(self.get_player_num(), self.current_round)
     if player and player.specie == "Yengii":
       return yengii_score
     return share_score

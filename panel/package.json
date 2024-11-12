@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf ./dist/ && run-p type-check \"build-only {@}\" -- && scp -i 'E:/冯业齐（文件夹）/ssh/ssh' -P 27423 -r ./dist root@144.34.219.61:/home/SiderealConfluenceWebPanel",
+    "build": "rm -rf ./dist/ && run-p type-check \"build-only {@}\" -- && ./deploy.sh",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force"
