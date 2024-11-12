@@ -46,6 +46,10 @@ const gameState = ref<GameState>({
 });
 
 const messages = ref<Message[]>([]);
+const currentRoom = ref('');
+const setCurrentRoom = (room: string) => {
+  currentRoom.value = room;
+};
 
 socket.on('game-state', (data: {state: GameState}) => {
   gameState.value = data.state;
@@ -201,7 +205,7 @@ const closeRulesPanel = () => {
       <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
     </template>
     <template v-else-if="displayPage === 'lobby'">
-      <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" />
+      <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" :currentRoom="currentRoom" :setCurrentRoom="setCurrentRoom" />
     </template>
     <AlertList/>
     <ChatPanel
@@ -210,6 +214,7 @@ const closeRulesPanel = () => {
       :messages="messages"
       :rooms="rooms"
       :username="username"
+      :currentRoom="currentRoom"
       :closeMessagePanel="closeMessagePanel"
       :readMessage="readMessage"
     />

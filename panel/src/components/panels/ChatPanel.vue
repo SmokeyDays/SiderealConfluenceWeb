@@ -10,11 +10,12 @@ const props = defineProps<{
   messages: Message[];
   rooms: RoomList;
   username: string;
+  currentRoom: string;
   closeMessagePanel: () => void;
   readMessage: (msg: Message) => void;
 }>();
 
-const selectedRoom = ref<string>("");
+const selectedRoom = ref<string>(props.currentRoom);
 const selectedUser = ref<string>("");
 const message = ref('');
 
@@ -28,7 +29,8 @@ const submitMessage = () => {
 };
 
 const getRoomOptions = () => {
-  const options: { label: string, value: string }[] = Object.keys(props.rooms).map(room => ({ label: "[房间] " + room, value: room }));
+  const roomList = Object.keys(props.rooms).filter(room => props.rooms[room].players[props.username] !== undefined);
+  const options: { label: string, value: string }[] = roomList.map(room => ({ label: "[房间] " + room, value: room }));
   options.push({ label: "[大厅]", value: "" });
   return options;
 };
@@ -53,7 +55,9 @@ const getUserOptions = () => {
 
 const getMessages = () => {
   return props.messages.filter(msg => 
-    ((selectedRoom.value === "" && msg.room === null) || msg.room === selectedRoom.value) &&
+    ((selectedRoom.value === "" && msg.room === null) || 
+      (msg.room === selectedRoom.value)
+    ) &&
     ((selectedUser.value === "" && msg.user === null) ||
       msg.user === selectedUser.value || 
       (msg.sender === selectedUser.value && msg.user !== null))

@@ -6,31 +6,31 @@
     <div v-if="currentView === 'list'" class="room-list">
       <n-card v-for="(room, index) in rooms" :key="index" class="room-item" :class="getRoomType(room.name)" @click="switchView('room', room.name)" hoverable>
         <h3 class="room-name">{{ room.name }}</h3>
-        <p class="room-info">Players: {{ Object.keys(room.players).length }} / {{ room.max_players }}</p>
-        <p class="room-info">Game State: {{ room.game_state }}</p>
+        <p class="room-info">玩家: {{ Object.keys(room.players).length }} / {{ room.max_players }}</p>
+        <p class="room-info">游戏状态: {{ room.game_state }}</p>
         <n-button v-if="Object.keys(room.players).length === 0" @click.stop="deleteRoom(room.name)" class="delete-room-btn">
-          Delete Room
+          删除房间
         </n-button>
         <template v-if="meInRoom(room.name)">
           <template v-if="props.rooms[room.name].players[props.username].specie">
-            <p class="room-info">Playing <span class="specie" :style="{ color: getSpecieColor(props.rooms[room.name].players[props.username].specie) }">{{ props.rooms[room.name].players[props.username].specie }}</span></p>
+            <p class="room-info">进行中 <span class="specie" :style="{ color: getSpecieColor(props.rooms[room.name].players[props.username].specie) }">{{ props.rooms[room.name].players[props.username].specie }}</span></p>
           </template>
           <template v-else>
-            <p class="room-info">No specie selected</p>
+            <p class="room-info">未选择种族</p>
           </template>
         </template>
       </n-card>
       <n-space vertical class="create-room-section">
-        <h3>Create Room</h3>
-        <n-input v-model:value="newRoomName" placeholder="Enter room name" @keyup.enter="createRoom(newRoomName)" />
-        <n-button @click="createRoom(newRoomName)">Create Room</n-button>
+        <h3>创建房间</h3>
+        <n-input v-model:value="newRoomName" placeholder="输入房间名" @keyup.enter="createRoom(newRoomName)" />
+        <n-button @click="createRoom(newRoomName)">创建房间</n-button>
       </n-space>
     </div>
 
     <div v-if="currentView === 'room'" class="room-view" style="max-width: 400px; margin: 0 auto;">
-      <h3 class="room-title">{{ currentRoom }} ({{ Object.keys(props.rooms[currentRoom].players).length }} / {{ props.rooms[currentRoom].max_players }})</h3>
+      <h3 class="room-title">{{ props.currentRoom }} ({{ Object.keys(props.rooms[props.currentRoom].players).length }} / {{ props.rooms[props.currentRoom].max_players }})</h3>
       <div class="room-content">
-        <div v-for="(info, name) in props.rooms[currentRoom].players" :key="name" class="player-info">
+        <div v-for="(info, name) in props.rooms[props.currentRoom].players" :key="name" class="player-info">
           <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? info.specie : 'No specie chosen' }}</span>
             <template v-if="info.agreed">
               <span style="color: green; font-weight: bold;"> - √</span>
@@ -41,23 +41,23 @@
           </p>
         </div>
         <div class="room-actions">
-          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(currentRoom) && !roomIsFull(currentRoom) && props.rooms[currentRoom].game_state !== 'playing'">Enter Room</n-button>
-          <template v-if="meInRoom(currentRoom)">
-            <n-button class="leave-room-btn" @click="leaveRoom">Leave Room</n-button>
-            <template v-if="isAgreed(currentRoom)">
-              <n-button class="agree-start-btn" @click="disagreeToStart">Disagree to Start Game</n-button>
+          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(props.currentRoom) && !roomIsFull(props.currentRoom) && props.rooms[props.currentRoom].game_state !== 'playing'">Enter Room</n-button>
+          <template v-if="meInRoom(props.currentRoom)">
+            <n-button class="leave-room-btn" @click="leaveRoom">离开房间</n-button>
+            <template v-if="isAgreed(props.currentRoom)">
+              <n-button class="agree-start-btn" @click="disagreeToStart">取消准备</n-button>
             </template>
             <template v-else>
-              <n-button class="agree-start-btn" @click="agreeToStart" v-if="specieChosen(currentRoom)">Agree to Start Game</n-button>
-              <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="Choose a specie" />
-              <n-button class="submit-specie-btn" @click="submitSpecieChoice">Submit specie Choice</n-button>
+              <n-button class="agree-start-btn" @click="agreeToStart" v-if="specieChosen(props.currentRoom)">准备</n-button>
+              <n-select v-model:value="chosenSpecie" :options="getSpecieSelectOptions()" placeholder="选择一个种族" />
+              <n-button class="submit-specie-btn" @click="submitSpecieChoice">提交种族选择</n-button>
             </template> 
             <div class="end-round-setting">
               <n-input-number v-model:value="endRound" placeholder="Enter end round (e.g., 5)" :min="1" />
-              <n-button @click="setEndRound">Set End Round</n-button>
+              <n-button @click="setEndRound">设置结束回合</n-button>
             </div>
           </template>
-          <n-button class="back-list-btn" @click="switchView('list', '')">Back to List</n-button>
+          <n-button class="back-list-btn" @click="switchView('list', '')">返回房间列表</n-button>
         </div>
       </div>
     </div>
@@ -69,19 +69,20 @@ import { ref } from 'vue';
 import { NButton, NSpace, NSelect, NInput, NInputNumber, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
-import { getSpecieColor, species } from '@/interfaces/GameConfig';
+import { getSpecieColor, getSpecieZhName, species } from '@/interfaces/GameConfig';
 import type { GameState } from '@/interfaces/GameState';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
   switchPage: (page: string) => void;
+  currentRoom: string;
+  setCurrentRoom: (room: string) => void;
 }>();
 
 const currentView = ref('list');
-const currentRoom = ref('');
 const chosenSpecie = ref('');
 const newRoomName = ref('');
-const endRound = ref(5);
+const endRound = ref(6);
 
 const roomIsFull = (room_name: string) => {
   return Object.keys(props.rooms[room_name].players).length >= props.rooms[room_name].max_players;
@@ -111,7 +112,7 @@ const isAgreed = (room_name: string) => {
 
 const switchView = (view: string, room_name: string) => {
   currentView.value = view;
-  currentRoom.value = room_name;
+  props.setCurrentRoom(room_name);
   if (props.rooms[room_name].players[props.username].specie) {
     chosenSpecie.value = props.rooms[room_name].players[props.username].specie;
   }
@@ -125,7 +126,7 @@ const deleteRoom = (roomName: string) => {
 };
 
 socket.on('game-state', (data: {state: GameState}) => {
-  if (data.state.room_name === currentRoom.value) {
+  if (data.state.room_name === props.currentRoom) {
     props.switchPage('game');
   }
 });
@@ -146,33 +147,33 @@ const createRoom = (room_name: string) => {
 };
 
 const enterRoom = () => {
-  socket.emit('enter-room', { username: props.username, room_name: currentRoom.value });
+  socket.emit('enter-room', { username: props.username, room_name: props.currentRoom });
 };
 
 const leaveRoom = () => {
-  socket.emit('leave-room', { username: props.username, room_name: currentRoom.value });
+  socket.emit('leave-room', { username: props.username, room_name: props.currentRoom });
 };
 
 const agreeToStart = () => {
-  socket.emit('agree-to-start', { username: props.username, room_name: currentRoom.value });
+  socket.emit('agree-to-start', { username: props.username, room_name: props.currentRoom });
 };
 
 const disagreeToStart = () => {
-  socket.emit('disagree-to-start', { username: props.username, room_name: currentRoom.value });
+  socket.emit('disagree-to-start', { username: props.username, room_name: props.currentRoom });
 };
 
 const submitSpecieChoice = () => {
-  socket.emit('choose-specie', { username: props.username, room_name: currentRoom.value, specie: chosenSpecie.value });
+  socket.emit('choose-specie', { username: props.username, room_name: props.currentRoom, specie: chosenSpecie.value });
 };
 
 const setEndRound = () => {
-  socket.emit('set-end-round', { username: props.username, room_name: currentRoom.value, end_round: endRound.value });
+  socket.emit('set-end-round', { username: props.username, room_name: props.currentRoom, end_round: endRound.value });
 };
 
 const getSpecieSelectOptions = () => {
   const res: Array<SelectOption | SelectGroupOption> = [];
   for (const specie of species) {
-    res.push( { label: specie, value: specie, style: { color: getSpecieColor(specie) } });
+    res.push( { label: getSpecieZhName(specie), value: specie, style: { fontWeight: 'bold', color: getSpecieColor(specie) } });
   }
   return res;
 };

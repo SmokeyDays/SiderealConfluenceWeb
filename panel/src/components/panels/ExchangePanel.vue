@@ -175,39 +175,39 @@ const railStyle = ({
   <PanelTemplate>
     <n-card hoverable class="exchange-panel">
       <div class="exchange-colony-title">将殖民地转换为物品以用于升级</div>
-    <div class="exchange-colony-description">注意：殖民地转换为物品后，殖民地将不复存在！这项交换产生的物品仅用于运行殖民地作为投入的转换器！</div>
-    <div class="exchange-colony-input"> 
-      <n-select v-model:value="selectedColonies" :options="getColonyOptions()" placeholder="Choose colonies" multiple/>
-    </div>
+      <div class="exchange-colony-description">注意：殖民地转换为物品后，殖民地将不复存在！这项交换产生的物品仅用于运行殖民地作为投入的转换器！</div>
+      <div class="exchange-colony-input"> 
+        <n-select v-model:value="selectedColonies" :options="getColonyOptions()" placeholder="Choose colonies" multiple/>
+      </div>
 
-    <n-tabs v-model:value="exchangeType" type="line" animated>
-      <n-tab-pane name="arbitrary" tab="销毁物品 → 任意投入">
-      </n-tab-pane>
-      <n-tab-pane name="wild" tab="特化百搭方块 → 特定方块">
-      </n-tab-pane>
-    </n-tabs>
-    <template v-if="dealingArbitrary">
-      <div class="exchange-item-description">任意投入指的是一种特殊的彩色方块投入，通常仅用于联合体的特定转换器，请检查你是否真的需要它们！</div>
-      <div class="exchange-item-description">注意：任意投入将不再能转换回普通物品！</div>
-    </template>
-    <template v-else>
-      <div class="exchange-item-description">注意：百搭方块转换为特定方块后将不能再转换回百搭方块！</div>
-      <div class="exchange-item-description">恩尼艾特的利息转换器不需要预先转换。</div>
-    </template>
-    <div class="exchange-item-container" v-if="Object.values(getItem()).some(count => count > 0)">
-      <template v-for="(count, item) in getItem()" :key="item">
-        <div class="exchange-item-entry" v-if="count > 0">
-          <ItemEntryDiv :item="item as string" :count="count" :iconWidth="60" :iconHeight="60" />
-          <n-button @click="removeItem(item as string)" circle type="error" size="tiny" class="remove-item-button">-</n-button>
-        </div>
+      <n-tabs v-model:value="exchangeType" type="line" animated>
+        <n-tab-pane name="arbitrary" tab="销毁物品 → 任意投入">
+        </n-tab-pane>
+        <n-tab-pane name="wild" tab="特化百搭方块 → 特定方块">
+        </n-tab-pane>
+      </n-tabs>
+      <template v-if="dealingArbitrary">
+        <div class="exchange-item-description">任意投入指的是一种特殊的彩色方块投入，通常仅用于联合体的特定转换器，请检查你是否真的需要它们！</div>
+        <div class="exchange-item-description">注意：任意投入将不再能转换回普通物品！</div>
       </template>
-    </div>
-    <div class="exchange-item-input"> 
-      <n-select v-model:value="newArbitraryItem" :options="getItemOptions()" placeholder="Choose an item" />
-      <n-input-number v-model:value="newArbitraryItemCount" :min="1" :max="getItemRestriction(newArbitraryItem)" />
-      <n-button @click="addItem" :disabled="getItemRestriction(newArbitraryItem) < newArbitraryItemCount">添加</n-button>
-    </div>
-    <n-button class="submit-exchange-button" @click="submitExchange" type="primary" :disabled="!checkSubmit()">确认</n-button>
+      <template v-else>
+        <div class="exchange-item-description">注意：百搭方块转换为特定方块后将不能再转换回百搭方块！</div>
+        <div class="exchange-item-description">恩尼艾特的利息转换器不需要预先转换。</div>
+      </template>
+      <div class="exchange-item-container" v-if="Object.values(getItem()).some(count => count > 0)">
+        <template v-for="(count, item) in getItem()" :key="item">
+          <div class="exchange-item-entry" v-if="count > 0">
+            <ItemEntryDiv :item="item as string" :count="count" :iconWidth="60" :iconHeight="60" />
+            <n-button @click="removeItem(item as string)" circle type="error" size="tiny" class="remove-item-button">-</n-button>
+          </div>
+        </template>
+      </div>
+      <div class="exchange-item-input"> 
+        <n-select v-model:value="newArbitraryItem" :options="getItemOptions()" placeholder="Choose an item" />
+        <n-input-number v-model:value="newArbitraryItemCount" :min="1" :max="getItemRestriction(newArbitraryItem)" />
+        <n-button @click="addItem" :disabled="getItemRestriction(newArbitraryItem) < newArbitraryItemCount">添加</n-button>
+      </div>
+      <n-button class="submit-exchange-button" @click="submitExchange" type="primary" :disabled="!checkSubmit()">确认</n-button>
       <n-button class="close-exchange-button" @click="submitClose" type="error">取消</n-button>
     </n-card>
   </PanelTemplate>
