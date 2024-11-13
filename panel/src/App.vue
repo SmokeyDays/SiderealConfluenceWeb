@@ -15,9 +15,12 @@ import IconChat from '@/components/icons/IconChat.vue';
 import IconRules from '@/components/icons/IconRules.vue';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
 import RulesPanel from '@/components/panels/RulesPanel.vue';
+
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
 const username = ref(isProduction? '': 'Alice');
+const messages = ref<Message[]>([]);
+const currentRoom = ref('');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
@@ -45,8 +48,6 @@ const gameState = ref<GameState>({
   proposals: {}
 });
 
-const messages = ref<Message[]>([]);
-const currentRoom = ref('');
 const setCurrentRoom = (room: string) => {
   currentRoom.value = room;
 };
@@ -90,8 +91,13 @@ const submitUsername = (newUsername: string) => {
   }
 };
 
+const login = (newUsername: string) => {
+  username.value = newUsername;
+  localStorage.setItem('username', username.value);
+}
+
 socket.on('login-success', (data: any) => {
-  username.value = data['username'];
+  login(data['username']);
   PubSub.publish('alert-pubsub-message', {
     title: '登录成功！',
     str: '欢迎！ ' + username.value,
@@ -101,6 +107,12 @@ socket.on('login-success', (data: any) => {
   });
   switchPage('lobby');
 });
+
+const logout = () => {
+  socket.emit('logout', {username: username.value});
+  username.value = '';
+  localStorage.removeItem('username');
+}
 
 onMounted(() => {
   PubSub.publish('alert-pubsub-message', {
@@ -194,6 +206,13 @@ const openRulesPanel = () => {
 const closeRulesPanel = () => {
   displayRulesPanel.value = false;
 };
+
+onMounted(() => {
+  const savedUsername = localStorage.getItem('username');
+  if (savedUsername) {
+    submitUsername(savedUsername);
+  }
+})
 </script>
 
 <template>
@@ -205,7 +224,14 @@ const closeRulesPanel = () => {
       <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
     </template>
     <template v-else-if="displayPage === 'lobby'">
-      <LobbyPage :rooms="rooms" :username="username" :switchPage="switchPage" :currentRoom="currentRoom" :setCurrentRoom="setCurrentRoom" />
+      <LobbyPage 
+        :rooms="rooms" 
+        :username="username" 
+        :switchPage="switchPage" 
+        :currentRoom="currentRoom" 
+        :setCurrentRoom="setCurrentRoom" 
+        :logout="logout"
+      />
     </template>
     <AlertList/>
     <ChatPanel

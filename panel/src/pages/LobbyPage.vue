@@ -1,7 +1,8 @@
 <template>
   <div class="lobby-page">
     <div class="lobby-title">
-      <h3>Welcome, {{ props.username }}</h3>
+      <h3>欢迎, {{ props.username }}</h3>
+      
     </div>
     <div v-if="currentView === 'list'" class="room-list">
       <n-card v-for="(room, index) in rooms" :key="index" class="room-item" :class="getRoomType(room.name)" @click="switchView('room', room.name)" hoverable>
@@ -61,22 +62,30 @@
         </div>
       </div>
     </div>
+    <n-float-button @click="logout" top="20" right="20" size="large" type="default">
+      <n-icon>
+        <LogoutOutlined />
+      </n-icon>
+    </n-float-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NSpace, NSelect, NInput, NInputNumber, NCard, type SelectGroupOption, type SelectOption } from 'naive-ui';
+import { NButton, NSpace, NSelect, NInput, NInputNumber, NCard, NFloatButton, NIcon, type SelectGroupOption, type SelectOption } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
 import { socket } from '@/utils/connect';
 import { getSpecieColor, getSpecieZhName, species } from '@/interfaces/GameConfig';
 import type { GameState } from '@/interfaces/GameState';
+import LogoutOutlined from '@/components/icons/LogoutOutlined.vue';
+
 const props = defineProps<{
   rooms: RoomList;
   username: string;
   switchPage: (page: string) => void;
   currentRoom: string;
   setCurrentRoom: (room: string) => void;
+  logout: () => void;
 }>();
 
 const currentView = ref('list');
@@ -87,6 +96,11 @@ const endRound = ref(6);
 const roomIsFull = (room_name: string) => {
   return Object.keys(props.rooms[room_name].players).length >= props.rooms[room_name].max_players;
 };
+
+const logout = () => {
+  props.logout();
+  props.switchPage('home');
+}
 
 const getRoomType = (room_name: string) => {
   if (meInRoom(room_name)) {
