@@ -1,6 +1,10 @@
 {
     "name": "Yengii",
     "zh_name": "岩基艾",
+    "max_colony": 3,
+    "tie_breaker": 6,
+    "init_colony": 1,
+    "init_research": 1,
     "start_resource": {
         "factories": [
             "岩基艾_社会生态互利共生",

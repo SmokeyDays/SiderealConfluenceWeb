@@ -32,7 +32,7 @@
       <h3 class="room-title">{{ props.currentRoom }} ({{ Object.keys(props.rooms[props.currentRoom].players).length }} / {{ props.rooms[props.currentRoom].max_players }})</h3>
       <div class="room-content">
         <div v-for="(info, name) in props.rooms[props.currentRoom].players" :key="name" class="player-info">
-          <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? info.specie : 'No specie chosen' }}</span>
+          <p>{{ name }} - <span class="specie" :style="{ color: getSpecieColor(info.specie) }">{{ info.specie ? getSpecieZhName(info.specie) : '未选择种族' }}</span>
             <template v-if="info.agreed">
               <span style="color: green; font-weight: bold;"> - √</span>
             </template>
@@ -42,7 +42,7 @@
           </p>
         </div>
         <div class="room-actions">
-          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(props.currentRoom) && !roomIsFull(props.currentRoom) && props.rooms[props.currentRoom].game_state !== 'playing'">Enter Room</n-button>
+          <n-button class="enter-room-btn" @click="enterRoom" v-if="!meInRoom(props.currentRoom) && !roomIsFull(props.currentRoom) && props.rooms[props.currentRoom].game_state !== 'playing'">进入房间</n-button>
           <template v-if="meInRoom(props.currentRoom)">
             <n-button class="leave-room-btn" @click="leaveRoom">离开房间</n-button>
             <template v-if="isAgreed(props.currentRoom)">

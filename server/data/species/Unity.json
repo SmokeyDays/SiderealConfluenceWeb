@@ -1,6 +1,10 @@
 {
     "name": "Unity",
     "zh_name": "联合体",
+    "max_colony": 1,
+    "tie_breaker": 4,
+    "init_colony": 1,
+    "init_research": 1,
     "start_resource": {
         "factories": [
             "联合体_探索者结合体",

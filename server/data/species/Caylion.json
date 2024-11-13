@@ -1,6 +1,10 @@
 {
     "name": "Caylion",
     "zh_name": "凯利安",
+    "max_colony": 3,
+    "tie_breaker": 1,
+    "init_colony": 1,
+    "init_research": 0,
     "start_resource": {
         "factories": [
             "凯利安_分布式远程网络",

@@ -1,6 +1,10 @@
 {
     "name": "Eni",
     "zh_name": "恩尼艾特",
+    "max_colony": 3,
+    "tie_breaker": 3,
+    "init_colony": 1,
+    "init_research": 0,
     "start_resource": {
         "factories": [
             "恩尼艾特_骨骼雕刻",

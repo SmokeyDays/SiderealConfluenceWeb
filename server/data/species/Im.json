@@ -1,6 +1,10 @@
 {
     "name": "Im",
 	"zh_name": "艾恩卓尔",
+    "max_colony": 0,
+    "tie_breaker": 8,
+    "init_colony": 0,
+    "init_research": 1,
     "start_resource": {
         "factories": [
             "艾恩卓尔_银河系探索",

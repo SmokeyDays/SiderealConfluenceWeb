@@ -14,8 +14,9 @@ import CheckPanel from '@/components/panels/CheckPanel.vue';
 import DiscardColonyPanel from '@/components/panels/DiscardColonyPanel.vue';
 import EnietInterestPanel from '@/components/panels/EnietInterestPanel.vue';
 import { socket } from '@/utils/connect';
-import { NFloatButton } from 'naive-ui';
+import { NFloatButton, NIcon } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
+import IconMenu from '@/components/icons/IconMenu.vue';
 
 export interface GameProps {
   scaleFactor: number;
@@ -286,6 +287,11 @@ const getStorage = (): {[key: string]: number} => {
 }
 
 
+const showGameBoard = ref(true); 
+const toggleGameBoard = () => {
+  showGameBoard.value = !showGameBoard.value;
+}
+
 const displayTradePanel = ref(false);
 const handleTradePanel = () => {
   if (!displayTradePanel.value) {
@@ -538,8 +544,10 @@ const displayMask = () => {
     :handle-select-player="handleSelectPlayer"
     :handle-exchange-panel="handleExchangePanel"
     :exit-game="() => props.switchPage('lobby')"
-    class="game-panel"/>
-  <div class="game-stage">
+    class="game-panel"
+    v-if="showGameBoard"
+  />
+  <div class="game-stage" :class="{'game-stage-show-gameboard': showGameBoard, 'game-stage-hide-gameboard': !showGameBoard}">
     <v-stage :config="stageConfig" class="game-stage-canvas">
       <v-layer>
         <v-image :config="stageConfig"/>
@@ -639,16 +647,32 @@ const displayMask = () => {
   >
     <template #description>Discard Colony</template>
   </n-float-button>
+
+  <n-float-button 
+    @click="toggleGameBoard"
+    :top="10"
+    :left="10 + (showGameBoard ? 300 : 0)"
+  >
+    <n-icon>
+      <IconMenu />
+    </n-icon>
+  </n-float-button>
 </template>
 
 <style scoped>
 .game-stage {
   position: absolute;
   top: 0;
-  left: 300px;
-  width: calc(100vw - 300px);
   height: 100vh;
   overflow: hidden;
+}
+.game-stage-show-gameboard {
+  left: 300px;
+  width: calc(100vw - 300px);
+}
+.game-stage-hide-gameboard {
+  left: 0;
+  width: 100vw;
 }
 .game-stage-canvas {
   overflow: hidden;

@@ -165,10 +165,10 @@ class DataManager:
       if factory.feature["type"] == "Meta":
         init_factories[factory.name] = factory
     specie_zh_name = specie_data["zh_name"]
-    max_colony = 2
-    tie_breaker = 2
-    init_colony = 1
-    init_research = 1
+    max_colony = specie_data["max_colony"]
+    tie_breaker = specie_data["tie_breaker"]
+    init_colony = specie_data["init_colony"]
+    init_research = specie_data["init_research"]
     player = Player(
       specie, 
       specie, 

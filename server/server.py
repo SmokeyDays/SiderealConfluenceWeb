@@ -14,12 +14,13 @@ class Server:
     self.rooms: dict[str, Room] = {}
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     
-    self.mock()
+    self.mock1()
+    self.mock2()
     self.bind_basic_events()
     self.bind_lobby_events()
     self.bind_game_events()
   
-  def mock(self):
+  def mock1(self):
     self.rooms["test"] = Room(2, "test", 2)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
@@ -71,6 +72,30 @@ class Server:
     # skip t1 production
     # test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
+    return
+  
+  def mock2(self):
+    self.rooms["test2"] = Room(4, "test2", 4)
+    test_room = self.rooms['test2']
+    test_room.enter_room("Alice")
+    test_room.enter_room("Bob")
+    test_room.enter_room("Charlie")
+    test_room.enter_room("David")
+
+    self.new_msg(Message("Alice", "HelloRoom", str(datetime.datetime.now()), "test2"))
+    self.new_msg(Message("Bob", "HelloRoom", str(datetime.datetime.now()), "test2"))
+    self.new_msg(Message("Charlie", "HelloRoom", str(datetime.datetime.now()), "test2"))
+    self.new_msg(Message("David", "HelloRoom", str(datetime.datetime.now()), "test2"))
+
+    test_room.choose_specie("Alice", "Caylion")
+    test_room.choose_specie("Bob", "Eni")
+    test_room.choose_specie("Charlie", "Unity")
+    test_room.choose_specie("David", "Yengii")
+
+    test_room.agree_to_start("Alice")
+    test_room.agree_to_start("Bob")
+    test_room.agree_to_start("Charlie")
+    test_room.agree_to_start("David")
     return
     
 

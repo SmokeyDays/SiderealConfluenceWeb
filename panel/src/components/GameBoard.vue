@@ -52,12 +52,27 @@ const isOtherPlayerScore = (player_id: string, item: string) => {
   return (player_id !== props.selectedPlayer && item === "Score") && props.gameState.stage !== 'gameend';
 }
 
+const getPlayerColonyCount = (player: Player) => {
+  let count = 0;
+  for (let factory of Object.values(player.factories)) {
+    if (factory.feature.type === 'Colony') count++;
+  }
+  return count;
+}
+
+const getPlayerColonyColor = (player: Player) => {
+  if (getPlayerColonyCount(player) > player.max_colony) return 'red';
+  if (player.max_colony === 0) return 'gray';
+  if (getPlayerColonyCount(player) < player.max_colony) return 'blue';
+  return 'green';
+}
 </script>
 
 <template>
   <n-card vertical align="center" justify="center" class="game-panel" hoverable>
     <div class="game-board-container">
       <div class="game-info">轮次: {{ gameState.current_round }} / {{ gameState.end_round }} ，阶段: {{ gameState.stage }}</div>
+      <div class="game-info">房间: {{ gameState.room_name }} 玩家: {{ gameState.players.length }}</div>
       <n-divider />
       <n-select 
         v-model:value="selectedPlayer"
@@ -67,8 +82,20 @@ const isOtherPlayerScore = (player_id: string, item: string) => {
       />
       <div v-if="getPlayer() !== null" class="player-info">
         <div class="player-basic-info">
+          <div class="player-name">{{ getPlayer()!.user_id }} - </div>
           <SpecieZhDiv :specie="getPlayer()!.specie" :is-me="getPlayer()!.user_id === props.username" :style="{fontWeight: 'bold'}" />
           <div class="player-agreed" :style="{ fontWeight: 'bold', color: getPlayer()!.agreed ? 'green' : 'red' }">{{ getPlayer()!.agreed ? '已动完' : '没动完' }}</div>
+        </div>
+        <div class="player-basic-info">
+          <n-tooltip placement="top" trigger="hover">
+            <template #trigger>
+              <div class="player-colony" :style="{ fontWeight: 'bold', color: getPlayerColonyColor(getPlayer()!) }">殖民地支持: {{ getPlayerColonyCount(getPlayer()!) }} / {{ getPlayer()!.max_colony }}</div>
+            </template>
+            <div>
+              超出殖民地上限的殖民地必须在交易阶段结束时丢弃
+            </div>
+          </n-tooltip>
+          <div class="player-tie-breaker" :style="{ fontWeight: 'bold'}">出价平手决胜: {{ getPlayer()!.tie_breaker }}</div>
         </div>
         <div class="storage-container">
           <template v-for="(item_count, item_id) in getPlayer()!.storage">
