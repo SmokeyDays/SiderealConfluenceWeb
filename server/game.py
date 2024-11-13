@@ -903,7 +903,7 @@ class Game:
       return False, "升级的殖民地不存在"
     if not player.remove_items_from_storage(player.factories[factory_name].feature["properties"]["upgrade_cost"]):
       return False, "玩家库存不足"
-    if player.factories[factory_name].feature["properties"]["caylion_colony"]:
+    if "caylion_colony" in player.factories[factory_name].feature["properties"]:
       new_factory.feature["properties"]["caylion_colony"] = True
     player.remove_factory(factory_name)
     player.add_factory(new_factory)
