@@ -106,7 +106,7 @@ const getPlayerOptions = () => {
   props.gameState.players.forEach(player => {
     if (player.user_id !== props.username) {
     res.push({ 
-      label: player.specie + " (" + player.user_id + ")",
+      label: getSpecieZhName(player.specie) + " (" + player.user_id + ")",
         value: player.user_id, 
         style: { color: getSpecieColor(player.specie) } 
       });
@@ -254,7 +254,7 @@ const onTabChange = (value: string) => {
           <div class="trade-item-input"> 
             <n-select v-model:value="newItem" :options="getItemOptions()" placeholder="Choose an item" />
             <n-input-number v-model:value="newItemCount" :min="1" :max="getItemRestriction(newItem)" />
-            <n-button @click="addItem" :disabled="getItemRestriction(newItem) < newItemCount">Add Item</n-button>
+            <n-button @click="addItem" :disabled="getItemRestriction(newItem) < newItemCount">添加</n-button>
           </div>
           <div class="trade-item-title">并借出（若绑定种族）或给予如下工厂：</div>
           <n-select v-model:value="getGift().factories" :options="getFactoryOptions()" multiple placeholder="选择一个工厂" />
@@ -265,7 +265,7 @@ const onTabChange = (value: string) => {
           <n-button class="submit-trade-button" @click="submitGift" type="primary" :disabled="!checkSubmit()">赠送</n-button>
           <div class="to-whom-container">
             <p style="font-size: 1.2rem; font-weight: bold;">赠送给：</p>
-            <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="Choose a player" />
+            <n-select v-model:value="toWhom" :options="getPlayerOptions()" placeholder="选择一名玩家" />
           </div>
         </template>
         <template v-if="tab === 'trade'">
@@ -279,7 +279,7 @@ const onTabChange = (value: string) => {
           </n-tooltip>
           <div class="potential-receiver-container">
             <p style="font-size: 1.2rem; font-weight: bold;">向以下玩家提议：</p>
-            <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="Choose a player" multiple />
+            <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="选择若干名玩家" multiple />
           </div>
         </template>
         <n-button class="close-trade-button" @click="submitClose" type="error">关闭</n-button>

@@ -31,7 +31,7 @@ const getMe = () => {
 const getPlayerSelectOptions = () => {
 
   return props.gameState.players.map(player => ({
-    label: player.specie + (player.user_id === props.username ? ' (You)' : ''),
+    label: getSpecieZhName(player.specie) + (player.user_id === props.username ? ' (你)' : `(${player.user_id})`),
     value: player.user_id, 
     style: { color: getSpecieColor(player.specie), fontWeight: 'bold' }
   }));
@@ -49,7 +49,7 @@ const leaveRoomAndReturnToLobby = () => {
 };
 
 const isOtherPlayerScore = (player_id: string, item: string) => {
-  return (player_id !== props.selectedPlayer && item === "Score") && props.gameState.stage !== 'gameend';
+  return (player_id !== props.username && item === "Score") && props.gameState.stage !== 'gameend';
 }
 
 const getPlayerColonyCount = (player: Player) => {

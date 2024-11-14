@@ -20,6 +20,9 @@ const selectedUser = ref<string>("");
 const message = ref('');
 
 const submitMessage = () => {
+  if (message.value === "") {
+    return;
+  }
   props.sendMessage(
     message.value, 
     selectedRoom.value === "" ? null : selectedRoom.value, 

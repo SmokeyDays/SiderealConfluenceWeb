@@ -14,7 +14,7 @@
         </n-button>
         <template v-if="meInRoom(room.name)">
           <template v-if="props.rooms[room.name].players[props.username].specie">
-            <p class="room-info">进行中 <span class="specie" :style="{ color: getSpecieColor(props.rooms[room.name].players[props.username].specie) }">{{ props.rooms[room.name].players[props.username].specie }}</span></p>
+            <p class="room-info">扮演 <SpecieZhDiv :specie="props.rooms[room.name].players[props.username].specie" :is-me="false" is-span /></p>
           </template>
           <template v-else>
             <p class="room-info">未选择种族</p>
@@ -78,7 +78,7 @@ import { socket } from '@/utils/connect';
 import { getSpecieColor, getSpecieZhName, species } from '@/interfaces/GameConfig';
 import type { GameState } from '@/interfaces/GameState';
 import LogoutOutlined from '@/components/icons/LogoutOutlined.vue';
-
+import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
 const props = defineProps<{
   rooms: RoomList;
   username: string;
