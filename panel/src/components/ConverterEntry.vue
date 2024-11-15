@@ -45,7 +45,7 @@
         fill: props.converter.running_stage === 'trading' ? 'purple' : 'white',
         stroke: props.converter.running_stage === 'trading' ? 'purple' : 'white',
         strokeWidth: 0.05 * props.height
-      }" @click="props.onClick"/>
+      }" @click="props.onClick" @touchstart="props.onClick"/>
       <template v-if="!props.producible && !props.converter.used">
         <v-line :config="{
           points: [props.x + 0.45 * props.width, props.y + 0.45 * props.height, props.x + 0.55 * props.width, props.y + 0.55 * props.height],
@@ -69,7 +69,7 @@
           stroke: props.converter.used ? 'gray' : 'yellow',
           strokeWidth: 0.02 * props.height,
           opacity: stageOpacity(props.converter.running_stage)
-        }" @click="props.onClick"/>
+        }" @click="props.onClick" @touchstart="props.onClick"/>
         <template v-if="props.converter.used">
           <v-line :config="{
             points: [props.x + 0.45 * props.width, props.y + 0.5 * props.height, props.x + 0.5 * props.width, props.y + 0.57 * props.height, props.x + 0.57 * props.width, props.y + 0.4 * props.height],

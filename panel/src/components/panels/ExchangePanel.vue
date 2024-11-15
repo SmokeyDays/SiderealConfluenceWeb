@@ -173,7 +173,7 @@ const railStyle = ({
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="exchange-panel">
+    <n-card hoverable class="exchange-panel standard-panel">
       <div class="exchange-colony-title">将殖民地转换为物品以用于升级</div>
       <div class="exchange-colony-description">注意：殖民地转换为物品后，殖民地将不复存在！这项交换产生的物品仅用于运行殖民地作为投入的转换器！</div>
       <div class="exchange-colony-input"> 
@@ -214,10 +214,6 @@ const railStyle = ({
 </template>
 
 <style>
-.exchange-panel {
-  width: 40vw;
-  height: 75vh;
-}
 .exchange-colony-input {
   display: flex;
   flex-direction: row;

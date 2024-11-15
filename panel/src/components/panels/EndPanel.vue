@@ -28,7 +28,7 @@
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="end-panel">
+    <n-card hoverable class="end-panel standard-panel">
       <h2>游戏结束</h2>
       <h3>玩家得分</h3>
       <table>
@@ -69,10 +69,6 @@
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  max-width: 90vw;
-  max-height: 80vh;
-  width: 600px;
-  height: auto;
   margin: 0 auto;
   border-radius: 10px;
 }

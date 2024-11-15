@@ -65,10 +65,10 @@ class Server:
     test_room.game.submit_pick("Alice", "colony", 1)
     test_room.game.submit_pick("Bob", "research", 0)
     test_room.game.submit_pick("Alice", "research", 1)
-    return
     # skip t1 trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
+    return
     # skip t1 production
     # test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")

@@ -41,7 +41,7 @@ const checkValid = () => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="research-panel">
+    <n-card hoverable class="research-panel standard-panel">
       <div class="research-cost-title">你必须弃置{{ discardNum }}个殖民地</div>
     <div class="research-cost-input"> 
       <n-select v-model:value="colonies" :options="getColonyOptions()" placeholder="选择殖民地" multiple/>
@@ -53,10 +53,6 @@ const checkValid = () => {
 </template>
 
 <style>
-.research-panel {
-  width: 40vw;
-  height: 75vh;
-}
 .research-cost-input {
   display: flex;
   flex-direction: row;

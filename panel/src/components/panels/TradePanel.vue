@@ -210,7 +210,7 @@ const onTabChange = (value: string) => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="trade-panel">
+    <n-card hoverable class="trade-panel standard-panel">
       <div class="trade-panel-content">
         <n-tabs v-model:value="tab" type="line" animated @update:value="onTabChange">
           <n-tab-pane name="market" tab="市场">
@@ -289,13 +289,9 @@ const onTabChange = (value: string) => {
 </template>
 
 <style>
-.trade-panel {
-  width: 60vw;
-}
 .trade-panel-content {
   overflow: auto;
   padding-bottom: 100px;
-  height: 75vh;
 }
 .proposal-container {
   display: flex;

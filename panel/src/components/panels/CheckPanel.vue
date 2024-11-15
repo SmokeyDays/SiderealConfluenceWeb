@@ -20,7 +20,7 @@ const submitCheck = () => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="research-panel">
+    <n-card hoverable class="research-panel standard-panel">
       <div class="research-cost-title">{{ props.checkMessage }}</div>
       <div class="research-cost-input"> 
         <n-button class="submit-research-button" @click="submitCheck" type="primary">确定</n-button>
@@ -31,10 +31,6 @@ const submitCheck = () => {
 </template>
 
 <style>
-.research-panel {
-  width: 40vw;
-  height: 40vh;
-}
 .research-cost-input {
   display: flex;
   flex-direction: row;

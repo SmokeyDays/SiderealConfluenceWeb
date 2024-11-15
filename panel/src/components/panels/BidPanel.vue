@@ -82,7 +82,7 @@ const submitPick = () => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="bid-panel">
+    <n-card hoverable class="bid-panel standard-panel">
       <div class="bid-info" v-if="props.gameState.stage === 'bid'">
       选择你的出价
     </div>
@@ -168,10 +168,6 @@ const submitPick = () => {
 </template>
 
 <style>
-.bid-panel {
-  width: 60vw;
-  height: 75vh;
-}
 .bid-info {
   font-size: 1.2rem;
   font-style: italic;

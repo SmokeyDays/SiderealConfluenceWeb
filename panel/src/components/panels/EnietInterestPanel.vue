@@ -117,7 +117,7 @@ const onOutputTypeChange = () => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="eniet-interest-panel">
+    <n-card hoverable class="eniet-interest-panel standard-panel">
       <div class="eniet-interest-cost-title">选择存放的利息类型</div>
     <div class="eniet-interest-cost-input"> 
       <n-select v-model:value="outputType" :options="getOutputTypeOptions()" placeholder="选择存放的利息类型" @update:value="onOutputTypeChange"/>
@@ -152,10 +152,6 @@ const onOutputTypeChange = () => {
 </template>
 
 <style>
-.eniet-interest-panel {
-  width: 40vw;
-  height: 75vh;
-}
 .eniet-interest-cost-input {
   display: flex;
   flex-direction: column;

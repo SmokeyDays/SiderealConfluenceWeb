@@ -58,7 +58,7 @@ const affordCost = () => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="research-panel">
+    <n-card hoverable class="research-panel standard-panel">
       <div class="research-cost-title">Choose a cost type:</div>
     <div class="research-cost-input"> 
       <n-select v-model:value="costType" :options="getCostTypeOptions()" placeholder="Choose a cost type" />
@@ -70,10 +70,6 @@ const affordCost = () => {
 </template>
 
 <style>
-.research-panel {
-  width: 40vw;
-  height: 75vh;
-}
 .research-cost-input {
   display: flex;
   flex-direction: row;

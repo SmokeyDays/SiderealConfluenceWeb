@@ -93,7 +93,7 @@ onMounted(() => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="chat-panel">
+    <n-card hoverable class="chat-panel standard-panel">
       <div class="chat-selects">
         <n-select v-model:value="selectedRoom" :options="getRoomOptions()" placeholder="Choose a room" class="chat-room-select" />
         <n-select v-model:value="selectedUser" :options="getUserOptions()" placeholder="Choose a user" class="chat-user-select" />
@@ -154,8 +154,6 @@ onMounted(() => {
 
 <style>
 .chat-panel {
-  width: 40vw;
-  height: 75vh;
   display: flex;
   flex-direction: column;
 }
