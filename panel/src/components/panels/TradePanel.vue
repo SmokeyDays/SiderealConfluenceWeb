@@ -210,8 +210,8 @@ const onTabChange = (value: string) => {
 
 <template>
   <PanelTemplate>
-    <n-card hoverable class="trade-panel standard-panel">
-      <div class="trade-panel-content">
+    <n-card hoverable class="trade-panel standard-panel" content-class="trade-panel-content">
+      <div class="trade-panel-inner-content">
         <n-tabs v-model:value="tab" type="line" animated @update:value="onTabChange">
           <n-tab-pane name="market" tab="市场">
             <div class="trade-item-title">市场上的提议：</div>
@@ -271,16 +271,16 @@ const onTabChange = (value: string) => {
         <template v-if="tab === 'trade'">
           <div class="trade-item-title">并备注信息：</div>
           <n-input v-model:value="proposalMessage" placeholder="输入备注信息" type="textarea" :autosize="{ minRows: 1, maxRows: 2 }"/>
+          <div class="potential-receiver-container">
+            <p style="font-size: 1.2rem; font-weight: bold;">向以下玩家提议：</p>
+            <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="选择若干名玩家" multiple />
+          </div>
           <n-tooltip>
             <template #trigger>
               <n-button class="submit-trade-button" @click="submitProposal" type="primary" :disabled="!checkSubmit()">提交</n-button>
             </template>
             <ProposalDiv :proposal="getCurrentProposal()"/>
           </n-tooltip>
-          <div class="potential-receiver-container">
-            <p style="font-size: 1.2rem; font-weight: bold;">向以下玩家提议：</p>
-            <n-select v-model:value="receivers" :options="getPlayerOptions()" placeholder="选择若干名玩家" multiple />
-          </div>
         </template>
         <n-button class="close-trade-button" @click="submitClose" type="error">关闭</n-button>
       </div>
@@ -289,9 +289,9 @@ const onTabChange = (value: string) => {
 </template>
 
 <style>
-.trade-panel-content {
+.trade-panel-content, .trade-panel-inner-content {
   overflow: auto;
-  padding-bottom: 100px;
+  height: calc(100% - 100px);
 }
 .proposal-container {
   display: flex;
@@ -347,6 +347,7 @@ const onTabChange = (value: string) => {
   position: absolute;
   bottom: 40px;
   left: 40px;
+  max-width: calc(100% - 240px);
 }
 .trade-item-title {
   /* position: absolute;

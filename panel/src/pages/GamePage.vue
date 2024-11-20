@@ -40,6 +40,8 @@ const stageConfig = ref({
   image: new Image(),
 });
 
+let gameStage: HTMLElement | null = null;
+
 const handleRightClickDrag = (event: MouseEvent | TouchEvent) => {
   let startX = 0;
   let startY = 0;
@@ -76,16 +78,20 @@ const handleRightClickDrag = (event: MouseEvent | TouchEvent) => {
   };
 
   const onMouseUp = () => {
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('touchmove', onMouseMove);
-    window.removeEventListener('mouseup', onMouseUp);
-    window.removeEventListener('touchend', onMouseUp);
+    if (gameStage) {
+      gameStage.removeEventListener('mousemove', onMouseMove);
+      gameStage.removeEventListener('touchmove', onMouseMove);
+      gameStage.removeEventListener('mouseup', onMouseUp);
+      gameStage.removeEventListener('touchend', onMouseUp);
+    }
   };
 
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('touchmove', onMouseMove);
-  window.addEventListener('mouseup', onMouseUp);
-  window.addEventListener('touchend', onMouseUp);
+  if (gameStage) {
+    gameStage.addEventListener('mousemove', onMouseMove);
+    gameStage.addEventListener('touchmove', onMouseMove);
+    gameStage.addEventListener('mouseup', onMouseUp);
+    gameStage.addEventListener('touchend', onMouseUp);
+  }
 };
 
 const handleWheel = (event: WheelEvent) => {
@@ -107,7 +113,7 @@ const handlePinch = (event: TouchEvent) => {
       event.touches[0].clientX - event.touches[1].clientX,
       event.touches[0].clientY - event.touches[1].clientY
     );
-    const scaleDelta = distance < 0 ? 2 : -2;
+    const scaleDelta = distance < 0 ? 1 : -1;
     props.updateGameProps({
       ...props.gameProps,
       scaleFactor: Math.max(5, Math.min(200, props.gameProps.scaleFactor + scaleDelta)),
@@ -115,11 +121,6 @@ const handlePinch = (event: TouchEvent) => {
   }
 };
 
-window.addEventListener('wheel', handleWheel);
-window.addEventListener('mousedown', handleRightClickDrag);
-window.addEventListener('touchstart', handleRightClickDrag);
-window.addEventListener('touchmove', handlePinch);
-window.addEventListener('resize', handleResize);
 
 onMounted(() => {
   const imageObj = new window.Image();
@@ -130,13 +131,27 @@ onMounted(() => {
   };
 });
 
-onUnmounted(() => {
-  window.removeEventListener('wheel', handleWheel);
-  window.removeEventListener('mousedown', handleRightClickDrag);
-  window.removeEventListener('touchstart', handleRightClickDrag);
-  window.removeEventListener('touchmove', handlePinch);
-  window.removeEventListener('resize', handleResize);
+onMounted(() => {
+  gameStage = document.querySelector('.game-stage');
+  if (gameStage) {
+    gameStage.addEventListener('wheel', handleWheel);
+    gameStage.addEventListener('mousedown', handleRightClickDrag);
+    gameStage.addEventListener('touchstart', handleRightClickDrag);
+    gameStage.addEventListener('touchmove', handlePinch);
+    window.addEventListener('resize', handleResize);
+  }
 });
+
+onUnmounted(() => {
+  if (gameStage) {
+    gameStage.removeEventListener('wheel', handleWheel);
+    gameStage.removeEventListener('mousedown', handleRightClickDrag);
+    gameStage.removeEventListener('touchstart', handleRightClickDrag);
+    gameStage.removeEventListener('touchmove', handlePinch);
+    window.removeEventListener('resize', handleResize);
+  }
+});
+
 
 const selectedPlayer = ref(props.username);
 const handleSelectPlayer = (playerId: string) => {
