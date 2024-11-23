@@ -48,10 +48,12 @@ class Server:
     # test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
     test_room.game.gift("Bob", "Alice", {"factories": ["恩尼艾特_相互理解"]})
-    test_room.game.trade_proposal("Alice", 
+    for _ in range(10):
+      test_room.game.trade_proposal("Alice", 
                                   ["Bob"], 
                                   {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
                                   {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
+    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -68,7 +70,6 @@ class Server:
     # skip t1 trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
-    return
     # skip t1 production
     # test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")

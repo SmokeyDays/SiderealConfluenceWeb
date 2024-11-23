@@ -50,7 +50,11 @@ const getUserOptions = () => {
     if (user === props.username) {
       continue;
     }
-    options.push({ label: "[私聊] " + user, value: user });
+    if (selectedRoom.value === "") {
+      options.push({ label: "[私聊] " + user, value: user });
+    } else if (props.rooms[selectedRoom.value].players[user] !== undefined) {
+      options.push({ label: "[私聊] " + user, value: user });
+    }
   }
   options.push({ label: "[所有人]", value: "" });
   return options;
@@ -59,7 +63,7 @@ const getUserOptions = () => {
 const getMessages = () => {
   return props.messages.filter(msg => 
     ((selectedRoom.value === "" && msg.room === null) || 
-      (msg.room === selectedRoom.value)
+      ((msg.room === selectedRoom.value))
     ) &&
     ((selectedUser.value === "" && msg.user === null) ||
       msg.user === selectedUser.value || 
@@ -114,7 +118,7 @@ onMounted(() => {
                     <template #trigger>
                       <div class="chat-message-content">{{ msg.msg }}</div>
                     </template>
-                    <div>{{ msg.date }}</div>
+                    <div>{{ new Date(msg.date).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}</div>
                   </n-tooltip>
                 </div>
                 <div class="chat-message-avatar" v-if="msg.sender === username">
