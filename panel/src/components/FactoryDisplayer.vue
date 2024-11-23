@@ -66,7 +66,7 @@
       }"/>
       <v-text :config="getCaylionDescConfig()" />
     </template>
-    <template v-if="props.factory.feature.properties['upgraded'] === false">
+    <template v-if="props.factory.preview && !directPreview()">
       <v-circle :config="{
         x: props.x + props.width / 2,
         y: props.y + props.height * 0.9,

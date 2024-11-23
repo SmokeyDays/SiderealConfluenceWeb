@@ -33,7 +33,7 @@ class Server:
     self.new_msg(Message("Alice", "HelloBob", str(datetime.datetime.now()), None, "Bob"))
     self.new_msg(Message("Bob", "HelloAlice", str(datetime.datetime.now()), None, "Alice"))
 
-    test_room.choose_specie("Alice", "Caylion")
+    test_room.choose_specie("Alice", "Kjasjavikalimm")
     test_room.choose_specie("Bob", "Eni")
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")

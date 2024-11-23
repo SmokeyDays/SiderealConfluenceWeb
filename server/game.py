@@ -82,7 +82,7 @@ class DataManager:
     self.specie_factories = {}
     self.specie_init_players: list[Player] = {}
     self.species_data = {}
-    self.species = ["Caylion", "Yengii", "Eni", "Unity", "Im"]
+    self.species = ["Caylion", "Yengii", "Eni", "Unity", "Im", "Kjasjavikalimm"]
     self.load_species(path)
 
     self.researches_data = []

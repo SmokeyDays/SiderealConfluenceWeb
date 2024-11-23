@@ -187,7 +187,16 @@ const setEndRound = () => {
 const getSpecieSelectOptions = () => {
   const res: Array<SelectOption | SelectGroupOption> = [];
   for (const specie of species) {
-    res.push( { label: getSpecieZhName(specie), value: specie, style: { fontWeight: 'bold', color: getSpecieColor(specie) } });
+    let otherPlayerSelected = false;
+    for (const player in props.rooms[props.currentRoom].players) {
+      if (props.rooms[props.currentRoom].players[player].specie === specie) {
+        otherPlayerSelected = true;
+        break;
+      }
+    }
+    if (!otherPlayerSelected) {
+      res.push( { label: getSpecieZhName(specie), value: specie, style: { fontWeight: 'bold', color: getSpecieColor(specie) } });
+    }
   }
   return res;
 };
