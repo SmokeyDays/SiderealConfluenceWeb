@@ -1,2215 +1,1631 @@
 {
-    "name": "Im",
-	"zh_name": "艾恩卓尔",
+    "zh_name": "艾恩卓尔",
     "max_colony": 0,
     "tie_breaker": 8,
     "init_colony": 0,
     "init_research": 1,
+    "name": "Im",
     "start_resource": {
+        "items": {
+            "Hypertech": 1,
+            "Biotech": 1,
+            "Information": 1,
+            "Energy": 1,
+            "Food": 2,
+            "Culture": 2,
+            "Industry": 3,
+            "Ship": 4
+        },
         "factories": [
             "艾恩卓尔_银河系探索",
             "艾恩卓尔_小行星开采",
             "艾恩卓尔_微重力装配",
-            "艾恩卓尔_法德澜遗迹隐藏处"
-        ],
-        "items": {
-            "Food": 2,
-            "Culture": 2,
-            "Industry": 3,
-            "Information": 1,
-            "Biotech": 1,
-            "Energy": 1,
-            "Hypertech": 1,
-            "Ship": 4,
-            "Score": 0
-        },
-        "Colony": 0,
-        "research_team": 1
+            "艾恩卓尔_法德澜遗迹隐藏处",
+            "艾恩卓尔_Fleet Support, 3_打出",
+            "艾恩卓尔_Fleet Support, 1_打出",
+            "艾恩卓尔_Fleet Support, 1_打出",
+            "艾恩卓尔_Fleet Support, 1_打出",
+            "艾恩卓尔_Fleet Support, 2_打出",
+            "艾恩卓尔_Starting Fleet Support, 2_128",
+            "艾恩卓尔_Fleet Support, 2_打出"
+        ]
     },
-    "factories":[
+    "factories": [
         {
             "name": "艾恩卓尔_纳米科技",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 3,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_纳米制造",
-            "upgrade_cost": [
-                "艾恩卓尔_原子嬗变",
-                "艾恩卓尔_基因工程学"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_纳米制造",
+                    "upgrade_cost": [
+                        "艾恩卓尔_原子嬗变",
+                        "艾恩卓尔_基因工程学"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_纳米制造",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 3,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Food": 1,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_基因工程学",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 3,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_基因再合成",
-            "upgrade_cost": [
-                "艾恩卓尔_临床永生",
-                "艾恩卓尔_纳米科技"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_基因再合成",
+                    "upgrade_cost": [
+                        "艾恩卓尔_临床永生",
+                        "艾恩卓尔_纳米科技"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_基因再合成",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 3,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Biotech": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_通用翻译器",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 3,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.5,
-            "efficiency": 1.5,
-            "upgrade_factory": "艾恩卓尔_通用共情交流",
-            "upgrade_cost": [
-                "艾恩卓尔_量子计算机",
-                "艾恩卓尔_泛在文化知识库"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_通用共情交流",
+                    "upgrade_cost": [
+                        "艾恩卓尔_量子计算机",
+                        "艾恩卓尔_泛在文化知识库"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_通用共情交流",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 3,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "BiotechDonation": 1,
+                        "CultureDonation": 1,
+                        "FoodDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 6.5,
-            "efficiency": 2.167,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_反物质能源",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 4,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 5.5,
-            "efficiency": 1.375,
-            "upgrade_factory": "艾恩卓尔_反物质化合物",
-            "upgrade_cost": [
-                "艾恩卓尔_有机结构",
-                "艾恩卓尔_超空间开采"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_反物质化合物",
+                    "upgrade_cost": [
+                        "艾恩卓尔_有机结构",
+                        "艾恩卓尔_超空间开采"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_反物质化合物",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 4,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Food": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 7.5,
-            "efficiency": 1.875,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_种族间医学交流",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 4,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "CultureDonation": 1,
+                        "FoodDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 6.0,
-            "efficiency": 1.5,
-            "upgrade_factory": "艾恩卓尔_泛生物医学",
-            "upgrade_cost": [
-                "艾恩卓尔_有机结构",
-                "艾恩卓尔_跨种族道德平等"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_泛生物医学",
+                    "upgrade_cost": [
+                        "艾恩卓尔_有机结构",
+                        "艾恩卓尔_跨种族道德平等"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_泛生物医学",
-            "output_items": {
-                "Food": 0,
-                "Culture": 2,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 4,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 2,
+                        "Biotech": 1,
+                        "CultureDonation": 1,
+                        "FoodDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 8.5,
-            "efficiency": 2.125,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_跨种族道德平等",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 4,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "ScoreDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input": 4.0,
-            "output": 7.0,
-            "efficiency": 1.75,
-            "upgrade_factory": "艾恩卓尔_具体共相元理论学",
-            "upgrade_cost": [
-                "艾恩卓尔_非时序分析",
-                "艾恩卓尔_种族间医学交流"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_具体共相元理论学",
+                    "upgrade_cost": [
+                        "艾恩卓尔_非时序分析",
+                        "艾恩卓尔_种族间医学交流"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_具体共相元理论学",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 4,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Hypertech": 1,
+                        "ScoreDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input": 4.0,
-            "output": 10.0,
-            "efficiency": 2.5,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_异文化交流",
-            "output_items": {
-                "Food": 2,
-                "Culture": 2,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 5,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Information": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input": 5.0,
-            "output": 11.5,
-            "efficiency": 2.3,
-            "upgrade_factory": "艾恩卓尔_多种族混合文化",
-            "upgrade_cost": [
-                "艾恩卓尔_社会迁移",
-                "艾恩卓尔_巨型建筑"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_多种族混合文化",
+                    "upgrade_cost": [
+                        "艾恩卓尔_社会迁移",
+                        "艾恩卓尔_巨型建筑"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_多种族混合文化",
-            "output_items": {
-                "Food": 2,
-                "Culture": 2,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 2
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 5,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Information": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1,
+                        "InformationDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input": 5.0,
-            "output": 17.0,
-            "efficiency": 3.4,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_多元种族企业",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 5,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "CultureDonation": 2,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 1,
-                "Culture": 2,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 5.0,
-            "output": 12.0,
-            "efficiency": 2.4,
-            "upgrade_factory": "艾恩卓尔_全种族间融合",
-            "upgrade_cost": [
-                "艾恩卓尔_异文化交流",
-                "艾恩卓尔_银河系通讯控制"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_全种族间融合",
+                    "upgrade_cost": [
+                        "艾恩卓尔_异文化交流",
+                        "艾恩卓尔_银河系通讯控制"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_全种族间融合",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 2
-            },
-            "input_items": {
-                "Food": 5,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "CultureDonation": 3,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 1,
-                "Culture": 3,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 5.0,
-            "output": 16.0,
-            "efficiency": 3.2,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_社会迁移",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 5,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Ship": 2,
+                        "Energy": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 1
-            },
-            "input": 5.0,
-            "output": 14.5,
-            "efficiency": 2.9,
-            "upgrade_factory": "艾恩卓尔_Galactic Reunion",
-            "upgrade_cost": [
-                "艾恩卓尔_异文化交流",
-                "艾恩卓尔_银河系通讯控制"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_Galactic Reunion",
+                    "upgrade_cost": [
+                        "艾恩卓尔_异文化交流",
+                        "艾恩卓尔_银河系通讯控制"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_Galactic Reunion",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 2
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 5,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Ship": 2,
+                        "Energy": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "BiotechDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 1
-            },
-            "input": 5.0,
-            "output": 18.5,
-            "efficiency": 3.7,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_量子计算机",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 2,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_非确定性多项式塌缩",
-            "upgrade_cost": [
-                "艾恩卓尔_临床永生",
-                "艾恩卓尔_通用翻译器"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_非确定性多项式塌缩",
+                    "upgrade_cost": [
+                        "艾恩卓尔_临床永生",
+                        "艾恩卓尔_通用翻译器"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_非确定性多项式塌缩",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 2,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Biotech": 2,
+                        "Energy": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_临床永生",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_实用永生",
-            "upgrade_cost": [
-                "艾恩卓尔_原子嬗变",
-                "艾恩卓尔_基因工程学"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_实用永生",
+                    "upgrade_cost": [
+                        "艾恩卓尔_原子嬗变",
+                        "艾恩卓尔_基因工程学"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_实用永生",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_泛在文化知识库",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_模因生命体",
-            "upgrade_cost": [
-                "艾恩卓尔_量子计算机",
-                "艾恩卓尔_通用翻译器"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_模因生命体",
+                    "upgrade_cost": [
+                        "艾恩卓尔_量子计算机",
+                        "艾恩卓尔_通用翻译器"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_模因生命体",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 1
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_非时序分析",
-            "output_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 3,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Culture": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 6.5,
-            "efficiency": 1.444,
-            "upgrade_factory": "艾恩卓尔_时间查看器",
-            "upgrade_cost": [
-                "艾恩卓尔_奇点控制",
-                "艾恩卓尔_反物质能源"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_时间查看器",
+                    "upgrade_cost": [
+                        "艾恩卓尔_奇点控制",
+                        "艾恩卓尔_反物质能源"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_时间查看器",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 2,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 3,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 2,
+                        "Culture": 1,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 9.0,
-            "efficiency": 2.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_有机结构",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 3,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 6.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_活体基础设施",
-            "upgrade_cost": [
-                "艾恩卓尔_跨种族道德平等",
-                "艾恩卓尔_种族间医学交流"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_活体基础设施",
+                    "upgrade_cost": [
+                        "艾恩卓尔_跨种族道德平等",
+                        "艾恩卓尔_种族间医学交流"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_活体基础设施",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 2,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 3,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Food": 2,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_超空间开采",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 3,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "EnergyDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
-            "upgrade_factory": "艾恩卓尔_超空间定居点",
-            "upgrade_cost": [
-                "艾恩卓尔_奇点控制",
-                "艾恩卓尔_反物质能源"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_超空间定居点",
+                    "upgrade_cost": [
+                        "艾恩卓尔_奇点控制",
+                        "艾恩卓尔_反物质能源"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_超空间定居点",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 3,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Food": 1,
+                        "Industry": 1,
+                        "EnergyDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.5,
-            "output": 11.0,
-            "efficiency": 2.444,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_银河系通讯控制",
-            "output_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 3
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 4,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Food": 1,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
-            "upgrade_factory": "艾恩卓尔_银河系统治",
-            "upgrade_cost": [
-                "艾恩卓尔_社会迁移",
-                "艾恩卓尔_多元种族企业"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_银河系统治",
+                    "upgrade_cost": [
+                        "艾恩卓尔_社会迁移",
+                        "艾恩卓尔_多元种族企业"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_银河系统治",
-            "output_items": {
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 4
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 4,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 4,
+                        "Energy": 1,
+                        "Food": 1,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_时间膨胀",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 2
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 4,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Culture": 1,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
-            "upgrade_factory": "艾恩卓尔_静滞场",
-            "upgrade_cost": [
-                "艾恩卓尔_物质生成",
-                "艾恩卓尔_巨型建筑"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_静滞场",
+                    "upgrade_cost": [
+                        "艾恩卓尔_物质生成",
+                        "艾恩卓尔_巨型建筑"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_静滞场",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 3
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 4,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Culture": 1,
+                        "Food": 2,
+                        "HypertechDonation": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 18.0,
-            "efficiency": 3.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_物质生成",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 2
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 4,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 12.5,
-            "efficiency": 2.083,
-            "upgrade_factory": "艾恩卓尔_大规模传送",
-            "upgrade_cost": [
-                "艾恩卓尔_时间膨胀",
-                "艾恩卓尔_多元种族企业"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_大规模传送",
+                    "upgrade_cost": [
+                        "艾恩卓尔_时间膨胀",
+                        "艾恩卓尔_多元种族企业"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_大规模传送",
-            "output_items": {
-                "Food": 0,
-                "Culture": 1,
-                "Industry": 2,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 3
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 4,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Culture": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_银河系探索",
-            "output_items": {
-                "Food": 1,
-                "Culture": 2,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 2,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2,
+                        "Fleet": 2
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Food": 1,
+                        "Culture": 2
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 7.5,
-            "efficiency": 2.5,
-            "upgrade_factory": "艾恩卓尔_银河系藏宝地图绘制",
-            "upgrade_cost": [
-                "艾恩卓尔_超空间开采",
-                "艾恩卓尔_非时序分析"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_银河系藏宝地图绘制",
+                    "upgrade_cost": [
+                        "艾恩卓尔_超空间开采",
+                        "艾恩卓尔_非时序分析"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_银河系藏宝地图绘制",
-            "output_items": {
-                "Food": 1,
-                "Culture": 2,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 2,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Food": 1,
+                        "Culture": 2,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 9.0,
-            "efficiency": 3.0,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_小行星开采",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Fleet": 2
+                    },
+                    "output_items": {
+                        "Ship": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_小行星建设场",
+                    "upgrade_cost": [
+                        "艾恩卓尔_超空间开采",
+                        "艾恩卓尔_反物质能源"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_小行星建设场",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Ship": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
+                },
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_原子嬗变",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
-            "upgrade_factory": "艾恩卓尔_虚材料",
-            "upgrade_cost": [
-                "艾恩卓尔_纳米科技",
-                "艾恩卓尔_泛在文化知识库"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_虚材料",
+                    "upgrade_cost": [
+                        "艾恩卓尔_纳米科技",
+                        "艾恩卓尔_泛在文化知识库"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_虚材料",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 0,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 1,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_微重力装配",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 1,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 4,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 4,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4,
+                        "Fleet": 2
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Ship": 4
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 10.0,
-            "efficiency": 2.5,
-            "upgrade_factory": "艾恩卓尔_分散式建造",
-            "upgrade_cost": [
-                "艾恩卓尔_量子计算机",
-                "艾恩卓尔_纳米科技"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_分散式建造",
+                    "upgrade_cost": [
+                        "艾恩卓尔_量子计算机",
+                        "艾恩卓尔_纳米科技"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_分散式建造",
-            "output_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 1,
-                "Biotech": 1,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 4,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 4,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Ship": 4
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 4.0,
-            "output": 10.0,
-            "efficiency": 2.5,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_法德澜遗迹隐藏处",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 1,
-                "Information": 1,
-                "Biotech": 2,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 2,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2,
+                        "Fleet": 2
+                    },
+                    "output_items": {
+                        "Biotech": 2,
+                        "Information": 1,
+                        "Energy": 2,
+                        "Food": 2,
+                        "Industry": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 11.5,
-            "efficiency": 1.917,
-            "upgrade_factory": "艾恩卓尔_遗迹再合成",
-            "upgrade_cost": [
-                "艾恩卓尔_临床永生",
-                "艾恩卓尔_原子嬗变"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_遗迹再合成",
+                    "upgrade_cost": [
+                        "艾恩卓尔_临床永生",
+                        "艾恩卓尔_原子嬗变"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_遗迹再合成",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 2,
-                "Information": 1,
-                "Biotech": 2,
-                "Energy": 2,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 2,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Biotech": 2,
+                        "Information": 1,
+                        "Energy": 2,
+                        "Food": 2,
+                        "Industry": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 12.5,
-            "efficiency": 2.083,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
         {
             "name": "艾恩卓尔_奇点控制",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 2,
-                "Information": 1,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 1,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 2,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Energy": 1,
+                        "Food": 1,
+                        "Industry": 2,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 8.5,
-            "efficiency": 1.417,
-            "upgrade_factory": "艾恩卓尔_虫洞网格",
-            "upgrade_cost": [
-                "艾恩卓尔_非时序分析",
-                "艾恩卓尔_超空间开采"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_虫洞网格",
+                    "upgrade_cost": [
+                        "艾恩卓尔_非时序分析",
+                        "艾恩卓尔_超空间开采"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_虫洞网格",
-            "output_items": {
-                "Food": 2,
-                "Culture": 1,
-                "Industry": 2,
-                "Information": 1,
-                "Biotech": 1,
-                "Energy": 1,
-                "Hypertech": 0,
-                "Ship": 1,
-                "Score": 0
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 2,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Energy": 1,
+                        "Food": 2,
+                        "Industry": 2,
+                        "Ship": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 6.0,
-            "output": 10.5,
-            "efficiency": 1.75,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 3_121",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 3
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 3_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2,
+                        "Information": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 3"
+                }
+            }
         },
         {
             "name": "艾恩卓尔_巨型建筑",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 5
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 3,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 5,
+                        "Food": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 9.0,
-            "output": 17.0,
-            "efficiency": 1.889,
-            "upgrade_factory": "艾恩卓尔_戴森群",
-            "upgrade_cost": [
-                "艾恩卓尔_物质生成",
-                "艾恩卓尔_时间膨胀"
-            ]
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "艾恩卓尔_戴森群",
+                    "upgrade_cost": [
+                        "艾恩卓尔_物质生成",
+                        "艾恩卓尔_时间膨胀"
+                    ]
+                }
+            }
         },
         {
             "name": "艾恩卓尔_戴森群",
-            "output_items": {
-                "Food": 1,
-                "Culture": 0,
-                "Industry": 1,
-                "Information": 0,
-                "Biotech": 1,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 6
-            },
-            "input_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 3,
-                "Ship": 0,
-                "Score": 0,
-                "Special_input": {
-                    "fleet": 1
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3,
+                        "Fleet": 1
+                    },
+                    "output_items": {
+                        "Score": 6,
+                        "Food": 1,
+                        "Industry": 1,
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
                 }
-            },
-            "donation_items": {
-                "Food": 0,
-                "Culture": 0,
-                "Industry": 0,
-                "Information": 0,
-                "Biotech": 0,
-                "Energy": 0,
-                "Hypertech": 0,
-                "Ship": 0,
-                "Score": 0
-            },
-            "input": 9.0,
-            "output": 21.5,
-            "efficiency": 2.389,
-            "upgrade_factory": "",
-            "upgrade_cost": []
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_124",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_125",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 1,
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_126",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1,
+                        "Information": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 2_127",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 2
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 2_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2,
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 2"
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Starting Fleet Support, 2_128",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 2
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 2_129",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Fleet": 2
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "艾恩卓尔_Fleet Support, 2_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1,
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "艾恩卓尔_Fleet Support, 2"
+                }
+            }
         }
     ]
 }

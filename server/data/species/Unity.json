@@ -1,110 +1,41 @@
 {
-    "name": "Unity",
     "zh_name": "联合体",
     "max_colony": 1,
     "tie_breaker": 4,
     "init_colony": 1,
     "init_research": 1,
+    "name": "Unity",
     "start_resource": {
-        "factories": [
-            "联合体_探索者结合体",
-            "联合体_金刚烷合成",
-            "联合体_适应性制造"
-        ],
         "items": {
-            "Food": 0,
-            "Culture": 0,
-            "Industry": 0,
-            "Information": 0,
-            "Biotech": 0,
-            "Energy": 0,
             "Hypertech": 1,
-            "Ship": 0,
-            "Score": 0,
             "WildBig": 3,
             "WildSmall": 4
         },
-        "Colony": 1,
-        "research_team": 1
+        "factories": [
+            "联合体_极限_打出",
+            "联合体_分形对称_打出",
+            "联合体_探索者结合体",
+            "联合体_金刚烷合成",
+            "联合体_适应性制造",
+            "联合体_贝塞尔_打出",
+            "联合体_色彩空间_打出"
+        ]
     },
     "factories": [
         {
-            "name": "联合体_极限_打出",
-            "output_items": {
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 3,
-                "ArbitraryWorld": 1
-            },
-            "feature": {
-                "type": "Meta",
-                "properties": {
-                    "unlock_factory": "联合体_极限"
-                }
-            }
-        },
-        {
-            "name": "联合体_分形对称_打出",
-            "output_items": {
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 2,
-                "ArbitraryBig": 1,
-                "ArbitraryWorld": 1
-            },
-            "feature": {
-                "type": "Meta",
-                "properties": {
-                    "unlock_factory": "联合体_分形对称"
-                }
-            }
-        },
-        {
-            "name": "联合体_贝塞尔_打出",
-            "output_items": {
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3,
-                "ArbitraryWorld": 1
-            },
-            "feature": {
-                "type": "Meta",
-                "properties": {
-                    "unlock_factory": "联合体_贝塞尔"
-                }
-            }
-        },
-        {
-            "name": "联合体_色彩空间_打出",
-            "output_items": {
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2,
-                "ArbitraryWorld": 1
-            },
-            "feature": {
-                "type": "Meta",
-                "properties": {
-                    "unlock_factory": "联合体_色彩空间"
-                }
-            }
-        },
-        {
             "name": "联合体_通用翻译器",
-            "output_items": {
-                "InformationDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Culture": 3
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "InformationDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -119,17 +50,19 @@
         },
         {
             "name": "联合体_通用共情交流",
-            "output_items": {
-                "InformationDonation": 1,
-                "WildBigDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 6.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "InformationDonation": 1,
+                        "WildBigDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -139,16 +72,18 @@
         },
         {
             "name": "联合体_极限",
-            "output_items": {
-                "WildBig": 1,
-                "WildSmall": 3
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 4.5,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 3
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -163,17 +98,19 @@
         },
         {
             "name": "联合体_极限+",
-            "output_items": {
-                "WildSmallDonation": 1,
-                "WildBig": 1,
-                "WildSmall": 3
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 3,
+                        "WildSmallDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -182,18 +119,41 @@
             }
         },
         {
+            "name": "联合体_极限_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 3,
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "联合体_极限"
+                }
+            }
+        },
+        {
             "name": "联合体_跨种族道德平等",
-            "output_items": {
-                "ScoreDonation": 1,
-                "CultureDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Culture": 4
-            },
-            "input": 4.0,
-            "output": 7.0,
-            "efficiency": 1.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "ScoreDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -208,19 +168,21 @@
         },
         {
             "name": "联合体_具体共相元理论学",
-            "output_items": {
-                "ScoreDonation": 1,
-                "CultureDonation": 1,
-                "Score": 1,
-                "WildBig": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "Culture": 4
-            },
-            "input": 4.0,
-            "output": 9.5,
-            "efficiency": 2.375,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "WildBig": 1,
+                        "WildSmall": 1,
+                        "ScoreDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -230,16 +192,18 @@
         },
         {
             "name": "联合体_纳米科技",
-            "output_items": {
-                "Hypertech": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Industry": 3
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -254,17 +218,19 @@
         },
         {
             "name": "联合体_纳米制造",
-            "output_items": {
-                "Hypertech": 1,
-                "Culture": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -274,17 +240,19 @@
         },
         {
             "name": "联合体_基因工程学",
-            "output_items": {
-                "Biotech": 1,
-                "Information": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Food": 3
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -299,18 +267,20 @@
         },
         {
             "name": "联合体_基因再合成",
-            "output_items": {
-                "Energy": 1,
-                "Information": 1,
-                "Industry": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1,
+                        "Industry": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -320,21 +290,23 @@
         },
         {
             "name": "联合体_社会迁移",
-            "output_items": {
-                "ScoreDonation": 1,
-                "ShipDonation": 2,
-                "EnergyDonation": 1,
-                "BiotechDonation": 1,
-                "Score": 1,
-                "Ship": 2,
-                "Information": 1
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 14.5,
-            "efficiency": 2.9,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -349,22 +321,24 @@
         },
         {
             "name": "联合体_银河系殖民",
-            "output_items": {
-                "ScoreDonation": 1,
-                "ShipDonation": 2,
-                "EnergyDonation": 1,
-                "FoodDonation": 1,
-                "BiotechDonation": 1,
-                "Score": 2,
-                "Ship": 2,
-                "Information": 1
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 18.5,
-            "efficiency": 3.7,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "FoodDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -374,17 +348,19 @@
         },
         {
             "name": "联合体_反物质能源",
-            "output_items": {
-                "Energy": 2,
-                "Biotech": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Industry": 4
-            },
-            "input": 4.0,
-            "output": 5.5,
-            "efficiency": 1.375,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Biotech": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -399,18 +375,20 @@
         },
         {
             "name": "联合体_反物质化合物",
-            "output_items": {
-                "Energy": 2,
-                "Biotech": 1,
-                "Food": 1,
-                "WildBig": 1
-            },
-            "input_items": {
-                "Industry": 4
-            },
-            "input": 4.0,
-            "output": 7.0,
-            "efficiency": 1.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Biotech": 1,
+                        "Food": 1,
+                        "WildBig": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -420,17 +398,19 @@
         },
         {
             "name": "联合体_种族间医学交流",
-            "output_items": {
-                "IndustryDonation": 2,
-                "Score": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Food": 4
-            },
-            "input": 4.0,
-            "output": 6.0,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "IndustryDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -445,18 +425,20 @@
         },
         {
             "name": "联合体_泛生物医学",
-            "output_items": {
-                "IndustryDonation": 2,
-                "Score": 1,
-                "Culture": 1,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "Food": 4
-            },
-            "input": 4.0,
-            "output": 8.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "WildSmall": 2,
+                        "IndustryDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -466,16 +448,18 @@
         },
         {
             "name": "联合体_泛在文化知识库",
-            "output_items": {
-                "Score": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Energy": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -490,17 +474,19 @@
         },
         {
             "name": "联合体_模因生命体",
-            "output_items": {
-                "Score": 1,
-                "Industry": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -510,19 +496,21 @@
         },
         {
             "name": "联合体_异文化交流",
-            "output_items": {
-                "ScoreDonation": 1,
-                "Score": 1,
-                "Biotech": 1,
-                "Culture": 2,
-                "Food": 2
-            },
-            "input_items": {
-                "Industry": 5
-            },
-            "input": 5.0,
-            "output": 11.5,
-            "efficiency": 2.3,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Biotech": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -537,21 +525,23 @@
         },
         {
             "name": "联合体_多种族混合文化",
-            "output_items": {
-                "ScoreDonation": 1,
-                "InformationDonation": 1,
-                "CultureDonation": 1,
-                "Score": 2,
-                "Biotech": 1,
-                "Culture": 2,
-                "Food": 2
-            },
-            "input_items": {
-                "Industry": 5
-            },
-            "input": 5.0,
-            "output": 17.0,
-            "efficiency": 3.4,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Biotech": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1,
+                        "InformationDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -561,21 +551,23 @@
         },
         {
             "name": "联合体_多元种族企业",
-            "output_items": {
-                "IndustryDonation": 1,
-                "FoodDonation": 2,
-                "CultureDonation": 1,
-                "Score": 1,
-                "Energy": 1,
-                "Information": 1,
-                "Ship": 2
-            },
-            "input_items": {
-                "Food": 5
-            },
-            "input": 5.0,
-            "output": 12.0,
-            "efficiency": 2.4,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Energy": 1,
+                        "Information": 1,
+                        "Ship": 2,
+                        "IndustryDonation": 1,
+                        "FoodDonation": 2,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -590,21 +582,23 @@
         },
         {
             "name": "联合体_全种族间融合",
-            "output_items": {
-                "IndustryDonation": 1,
-                "FoodDonation": 3,
-                "CultureDonation": 1,
-                "Score": 2,
-                "Energy": 1,
-                "Information": 1,
-                "Ship": 2
-            },
-            "input_items": {
-                "Food": 5
-            },
-            "input": 5.0,
-            "output": 16.0,
-            "efficiency": 3.2,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Energy": 1,
+                        "Information": 1,
+                        "Ship": 2,
+                        "IndustryDonation": 1,
+                        "FoodDonation": 3,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -614,17 +608,19 @@
         },
         {
             "name": "联合体_超空间开采",
-            "output_items": {
-                "InformationDonation": 2,
-                "Hypertech": 1,
-                "Biotech": 1
-            },
-            "input_items": {
-                "Energy": 3
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "InformationDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -639,18 +635,20 @@
         },
         {
             "name": "联合体_超空间定居点",
-            "output_items": {
-                "InformationDonation": 2,
-                "Hypertech": 1,
-                "Biotech": 1,
-                "WildBig": 2
-            },
-            "input_items": {
-                "Energy": 3
-            },
-            "input": 4.5,
-            "output": 10.5,
-            "efficiency": 2.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "WildBig": 2,
+                        "InformationDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -660,17 +658,19 @@
         },
         {
             "name": "联合体_量子计算机",
-            "output_items": {
-                "Biotech": 1,
-                "Energy": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Information": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -685,18 +685,20 @@
         },
         {
             "name": "联合体_非确定性多项式塌缩",
-            "output_items": {
-                "Biotech": 1,
-                "Energy": 1,
-                "Food": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Food": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -706,16 +708,18 @@
         },
         {
             "name": "联合体_临床永生",
-            "output_items": {
-                "Score": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Biotech": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -730,17 +734,19 @@
         },
         {
             "name": "联合体_实用永生",
-            "output_items": {
-                "Score": 1,
-                "Culture": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -750,19 +756,21 @@
         },
         {
             "name": "联合体_物质生成",
-            "output_items": {
-                "Score": 2,
-                "Hypertech": 1,
-                "Information": 1,
-                "Industry": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Energy": 4
-            },
-            "input": 6.0,
-            "output": 12.5,
-            "efficiency": 2.083,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Industry": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -777,19 +785,21 @@
         },
         {
             "name": "联合体_大规模传送",
-            "output_items": {
-                "Score": 3,
-                "Hypertech": 1,
-                "Information": 1,
-                "Industry": 2,
-                "Culture": 1
-            },
-            "input_items": {
-                "Energy": 4
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Industry": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -799,17 +809,19 @@
         },
         {
             "name": "联合体_非时序分析",
-            "output_items": {
-                "Hypertech": 1,
-                "Biotech": 1,
-                "Food": 2
-            },
-            "input_items": {
-                "Information": 3
-            },
-            "input": 4.5,
-            "output": 6.5,
-            "efficiency": 1.444,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -824,18 +836,20 @@
         },
         {
             "name": "联合体_时间查看器",
-            "output_items": {
-                "Hypertech": 1,
-                "Biotech": 1,
-                "Food": 2,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "Information": 3
-            },
-            "input": 4.5,
-            "output": 8.5,
-            "efficiency": 1.889,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Food": 2,
+                        "WildSmall": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -845,18 +859,20 @@
         },
         {
             "name": "联合体_有机结构",
-            "output_items": {
-                "Ship": 2,
-                "Culture": 2,
-                "Industry": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Biotech": 3
-            },
-            "input": 4.5,
-            "output": 6.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 2,
+                        "Industry": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -871,19 +887,21 @@
         },
         {
             "name": "联合体_活体基础设施",
-            "output_items": {
-                "Ship": 2,
-                "Culture": 2,
-                "Industry": 1,
-                "Food": 1,
-                "WildBig": 1
-            },
-            "input_items": {
-                "Biotech": 3
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 2,
+                        "Industry": 1,
+                        "Food": 1,
+                        "WildBig": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -893,17 +911,19 @@
         },
         {
             "name": "联合体_原子嬗变",
-            "output_items": {
-                "Information": 1,
-                "Biotech": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -918,18 +938,20 @@
         },
         {
             "name": "联合体_虚材料",
-            "output_items": {
-                "Information": 1,
-                "Biotech": 1,
-                "Industry": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Industry": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -939,17 +961,19 @@
         },
         {
             "name": "联合体_银河系通讯控制",
-            "output_items": {
-                "Score": 3,
-                "Food": 2,
-                "Industry": 1
-            },
-            "input_items": {
-                "Information": 4
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Food": 2,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -964,18 +988,20 @@
         },
         {
             "name": "联合体_银河系统治",
-            "output_items": {
-                "Score": 4,
-                "Biotech": 1,
-                "Food": 2,
-                "Industry": 1
-            },
-            "input_items": {
-                "Information": 4
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 4,
+                        "Biotech": 1,
+                        "Food": 2,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -985,18 +1011,20 @@
         },
         {
             "name": "联合体_时间膨胀",
-            "output_items": {
-                "Score": 2,
-                "Hypertech": 1,
-                "Industry": 2,
-                "Culture": 1
-            },
-            "input_items": {
-                "Biotech": 4
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Industry": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1011,19 +1039,21 @@
         },
         {
             "name": "联合体_静滞场",
-            "output_items": {
-                "HypertechDonation": 1,
-                "Score": 3,
-                "Hypertech": 1,
-                "Industry": 2,
-                "Culture": 1
-            },
-            "input_items": {
-                "Biotech": 4
-            },
-            "input": 6.0,
-            "output": 18.0,
-            "efficiency": 3.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Industry": 2,
+                        "Culture": 1,
+                        "HypertechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1033,20 +1063,22 @@
         },
         {
             "name": "联合体_奇点控制",
-            "output_items": {
-                "Energy": 1,
-                "Information": 2,
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 1,
-                "Ship": 1
-            },
-            "input_items": {
-                "Hypertech": 2
-            },
-            "input": 6.0,
-            "output": 8.5,
-            "efficiency": 1.417,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 2,
+                        "Food": 1,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1061,21 +1093,23 @@
         },
         {
             "name": "联合体_虫洞网格",
-            "output_items": {
-                "Energy": 1,
-                "Information": 2,
-                "Food": 1,
-                "Culture": 1,
-                "Industry": 1,
-                "Ship": 1,
-                "WildBig": 1
-            },
-            "input_items": {
-                "Hypertech": 2
-            },
-            "input": 6.0,
-            "output": 10.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 2,
+                        "Food": 1,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Ship": 1,
+                        "WildBig": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1085,17 +1119,19 @@
         },
         {
             "name": "联合体_分形对称",
-            "output_items": {
-                "WildBig": 1,
-                "Hypertech": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 2,
-                "ArbitraryBig": 1
-            },
-            "input": 3.5,
-            "output": 4.5,
-            "efficiency": 1.286,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 2,
+                        "ArbitaryBig": 1
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "Hypertech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1110,19 +1146,21 @@
         },
         {
             "name": "联合体_分型对称+",
-            "output_items": {
-                "WildBigDonation": 1,
-                "WildSmallDonation": 1,
-                "WildBig": 1,
-                "Hypertech": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 2,
-                "ArbitraryBig": 1
-            },
-            "input": 3.5,
-            "output": 7.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 2,
+                        "ArbitaryBig": 1
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "Hypertech": 1,
+                        "WildBigDonation": 1,
+                        "WildSmallDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1131,18 +1169,42 @@
             }
         },
         {
+            "name": "联合体_分形对称_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 2,
+                        "ArbitaryBig": 1,
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "联合体_分形对称"
+                }
+            }
+        },
+        {
             "name": "联合体_探索者结合体",
-            "output_items": {
-                "Ship": 2,
-                "Information": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 4.5,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Information": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1152,12 +1214,13 @@
                         "联合体_非时序分析",
                         {
                             "input_items": {
-                                "ArbitraryBig": 2,
+                                "ArbitaryBig": 2,
                                 "ArbitraryWorld": 1
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1165,18 +1228,20 @@
         },
         {
             "name": "联合体_引力太阳透镜传感器阵列",
-            "output_items": {
-                "Ship": 2,
-                "Information": 1,
-                "Industry": 1,
-                "WildBig": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 6.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Information": 1,
+                        "Industry": 1,
+                        "WildBig": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1186,17 +1251,19 @@
         },
         {
             "name": "联合体_巨型建筑",
-            "output_items": {
-                "Score": 5,
-                "Culture": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "input": 9.0,
-            "output": 17.0,
-            "efficiency": 1.889,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 5,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1211,18 +1278,20 @@
         },
         {
             "name": "联合体_戴森群",
-            "output_items": {
-                "Score": 6,
-                "Culture": 1,
-                "Industry": 1,
-                "Energy": 1
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "input": 9.0,
-            "output": 21.5,
-            "efficiency": 2.389,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 6,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1232,16 +1301,18 @@
         },
         {
             "name": "联合体_金刚烷合成",
-            "output_items": {
-                "Hypertech": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1256,17 +1327,19 @@
         },
         {
             "name": "联合体_可编程性虚物质",
-            "output_items": {
-                "Hypertech": 1,
-                "Food": 1,
-                "WildSmall": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Food": 1,
+                        "WildSmall": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1276,15 +1349,17 @@
         },
         {
             "name": "联合体_适应性制造",
-            "output_items": {
-                "WildBig": 1,
-                "WildSmall": 1,
-                "Ship": 1
-            },
-            "input_items": {},
-            "input": 0.0,
-            "output": 3.5,
-            "efficiency": 1000.0,
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1294,12 +1369,13 @@
                         "联合体_纳米科技",
                         {
                             "input_items": {
-                                "ArbitrarySmall": 3,
+                                "ArbitarySmall": 3,
                                 "ArbitraryWorld": 1
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1307,15 +1383,17 @@
         },
         {
             "name": "联合体_预测性建造",
-            "output_items": {
-                "WildBig": 1,
-                "WildSmall": 2,
-                "Ship": 1
-            },
-            "input_items": {},
-            "input": 0.0,
-            "output": 4.5,
-            "efficiency": 1000.0,
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 2,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1325,16 +1403,18 @@
         },
         {
             "name": "联合体_贝塞尔",
-            "output_items": {
-                "WildBig": 1,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 3.5,
-            "efficiency": 1.167,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1349,17 +1429,19 @@
         },
         {
             "name": "联合体_贝塞尔+",
-            "output_items": {
-                "WildBigDonation": 1,
-                "WildBig": 1,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "ArbitrarySmall": 3
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 2,
+                        "WildBigDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1368,17 +1450,40 @@
             }
         },
         {
+            "name": "联合体_贝塞尔_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitarySmall": 3,
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "联合体_贝塞尔"
+                }
+            }
+        },
+        {
             "name": "联合体_色彩空间",
-            "output_items": {
-                "WildBig": 1,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 3.5,
-            "efficiency": 1.167,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1393,21 +1498,44 @@
         },
         {
             "name": "联合体_色彩空间+",
-            "output_items": {
-                "WildBigDonation": 1,
-                "WildBig": 1,
-                "WildSmall": 2
-            },
-            "input_items": {
-                "ArbitraryBig": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2
+                    },
+                    "output_items": {
+                        "WildBig": 1,
+                        "WildSmall": 2,
+                        "WildBigDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
                     "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "联合体_色彩空间_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "ArbitaryBig": 2,
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "联合体_色彩空间"
                 }
             }
         }

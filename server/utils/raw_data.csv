@@ -119,15 +119,15 @@
 118,艾恩卓尔,微重力装配,0,Starting,bbbbFF➪YYBT****,纳米科技,量子计算机,分散式建造,bbbbF➪YYBT****,4,10,2.500,10,2.500,1.000
 119,艾恩卓尔,法德澜遗迹隐藏处,0,Starting,UUFF➪TTBYYggbw,原子嬗变,临床永生,遗迹再合成,UUF➪TTBYYggbbw,6,11.5,1.917,12.5,2.083,1.087
 120,艾恩卓尔,奇点控制,2,Researched,UUF➪TBYgbb*,超空间开采,非时序分析,虫洞网格,UUF➪TBYgbb*wg,6,8.5,1.417,10.5,1.750,1.235
-121,艾恩卓尔,"Fleet Support, 3",1,OOB→$,FFF,,,,,,,,,,
+121,艾恩卓尔,"Fleet Support, 3",1,UUB→$,FFF,,,,,,,,,,
 122,艾恩卓尔,巨型建筑,3,Researched,UUUF➪$$$$$gb,时间膨胀,物质生成,戴森群,UUUF➪$$$$$$gbT,9,17,1.889,21.5,2.389,1.265
 123,艾恩卓尔,Phases,,Reference,,,,,,,,,,,
 124,艾恩卓尔,"Fleet Support, 1",1,BBB→$,F,,,,,,,,,,
 125,艾恩卓尔,"Fleet Support, 1",1,Bbbb→$,F,,,,,,,,,,
-126,艾恩卓尔,"Fleet Support, 1",1,OB→$,F,,,,,,,,,,
+126,艾恩卓尔,"Fleet Support, 1",1,UB→$,F,,,,,,,,,,
 127,艾恩卓尔,"Fleet Support, 2",1,BBbbb→$,FF,,,,,,,,,,
-128,艾恩卓尔,"Starting Fleet Support, 2",0,Starting,,,,,,,,,,,
-129,艾恩卓尔,"Fleet Support, 2",1,Obbb→$,FF,,,,,,,,,,
+128,艾恩卓尔,"Starting Fleet Support, 2",0,Starting,FF,,,,,,,,,,
+129,艾恩卓尔,"Fleet Support, 2",1,Ubbb→$,FF,,,,,,,,,,
 130,贾斯,纳米科技,1,Researched,bbb➪Ug,基因工程学,原子嬗变,纳米制造,bbb➪UgB,3,4,1.333,5.5,1.833,1.375
 131,贾斯,基因工程学,1,Researched,ggg➪TBw,纳米科技,临床永生,基因再合成,ggg➪TBwB,3,4,1.333,5.5,1.833,1.375
 132,贾斯,通用翻译器,1,Researched,www➪$+B,泛在文化知识库,量子计算机,通用共情交流,www➪$+Bwg,3,4.5,1.500,6.5,2.167,1.444
@@ -372,7 +372,7 @@
 371,Confluence,6+ players; turn 5; bonus 2/0,0,Common,,,,,,,,,,,
 372,联合体,Starting Race Card,,Reference,UAAAaaaa,1 Colony,1 Research Team,,,,,,,,
 373,贾斯,Starting Race Card,,Reference,TYYBBgwbb****,2 Colonies,,,,,,,,,
-374,法德澜,Starting Race Card,,Reference,"UYTwwwb**, NR",1 Colony,1 Research Team,,,,,,,,
+374,法德澜,Starting Race Card,,Reference,"UYTwwwb**",1 Colony,1 Research Team,,,,,,,,
 375,凯利安,Starting Race Card,,Reference,BBgggggwwwwbb*,1 Colony with x2,,,,,,,,,
 376,艾恩卓尔,Starting Race Card,,Reference,UTBYggwwbbb****,,1 Research Team,,,,,,,,
 377,泽思,Starting Race Card,,Reference,TTYBBgw*,,1 Research Team,,,,,,,,

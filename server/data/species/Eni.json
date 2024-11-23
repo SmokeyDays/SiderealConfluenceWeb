@@ -1,300 +1,40 @@
 {
-    "name": "Eni",
     "zh_name": "恩尼艾特",
     "max_colony": 3,
     "tie_breaker": 3,
     "init_colony": 1,
     "init_research": 0,
+    "name": "Eni",
     "start_resource": {
+        "items": {
+            "Biotech": 1,
+            "Industry": 2,
+            "Culture": 2,
+            "Food": 1,
+            "Ship": 1
+        },
         "factories": [
             "恩尼艾特_骨骼雕刻",
             "恩尼艾特_深潜狩猎",
             "恩尼艾特_合唱之歌",
-            "恩尼艾特_通用应用元伦理学",
-            "恩尼艾特_文化包容",
-            "恩尼艾特_志愿医疗运动",
-            "恩尼艾特_相互理解",
-            "恩尼艾特_长者的智慧",
-            "恩尼艾特_跨文化档案",
-            "恩尼艾特_异种科技库"
-        ],
-        "items": {
-            "Food": 1,
-            "Culture": 2,
-            "Industry": 2,
-            "Information": 0,
-            "Biotech": 1,
-            "Energy": 0,
-            "Hypertech": 0,
-            "Ship": 1,
-            "Score": 0
-        },
-        "Colony": 1,
-        "research_team": 0
+            "恩尼艾特_通用应用元伦理学"
+        ]
     },
     "factories": [
         {
-            "name": "恩尼艾特_文化包容",
-            "output_items": {
-                "ArbitrarySmall": 13
-            },
-            "input_items": {
-                "ArbitrarySmall": 8
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_全向文化动态包容",
-                    "upgrade_cost": [
-                        "恩尼艾特_跨种族道德平等",
-                        "恩尼艾特_反物质能源"
-                    ],
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_全向文化动态包容",
-            "output_items": {
-                "ArbitrarySmall": 7,
-                "Score": 3
-            },
-            "input_items": {
-                "ArbitrarySmall": 8
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_志愿医疗运动",
-            "output_items": {
-                "ArbitrarySmall": 9
-            },
-            "input_items": {
-                "ArbitrarySmall": 6
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_全民健康",
-                    "upgrade_cost": [
-                        "恩尼艾特_种族间医学交流",
-                        "恩尼艾特_有机结构"
-                    ],
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_全民健康",
-            "output_items": {
-                "ArbitrarySmall": 5,
-                "Score": 2
-            },
-            "input_items": {
-                "ArbitrarySmall": 6
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_相互理解",
-            "output_items": {
-                "ArbitrarySmall": 4
-            },
-            "input_items": {
-                "ArbitrarySmall": 2
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_种族间共情",
-                    "upgrade_cost": [
-                        "恩尼艾特_量子计算机",
-                        "恩尼艾特_通用翻译器"
-                    ],
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_种族间共情",
-            "output_items": {
-                "ArbitrarySmall": 3,
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitrarySmall": 2
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_长者的智慧",
-            "output_items": {
-                "ArbitraryBig": 10
-            },
-            "input_items": {
-                "ArbitraryBig": 6
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_永生者的智慧",
-                    "upgrade_cost": [
-                        "恩尼艾特_量子计算机",
-                        "恩尼艾特_临床永生"
-                    ],
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_永生者的智慧",
-            "output_items": {
-                "ArbitraryBig": 7,
-                "Score": 2
-            },
-            "input_items": {
-                "ArbitraryBig": 6
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_跨文化档案",
-            "output_items": {
-                "ArbitraryBig": 4
-            },
-            "input_items": {
-                "ArbitraryBig": 3
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_泛在文化影响",
-                    "upgrade_cost": [
-                        "恩尼艾特_通用翻译器",
-                        "恩尼艾特_泛在文化知识库"
-                    ],
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_泛在文化影响",
-            "output_items": {
-                "ArbitraryBig": 3,
-                "Score": 1
-            },
-            "input_items": {
-                "ArbitraryBig": 3
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "EnietInterest": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_异种科技库",
-            "output_items": {
-                "Hypertech": 5
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "恩尼艾特_超科技共同体",
-                    "upgrade_cost": [
-                        "恩尼艾特_超空间开采",
-                        "恩尼艾特_奇点控制"
-                    ],
-                    "MustLend": true
-                }
-            }
-        },
-        {
-            "name": "恩尼艾特_超科技共同体",
-            "output_items": {
-                "Hypertech": 3,
-                "Score": 3
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "donation_items": {},
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true,
-                    "MustLend": true
-                }
-            }
-        },
-        {
             "name": "恩尼艾特_纳米科技",
-            "output_items": {
-                "Hypertech": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Industry": 3
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -309,17 +49,19 @@
         },
         {
             "name": "恩尼艾特_纳米制造",
-            "output_items": {
-                "Hypertech": 1,
-                "Culture": 1,
-                "Biotech": 1
-            },
-            "input_items": {
-                "Industry": 3
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1,
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -329,17 +71,19 @@
         },
         {
             "name": "恩尼艾特_基因工程学",
-            "output_items": {
-                "Energy": 1,
-                "Information": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Food": 3
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -354,17 +98,19 @@
         },
         {
             "name": "恩尼艾特_基因再合成",
-            "output_items": {
-                "Energy": 1,
-                "Information": 2,
-                "Industry": 1
-            },
-            "input_items": {
-                "Food": 3
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 2,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -374,16 +120,18 @@
         },
         {
             "name": "恩尼艾特_通用翻译器",
-            "output_items": {
-                "InformationDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Culture": 3
-            },
-            "input": 3.0,
-            "output": 4.5,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "InformationDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -398,18 +146,20 @@
         },
         {
             "name": "恩尼艾特_通用共情交流",
-            "output_items": {
-                "InformationDonation": 1,
-                "FoodDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Culture": 3
-            },
-            "input": 3.0,
-            "output": 6.5,
-            "efficiency": 2.167,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "InformationDonation": 1,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -419,17 +169,19 @@
         },
         {
             "name": "恩尼艾特_反物质能源",
-            "output_items": {
-                "Energy": 2,
-                "Information": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Industry": 4
-            },
-            "input": 4.0,
-            "output": 5.5,
-            "efficiency": 1.375,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -444,18 +196,20 @@
         },
         {
             "name": "恩尼艾特_反物质化合物",
-            "output_items": {
-                "Energy": 2,
-                "Information": 1,
-                "Culture": 1,
-                "Food": 2
-            },
-            "input_items": {
-                "Industry": 4
-            },
-            "input": 4.0,
-            "output": 7.5,
-            "efficiency": 1.875,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Culture": 1,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -465,18 +219,20 @@
         },
         {
             "name": "恩尼艾特_种族间医学交流",
-            "output_items": {
-                "FoodDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Food": 4
-            },
-            "input": 4.0,
-            "output": 6.0,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -491,20 +247,22 @@
         },
         {
             "name": "恩尼艾特_泛生物医学",
-            "output_items": {
-                "FoodDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1,
-                "Culture": 1,
-                "Industry": 1,
-                "Energy": 1
-            },
-            "input_items": {
-                "Food": 4
-            },
-            "input": 4.0,
-            "output": 8.5,
-            "efficiency": 2.125,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Energy": 1,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -514,17 +272,19 @@
         },
         {
             "name": "恩尼艾特_跨种族道德平等",
-            "output_items": {
-                "ScoreDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Culture": 4
-            },
-            "input": 4.0,
-            "output": 7.0,
-            "efficiency": 1.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "ScoreDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -539,18 +299,20 @@
         },
         {
             "name": "恩尼艾特_具体共相元理论学",
-            "output_items": {
-                "ScoreDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1,
-                "Hypertech": 1
-            },
-            "input_items": {
-                "Culture": 4
-            },
-            "input": 4.0,
-            "output": 10.0,
-            "efficiency": 2.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Hypertech": 1,
+                        "ScoreDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -560,19 +322,21 @@
         },
         {
             "name": "恩尼艾特_异文化交流",
-            "output_items": {
-                "ScoreDonation": 1,
-                "Score": 1,
-                "Energy": 1,
-                "Culture": 2,
-                "Food": 2
-            },
-            "input_items": {
-                "Industry": 5
-            },
-            "input": 5.0,
-            "output": 11.5,
-            "efficiency": 2.3,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Energy": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -587,21 +351,23 @@
         },
         {
             "name": "恩尼艾特_多种族混合文化",
-            "output_items": {
-                "ScoreDonation": 1,
-                "EnergyDonation": 1,
-                "FoodDonation": 1,
-                "Score": 2,
-                "Energy": 1,
-                "Culture": 2,
-                "Food": 2
-            },
-            "input_items": {
-                "Industry": 5
-            },
-            "input": 5.0,
-            "output": 17.0,
-            "efficiency": 3.4,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Energy": 1,
+                        "Culture": 2,
+                        "Food": 2,
+                        "ScoreDonation": 1,
+                        "EnergyDonation": 1,
+                        "FoodDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -611,20 +377,22 @@
         },
         {
             "name": "恩尼艾特_多元种族企业",
-            "output_items": {
-                "IndustryDonation": 2,
-                "FoodDonation": 2,
-                "Score": 1,
-                "Energy": 1,
-                "Biotech": 1,
-                "Ship": 2
-            },
-            "input_items": {
-                "Food": 5
-            },
-            "input": 5.0,
-            "output": 12.0,
-            "efficiency": 2.4,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "IndustryDonation": 2,
+                        "FoodDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -639,20 +407,22 @@
         },
         {
             "name": "恩尼艾特_全种族间融合",
-            "output_items": {
-                "IndustryDonation": 3,
-                "FoodDonation": 2,
-                "Score": 2,
-                "Energy": 1,
-                "Biotech": 1,
-                "Ship": 2
-            },
-            "input_items": {
-                "Food": 5
-            },
-            "input": 5.0,
-            "output": 16.0,
-            "efficiency": 3.2,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "IndustryDonation": 3,
+                        "FoodDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -662,21 +432,23 @@
         },
         {
             "name": "恩尼艾特_社会迁移",
-            "output_items": {
-                "ScoreDonation": 1,
-                "ShipDonation": 2,
-                "EnergyDonation": 1,
-                "InformationDonation": 1,
-                "Score": 1,
-                "Ship": 2,
-                "Information": 1
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 14.5,
-            "efficiency": 2.9,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "InformationDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -691,22 +463,24 @@
         },
         {
             "name": "恩尼艾特_银河系殖民",
-            "output_items": {
-                "ScoreDonation": 1,
-                "ShipDonation": 2,
-                "EnergyDonation": 1,
-                "InformationDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 2,
-                "Ship": 2,
-                "Information": 1
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 18.5,
-            "efficiency": 3.7,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "EnergyDonation": 1,
+                        "InformationDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -716,16 +490,18 @@
         },
         {
             "name": "恩尼艾特_量子计算机",
-            "output_items": {
-                "Energy": 2,
-                "Food": 1
-            },
-            "input_items": {
-                "Information": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -740,16 +516,18 @@
         },
         {
             "name": "恩尼艾特_非确定性多项式塌缩",
-            "output_items": {
-                "Energy": 3,
-                "Food": 1
-            },
-            "input_items": {
-                "Information": 2
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2
+                    },
+                    "output_items": {
+                        "Energy": 3,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -759,16 +537,18 @@
         },
         {
             "name": "恩尼艾特_临床永生",
-            "output_items": {
-                "Score": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Biotech": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -783,17 +563,19 @@
         },
         {
             "name": "恩尼艾特_实用永生",
-            "output_items": {
-                "Score": 1,
-                "Industry": 1,
-                "Information": 1
-            },
-            "input_items": {
-                "Biotech": 2
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -803,16 +585,18 @@
         },
         {
             "name": "恩尼艾特_泛在文化知识库",
-            "output_items": {
-                "Score": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Energy": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -827,17 +611,19 @@
         },
         {
             "name": "恩尼艾特_模因生命体",
-            "output_items": {
-                "Score": 1,
-                "Food": 1,
-                "Information": 1
-            },
-            "input_items": {
-                "Energy": 2
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Food": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -847,18 +633,20 @@
         },
         {
             "name": "恩尼艾特_非时序分析",
-            "output_items": {
-                "Hypertech": 1,
-                "Energy": 1,
-                "Culture": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Information": 3
-            },
-            "input": 4.5,
-            "output": 6.5,
-            "efficiency": 1.444,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Energy": 1,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -873,18 +661,20 @@
         },
         {
             "name": "恩尼艾特_时间查看器",
-            "output_items": {
-                "Hypertech": 1,
-                "Energy": 2,
-                "Culture": 1,
-                "Industry": 2
-            },
-            "input_items": {
-                "Information": 3
-            },
-            "input": 4.5,
-            "output": 9.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Energy": 2,
+                        "Culture": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -894,17 +684,19 @@
         },
         {
             "name": "恩尼艾特_有机结构",
-            "output_items": {
-                "Ship": 2,
-                "Industry": 2,
-                "Food": 2
-            },
-            "input_items": {
-                "Biotech": 3
-            },
-            "input": 4.5,
-            "output": 6.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Industry": 2,
+                        "Food": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -919,18 +711,20 @@
         },
         {
             "name": "恩尼艾特_活体基础设施",
-            "output_items": {
-                "Ship": 2,
-                "Industry": 2,
-                "Food": 2,
-                "Information": 1
-            },
-            "input_items": {
-                "Biotech": 3
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Industry": 2,
+                        "Food": 2,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -940,18 +734,20 @@
         },
         {
             "name": "恩尼艾特_超空间开采",
-            "output_items": {
-                "InformationDonation": 1,
-                "BiotechDonation": 1,
-                "Hypertech": 1,
-                "Information": 1
-            },
-            "input_items": {
-                "Energy": 3
-            },
-            "input": 4.5,
-            "output": 7.5,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "InformationDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -966,20 +762,22 @@
         },
         {
             "name": "恩尼艾特_超空间定居点",
-            "output_items": {
-                "InformationDonation": 1,
-                "BiotechDonation": 1,
-                "Hypertech": 1,
-                "Information": 2,
-                "Food": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Energy": 3
-            },
-            "input": 4.5,
-            "output": 11.0,
-            "efficiency": 2.444,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Information": 2,
+                        "Food": 1,
+                        "Industry": 1,
+                        "InformationDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -989,18 +787,20 @@
         },
         {
             "name": "恩尼艾特_银河系通讯控制",
-            "output_items": {
-                "Score": 3,
-                "Industry": 1,
-                "Food": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Information": 4
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Industry": 1,
+                        "Food": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1015,19 +815,21 @@
         },
         {
             "name": "恩尼艾特_银河系统治",
-            "output_items": {
-                "Score": 4,
-                "Biotech": 1,
-                "Industry": 1,
-                "Food": 1,
-                "Culture": 1
-            },
-            "input_items": {
-                "Information": 4
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 4,
+                        "Biotech": 1,
+                        "Industry": 1,
+                        "Food": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1037,18 +839,20 @@
         },
         {
             "name": "恩尼艾特_时间膨胀",
-            "output_items": {
-                "Score": 2,
-                "Hypertech": 1,
-                "Food": 1,
-                "Industry": 2
-            },
-            "input_items": {
-                "Biotech": 4
-            },
-            "input": 6.0,
-            "output": 12.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Food": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1063,19 +867,21 @@
         },
         {
             "name": "恩尼艾特_静滞场",
-            "output_items": {
-                "HypertechDonation": 1,
-                "Score": 3,
-                "Hypertech": 1,
-                "Food": 1,
-                "Industry": 2
-            },
-            "input_items": {
-                "Biotech": 4
-            },
-            "input": 6.0,
-            "output": 18.0,
-            "efficiency": 3.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Food": 1,
+                        "Industry": 2,
+                        "HypertechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1085,19 +891,21 @@
         },
         {
             "name": "恩尼艾特_物质生成",
-            "output_items": {
-                "Score": 2,
-                "Hypertech": 1,
-                "Information": 1,
-                "Culture": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Energy": 4
-            },
-            "input": 6.0,
-            "output": 12.5,
-            "efficiency": 2.083,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1112,20 +920,22 @@
         },
         {
             "name": "恩尼艾特_大规模传送",
-            "output_items": {
-                "Score": 3,
-                "Hypertech": 1,
-                "Information": 1,
-                "Culture": 1,
-                "Food": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Energy": 4
-            },
-            "input": 6.0,
-            "output": 16.5,
-            "efficiency": 2.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Culture": 1,
+                        "Food": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1135,17 +945,19 @@
         },
         {
             "name": "恩尼艾特_骨骼雕刻",
-            "output_items": {
-                "Culture": 2,
-                "Industry": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Biotech": 2
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Culture": 2,
+                        "Industry": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1160,7 +972,8 @@
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1168,17 +981,19 @@
         },
         {
             "name": "恩尼艾特_纳米工艺",
-            "output_items": {
-                "Culture": 3,
-                "Industry": 1,
-                "Food": 1
-            },
-            "input_items": {
-                "Biotech": 2
-            },
-            "input": 3.0,
-            "output": 5.0,
-            "efficiency": 1.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Culture": 3,
+                        "Industry": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1188,14 +1003,16 @@
         },
         {
             "name": "恩尼艾特_深潜狩猎",
-            "output_items": {
-                "Biotech": 1,
-                "Ship": 1
-            },
-            "input_items": {},
-            "input": 0.0,
-            "output": 2.5,
-            "efficiency": 1000.0,
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Biotech": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1210,7 +1027,8 @@
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1218,15 +1036,17 @@
         },
         {
             "name": "恩尼艾特_深海捕捞",
-            "output_items": {
-                "Biotech": 1,
-                "Ship": 1,
-                "Culture": 1
-            },
-            "input_items": {},
-            "input": 0.0,
-            "output": 3.5,
-            "efficiency": 1000.0,
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Biotech": 1,
+                        "Ship": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1236,17 +1056,19 @@
         },
         {
             "name": "恩尼艾特_原子嬗变",
-            "output_items": {
-                "Information": 1,
-                "Biotech": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 4.0,
-            "efficiency": 1.333,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1261,18 +1083,20 @@
         },
         {
             "name": "恩尼艾特_虚材料",
-            "output_items": {
-                "Energy": 1,
-                "Information": 1,
-                "Biotech": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 5.5,
-            "efficiency": 1.833,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1282,18 +1106,20 @@
         },
         {
             "name": "恩尼艾特_合唱之歌",
-            "output_items": {
-                "Hypertech": 1,
-                "Information": 1,
-                "Food": 1,
-                "Ship": 2
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 7.5,
-            "efficiency": 1.5,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Food": 1,
+                        "Ship": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1308,7 +1134,8 @@
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1316,19 +1143,21 @@
         },
         {
             "name": "恩尼艾特_永恒乐章",
-            "output_items": {
-                "Hypertech": 1,
-                "Information": 1,
-                "Food": 1,
-                "Ship": 2,
-                "Energy": 1
-            },
-            "input_items": {
-                "Culture": 5
-            },
-            "input": 5.0,
-            "output": 9.0,
-            "efficiency": 1.8,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Food": 1,
+                        "Ship": 2,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1338,16 +1167,18 @@
         },
         {
             "name": "恩尼艾特_通用应用元伦理学",
-            "output_items": {
-                "CultureDonation": 3,
-                "Score": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 6.0,
-            "efficiency": 2.0,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "CultureDonation": 3
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1362,7 +1193,8 @@
                             },
                             "output_items": {
                                 "Score": 1
-                            }
+                            },
+                            "running_stage": "trading"
                         }
                     ]
                 }
@@ -1370,18 +1202,20 @@
         },
         {
             "name": "恩尼艾特_全向种族元理论模型",
-            "output_items": {
-                "CultureDonation": 3,
-                "FoodDonation": 1,
-                "IndustryDonation": 1,
-                "Score": 1
-            },
-            "input_items": {
-                "Hypertech": 1
-            },
-            "input": 3.0,
-            "output": 8.0,
-            "efficiency": 2.667,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "CultureDonation": 3,
+                        "FoodDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1391,20 +1225,22 @@
         },
         {
             "name": "恩尼艾特_奇点控制",
-            "output_items": {
-                "Biotech": 1,
-                "Information": 1,
-                "Energy": 1,
-                "Food": 2,
-                "Industry": 1,
-                "Ship": 1
-            },
-            "input_items": {
-                "Hypertech": 2
-            },
-            "input": 6.0,
-            "output": 8.5,
-            "efficiency": 1.417,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Energy": 1,
+                        "Food": 2,
+                        "Industry": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1419,21 +1255,23 @@
         },
         {
             "name": "恩尼艾特_虫洞网格",
-            "output_items": {
-                "Energy": 1,
-                "Information": 1,
-                "Biotech": 1,
-                "Food": 2,
-                "Industry": 2,
-                "Culture": 1,
-                "Ship": 1
-            },
-            "input_items": {
-                "Hypertech": 2
-            },
-            "input": 6.0,
-            "output": 10.5,
-            "efficiency": 1.75,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1,
+                        "Biotech": 1,
+                        "Food": 2,
+                        "Industry": 2,
+                        "Culture": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1443,17 +1281,19 @@
         },
         {
             "name": "恩尼艾特_巨型建筑",
-            "output_items": {
-                "Score": 5,
-                "Food": 1,
-                "Industry": 1
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "input": 9.0,
-            "output": 17.0,
-            "efficiency": 1.889,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 5,
+                        "Food": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {
@@ -1468,18 +1308,20 @@
         },
         {
             "name": "恩尼艾特_戴森群",
-            "output_items": {
-                "Score": 6,
-                "Food": 1,
-                "Industry": 1,
-                "Information": 1
-            },
-            "input_items": {
-                "Hypertech": 3
-            },
-            "input": 9.0,
-            "output": 21.5,
-            "efficiency": 2.389,
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 6,
+                        "Food": 1,
+                        "Industry": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
             "feature": {
                 "type": "Normal",
                 "properties": {

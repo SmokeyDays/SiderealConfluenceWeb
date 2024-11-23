@@ -21,13 +21,21 @@ translator = {
     'W': 'Water',
     'I': 'Ice',
     'N': 'ArbitraryWorld',
-    'F': 'Fleet'
+    'F': 'Fleet',
+    'Z': 'ZethEnvoy',
+    'R': 'RelicWorldDraw'
 }
 convertor_stage = {
     '➪': 'production',
     '→': 'trading',
-    '➾': 'stealing'
+    '➾': 'stealing',
+    '↺': 'constant'
 }
+def arrow_pattern():
+    res = ''
+    for arrow in convertor_stage.keys():
+        res += arrow + '|'
+    return res[:-1]
 other_specie_info = {
     'Caylion': {
         "zh_name": "凯利安",
@@ -95,6 +103,7 @@ other_specie_info = {
 }
 MustLend = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '异种科技库', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响', '超科技共同体']
 EnietInterest = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响']
+FaderanRelicWorld = ['杜伦泰的赠礼', '关联集成存储器', '自动化运输网络', '遗迹探测器', '隐德莱希图书馆', '嬗变性分解器', '纳尔戈里安磨盘', '晨星废墟', '乐土转换器', '巴里安贸易舰队', '瑟尔的碎环', '雄伟浑天仪']
 
 def analyze_items(item_str, donation = False):
     if item_str.endswith(' §'):
@@ -115,24 +124,32 @@ def analyze_items(item_str, donation = False):
 
     return item
 
+def analyze_items_with_donation(item_str):
+    if not re.search('\+', item_str):
+        return analyze_items(item_str)
+    else:
+        item_no_donation = re.search('.*(?=\+)', item_str).group()
+        item_donation = re.search('(?=\+).*', item_str).group()[1:]
+        return {**analyze_items(item_no_donation), **analyze_items(item_donation, donation=True)}
+    
+
 def analyze_convertor(convertor_str):
-    input=re.match('.*(?=➪|→|➾)',convertor_str).group()
+    if not re.search(f'({arrow_pattern()})', convertor_str):
+        convertor_str = '↺' + convertor_str
+    input=re.match(f'.*(?={arrow_pattern()})',convertor_str).group()
     input_items={}
     output_items={}
-
-    input_items = analyze_items(input)
-    output=re.search('(?=➪|→|➾).+',convertor_str).group()[1:]
-    if re.search('\+',output):
-        output_no_donation=re.search('.*(?=\+)',output).group()
-        output_donation=re.search('(?=\+).*',output).group()[1:]
-        no_donation_items = analyze_items(output_no_donation, donation=False)
-        donation_items = analyze_items(output_donation, donation=True)
-        output_items = {**no_donation_items, **donation_items}
+    if not re.search('\/', input):
+        input_items = analyze_items(input)
     else:
-        output_no_donation=output
-        output_items = analyze_items(output_no_donation, donation=False)
+        input_groups = input.split('/')
+        input_items = []
+        for input_group in input_groups:
+            input_items.append(analyze_items(input_group))
+    output=re.search(f'(?={arrow_pattern()}).+',convertor_str).group()[1:]
+    output_items = analyze_items_with_donation(output)
 
-    arrow = re.search('➪|→|➾',convertor_str).group()
+    arrow = re.search(f'{arrow_pattern()}',convertor_str).group()
     convertor = {
         "input_items": input_items,
         "output_items": output_items,
@@ -148,11 +165,13 @@ def analyze_convertors(convertors_str):
     return convertors
 
 def factory_from_csv(fac, convertor_as_cost = False):
+    if fac['Front Name'] in FaderanRelicWorld:
+        return None, None, None
     meta_factory = None
     if convertor_as_cost:
         meta_factory = {
             "name": f'{fac["Faction"]}_{fac["Front Name"]}_打出',
-            "convertors": factory['convertors'],
+            "convertors": analyze_convertors(fac['Cost']),
             'feature': {
                 'type': 'Meta',
                 'properties': {
@@ -160,7 +179,20 @@ def factory_from_csv(fac, convertor_as_cost = False):
                 }
             }
         }
-    if fac['Front Name'].startswith('Fleet Support'):
+    if re.search('Fleet Support', fac['Front Name']):
+        factory = {
+            'name': f'{fac["Faction"]}_{fac["Front Name"]}_{fac["s"]}',
+            "convertors": analyze_convertors(fac['Front Factory']),
+            'feature': {
+                'type': 'Normal',
+                'properties': {
+                    'upgraded': True,
+                }
+            }
+        }
+        return factory, None, meta_factory
+    if fac['Faction'] == '凯特' and not isinstance(fac['Upgrade1'], str):
+        # todo
         return None, None, meta_factory
     upgrade=[]
     upgrade.append(f'{fac["Faction"]}_{fac["Upgrade2"]}')
@@ -181,17 +213,18 @@ def factory_from_csv(fac, convertor_as_cost = False):
             }
         }
     }
-
-    back_factory={
-        'name': f'{fac["Faction"]}_{fac["Back Name"]}',
-        'convertors': analyze_convertors(fac['Back Factory']),
-        'feature': {
-            'type': 'Normal',
-            'properties': {
-                'upgraded': True
+    back_factory = None
+    if isinstance(fac['Back Name'], str):
+        back_factory={
+            'name': f'{fac["Faction"]}_{fac["Back Name"]}',
+            'convertors': analyze_convertors(fac['Back Factory']),
+            'feature': {
+                'type': 'Normal',
+                'properties': {
+                    'upgraded': True
+                }
             }
         }
-    }
 
     if fac['Faction'] == '恩尼艾特':
         if fac['Front Name'] in EnietInterest:
@@ -215,14 +248,14 @@ def deal_specie(csv_path, save_path, specie):
             continue
         if bac['Cost']=='Starting' or bac['Cost']=='Researched' or re.search('→', str(bac['Cost']).strip()):
             try:
-                fact, back_factory, meta_factory = factory_from_csv(bac, convertor_as_cost = re.search('→', str(bac['Cost']).strip()))
+                factory, back_factory, meta_factory = factory_from_csv(bac, convertor_as_cost = re.search('→', str(bac['Cost']).strip()))
             except:
                 print(bac)
                 raise
-            if fact:
-                factory_list.append(fact)
+            if factory:
+                factory_list.append(factory)
                 if bac['Cost']=='Starting':
-                    start_factories.append(fact['name'])
+                    start_factories.append(factory['name'])
             if back_factory:
                 factory_list.append(back_factory)
             if meta_factory:

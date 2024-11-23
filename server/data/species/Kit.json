@@ -1,1205 +1,1613 @@
-[
-    {
-        "name": "凯利安_纳米科技",
-        "output_items": {
+{
+    "zh_name": "凯特",
+    "max_colony": 999,
+    "tie_breaker": 999,
+    "init_colony": 1,
+    "init_research": 1,
+    "name": "Kit",
+    "start_resource": {
+        "items": {
             "Hypertech": 1,
-            "Food": 1
-        },
-        "input_items": {
+            "Biotech": 1,
+            "Energy": 1,
+            "Information": 1,
+            "Food": 3,
+            "Culture": 2,
             "Industry": 3
         },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_纳米制造",
-                "upgrade_cost": [
-                    "凯利安_原子嬗变",
-                    "凯利安_基因工程学"
-                ]
-            }
-        }
+        "factories": [
+            "凯特_多功能组件",
+            "凯特_手工制作的",
+            "凯特_高风险实验室",
+            "凯特_无序牺牲性",
+            "凯特_扩散",
+            "凯特_广域社会",
+            "凯特_Zd'Nx_打出",
+            "凯特_Kz'Tlr_打出",
+            "凯特_Kln'Qn_打出",
+            "凯特_Nz'Cht'Qt'Rz_打出",
+            "凯特_Tn'Rg'Tx'Tc_打出",
+            "凯特_Gz'Zd_打出",
+            "凯特_!IN'ZR'KZ_打出",
+            "凯特_Tk'T!'Zk_打出",
+            "凯特_Kr'Xn'Xx_打出",
+            "凯特_Kt'Dq'Rn'Nr_打出",
+            "凯特_Nx'Xt'!In_打出",
+            "凯特_Nx'Dr_打出",
+            "凯特_Nz'Tt_打出"
+        ]
     },
-    {
-        "name": "凯利安_纳米制造",
-        "output_items": {
-            "Hypertech": 1,
-            "Food": 1,
-            "Energy": 1
+    "factories": [
+        {
+            "name": "凯特_纳米科技",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_纳米制造",
+                    "upgrade_cost": [
+                        "凯特_原子嬗变",
+                        "凯特_基因工程学"
+                    ]
+                }
+            }
         },
-        "input_items": {
-            "Industry": 3
+        {
+            "name": "凯特_纳米制造",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Culture": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
         },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
+        {
+            "name": "凯特_基因工程学",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_基因再合成",
+                    "upgrade_cost": [
+                        "凯特_临床永生",
+                        "凯特_纳米科技"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_基因再合成",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 3
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 2,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_通用翻译器",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_通用共情交流",
+                    "upgrade_cost": [
+                        "凯特_量子计算机",
+                        "凯特_泛在文化知识库"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_通用共情交流",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 3
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "BiotechDonation": 1,
+                        "CultureDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_反物质能源",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Information": 2,
+                        "Biotech": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_反物质化合物",
+                    "upgrade_cost": [
+                        "凯特_有机结构",
+                        "凯特_超空间开采"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_反物质化合物",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 4
+                    },
+                    "output_items": {
+                        "Information": 2,
+                        "Biotech": 1,
+                        "Culture": 2,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_种族间医学交流",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "IndustryDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_泛生物医学",
+                    "upgrade_cost": [
+                        "凯特_有机结构",
+                        "凯特_跨种族道德平等"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_泛生物医学",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Biotech": 1,
+                        "IndustryDonation": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_跨种族道德平等",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "ScoreDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_具体共相元理论学",
+                    "upgrade_cost": [
+                        "凯特_非时序分析",
+                        "凯特_种族间医学交流"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_具体共相元理论学",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 4
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Hypertech": 1,
+                        "ScoreDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_异文化交流",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Biotech": 1,
+                        "Food": 3,
+                        "Culture": 1,
+                        "ScoreDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_多种族混合文化",
+                    "upgrade_cost": [
+                        "凯特_社会迁移",
+                        "凯特_巨型建筑"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_多种族混合文化",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Industry": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Biotech": 1,
+                        "Food": 3,
+                        "Culture": 1,
+                        "ScoreDonation": 1,
+                        "InformationDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_多元种族企业",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "CultureDonation": 3,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_全种族间融合",
+                    "upgrade_cost": [
+                        "凯特_异文化交流",
+                        "凯特_银河系通讯控制"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_全种族间融合",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Energy": 1,
+                        "Biotech": 1,
+                        "Ship": 2,
+                        "CultureDonation": 4,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_社会迁移",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "InformationDonation": 1,
+                        "BiotechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_银河系殖民",
+                    "upgrade_cost": [
+                        "凯特_异文化交流",
+                        "凯特_银河系通讯控制"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_银河系殖民",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Culture": 5
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Ship": 2,
+                        "Information": 1,
+                        "ScoreDonation": 1,
+                        "ShipDonation": 2,
+                        "InformationDonation": 1,
+                        "BiotechDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_量子计算机",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_非确定性多项式塌缩",
+                    "upgrade_cost": [
+                        "凯特_临床永生",
+                        "凯特_通用翻译器"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_非确定性多项式塌缩",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 2
+                    },
+                    "output_items": {
+                        "Biotech": 2,
+                        "Energy": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_临床永生",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_实用永生",
+                    "upgrade_cost": [
+                        "凯特_原子嬗变",
+                        "凯特_基因工程学"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_实用永生",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_泛在文化知识库",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_模因生命体",
+                    "upgrade_cost": [
+                        "凯特_量子计算机",
+                        "凯特_通用翻译器"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_模因生命体",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {
+                        "Score": 1,
+                        "Industry": 1,
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_非时序分析",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Culture": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_时间查看器",
+                    "upgrade_cost": [
+                        "凯特_奇点控制",
+                        "凯特_反物质能源"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_时间查看器",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 2,
+                        "Culture": 1,
+                        "Food": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_有机结构",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 2,
+                        "Industry": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_活体基础设施",
+                    "upgrade_cost": [
+                        "凯特_跨种族道德平等",
+                        "凯特_种族间医学交流"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_活体基础设施",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 3
+                    },
+                    "output_items": {
+                        "Ship": 2,
+                        "Culture": 2,
+                        "Industry": 1,
+                        "Food": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_超空间开采",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "BiotechDonation": 1,
+                        "InformationDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_超空间定居点",
+                    "upgrade_cost": [
+                        "凯特_奇点控制",
+                        "凯特_反物质能源"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_超空间定居点",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Culture": 2,
+                        "BiotechDonation": 1,
+                        "InformationDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_银河系通讯控制",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Industry": 2,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_银河系统治",
+                    "upgrade_cost": [
+                        "凯特_社会迁移",
+                        "凯特_多元种族企业"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_银河系统治",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Information": 4
+                    },
+                    "output_items": {
+                        "Score": 4,
+                        "Energy": 1,
+                        "Industry": 2,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_时间膨胀",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Industry": 2,
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_静滞场",
+                    "upgrade_cost": [
+                        "凯特_物质生成",
+                        "凯特_巨型建筑"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_静滞场",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Biotech": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Industry": 2,
+                        "Culture": 1,
+                        "HypertechDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_物质生成",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 2,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Culture": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_大规模传送",
+                    "upgrade_cost": [
+                        "凯特_时间膨胀",
+                        "凯特_多元种族企业"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_大规模传送",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 4
+                    },
+                    "output_items": {
+                        "Score": 3,
+                        "Hypertech": 1,
+                        "Information": 1,
+                        "Culture": 3
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_多功能组件",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Ship": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_自适应架构",
+                    "upgrade_cost": [
+                        "凯特_量子计算机",
+                        "凯特_原子嬗变"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_自适应架构",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Ship": 1,
+                        "Biotech": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_手工制作的",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Hypertech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_微型制造的",
+                    "upgrade_cost": [
+                        "凯特_非时序分析",
+                        "凯特_有机结构"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_微型制造的",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Food": 1,
+                        "Industry": 1,
+                        "Hypertech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_原子嬗变",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 2,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_虚材料",
+                    "upgrade_cost": [
+                        "凯特_纳米科技",
+                        "凯特_泛在文化知识库"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_虚材料",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 2,
+                        "Food": 1,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_高风险实验室",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Culture": 1,
+                        "Food": 1,
+                        "Industry": 2
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_恒星能量利用",
+                    "upgrade_cost": [
+                        "凯特_奇点控制",
+                        "凯特_超空间开采"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_恒星能量利用",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Culture": 2,
+                        "Food": 2,
+                        "Industry": 2
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_无序牺牲性",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_多恒星系",
+                    "upgrade_cost": [
+                        "凯特_通用翻译器",
+                        "凯特_临床永生"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_多恒星系",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 1
+                    },
+                    "output_items": {
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_奇点控制",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Culture": 1,
+                        "Industry": 1,
+                        "Food": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_虫洞网格",
+                    "upgrade_cost": [
+                        "凯特_非时序分析",
+                        "凯特_超空间开采"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_虫洞网格",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 2
+                    },
+                    "output_items": {
+                        "Energy": 2,
+                        "Information": 1,
+                        "Culture": 2,
+                        "Industry": 2,
+                        "Food": 1,
+                        "Ship": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_扩散",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Information": 1,
+                        "Ship": 4
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_目的论再设计",
+                    "upgrade_cost": [
+                        "凯特_基因工程学",
+                        "凯特_纳米科技"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_目的论再设计",
+            "convertors": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Biotech": 1,
+                        "Energy": 1,
+                        "Information": 1,
+                        "Ship": 4,
+                        "CultureDonation": 1,
+                        "IndustryDonation": 1
+                    },
+                    "running_stage": "constant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_广域社会",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {},
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_心理史学",
+                    "upgrade_cost": [
+                        "凯特_种族间医学交流",
+                        "凯特_跨种族道德平等"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_心理史学",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Food": 5
+                    },
+                    "output_items": {
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_巨型建筑",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 5,
+                        "Industry": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrade_factory": "凯特_戴森群",
+                    "upgrade_cost": [
+                        "凯特_物质生成",
+                        "凯特_时间膨胀"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "凯特_戴森群",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Score": 6,
+                        "Industry": 2,
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "凯特_Zd'Nx_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Zd'Nx"
+                }
+            }
+        },
+        {
+            "name": "凯特_Kz'Tlr_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Kz'Tlr"
+                }
+            }
+        },
+        {
+            "name": "凯特_Kln'Qn_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Kln'Qn"
+                }
+            }
+        },
+        {
+            "name": "凯特_Nz'Cht'Qt'Rz_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Nz'Cht'Qt'Rz"
+                }
+            }
+        },
+        {
+            "name": "凯特_Tn'Rg'Tx'Tc_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Tn'Rg'Tx'Tc"
+                }
+            }
+        },
+        {
+            "name": "凯特_Gz'Zd_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Gz'Zd"
+                }
+            }
+        },
+        {
+            "name": "凯特_!IN'ZR'KZ_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_!IN'ZR'KZ"
+                }
+            }
+        },
+        {
+            "name": "凯特_Tk'T!'Zk_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Tk'T!'Zk"
+                }
+            }
+        },
+        {
+            "name": "凯特_Kr'Xn'Xx_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Kr'Xn'Xx"
+                }
+            }
+        },
+        {
+            "name": "凯特_Kt'Dq'Rn'Nr_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Kt'Dq'Rn'Nr"
+                }
+            }
+        },
+        {
+            "name": "凯特_Nx'Xt'!In_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 2
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Nx'Xt'!In"
+                }
+            }
+        },
+        {
+            "name": "凯特_Nx'Dr_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Nx'Dr"
+                }
+            }
+        },
+        {
+            "name": "凯特_Nz'Tt_打出",
+            "convertors": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {},
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Meta",
+                "properties": {
+                    "unlock_factory": "凯特_Nz'Tt"
+                }
             }
         }
-    },
-    {
-        "name": "凯利安_基因工程学",
-        "output_items": {
-            "Energy": 1,
-            "Information": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Food": 3
-        },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_基因再合成",
-                "upgrade_cost": [
-                    "凯利安_临床永生",
-                    "凯利安_纳米科技"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_基因再合成",
-        "output_items": {
-            "Energy": 2,
-            "Information": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Food": 3
-        },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_通用翻译器",
-        "output_items": {
-            "InformationDonation": 1,
-            "Score": 1
-        },
-        "input_items": {
-            "Culture": 3
-        },
-        "input": 3.0,
-        "output": 4.5,
-        "efficiency": 1.5,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_通用共情交流",
-                "upgrade_cost": [
-                    "凯利安_量子计算机",
-                    "凯利安_泛在文化知识库"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_通用共情交流",
-        "output_items": {
-            "InformationDonation": 1,
-            "IndustryDonation": 1,
-            "CultureDonation": 1,
-            "Score": 1
-        },
-        "input_items": {
-            "Culture": 3
-        },
-        "input": 3.0,
-        "output": 6.5,
-        "efficiency": 2.167,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_反物质能源",
-        "output_items": {
-            "Energy": 2,
-            "Information": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Industry": 4
-        },
-        "input": 4.0,
-        "output": 5.5,
-        "efficiency": 1.375,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_反物质化合物",
-                "upgrade_cost": [
-                    "凯利安_有机结构",
-                    "凯利安_超空间开采"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_反物质化合物",
-        "output_items": {
-            "Energy": 2,
-            "Information": 1,
-            "Culture": 2,
-            "Food": 1
-        },
-        "input_items": {
-            "Industry": 4
-        },
-        "input": 4.0,
-        "output": 7.5,
-        "efficiency": 1.875,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_种族间医学交流",
-        "output_items": {
-            "FoodDonation": 1,
-            "IndustryDonation": 1,
-            "Score": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Food": 4
-        },
-        "input": 4.0,
-        "output": 6.0,
-        "efficiency": 1.5,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_泛生物医学",
-                "upgrade_cost": [
-                    "凯利安_有机结构",
-                    "凯利安_跨种族道德平等"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_泛生物医学",
-        "output_items": {
-            "FoodDonation": 1,
-            "IndustryDonation": 1,
-            "Score": 1,
-            "Culture": 1,
-            "Industry": 1,
-            "Energy": 1
-        },
-        "input_items": {
-            "Food": 4
-        },
-        "input": 4.0,
-        "output": 8.5,
-        "efficiency": 2.125,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_跨种族道德平等",
-        "output_items": {
-            "ScoreDonation": 1,
-            "IndustryDonation": 1,
-            "Score": 1
-        },
-        "input_items": {
-            "Culture": 4
-        },
-        "input": 4.0,
-        "output": 7.0,
-        "efficiency": 1.75,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_具体共相元理论学",
-                "upgrade_cost": [
-                    "凯利安_非时序分析",
-                    "凯利安_种族间医学交流"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_具体共相元理论学",
-        "output_items": {
-            "ScoreDonation": 1,
-            "IndustryDonation": 1,
-            "Score": 1,
-            "Hypertech": 1
-        },
-        "input_items": {
-            "Culture": 4
-        },
-        "input": 4.0,
-        "output": 10.0,
-        "efficiency": 2.5,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_异文化交流",
-        "output_items": {
-            "ScoreDonation": 1,
-            "Score": 1,
-            "Information": 1,
-            "Culture": 3,
-            "Food": 1
-        },
-        "input_items": {
-            "Industry": 5
-        },
-        "input": 5.0,
-        "output": 11.5,
-        "efficiency": 2.3,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_多种族混合文化",
-                "upgrade_cost": [
-                    "凯利安_社会迁移",
-                    "凯利安_巨型建筑"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_多种族混合文化",
-        "output_items": {
-            "ScoreDonation": 1,
-            "InformationDonation": 1,
-            "CultureDonation": 1,
-            "Score": 2,
-            "Information": 1,
-            "Culture": 3,
-            "Food": 1
-        },
-        "input_items": {
-            "Industry": 5
-        },
-        "input": 5.0,
-        "output": 17.0,
-        "efficiency": 3.4,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_多元种族企业",
-        "output_items": {
-            "IndustryDonation": 3,
-            "FoodDonation": 1,
-            "Score": 1,
-            "Energy": 2,
-            "Ship": 2
-        },
-        "input_items": {
-            "Food": 5
-        },
-        "input": 5.0,
-        "output": 12.0,
-        "efficiency": 2.4,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_全种族间融合",
-                "upgrade_cost": [
-                    "凯利安_异文化交流",
-                    "凯利安_银河系通讯控制"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_全种族间融合",
-        "output_items": {
-            "IndustryDonation": 3,
-            "FoodDonation": 1,
-            "CultureDonation": 1,
-            "Score": 2,
-            "Energy": 2,
-            "Ship": 2
-        },
-        "input_items": {
-            "Food": 5
-        },
-        "input": 5.0,
-        "output": 16.0,
-        "efficiency": 3.2,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_社会迁移",
-        "output_items": {
-            "ScoreDonation": 1,
-            "ShipDonation": 2,
-            "EnergyDonation": 1,
-            "BiotechDonation": 1,
-            "Score": 1,
-            "Ship": 2,
-            "Information": 1
-        },
-        "input_items": {
-            "Culture": 5
-        },
-        "input": 5.0,
-        "output": 14.5,
-        "efficiency": 2.9,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_银河系殖民",
-                "upgrade_cost": [
-                    "凯利安_异文化交流",
-                    "凯利安_银河系通讯控制"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_银河系殖民",
-        "output_items": {
-            "ScoreDonation": 1,
-            "ShipDonation": 2,
-            "EnergyDonation": 1,
-            "BiotechDonation": 1,
-            "IndustryDonation": 1,
-            "Score": 2,
-            "Ship": 2,
-            "Information": 1
-        },
-        "input_items": {
-            "Culture": 5
-        },
-        "input": 5.0,
-        "output": 18.5,
-        "efficiency": 3.7,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_量子计算机",
-        "output_items": {
-            "Biotech": 1,
-            "Energy": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Information": 2
-        },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_非确定性多项式塌缩",
-                "upgrade_cost": [
-                    "凯利安_临床永生",
-                    "凯利安_通用翻译器"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_非确定性多项式塌缩",
-        "output_items": {
-            "Energy": 2,
-            "Biotech": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Information": 2
-        },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_临床永生",
-        "output_items": {
-            "Score": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Biotech": 2
-        },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_实用永生",
-                "upgrade_cost": [
-                    "凯利安_原子嬗变",
-                    "凯利安_基因工程学"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_实用永生",
-        "output_items": {
-            "Score": 1,
-            "Culture": 1,
-            "Energy": 1
-        },
-        "input_items": {
-            "Biotech": 2
-        },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_泛在文化知识库",
-        "output_items": {
-            "Score": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Energy": 2
-        },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_模因生命体",
-                "upgrade_cost": [
-                    "凯利安_量子计算机",
-                    "凯利安_通用翻译器"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_模因生命体",
-        "output_items": {
-            "Score": 1,
-            "Food": 1,
-            "Information": 1
-        },
-        "input_items": {
-            "Energy": 2
-        },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_非时序分析",
-        "output_items": {
-            "Hypertech": 1,
-            "Energy": 1,
-            "Culture": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Information": 3
-        },
-        "input": 4.5,
-        "output": 6.5,
-        "efficiency": 1.444,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_时间查看器",
-                "upgrade_cost": [
-                    "凯利安_奇点控制",
-                    "凯利安_反物质能源"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_时间查看器",
-        "output_items": {
-            "Hypertech": 1,
-            "Energy": 1,
-            "Biotech": 1,
-            "Culture": 2,
-            "Industry": 1
-        },
-        "input_items": {
-            "Information": 3
-        },
-        "input": 4.5,
-        "output": 9.0,
-        "efficiency": 2.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_有机结构",
-        "output_items": {
-            "Ship": 2,
-            "Industry": 2,
-            "Culture": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Biotech": 3
-        },
-        "input": 4.5,
-        "output": 6.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_活体基础设施",
-                "upgrade_cost": [
-                    "凯利安_跨种族道德平等",
-                    "凯利安_种族间医学交流"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_活体基础设施",
-        "output_items": {
-            "Energy": 1,
-            "Ship": 2,
-            "Industry": 2,
-            "Culture": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Biotech": 3
-        },
-        "input": 4.5,
-        "output": 7.5,
-        "efficiency": 1.667,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_超空间开采",
-        "output_items": {
-            "EnergyDonation": 2,
-            "Hypertech": 1,
-            "Information": 1
-        },
-        "input_items": {
-            "Energy": 3
-        },
-        "input": 4.5,
-        "output": 7.5,
-        "efficiency": 1.667,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_超空间定居点",
-                "upgrade_cost": [
-                    "凯利安_奇点控制",
-                    "凯利安_反物质能源"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_超空间定居点",
-        "output_items": {
-            "EnergyDonation": 2,
-            "Hypertech": 1,
-            "Information": 2,
-            "Culture": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Energy": 3
-        },
-        "input": 4.5,
-        "output": 11.0,
-        "efficiency": 2.444,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_银河系通讯控制",
-        "output_items": {
-            "Score": 3,
-            "Industry": 2,
-            "Culture": 1
-        },
-        "input_items": {
-            "Information": 4
-        },
-        "input": 6.0,
-        "output": 12.0,
-        "efficiency": 2.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_银河系统治",
-                "upgrade_cost": [
-                    "凯利安_社会迁移",
-                    "凯利安_多元种族企业"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_银河系统治",
-        "output_items": {
-            "Score": 4,
-            "Energy": 1,
-            "Industry": 2,
-            "Culture": 1
-        },
-        "input_items": {
-            "Information": 4
-        },
-        "input": 6.0,
-        "output": 16.5,
-        "efficiency": 2.75,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_时间膨胀",
-        "output_items": {
-            "Score": 2,
-            "Hypertech": 1,
-            "Food": 2,
-            "Culture": 1
-        },
-        "input_items": {
-            "Biotech": 4
-        },
-        "input": 6.0,
-        "output": 12.0,
-        "efficiency": 2.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_静滞场",
-                "upgrade_cost": [
-                    "凯利安_物质生成",
-                    "凯利安_巨型建筑"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_静滞场",
-        "output_items": {
-            "HypertechDonation": 1,
-            "Score": 3,
-            "Hypertech": 1,
-            "Food": 2,
-            "Culture": 1
-        },
-        "input_items": {
-            "Biotech": 4
-        },
-        "input": 6.0,
-        "output": 18.0,
-        "efficiency": 3.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_物质生成",
-        "output_items": {
-            "Score": 2,
-            "Hypertech": 1,
-            "Biotech": 1,
-            "Culture": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Energy": 4
-        },
-        "input": 6.0,
-        "output": 12.5,
-        "efficiency": 2.083,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_大规模传送",
-                "upgrade_cost": [
-                    "凯利安_时间膨胀",
-                    "凯利安_多元种族企业"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_大规模传送",
-        "output_items": {
-            "Score": 3,
-            "Hypertech": 1,
-            "Biotech": 1,
-            "Culture": 1,
-            "Industry": 2
-        },
-        "input_items": {
-            "Energy": 4
-        },
-        "input": 6.0,
-        "output": 16.5,
-        "efficiency": 2.75,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_月球开采联盟",
-        "output_items": {
-            "Ship": 2,
-            "Information": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Biotech": 2
-        },
-        "input": 3.0,
-        "output": 4.5,
-        "efficiency": 1.5,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_奥克松斯式外恒星系采集",
-                "upgrade_cost": [
-                    "凯利安_有机结构",
-                    {
-                        "input_items": {
-                            "Information": 2,
-                            "Jungle": 1
-                        },
-                        "output_items": {
-                            "Score": 1,
-                            "Energy": 1
-                        }
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_奥克松斯式外恒星系采集",
-        "output_items": {
-            "Ship": 2,
-            "Information": 1,
-            "Energy": 1,
-            "Food": 1
-        },
-        "input_items": {
-            "Biotech": 2
-        },
-        "input": 3.0,
-        "output": 6.0,
-        "efficiency": 2.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_行星生态支配",
-        "output_items": {
-            "Food": 3,
-            "Culture": 1,
-            "Ship": 1
-        },
-        "input_items": {},
-        "input": 0.0,
-        "output": 5.0,
-        "efficiency": 1000.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_恒星系范围引力支配",
-                "upgrade_cost": [
-                    "凯利安_基因工程学",
-                    {
-                        "input_items": {
-                            "Biotech": 2,
-                            "Jungle": 1
-                        },
-                        "output_items": {
-                            "Score": 1,
-                            "Energy": 1
-                        }
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_恒星系范围引力支配",
-        "output_items": {
-            "Food": 3,
-            "Culture": 1,
-            "Biotech": 1,
-            "Ship": 1
-        },
-        "input_items": {},
-        "input": 0.0,
-        "output": 6.5,
-        "efficiency": 1000.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_原子嬗变",
-        "output_items": {
-            "Energy": 1,
-            "Biotech": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Hypertech": 1
-        },
-        "input": 3.0,
-        "output": 4.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_虚材料",
-                "upgrade_cost": [
-                    "凯利安_纳米科技",
-                    "凯利安_泛在文化知识库"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_虚材料",
-        "output_items": {
-            "Energy": 1,
-            "Biotech": 2,
-            "Industry": 1
-        },
-        "input_items": {
-            "Hypertech": 1
-        },
-        "input": 3.0,
-        "output": 5.5,
-        "efficiency": 1.833,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_海洋处理",
-        "output_items": {
-            "Biotech": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Food": 2
-        },
-        "input": 2.0,
-        "output": 2.5,
-        "efficiency": 1.25,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_行星范围工业化海水养殖",
-                "upgrade_cost": [
-                    "凯利安_反物质能源",
-                    {
-                        "input_items": {
-                            "Information": 2,
-                            "Jungle": 1
-                        },
-                        "output_items": {
-                            "Score": 1,
-                            "Energy": 1
-                        }
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_行星范围工业化海水养殖",
-        "output_items": {
-            "Information": 1,
-            "Biotech": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Food": 2
-        },
-        "input": 2.0,
-        "output": 4.0,
-        "efficiency": 2.0,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_分布式远程网络",
-        "output_items": {
-            "Industry": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Information": 1
-        },
-        "input": 1.5,
-        "output": 2.0,
-        "efficiency": 1.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_安塞波驱动的跨恒星系社会",
-                "upgrade_cost": [
-                    "凯利安_泛在文化知识库",
-                    {
-                        "input_items": {
-                            "Biotech": 2,
-                            "Jungle": 1
-                        },
-                        "output_items": {
-                            "Score": 1,
-                            "Energy": 1
-                        }
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_安塞波驱动的跨恒星系社会",
-        "output_items": {
-            "Biotech": 1,
-            "Industry": 1,
-            "Culture": 1
-        },
-        "input_items": {
-            "Information": 1
-        },
-        "input": 1.5,
-        "output": 3.5,
-        "efficiency": 2.333,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_奇点控制",
-        "output_items": {
-            "Energy": 1,
-            "Biotech": 2,
-            "Culture": 1,
-            "Food": 1,
-            "Industry": 1,
-            "Ship": 1
-        },
-        "input_items": {
-            "Hypertech": 2
-        },
-        "input": 6.0,
-        "output": 8.5,
-        "efficiency": 1.417,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_虫洞网格",
-                "upgrade_cost": [
-                    "凯利安_非时序分析",
-                    "凯利安_超空间开采"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_虫洞网格",
-        "output_items": {
-            "Energy": 1,
-            "Biotech": 2,
-            "Culture": 1,
-            "Industry": 3,
-            "Food": 1,
-            "Ship": 1
-        },
-        "input_items": {
-            "Hypertech": 2
-        },
-        "input": 6.0,
-        "output": 10.5,
-        "efficiency": 1.75,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    },
-    {
-        "name": "凯利安_巨型建筑",
-        "output_items": {
-            "Score": 5,
-            "Culture": 1,
-            "Industry": 1
-        },
-        "input_items": {
-            "Hypertech": 3
-        },
-        "input": 9.0,
-        "output": 17.0,
-        "efficiency": 1.889,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": false,
-                "upgrade_factory": "凯利安_戴森群",
-                "upgrade_cost": [
-                    "凯利安_物质生成",
-                    "凯利安_时间膨胀"
-                ]
-            }
-        }
-    },
-    {
-        "name": "凯利安_戴森群",
-        "output_items": {
-            "Score": 6,
-            "Culture": 1,
-            "Industry": 1,
-            "Biotech": 1
-        },
-        "input_items": {
-            "Hypertech": 3
-        },
-        "input": 9.0,
-        "output": 21.5,
-        "efficiency": 2.389,
-        "feature": {
-            "type": "Normal",
-            "properties": {
-                "upgraded": true
-            }
-        }
-    }
-]
+    ]
+}
