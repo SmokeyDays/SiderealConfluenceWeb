@@ -1,6 +1,6 @@
 [
     {
-        "name": "Acrux",
+        "name": "南十字二",
         "converters": [
             {
                 "input_items": {},
@@ -22,7 +22,7 @@
         }
     },
     {
-        "name": "Acrux+",
+        "name": "南十字二+",
         "converters": [
             {
                 "input_items": {},
@@ -42,7 +42,7 @@
         }
     },
     {
-        "name": "Spica",
+        "name": "角宿一",
         "converters": [
             {
                 "input_items": {},
@@ -64,7 +64,7 @@
         }
     },
     {
-        "name": "Spica+",
+        "name": "角宿一+",
         "converters": [
             {
                 "input_items": {},
@@ -84,7 +84,7 @@
         }
     },
     {
-        "name": "Antares",
+        "name": "心宿二",
         "converters": [
             {
                 "input_items": {},
@@ -106,7 +106,7 @@
         }
     },
     {
-        "name": "Antares+",
+        "name": "心宿二+",
         "converters": [
             {
                 "input_items": {
@@ -127,7 +127,7 @@
         }
     },
     {
-        "name": "Mimosa",
+        "name": "南十字三",
         "converters": [
             {
                 "input_items": {},
@@ -149,7 +149,7 @@
         }
     },
     {
-        "name": "Mimosa+",
+        "name": "南十字三+",
         "converters": [
             {
                 "input_items": {},
@@ -168,7 +168,7 @@
         }
     },
     {
-        "name": "Regulus",
+        "name": "轩辕十四",
         "converters": [
             {
                 "input_items": {},
@@ -190,7 +190,7 @@
         }
     },
     {
-        "name": "Regulus+",
+        "name": "轩辕十四+",
         "converters": [
             {
                 "input_items": {},
@@ -209,7 +209,7 @@
         }
     },
     {
-        "name": "Castor",
+        "name": "北河二",
         "converters": [
             {
                 "input_items": {},
@@ -231,7 +231,7 @@
         }
     },
     {
-        "name": "Castor+",
+        "name": "北河二+",
         "converters": [
             {
                 "input_items": {},
@@ -250,7 +250,7 @@
         }
     },
     {
-        "name": "Miaplacidus",
+        "name": "南船五",
         "converters": [
             {
                 "input_items": {},
@@ -272,7 +272,7 @@
         }
     },
     {
-        "name": "Miaplacidus+",
+        "name": "南船五+",
         "converters": [
             {
                 "input_items": {},
@@ -291,7 +291,7 @@
         }
     },
     {
-        "name": "Toliman",
+        "name": "南门二",
         "converters": [
             {
                 "input_items": {},
@@ -313,7 +313,7 @@
         }
     },
     {
-        "name": "Toliman+",
+        "name": "南门二+",
         "converters": [
             {
                 "input_items": {},
@@ -332,7 +332,7 @@
         }
     },
     {
-        "name": "Wezen",
+        "name": "弧矢一",
         "converters": [
             {
                 "input_items": {},
@@ -354,7 +354,7 @@
         }
     },
     {
-        "name": "Wezen+",
+        "name": "弧矢一+",
         "converters": [
             {
                 "input_items": {},
@@ -373,7 +373,7 @@
         }
     },
     {
-        "name": "Mirfak",
+        "name": "天船三",
         "converters": [
             {
                 "input_items": {},
@@ -395,7 +395,7 @@
         }
     },
     {
-        "name": "Mirfak+",
+        "name": "天船三+",
         "converters": [
             {
                 "input_items": {},
@@ -414,7 +414,7 @@
         }
     },
     {
-        "name": "Benetnasch",
+        "name": "北斗七",
         "converters": [
             {
                 "input_items": {},
@@ -436,7 +436,7 @@
         }
     },
     {
-        "name": "Benetnasch+",
+        "name": "北斗七+",
         "converters": [
             {
                 "input_items": {},
@@ -455,7 +455,7 @@
         }
     },
     {
-        "name": "Sargas",
+        "name": "尾宿五",
         "converters": [
             {
                 "input_items": {},
@@ -477,7 +477,7 @@
         }
     },
     {
-        "name": "Sargas+",
+        "name": "尾宿五+",
         "converters": [
             {
                 "input_items": {},
@@ -496,7 +496,7 @@
         }
     },
     {
-        "name": "Peacock",
+        "name": "孔雀十一",
         "converters": [
             {
                 "input_items": {},
@@ -518,7 +518,7 @@
         }
     },
     {
-        "name": "Peacock+",
+        "name": "孔雀十一+",
         "converters": [
             {
                 "input_items": {},
@@ -537,7 +537,7 @@
         }
     },
     {
-        "name": "Koo She",
+        "name": "天社三",
         "converters": [
             {
                 "input_items": {},
@@ -559,7 +559,7 @@
         }
     },
     {
-        "name": "Koo She+",
+        "name": "天社三+",
         "converters": [
             {
                 "input_items": {},
@@ -578,7 +578,7 @@
         }
     },
     {
-        "name": "Polaris",
+        "name": "北极星",
         "converters": [
             {
                 "input_items": {},
@@ -600,7 +600,7 @@
         }
     },
     {
-        "name": "Polaris+",
+        "name": "北极星+",
         "converters": [
             {
                 "input_items": {},
@@ -619,7 +619,7 @@
         }
     },
     {
-        "name": "Fomalhaut",
+        "name": "北落师门",
         "converters": [
             {
                 "input_items": {},
@@ -641,7 +641,7 @@
         }
     },
     {
-        "name": "Fomalhaut+",
+        "name": "北落师门+",
         "converters": [
             {
                 "input_items": {
@@ -662,7 +662,7 @@
         }
     },
     {
-        "name": "Gacrux",
+        "name": "南十字一",
         "converters": [
             {
                 "input_items": {},
@@ -684,7 +684,7 @@
         }
     },
     {
-        "name": "Gacrux+",
+        "name": "南十字一+",
         "converters": [
             {
                 "input_items": {},
@@ -703,7 +703,7 @@
         }
     },
     {
-        "name": "Betelgeuse",
+        "name": "参宿四",
         "converters": [
             {
                 "input_items": {},
@@ -725,7 +725,7 @@
         }
     },
     {
-        "name": "Betelgeuse+",
+        "name": "参宿四+",
         "converters": [
             {
                 "input_items": {
@@ -746,7 +746,7 @@
         }
     },
     {
-        "name": "Arcturus",
+        "name": "大角星",
         "converters": [
             {
                 "input_items": {},
@@ -768,7 +768,7 @@
         }
     },
     {
-        "name": "Arcturus+",
+        "name": "大角星+",
         "converters": [
             {
                 "input_items": {},
@@ -787,7 +787,7 @@
         }
     },
     {
-        "name": "Alnair",
+        "name": "鹤一",
         "converters": [
             {
                 "input_items": {},
@@ -809,7 +809,7 @@
         }
     },
     {
-        "name": "Alnair+",
+        "name": "鹤一+",
         "converters": [
             {
                 "input_items": {},
@@ -828,7 +828,7 @@
         }
     },
     {
-        "name": "Alioth",
+        "name": "北斗五",
         "converters": [
             {
                 "input_items": {},
@@ -850,7 +850,7 @@
         }
     },
     {
-        "name": "Alioth+",
+        "name": "北斗五+",
         "converters": [
             {
                 "input_items": {},
@@ -870,7 +870,7 @@
         }
     },
     {
-        "name": "Adara",
+        "name": "弧矢七",
         "converters": [
             {
                 "input_items": {},
@@ -892,7 +892,7 @@
         }
     },
     {
-        "name": "Adara+",
+        "name": "弧矢七+",
         "converters": [
             {
                 "input_items": {},
@@ -912,7 +912,7 @@
         }
     },
     {
-        "name": "Sirius",
+        "name": "天狼星",
         "converters": [
             {
                 "input_items": {},
@@ -934,7 +934,7 @@
         }
     },
     {
-        "name": "Sirius+",
+        "name": "天狼星+",
         "converters": [
             {
                 "input_items": {},
@@ -953,7 +953,7 @@
         }
     },
     {
-        "name": "Rigel",
+        "name": "参宿七",
         "converters": [
             {
                 "input_items": {},
@@ -975,7 +975,7 @@
         }
     },
     {
-        "name": "Rigel+",
+        "name": "参宿七+",
         "converters": [
             {
                 "input_items": {},
@@ -994,7 +994,7 @@
         }
     },
     {
-        "name": "El Nath",
+        "name": "娄宿三",
         "converters": [
             {
                 "input_items": {},
@@ -1016,7 +1016,7 @@
         }
     },
     {
-        "name": "El Nath+",
+        "name": "娄宿三+",
         "converters": [
             {
                 "input_items": {},
@@ -1035,7 +1035,7 @@
         }
     },
     {
-        "name": "Aldebaran",
+        "name": "毕宿五",
         "converters": [
             {
                 "input_items": {},
@@ -1057,7 +1057,7 @@
         }
     },
     {
-        "name": "Aldebaran+",
+        "name": "毕宿五+",
         "converters": [
             {
                 "input_items": {},
@@ -1076,7 +1076,7 @@
         }
     },
     {
-        "name": "Atria",
+        "name": "三角形三",
         "converters": [
             {
                 "input_items": {},
@@ -1098,7 +1098,7 @@
         }
     },
     {
-        "name": "Atria+",
+        "name": "三角形三+",
         "converters": [
             {
                 "input_items": {},
@@ -1117,7 +1117,7 @@
         }
     },
     {
-        "name": "Alnitak",
+        "name": "参宿一",
         "converters": [
             {
                 "input_items": {},
@@ -1139,7 +1139,7 @@
         }
     },
     {
-        "name": "Alnitak+",
+        "name": "参宿一+",
         "converters": [
             {
                 "input_items": {
@@ -1160,7 +1160,7 @@
         }
     },
     {
-        "name": "Hadar",
+        "name": "马腹一",
         "converters": [
             {
                 "input_items": {},
@@ -1182,7 +1182,7 @@
         }
     },
     {
-        "name": "Hadar+",
+        "name": "马腹一+",
         "converters": [
             {
                 "input_items": {},
@@ -1201,7 +1201,7 @@
         }
     },
     {
-        "name": "Capella",
+        "name": "五车二",
         "converters": [
             {
                 "input_items": {},
@@ -1223,7 +1223,7 @@
         }
     },
     {
-        "name": "Capella+",
+        "name": "五车二+",
         "converters": [
             {
                 "input_items": {},
@@ -1242,7 +1242,7 @@
         }
     },
     {
-        "name": "Shaula",
+        "name": "尾宿八",
         "converters": [
             {
                 "input_items": {},
@@ -1264,7 +1264,7 @@
         }
     },
     {
-        "name": "Shaula+",
+        "name": "尾宿八+",
         "converters": [
             {
                 "input_items": {},
@@ -1284,7 +1284,7 @@
         }
     },
     {
-        "name": "Canopus",
+        "name": "老人星",
         "converters": [
             {
                 "input_items": {},
@@ -1306,7 +1306,7 @@
         }
     },
     {
-        "name": "Canopus+",
+        "name": "老人星+",
         "converters": [
             {
                 "input_items": {
@@ -1327,7 +1327,7 @@
         }
     },
     {
-        "name": "Vega",
+        "name": "织女星",
         "converters": [
             {
                 "input_items": {},
@@ -1349,7 +1349,7 @@
         }
     },
     {
-        "name": "Vega+",
+        "name": "织女星+",
         "converters": [
             {
                 "input_items": {},
@@ -1368,7 +1368,7 @@
         }
     },
     {
-        "name": "Altair",
+        "name": "牛郎星",
         "converters": [
             {
                 "input_items": {},
@@ -1390,7 +1390,7 @@
         }
     },
     {
-        "name": "Altair+",
+        "name": "牛郎星+",
         "converters": [
             {
                 "input_items": {},
@@ -1409,7 +1409,7 @@
         }
     },
     {
-        "name": "Suhail",
+        "name": "天记星",
         "converters": [
             {
                 "input_items": {},
@@ -1431,7 +1431,7 @@
         }
     },
     {
-        "name": "Suhail+",
+        "name": "天记星+",
         "converters": [
             {
                 "input_items": {},
@@ -1450,7 +1450,7 @@
         }
     },
     {
-        "name": "Pollux",
+        "name": "北河三",
         "converters": [
             {
                 "input_items": {},
@@ -1472,7 +1472,7 @@
         }
     },
     {
-        "name": "Pollux+",
+        "name": "北河三+",
         "converters": [
             {
                 "input_items": {},
@@ -1491,7 +1491,7 @@
         }
     },
     {
-        "name": "Deneb",
+        "name": "天津四",
         "converters": [
             {
                 "input_items": {},
@@ -1513,7 +1513,7 @@
         }
     },
     {
-        "name": "Deneb+",
+        "name": "天津四+",
         "converters": [
             {
                 "input_items": {},
@@ -1532,7 +1532,7 @@
         }
     },
     {
-        "name": "Bellatrix",
+        "name": "参宿五",
         "converters": [
             {
                 "input_items": {},
@@ -1554,7 +1554,7 @@
         }
     },
     {
-        "name": "Bellatrix+",
+        "name": "参宿五+",
         "converters": [
             {
                 "input_items": {},
@@ -1573,7 +1573,7 @@
         }
     },
     {
-        "name": "Achernar",
+        "name": "水委一",
         "converters": [
             {
                 "input_items": {},
@@ -1595,7 +1595,7 @@
         }
     },
     {
-        "name": "Achernar+",
+        "name": "水委一+",
         "converters": [
             {
                 "input_items": {},
@@ -1614,7 +1614,7 @@
         }
     },
     {
-        "name": "Procyon",
+        "name": "南河三",
         "converters": [
             {
                 "input_items": {},
@@ -1636,7 +1636,7 @@
         }
     },
     {
-        "name": "Procyon+",
+        "name": "南河三+",
         "converters": [
             {
                 "input_items": {},

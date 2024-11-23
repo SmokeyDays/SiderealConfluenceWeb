@@ -256,7 +256,7 @@ def factory_from_csv(fac, converter_as_cost = False):
             info = back_factory_str.split(',')
             climate, back_factory_str = info[0], info[1]
             feature['properties']['climate'] = translator[climate]
-            back_factory_name = f'{fac["Back Name"]}+'
+            back_factory_name = f'{fac["Front Name"]}+'
         back_factory={
             'name': back_factory_name,
             'converters': analyze_converters(back_factory_str),

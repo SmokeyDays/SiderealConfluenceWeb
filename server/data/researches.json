@@ -1,6 +1,6 @@
 [
     {
-        "name": "Mechanical Engineers",
+        "name": "机械工程师",
         "converters": [
             {
                 "input_items": [
@@ -26,7 +26,7 @@
         }
     },
     {
-        "name": "Computational Theoreticians",
+        "name": "计算机理论学家",
         "converters": [
             {
                 "input_items": [
@@ -52,7 +52,7 @@
         }
     },
     {
-        "name": "Linguistic Analysts",
+        "name": "语言学分析师",
         "converters": [
             {
                 "input_items": [
@@ -78,7 +78,7 @@
         }
     },
     {
-        "name": "Organic Chemists",
+        "name": "有机化学家",
         "converters": [
             {
                 "input_items": [
@@ -104,7 +104,7 @@
         }
     },
     {
-        "name": "Pharmaceutical Scientists",
+        "name": "医药学家",
         "converters": [
             {
                 "input_items": [
@@ -130,7 +130,7 @@
         }
     },
     {
-        "name": "Sociologists",
+        "name": "社会学家",
         "converters": [
             {
                 "input_items": [
@@ -156,7 +156,7 @@
         }
     },
     {
-        "name": "Nuclear Physicists",
+        "name": "核物理学家",
         "converters": [
             {
                 "input_items": [
@@ -182,7 +182,7 @@
         }
     },
     {
-        "name": "Comparative Physiologists",
+        "name": "比较生理学家",
         "converters": [
             {
                 "input_items": [
@@ -208,7 +208,7 @@
         }
     },
     {
-        "name": "N-Space Mathematicians",
+        "name": "零空间数学家",
         "converters": [
             {
                 "input_items": [
@@ -234,7 +234,7 @@
         }
     },
     {
-        "name": "Gravitic Topologists",
+        "name": "重力拓扑学家",
         "converters": [
             {
                 "input_items": [
@@ -260,7 +260,7 @@
         }
     },
     {
-        "name": "Metaethicists",
+        "name": "元伦理学家",
         "converters": [
             {
                 "input_items": [
@@ -286,7 +286,7 @@
         }
     },
     {
-        "name": "Quantum Theoreticians",
+        "name": "量子理论学家",
         "converters": [
             {
                 "input_items": [
@@ -312,7 +312,7 @@
         }
     },
     {
-        "name": "Quantum Statisticians",
+        "name": "量子统计学家",
         "converters": [
             {
                 "input_items": [
@@ -338,7 +338,7 @@
         }
     },
     {
-        "name": "Organic Architects",
+        "name": "有机建筑师",
         "converters": [
             {
                 "input_items": [
@@ -364,7 +364,7 @@
         }
     },
     {
-        "name": "Stellar Architectural Planners",
+        "name": "恒星建筑规划师",
         "converters": [
             {
                 "input_items": [
@@ -390,7 +390,7 @@
         }
     },
     {
-        "name": "Psychohistorians",
+        "name": "心理史学家",
         "converters": [
             {
                 "input_items": [
@@ -416,7 +416,7 @@
         }
     },
     {
-        "name": "Subquantum Manipulators",
+        "name": "亚量子操纵者",
         "converters": [
             {
                 "input_items": [
@@ -442,7 +442,7 @@
         }
     },
     {
-        "name": "Memetic Artists",
+        "name": "模因设计师",
         "converters": [
             {
                 "input_items": [
@@ -468,7 +468,7 @@
         }
     },
     {
-        "name": "Interspecies Managers",
+        "name": "种族间管理者",
         "converters": [
             {
                 "input_items": [
@@ -494,7 +494,7 @@
         }
     },
     {
-        "name": "Cultural Diffusionologists",
+        "name": "文化传播学者",
         "converters": [
             {
                 "input_items": [
@@ -520,7 +520,7 @@
         }
     },
     {
-        "name": "Chronophysicists",
+        "name": "时间物理学家",
         "converters": [
             {
                 "input_items": [
@@ -546,7 +546,7 @@
         }
     },
     {
-        "name": "Cultural Polymorphologists",
+        "name": "文化多态学家",
         "converters": [
             {
                 "input_items": [
@@ -575,7 +575,7 @@
         }
     },
     {
-        "name": "Reconstructive Paleobotanists",
+        "name": "重建古植物学家",
         "converters": [
             {
                 "input_items": [
@@ -604,7 +604,7 @@
         }
     },
     {
-        "name": "Abiotic Pathologists",
+        "name": "非生物病理学家",
         "converters": [
             {
                 "input_items": [
@@ -633,7 +633,7 @@
         }
     },
     {
-        "name": "Interphasal Theoreticians",
+        "name": "间期理论学家",
         "converters": [
             {
                 "input_items": [
@@ -662,7 +662,7 @@
         }
     },
     {
-        "name": "Mesoscale Geoengineers",
+        "name": "介观尺度地质工程师",
         "converters": [
             {
                 "input_items": [
@@ -691,7 +691,7 @@
         }
     },
     {
-        "name": "Sapience Developers",
+        "name": "智慧开发者",
         "converters": [
             {
                 "input_items": [
@@ -720,7 +720,7 @@
         }
     },
     {
-        "name": "Autonomic Teleoperators",
+        "name": "自主远程操作员",
         "converters": [
             {
                 "input_items": [
@@ -749,7 +749,7 @@
         }
     },
     {
-        "name": "Fractal Microbiologists",
+        "name": "分形微生物学家",
         "converters": [
             {
                 "input_items": [
@@ -778,7 +778,7 @@
         }
     },
     {
-        "name": "Stellar Plasma Flow Engineers",
+        "name": "恒星等离子体流工程师",
         "converters": [
             {
                 "input_items": [
@@ -807,7 +807,7 @@
         }
     },
     {
-        "name": "Chaos Theoreticians",
+        "name": "混沌理论学家",
         "converters": [
             {
                 "input_items": [
@@ -836,7 +836,7 @@
         }
     },
     {
-        "name": "Oceanographic Biotechnicians",
+        "name": "海洋生物技术学家",
         "converters": [
             {
                 "input_items": [
@@ -865,7 +865,7 @@
         }
     },
     {
-        "name": "Recursive Metatheoreticians",
+        "name": "递归元理论学家",
         "converters": [
             {
                 "input_items": [
@@ -894,7 +894,7 @@
         }
     },
     {
-        "name": "奇点控制 Technicians",
+        "name": "奇点控制技术员",
         "converters": [
             {
                 "input_items": [
@@ -923,7 +923,7 @@
         }
     },
     {
-        "name": "Applied Topologists",
+        "name": "应用拓扑学家",
         "converters": [
             {
                 "input_items": [
@@ -952,7 +952,7 @@
         }
     },
     {
-        "name": "Metacognitive Ecologists",
+        "name": "元认知生态学家",
         "converters": [
             {
                 "input_items": [
@@ -981,7 +981,7 @@
         }
     },
     {
-        "name": "Plasma Auxonologists",
+        "name": "等离子体奥克松斯学家",
         "converters": [
             {
                 "input_items": [
@@ -1010,7 +1010,7 @@
         }
     },
     {
-        "name": "Psychohistorical Ethicists",
+        "name": "心理史学伦理学家",
         "converters": [
             {
                 "input_items": [
@@ -1039,7 +1039,7 @@
         }
     },
     {
-        "name": "Tachyon Astrotechnicians",
+        "name": "超光速粒子航天技术人员",
         "converters": [
             {
                 "input_items": [
@@ -1068,7 +1068,7 @@
         }
     },
     {
-        "name": "In Situ Genetic Editors",
+        "name": "原位基因编辑",
         "converters": [
             {
                 "input_items": [
@@ -1097,7 +1097,7 @@
         }
     },
     {
-        "name": "Macroscale Biophysicists",
+        "name": "宏观生物物理学家",
         "converters": [
             {
                 "input_items": [
