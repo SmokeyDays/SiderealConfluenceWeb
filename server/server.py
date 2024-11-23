@@ -57,13 +57,13 @@ class Server:
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
-    return
     # skip production
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
     # skip bidding
     test_room.game.submit_bid("Alice", 4, 2)
     test_room.game.submit_bid("Bob", 2, 3)
+    return
     test_room.game.submit_pick("Bob", "colony", 0)
     test_room.game.submit_pick("Alice", "colony", 1)
     test_room.game.submit_pick("Bob", "research", 0)
@@ -89,7 +89,7 @@ class Server:
     self.new_msg(Message("Charlie", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("David", "HelloRoom", str(datetime.datetime.now()), "test2"))
 
-    test_room.choose_specie("Alice", "Caylion")
+    test_room.choose_specie("Alice", "Kjasjavikalimm")
     test_room.choose_specie("Bob", "Eni")
     test_room.choose_specie("Charlie", "Unity")
     test_room.choose_specie("David", "Yengii")
@@ -98,6 +98,27 @@ class Server:
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
+    return
+    # add debug items
+    test_room.game.debug_add_item("Alice", "Ship", 10)
+    test_room.game.debug_add_item("Bob", "Ship", 10)
+    test_room.game.debug_add_item("Charlie", "Ship", 10)
+    test_room.game.debug_add_item("David", "Ship", 10)
+    # skip trading
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bob")
+    test_room.game.player_agree("Charlie")
+    test_room.game.player_agree("David")
+    # skip production
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bob")
+    test_room.game.player_agree("Charlie")
+    test_room.game.player_agree("David")
+    # skip bidding
+    test_room.game.submit_bid("Alice", 4, 2)
+    test_room.game.submit_bid("Bob", 2, 3)
+    test_room.game.submit_bid("Charlie", 1, 1)
+    test_room.game.submit_bid("David", 1, 5)
     return
     
 
@@ -432,6 +453,13 @@ class Server:
       self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
       self.update_game_state(room_name)
       print(f"submit-bid: {room_name}, {username}, {data['colony_bid']}, {data['research_bid']}")
+
+    @self.socketio.on('submit-kajsjavikalimm-choose-split', namespace=get_router_name())
+    def submit_kajsjavikalimm_choose_split(data):
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.Kajsjavikalimm_split(username, data['choose_split'])
+      self.update_game_state(room_name)
 
     @self.socketio.on('submit-pick', namespace=get_router_name())
     def pick_item(data):

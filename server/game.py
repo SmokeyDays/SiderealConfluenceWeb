@@ -578,7 +578,7 @@ class Player:
     factories_to_remove = []
     for factory in self.factories.values():
       if factory.feature["type"] == "Research" or factory.feature["type"] == "Meta":
-        if factory.converter.used:
+        if factory.converters[0].used:
           factories_to_remove.append(factory.name)
       else:
         factory.reset()
@@ -604,13 +604,18 @@ class Player:
   def get_research_priority(self):
     return (-self.research_bid, self.get_factory_num_by_type("Research"), -self.tie_breaker)
   
-  def get_colony_bid(self):
+  def get_colony_bid(self, split_id = None):
     if self.specie == "Caylion":
       return self.colony_bid / 2.0
+    if self.specie == "Kjasjavikalimm" and split_id is not None:
+      if self.colony_bid % 2 == 0:
+        return self.colony_bid / 2
+      else:
+        return (self.colony_bid + 1) / 2 - split_id
     return self.colony_bid
 
-  def get_colony_priority(self):
-    return (-self.get_colony_bid(), self.get_factory_num_by_type("Colony"), -self.tie_breaker)
+  def get_colony_priority(self, split_id = None):
+    return (-self.get_colony_bid(split_id), self.get_factory_num_by_type("Colony"), -self.tie_breaker)
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -644,36 +649,44 @@ class Game:
     self.data_manager = DataManager("./server/data")
     self.proposals = {}
 
-    self.research_bid_num = self.get_player_num()
-    self.colony_bid_num = self.get_player_num()
+    self.research_bid_num = 0
+    self.colony_bid_num = 0
     self.research_bid_cards = []
     self.colony_bid_cards = []
-    self.init_bid_cards()
-    self.supply_bid_items()
     self.research_bid_priority = []
     self.colony_bid_priority = []
     self.discard_colony = []
     self.endgame_score = {}
 
+    self.Kajsjavikalimm_choose_split = None
   def get_player_num(self):
     return max(len(self.players), 3)
 
   @property
   def current_pick_player(self):
     if self.stage == "pick":
+      if self.Kajsjavikalimm_choose_split is None:
+        return {
+          "type": "colony",
+          "player": "",
+          "bid": 0
+        }
       if len(self.colony_bid_priority) > 0:
         return {
           "type": "colony",
-          "player": self.colony_bid_priority[0].user_id
+          "player": self.colony_bid_priority[0][0].user_id,
+          "bid": self.colony_bid_priority[0][0].get_colony_bid(self.colony_bid_priority[0][1] if len(self.colony_bid_priority[0]) > 1 else None)
         }
       elif len(self.research_bid_priority) > 0:
         return {
           "type": "research",
-          "player": self.research_bid_priority[0].user_id
+          "player": self.research_bid_priority[0][0].user_id,
+          "bid": self.colony_bid_priority[0][0].get_research_bid()
         }
     return {
       "type": "",
-      "player": ""
+      "player": "",
+      "bid": 0
     }
 
   @property
@@ -685,9 +698,9 @@ class Game:
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
-      self.research_bid_cards.append({"price": get_bid_board(self.get_player_num())[i], "item": None})
+      self.research_bid_cards.append({"price": get_bid_board(self.research_bid_num)[i], "item": None})
     for i in range(self.colony_bid_num):
-      self.colony_bid_cards.append({"price": get_bid_board(self.get_player_num())[i], "item": None})
+      self.colony_bid_cards.append({"price": get_bid_board(self.colony_bid_num)[i], "item": None})
 
   def supply_bid_items(self):
     research_cards = []
@@ -719,6 +732,11 @@ class Game:
     self.players.append(player)
 
   def start_game(self):
+    isKjaskavikalimmInGame = any(player.specie == "Kjasjavikalimm" for player in self.players)
+    self.research_bid_num = self.get_player_num()
+    self.colony_bid_num = self.get_player_num() + (1 if isKjaskavikalimmInGame else 0)
+    self.init_bid_cards()
+
     self.current_round = 1
     self.on_new_round()
     self.stage = "trading"
@@ -729,10 +747,13 @@ class Game:
   def on_new_round(self):
     for player in self.players:
       player.on_new_round()
+    self.supply_bid_items()
   
   def on_end_round(self):
     for player in self.players:
       player.on_end_round()
+    self.spread_tech()
+    self.return_factories_to_owners()
   
   def move_to_next_stage(self):
     if self.stage == "trading":
@@ -745,27 +766,25 @@ class Game:
     elif self.stage == 'discard_colony':
       self.stage = 'production'
     elif self.stage == "production":
+      self.save_new_product_items()
       if self.current_round == self.end_round:
         self.stage = "gameend"
-        self.save_new_product_items()
       else:
         self.stage = "bid"
-        self.save_new_product_items()
         self.reset_player_factories()
         self.reset_player_agreements()
     elif self.stage == "bid":
       self.stage = "pick"
-      self.calculate_bid_priority()
+      if any(player.specie == "Kjasjavikalimm" for player in self.players):
+        self.Kajsjavikalimm_choose_split = None
+      self.init_bid_priority()
       self.reset_player_agreements()
     elif self.stage == "pick":
       self.stage = "end"
-      self.supply_bid_items()
       self.reset_player_bids()
       self.move_to_next_stage()
     elif self.stage == 'end':
       self.stage = "trading"
-      self.spread_tech()
-      self.return_factories_to_owners()
       self.on_end_round()
       self.current_round += 1
       self.on_new_round()
@@ -783,14 +802,21 @@ class Game:
       player.colony_bid = 0
       player.research_bid = 0
 
-  def calculate_bid_priority(self):
+  def init_bid_priority(self):
     self.research_bid_priority = []
     self.colony_bid_priority = []
     for player in self.players:
-      self.research_bid_priority.append(player)
-      self.colony_bid_priority.append(player)
-    self.research_bid_priority.sort(key=lambda x: x.get_research_priority())
-    self.colony_bid_priority.sort(key=lambda x: x.get_colony_priority())
+      self.research_bid_priority.append([player])
+      if player.specie == "Kjasjavikalimm" and self.Kajsjavikalimm_choose_split is not None and self.Kajsjavikalimm_choose_split:
+        self.colony_bid_priority.append([player, 0])
+        self.colony_bid_priority.append([player, 1])
+      else:
+        self.colony_bid_priority.append([player])
+    self.calculate_bid_priority()
+
+  def calculate_bid_priority(self):
+    self.research_bid_priority.sort(key=lambda x: x[0].get_research_priority())
+    self.colony_bid_priority.sort(key=lambda x: x[0].get_colony_priority(x[1] if len(x) > 1 else None))
 
   def calculate_discard_colony(self):
     self.discard_colony = []
@@ -1023,6 +1049,20 @@ class Game:
       self.move_to_next_stage()
     return True, ""
 
+  def Kajsjavikalimm_split(self, player_name: str, split: bool):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    if player.specie != "Kjasjavikalimm":
+      return False, "玩家不是贾斯"
+    if self.stage != "pick":
+      return False, "当前阶段不是选择阶段"
+    if self.Kajsjavikalimm_choose_split is not None:
+      return False, "贾斯已经做出选择"
+    self.Kajsjavikalimm_choose_split = split
+    self.init_bid_priority()
+    return True, ""
+
   def exchange_colony(self, player_name: str, colony_name: str):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
@@ -1188,6 +1228,12 @@ class Game:
         colony_bid_cards_dict.append({"price": card["price"], "item": card["item"].to_dict()})
       else:
         colony_bid_cards_dict.append({"price": card["price"], "item": None})
+    research_bid_priority = []
+    for x in self.research_bid_priority:
+      research_bid_priority.append({"player": x[0].user_id, "bid": x[0].get_research_priority()})
+    colony_bid_priority = []
+    for x in self.colony_bid_priority:
+      colony_bid_priority.append({"player": x[0].user_id, "bid": x[0].get_colony_priority(x[1] if len(x) > 1 else None)})
     return {
       "players": [player.to_dict() for player in self.players],
       "current_round": self.current_round,
@@ -1196,9 +1242,12 @@ class Game:
       "room_name": self.room_name,
       "research_bid_cards": research_bid_cards_dict,
       "colony_bid_cards": colony_bid_cards_dict,
+      "research_bid_priority": research_bid_priority,
+      "colony_bid_priority": colony_bid_priority,
       "current_pick": self.current_pick_player,
       "current_discard_colony_player": self.current_discard_colony_player,
-      "proposals": {sender: [proposal.to_dict() for proposal in proposals] for sender, proposals in self.proposals.items()}
+      "proposals": {sender: [proposal.to_dict() for proposal in proposals] for sender, proposals in self.proposals.items()},
+      "Kajsjavikalimm_choose_split": self.Kajsjavikalimm_choose_split
     }
 
     """
@@ -1257,10 +1306,25 @@ class Game:
           },
           ...
         ],
+        "research_bid_priority": [
+          {
+            "player": str,
+            "bid": [number, number, number]
+          },
+          ...
+        ],
+        "colony_bid_priority": [
+          {
+            "player": str,
+            "bid": [number, number, number]
+          },
+          ...
+        ],
         "current_pick": {
           "type": str,
-          "player": str
-        }
+          "player": str,
+          "bid": number
+        },
         "current_discard_colony_player": str,
         "proposals": {
           "sender": [
@@ -1273,7 +1337,8 @@ class Game:
             },
             ...
           ],
-        }
+        },
+        "Kajsjavikalimm_choose_split": bool | None  
     }
     """
     """

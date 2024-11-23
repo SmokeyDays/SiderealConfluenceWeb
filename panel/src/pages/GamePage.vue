@@ -467,7 +467,8 @@ const openBidPanel = () => {
 }
 
 const isBidStage = (stage: string) => {
-  return stage === "bid" || stage === "pick";
+  return true;
+  // return stage === "bid" || stage === "pick";
 }
 
 watch(() => props.gameState.stage, (newStage) => {
@@ -479,6 +480,14 @@ const submitBid = (colonyBid: number, researchBid: number) => {
     username: props.username,
     colony_bid: colonyBid,
     research_bid: researchBid
+  });
+}
+
+const submitKajsjavikalimmChooseSplit = (chooseSplit: boolean) => {
+  socket.emit("submit-kajsjavikalimm-choose-split", {
+    room_name: props.gameState.room_name,
+    username: props.username,
+    choose_split: chooseSplit
   });
 }
 
@@ -639,6 +648,7 @@ const displayMask = () => {
     :get-me="getMe"
     :get-player="getPlayer"
     :username="props.username"
+    :submit-kajsjavikalimm-choose-split="submitKajsjavikalimmChooseSplit"
     v-if="displayBidPanel"
   />
   <EndPanel :close-end-panel="closeEndPanel" 

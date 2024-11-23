@@ -69,8 +69,11 @@ export class GameState {
     public room_name: string,
     public research_bid_cards: { price: number, item: Factory | null }[],
     public colony_bid_cards: { price: number, item: Factory | null }[],
-    public current_pick: { type: string, player: string },
+    public research_bid_priority: { player: string, bid: [number, number, number] }[],
+    public colony_bid_priority: { player: string, bid: [number, number, number] }[],
+    public current_pick: { type: string, player: string, bid: number },
     public current_discard_colony_player: string,
-    public proposals: { [key: string]: TradeProposal[] }
+    public proposals: { [key: string]: TradeProposal[] },
+    public Kajsjavikalimm_choose_split: boolean | null
   ) {}
 }
