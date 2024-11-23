@@ -103,17 +103,17 @@ class DataManager:
             continue
           upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
           if upgraded_factory:
-            factory.preview = upgraded_factory.converter
+            factory.preview = upgraded_factory.converters
         elif factory.feature["type"] == "Meta":
           unlock_factory = self.get_factory(specie, factory.feature["properties"]["unlock_factory"])
           if unlock_factory:
-            factory.preview = unlock_factory.converter
+            factory.preview = unlock_factory.converters
     for colony in self.colony_deck:
       if colony.feature["properties"].get("upgraded", False):
         continue
       upgraded_colony = self.get_upgraded_colony(colony.name)
       if upgraded_colony:
-        colony.preview = upgraded_colony.converter
+        colony.preview = upgraded_colony.converters
         colony.feature["properties"]["upgrade_climate"] = upgraded_colony.feature["properties"]["climate"]
   def load_species(self, path: str):
     for specie in self.species:
@@ -136,19 +136,14 @@ class DataManager:
           if isinstance(cost, str):
             upgrade_cost.append(cost)
           else:
-            upgrade_cost.append(Converter(**cost))
+            upgrade_cost.append(Converter(**cost).to_dict())
         upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
         feature["properties"]["upgrade_cost"] = upgrade_cost
-      product_stage = "production"
-      if factory["feature"]["type"] == "Meta":
-        product_stage = "trading"
       factories[factory["name"]] = Factory(
         factory["name"], 
-        factory['convertors'][0]["input_items"], 
-        factory['convertors'][0]["output_items"], 
+        [Converter(**converter) for converter in factory["converters"]],
         specie,
-        feature,
-        product_stage
+        feature
       )
     self.specie_factories[specie] = factories
 
@@ -212,11 +207,9 @@ class DataManager:
   def load_research(self, research_data: dict):
     factory = Factory(
       research_data["name"],
-      research_data["input_items"],
-      research_data["output_items"],
+      [Converter(**converter) for converter in research_data["converters"]],
       "None",
       research_data["feature"],
-      "trading"
     )
     return factory
 
@@ -240,11 +233,9 @@ class DataManager:
   def load_colony(self, colony_data: dict):
     factory = Factory(
       colony_data["name"],
-      colony_data["input_items"],
-      colony_data["output_items"],
+      [Converter(**converter) for converter in colony_data["converters"]],
       "None",
       colony_data["feature"],
-      "production"
     )
     return factory
 
@@ -276,15 +267,13 @@ class Converter:
 
 
 class Factory:
-  def __init__(self, name: str, 
-    input_items: Dict[str, int], 
-    output_items: Dict[str, int], 
+  def __init__(self, name: str,
+    converters: List[Converter],
     owner: str, 
-    feature = {"type": "Normal", "properties": {}}, 
-    running_stage = 'production'
+    feature = {"type": "Normal", "properties": {}},
   ):
     self.name = name
-    self.converter = Converter(input_items, output_items, running_stage)
+    self.converters = converters
     self.preview = None
     self.owner = owner
     self.run_count = 0
@@ -322,7 +311,7 @@ class Factory:
     """
     self.feature = feature
 
-  def eniet_interest(self, game, player, extra_properties):
+  def eniet_interest(self, converter, game, player, extra_properties):
     """
     extra_properties: {
       "output_type": str,
@@ -334,24 +323,24 @@ class Factory:
     small_item = ["Food", "Culture", "Industry"]
     big_item = ["Energy", "Information", "Biotech"]
     res = {}
-    if self.converter.input_items.get("ArbitrarySmall", 0) > 0 or self.converter.input_items.get("ArbitraryBig", 0) > 0:
-      isSmall = self.converter.input_items.get("ArbitrarySmall", 0) > 0
+    if converter.input_items.get("ArbitrarySmall", 0) > 0 or converter.input_items.get("ArbitraryBig", 0) > 0:
+      isSmall = converter.input_items.get("ArbitrarySmall", 0) > 0
       item_list = small_item if isSmall else big_item
       if output_type not in item_list:  
         return False, "类型不正确"
       wildInput = input_combination.get("Wild" + ("Small" if isSmall else "Big"), 0)
       normalInput = input_combination.get(output_type, 0)
-      if wildInput + normalInput != self.converter.input_items["Arbitrary" + ("Small" if isSmall else "Big")]:
+      if wildInput + normalInput != converter.input_items["Arbitrary" + ("Small" if isSmall else "Big")]:
         return False, "输入数量不足"
       for item in input_combination:
         if item not in ["Wild" + ("Small" if isSmall else "Big"), output_type]:
           return False, "输入多余"
-      output_count = self.converter.output_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
+      output_count = converter.output_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
       if not player.remove_items_from_storage(input_combination):
         return False, "玩家库存不足"
-      for item, quantity in self.converter.output_items.items():
+      for item, quantity in converter.output_items.items():
         if item == "Arbitrary" + ("Small" if isSmall else "Big"):
-          res[output_type] = quantity - self.converter.input_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
+          res[output_type] = quantity - converter.input_items.get("Arbitrary" + ("Small" if isSmall else "Big"), 0)
           continue
         res[item] = quantity
       for item, quantity in input_combination.items():
@@ -361,10 +350,11 @@ class Factory:
     player.add_new_product_items(res)
     return True, ""
 
-  def produce(self, game, player, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, Dict[str, int]]:
-    if self.converter.used:
+  def produce(self, game, player, converter_index: int, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, Dict[str, int]]:
+    converter = self.converters[converter_index]
+    if converter.used:
       return False, "工厂已使用"
-    if self.converter.running_stage != game.stage:
+    if converter.running_stage != game.stage:
       return False, "当前阶段不正确"
     
     if 'MustLend' in self.feature['properties']:
@@ -382,13 +372,13 @@ class Factory:
       assert "tech" in self.feature["properties"]
       assert "cost_type" in extra_properties
       cost_type = extra_properties["cost_type"]
-      cost = self.converter.input_items[cost_type]
+      cost = converter.input_items[cost_type]
       tech = self.feature["properties"]["tech"]
 
       if not player.remove_items_from_storage(cost):
         return False, "玩家库存不足"
 
-      for item, quantity in self.converter.output_items.items():
+      for item, quantity in converter.output_items.items():
         res[item] = quantity
 
       tech_spread_bonus = game.get_tech_spread_bonus(player.user_id)
@@ -397,10 +387,10 @@ class Factory:
       print(f"{player.user_id} 研发了 {tech}")
     else:
       if not special_factory:
-        if not player.remove_items_from_storage(self.converter.input_items):
+        if not player.remove_items_from_storage(converter.input_items):
           return False, "玩家库存不足"
 
-        for item, quantity in self.converter.output_items.items():
+        for item, quantity in converter.output_items.items():
           res[item] = quantity
 
     if self.feature["type"] == "Meta":
@@ -409,35 +399,36 @@ class Factory:
       player.remove_factory(self.name)
 
     if not special_factory:
-      if self.converter.running_stage == 'production':
+      if converter.running_stage == 'production':
         player.add_new_product_items(res)
       else:
         player.add_items_to_storage(res)
 
     success = True
     if "EnietInterest" in self.feature["properties"]:
-      success, msg = self.eniet_interest(game, player, extra_properties)
+      success, msg = self.eniet_interest(converter, game, player, extra_properties)
     if not success:
       return False, msg
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
       self.run_count += 1
       if self.run_count >= 2:
-        self.converter.used = True
+        converter.used = True
     else:
-      self.converter.used = True
+      converter.used = True
     return True, ""
 
   def reset(self):
-    self.converter.used = False
+    for converter in self.converters:
+      converter.used = False
     self.run_count = 0
 
   def to_dict(self) -> Dict[str, Any]:
     return {
       "name": self.name,
-      "converter": self.converter.to_dict(),
+      "converters": [converter.to_dict() for converter in self.converters],
       "owner": self.owner,
       "feature": self.feature,
-      "preview": self.preview.to_dict() if self.preview else None,
+      "preview": [converter.to_dict() for converter in self.preview] if self.preview else None,
       "run_count": self.run_count
     }
 
@@ -495,7 +486,7 @@ class Player:
     self.add_factory(colony)
 
   def add_research(self, data_manager: DataManager, research: Factory):
-    preview = data_manager.get_factory_by_tech(self.specie, research.feature["properties"]["tech"]).converter
+    preview = data_manager.get_factory_by_tech(self.specie, research.feature["properties"]["tech"]).converters
     research.preview = preview
     self.add_factory(research)
   
@@ -871,13 +862,13 @@ class Game:
   # Game Interface Functions #
   #                          #
   ############################
-  def produce(self, player_name: str, factory_name: str, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, str]:
+  def produce(self, player_name: str, factory_name: str, converter_index: int, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, str]:
     player = next((p for p in self.players if p.user_id == player_name), None)
 
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
 
-    success, msg = player.factories[factory_name].produce(self, player, extra_properties)
+    success, msg = player.factories[factory_name].produce(self, player, converter_index, extra_properties)
 
     if success:
       return True, ""
@@ -1190,23 +1181,20 @@ class Game:
                 "factories": {
                     "factory_name": {
                         "name": str,
-                        "converter": {
-                          "input_items": Dict[str, int] | List[Dict[str, int]],
-                          "output_items": Dict[str, int],
-                          "running_stage": str,
-                          "used": bool
-                        },
+                        "converter": [
+                          {
+                            "input_items": Dict[str, int] | List[Dict[str, int]],
+                            "output_items": Dict[str, int],
+                            "running_stage": str,
+                            "used": bool
+                          },
+                        ...],
                         "owner": str,
                         "feature": {
                           "type": str,
                           "properties": Dict[str, Any]
                         },
-                        "preview": {
-                          "input_items": Dict[str, int] | List[Dict[str, int]],
-                          "output_items": Dict[str, int],
-                          "running_stage": str,
-                          "used": bool
-                        },
+                        "preview": Converter[] | None,
                         "run_count": int
                     },
                     ...

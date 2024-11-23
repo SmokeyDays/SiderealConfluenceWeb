@@ -23,9 +23,10 @@ translator = {
     'N': 'ArbitraryWorld',
     'F': 'Fleet',
     'Z': 'ZethEnvoy',
-    'R': 'RelicWorldDraw'
+    'R': 'RelicWorld',
 }
-convertor_stage = {
+ignore_items = ['X']
+converter_stage = {
     '➪': 'production',
     '→': 'trading',
     '➾': 'stealing',
@@ -33,7 +34,7 @@ convertor_stage = {
 }
 def arrow_pattern():
     res = ''
-    for arrow in convertor_stage.keys():
+    for arrow in converter_stage.keys():
         res += arrow + '|'
     return res[:-1]
 other_specie_info = {
@@ -118,7 +119,9 @@ def analyze_items(item_str, donation = False):
         else:
             i, count = m[0], int(m[1:])
         if i not in translator.keys():
-            raise NameError(f'i=={i}')
+            if i not in ignore_items:
+                raise NameError(f'i=={i}')
+            continue
         real_key = translator[i] if not donation else translator[i] + 'Donation'
         item[real_key] = item.get(real_key, 0) + count
 
@@ -133,10 +136,10 @@ def analyze_items_with_donation(item_str):
         return {**analyze_items(item_no_donation), **analyze_items(item_donation, donation=True)}
     
 
-def analyze_convertor(convertor_str):
-    if not re.search(f'({arrow_pattern()})', convertor_str):
-        convertor_str = '↺' + convertor_str
-    input=re.match(f'.*(?={arrow_pattern()})',convertor_str).group()
+def analyze_converter(converter_str):
+    if not re.search(f'({arrow_pattern()})', converter_str):
+        converter_str = '↺' + converter_str
+    input=re.match(f'.*(?={arrow_pattern()})',converter_str).group()
     input_items={}
     output_items={}
     if not re.search('\/', input):
@@ -146,32 +149,32 @@ def analyze_convertor(convertor_str):
         input_items = []
         for input_group in input_groups:
             input_items.append(analyze_items(input_group))
-    output=re.search(f'(?={arrow_pattern()}).+',convertor_str).group()[1:]
+    output=re.search(f'(?={arrow_pattern()}).+',converter_str).group()[1:]
     output_items = analyze_items_with_donation(output)
 
-    arrow = re.search(f'{arrow_pattern()}',convertor_str).group()
-    convertor = {
+    arrow = re.search(f'{arrow_pattern()}',converter_str).group()
+    converter = {
         "input_items": input_items,
         "output_items": output_items,
-        "running_stage": convertor_stage[arrow]
+        "running_stage": converter_stage[arrow]
     }
-    return convertor
+    return converter
 
-def analyze_convertors(convertors_str):
-    convertor_strs = convertors_str.split(',')
-    convertors = []
-    for convertor_str in convertor_strs:
-        convertors.append(analyze_convertor(convertor_str))
-    return convertors
+def analyze_converters(converters_str):
+    converter_strs = converters_str.split(',')
+    converters = []
+    for converter_str in converter_strs:
+        converters.append(analyze_converter(converter_str))
+    return converters
 
-def factory_from_csv(fac, convertor_as_cost = False):
+def factory_from_csv(fac, converter_as_cost = False):
     if fac['Front Name'] in FaderanRelicWorld:
         return None, None, None
     meta_factory = None
-    if convertor_as_cost:
+    if converter_as_cost:
         meta_factory = {
             "name": f'{fac["Faction"]}_{fac["Front Name"]}_打出',
-            "convertors": analyze_convertors(fac['Cost']),
+            "converters": analyze_converters(fac['Cost']),
             'feature': {
                 'type': 'Meta',
                 'properties': {
@@ -182,7 +185,7 @@ def factory_from_csv(fac, convertor_as_cost = False):
     if re.search('Fleet Support', fac['Front Name']):
         factory = {
             'name': f'{fac["Faction"]}_{fac["Front Name"]}_{fac["s"]}',
-            "convertors": analyze_convertors(fac['Front Factory']),
+            "converters": analyze_converters(fac['Front Factory']),
             'feature': {
                 'type': 'Normal',
                 'properties': {
@@ -195,16 +198,15 @@ def factory_from_csv(fac, convertor_as_cost = False):
         # todo
         return None, None, meta_factory
     upgrade=[]
-    upgrade.append(f'{fac["Faction"]}_{fac["Upgrade2"]}')
-    if re.search('→',fac['Upgrade1']):
-        upgrade_substance = analyze_convertor(fac['Upgrade1'])
-        upgrade.append(upgrade_substance)
-    else:
-        upgrade.append(f'{fac["Faction"]}_{fac["Upgrade1"]}')
-    factory = {
-        'name': f'{fac["Faction"]}_{fac["Front Name"]}',
-        'convertors': analyze_convertors(fac['Front Factory']),
-        'feature': {
+    if isinstance(fac['Upgrade1'], str):
+        if re.search('→',fac['Upgrade1']):
+            upgrade_substance = analyze_converter(fac['Upgrade1'])
+            upgrade.append(upgrade_substance)
+        else:
+            upgrade.append(f'{fac["Faction"]}_{fac["Upgrade1"]}')
+    if isinstance(fac['Upgrade2'], str):
+        upgrade.append(f'{fac["Faction"]}_{fac["Upgrade2"]}')
+    feature = {
             'type': 'Normal',
             'properties': {
                 'upgraded': False,
@@ -212,18 +214,53 @@ def factory_from_csv(fac, convertor_as_cost = False):
                 'upgrade_cost': upgrade
             }
         }
+    factory_str = fac["Front Factory"]
+    factory_name = f'{fac["Faction"]}_{fac["Front Name"]}'
+    if fac['Faction'] == 'Research':
+        feature = {
+            "type": "Research",
+            "properties": {
+              "tech": fac["Back Name"] if isinstance(fac["Back Name"], str) else '',
+              "level": fac["Era"]
+          }
+        }
+        factory_name = f'{fac["Front Name"]}'
+    if fac['Faction'] == 'Colonies':
+        info = factory_str.split(',')
+        climate, factory_str = info[0], info[1]
+        feature = {
+            "type": "Colony",
+            "properties": {
+                "climate": climate,
+                "upgraded": False,
+                "upgrade_cost": analyze_converter(fac["Upgrade1"])['input_items']
+            }
+        }
+        factory_name = f'{fac["Front Name"]}'
+    factory = {
+        'name': factory_name,
+        'converters': analyze_converters(factory_str),
+        'feature': feature
     }
     back_factory = None
-    if isinstance(fac['Back Name'], str):
-        back_factory={
-            'name': f'{fac["Faction"]}_{fac["Back Name"]}',
-            'convertors': analyze_convertors(fac['Back Factory']),
-            'feature': {
-                'type': 'Normal',
-                'properties': {
-                    'upgraded': True
-                }
+    if isinstance(fac['Back Factory'], str):
+        feature = {
+            'type': 'Normal',
+            'properties': {
+                'upgraded': True
             }
+        }
+        back_factory_str = fac["Back Factory"]
+        back_factory_name = f'{fac["Faction"]}_{fac["Back Name"]}'
+        if fac['Faction'] == 'Colonies':
+            info = back_factory_str.split(',')
+            climate, back_factory_str = info[0], info[1]
+            feature['properties']['climate'] = climate
+            back_factory_name = f'{fac["Back Name"]}+'
+        back_factory={
+            'name': back_factory_name,
+            'converters': analyze_converters(back_factory_str),
+            'feature': feature
         }
 
     if fac['Faction'] == '恩尼艾特':
@@ -248,7 +285,7 @@ def deal_specie(csv_path, save_path, specie):
             continue
         if bac['Cost']=='Starting' or bac['Cost']=='Researched' or re.search('→', str(bac['Cost']).strip()):
             try:
-                factory, back_factory, meta_factory = factory_from_csv(bac, convertor_as_cost = re.search('→', str(bac['Cost']).strip()))
+                factory, back_factory, meta_factory = factory_from_csv(bac, converter_as_cost = re.search('→', str(bac['Cost']).strip()))
             except:
                 print(bac)
                 raise
@@ -273,7 +310,34 @@ def deal_specie(csv_path, save_path, specie):
         string=json.dumps(specie_info, ensure_ascii=False, indent=4)
         f.write(string)
 
+def deal_research(csv_path, save_path):
+    csv_data=pd.read_csv(csv_path)
+    research_list = []
+    for i in range(csv_data.shape[0]):
+        bac=csv_data.loc[i]
+        if bac['Faction']=='Research':
+            research, _, _ = factory_from_csv(bac)
+            research_list.append(research)
+    with open(save_path + 'researches.json','w', encoding='utf-8') as f:
+        string=json.dumps(research_list, ensure_ascii=False, indent=4)
+        f.write(string)
+
+def deal_colony(csv_path, save_path):
+    csv_data=pd.read_csv(csv_path)
+    colony_list = []
+    for i in range(csv_data.shape[0]):
+        bac=csv_data.loc[i]
+        if bac['Faction']=='Colonies':
+            colony, back_colony, _ = factory_from_csv(bac)
+            colony_list.append(colony)
+            if back_colony:
+                colony_list.append(back_colony)
+    with open(save_path + 'colonies.json','w', encoding='utf-8') as f:
+        string=json.dumps(colony_list, ensure_ascii=False, indent=4)
+        f.write(string)
+
 if __name__ == '__main__':
     for specie in other_specie_info.keys():
         deal_specie('./server/utils/raw_data.csv', './server/data/species/', specie)
-
+    deal_research('./server/utils/raw_data.csv', './server/data/')
+    deal_colony('./server/utils/raw_data.csv', './server/data/')

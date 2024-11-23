@@ -24,7 +24,7 @@
     "factories": [
         {
             "name": "联合体_通用翻译器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -42,15 +42,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_通用共情交流",
                     "upgrade_cost": [
-                        "联合体_量子计算机",
-                        "联合体_泛在文化知识库"
+                        "联合体_泛在文化知识库",
+                        "联合体_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "联合体_通用共情交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -72,7 +72,7 @@
         },
         {
             "name": "联合体_极限",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -90,15 +90,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_极限+",
                     "upgrade_cost": [
-                        "联合体_量子计算机",
-                        "联合体_通用翻译器"
+                        "联合体_通用翻译器",
+                        "联合体_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "联合体_极限+",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -120,7 +120,7 @@
         },
         {
             "name": "联合体_极限_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 3,
@@ -141,7 +141,7 @@
         },
         {
             "name": "联合体_跨种族道德平等",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -160,15 +160,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_具体共相元理论学",
                     "upgrade_cost": [
-                        "联合体_非时序分析",
-                        "联合体_种族间医学交流"
+                        "联合体_种族间医学交流",
+                        "联合体_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "联合体_具体共相元理论学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -192,7 +192,7 @@
         },
         {
             "name": "联合体_纳米科技",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -210,15 +210,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_纳米制造",
                     "upgrade_cost": [
-                        "联合体_原子嬗变",
-                        "联合体_基因工程学"
+                        "联合体_基因工程学",
+                        "联合体_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "联合体_纳米制造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -240,7 +240,7 @@
         },
         {
             "name": "联合体_基因工程学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -259,15 +259,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_基因再合成",
                     "upgrade_cost": [
-                        "联合体_临床永生",
-                        "联合体_纳米科技"
+                        "联合体_纳米科技",
+                        "联合体_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "联合体_基因再合成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -290,7 +290,7 @@
         },
         {
             "name": "联合体_社会迁移",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -313,15 +313,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_银河系殖民",
                     "upgrade_cost": [
-                        "联合体_异文化交流",
-                        "联合体_银河系通讯控制"
+                        "联合体_银河系通讯控制",
+                        "联合体_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "联合体_银河系殖民",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -348,7 +348,7 @@
         },
         {
             "name": "联合体_反物质能源",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -367,15 +367,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_反物质化合物",
                     "upgrade_cost": [
-                        "联合体_有机结构",
-                        "联合体_超空间开采"
+                        "联合体_超空间开采",
+                        "联合体_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "联合体_反物质化合物",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -398,7 +398,7 @@
         },
         {
             "name": "联合体_种族间医学交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -417,15 +417,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_泛生物医学",
                     "upgrade_cost": [
-                        "联合体_有机结构",
-                        "联合体_跨种族道德平等"
+                        "联合体_跨种族道德平等",
+                        "联合体_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "联合体_泛生物医学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -448,7 +448,7 @@
         },
         {
             "name": "联合体_泛在文化知识库",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -466,15 +466,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_模因生命体",
                     "upgrade_cost": [
-                        "联合体_量子计算机",
-                        "联合体_通用翻译器"
+                        "联合体_通用翻译器",
+                        "联合体_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "联合体_模因生命体",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -496,7 +496,7 @@
         },
         {
             "name": "联合体_异文化交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -517,15 +517,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_多种族混合文化",
                     "upgrade_cost": [
-                        "联合体_社会迁移",
-                        "联合体_巨型建筑"
+                        "联合体_巨型建筑",
+                        "联合体_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "联合体_多种族混合文化",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -551,7 +551,7 @@
         },
         {
             "name": "联合体_多元种族企业",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -574,15 +574,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_全种族间融合",
                     "upgrade_cost": [
-                        "联合体_异文化交流",
-                        "联合体_银河系通讯控制"
+                        "联合体_银河系通讯控制",
+                        "联合体_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "联合体_全种族间融合",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -608,7 +608,7 @@
         },
         {
             "name": "联合体_超空间开采",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -627,15 +627,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_超空间定居点",
                     "upgrade_cost": [
-                        "联合体_奇点控制",
-                        "联合体_反物质能源"
+                        "联合体_反物质能源",
+                        "联合体_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "联合体_超空间定居点",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -658,7 +658,7 @@
         },
         {
             "name": "联合体_量子计算机",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -677,15 +677,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_非确定性多项式塌缩",
                     "upgrade_cost": [
-                        "联合体_临床永生",
-                        "联合体_通用翻译器"
+                        "联合体_通用翻译器",
+                        "联合体_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "联合体_非确定性多项式塌缩",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -708,7 +708,7 @@
         },
         {
             "name": "联合体_临床永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -726,15 +726,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_实用永生",
                     "upgrade_cost": [
-                        "联合体_原子嬗变",
-                        "联合体_基因工程学"
+                        "联合体_基因工程学",
+                        "联合体_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "联合体_实用永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -756,7 +756,7 @@
         },
         {
             "name": "联合体_物质生成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -777,15 +777,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_大规模传送",
                     "upgrade_cost": [
-                        "联合体_时间膨胀",
-                        "联合体_多元种族企业"
+                        "联合体_多元种族企业",
+                        "联合体_时间膨胀"
                     ]
                 }
             }
         },
         {
             "name": "联合体_大规模传送",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -809,7 +809,7 @@
         },
         {
             "name": "联合体_非时序分析",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -828,15 +828,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_时间查看器",
                     "upgrade_cost": [
-                        "联合体_奇点控制",
-                        "联合体_反物质能源"
+                        "联合体_反物质能源",
+                        "联合体_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "联合体_时间查看器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -859,7 +859,7 @@
         },
         {
             "name": "联合体_有机结构",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -879,15 +879,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_活体基础设施",
                     "upgrade_cost": [
-                        "联合体_跨种族道德平等",
-                        "联合体_种族间医学交流"
+                        "联合体_种族间医学交流",
+                        "联合体_跨种族道德平等"
                     ]
                 }
             }
         },
         {
             "name": "联合体_活体基础设施",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -911,7 +911,7 @@
         },
         {
             "name": "联合体_原子嬗变",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -930,15 +930,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_虚材料",
                     "upgrade_cost": [
-                        "联合体_纳米科技",
-                        "联合体_泛在文化知识库"
+                        "联合体_泛在文化知识库",
+                        "联合体_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "联合体_虚材料",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -961,7 +961,7 @@
         },
         {
             "name": "联合体_银河系通讯控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -980,15 +980,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_银河系统治",
                     "upgrade_cost": [
-                        "联合体_社会迁移",
-                        "联合体_多元种族企业"
+                        "联合体_多元种族企业",
+                        "联合体_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "联合体_银河系统治",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -1011,7 +1011,7 @@
         },
         {
             "name": "联合体_时间膨胀",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -1031,15 +1031,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_静滞场",
                     "upgrade_cost": [
-                        "联合体_物质生成",
-                        "联合体_巨型建筑"
+                        "联合体_巨型建筑",
+                        "联合体_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "联合体_静滞场",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -1063,7 +1063,7 @@
         },
         {
             "name": "联合体_奇点控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1085,15 +1085,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_虫洞网格",
                     "upgrade_cost": [
-                        "联合体_非时序分析",
-                        "联合体_超空间开采"
+                        "联合体_超空间开采",
+                        "联合体_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "联合体_虫洞网格",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1119,7 +1119,7 @@
         },
         {
             "name": "联合体_分形对称",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 2,
@@ -1138,15 +1138,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_分型对称+",
                     "upgrade_cost": [
-                        "联合体_超空间开采",
-                        "联合体_奇点控制"
+                        "联合体_奇点控制",
+                        "联合体_超空间开采"
                     ]
                 }
             }
         },
         {
             "name": "联合体_分型对称+",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 2,
@@ -1170,7 +1170,7 @@
         },
         {
             "name": "联合体_分形对称_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 2,
@@ -1192,7 +1192,7 @@
         },
         {
             "name": "联合体_探索者结合体",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -1211,7 +1211,6 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_引力太阳透镜传感器阵列",
                     "upgrade_cost": [
-                        "联合体_非时序分析",
                         {
                             "input_items": {
                                 "ArbitaryBig": 2,
@@ -1221,14 +1220,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "联合体_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "联合体_引力太阳透镜传感器阵列",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -1251,7 +1251,7 @@
         },
         {
             "name": "联合体_巨型建筑",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1270,15 +1270,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_戴森群",
                     "upgrade_cost": [
-                        "联合体_物质生成",
-                        "联合体_时间膨胀"
+                        "联合体_时间膨胀",
+                        "联合体_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "联合体_戴森群",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1301,7 +1301,7 @@
         },
         {
             "name": "联合体_金刚烷合成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -1319,15 +1319,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_可编程性虚物质",
                     "upgrade_cost": [
-                        "联合体_临床永生",
-                        "联合体_原子嬗变"
+                        "联合体_原子嬗变",
+                        "联合体_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "联合体_可编程性虚物质",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -1349,7 +1349,7 @@
         },
         {
             "name": "联合体_适应性制造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1366,7 +1366,6 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_预测性建造",
                     "upgrade_cost": [
-                        "联合体_纳米科技",
                         {
                             "input_items": {
                                 "ArbitarySmall": 3,
@@ -1376,14 +1375,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "联合体_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "联合体_预测性建造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1403,7 +1403,7 @@
         },
         {
             "name": "联合体_贝塞尔",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -1421,15 +1421,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_贝塞尔+",
                     "upgrade_cost": [
-                        "联合体_反物质能源",
-                        "联合体_有机结构"
+                        "联合体_有机结构",
+                        "联合体_反物质能源"
                     ]
                 }
             }
         },
         {
             "name": "联合体_贝塞尔+",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3
@@ -1451,7 +1451,7 @@
         },
         {
             "name": "联合体_贝塞尔_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitarySmall": 3,
@@ -1472,7 +1472,7 @@
         },
         {
             "name": "联合体_色彩空间",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -1490,15 +1490,15 @@
                     "upgraded": false,
                     "upgrade_factory": "联合体_色彩空间+",
                     "upgrade_cost": [
-                        "联合体_跨种族道德平等",
-                        "联合体_种族间医学交流"
+                        "联合体_种族间医学交流",
+                        "联合体_跨种族道德平等"
                     ]
                 }
             }
         },
         {
             "name": "联合体_色彩空间+",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2
@@ -1520,7 +1520,7 @@
         },
         {
             "name": "联合体_色彩空间_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "ArbitaryBig": 2,

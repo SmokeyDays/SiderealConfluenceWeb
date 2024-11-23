@@ -29,8 +29,8 @@ export class Converter {
 export class Factory {
   constructor(
     public name: string,
-    public converter: Converter,
-    public preview: Converter | null,
+    public converters: Converter[],
+    public preview: Converter[] | null,
     public owner: string,
     public feature: { type: string, properties: { [key: string]: any } },
     public run_count: number

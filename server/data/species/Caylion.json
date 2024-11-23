@@ -23,7 +23,7 @@
     "factories": [
         {
             "name": "凯利安_纳米科技",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -41,15 +41,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_纳米制造",
                     "upgrade_cost": [
-                        "凯利安_原子嬗变",
-                        "凯利安_基因工程学"
+                        "凯利安_基因工程学",
+                        "凯利安_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_纳米制造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -71,7 +71,7 @@
         },
         {
             "name": "凯利安_基因工程学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -90,15 +90,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_基因再合成",
                     "upgrade_cost": [
-                        "凯利安_临床永生",
-                        "凯利安_纳米科技"
+                        "凯利安_纳米科技",
+                        "凯利安_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_基因再合成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -120,7 +120,7 @@
         },
         {
             "name": "凯利安_通用翻译器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -138,15 +138,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_通用共情交流",
                     "upgrade_cost": [
-                        "凯利安_量子计算机",
-                        "凯利安_泛在文化知识库"
+                        "凯利安_泛在文化知识库",
+                        "凯利安_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_通用共情交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -169,7 +169,7 @@
         },
         {
             "name": "凯利安_反物质能源",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -188,15 +188,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_反物质化合物",
                     "upgrade_cost": [
-                        "凯利安_有机结构",
-                        "凯利安_超空间开采"
+                        "凯利安_超空间开采",
+                        "凯利安_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_反物质化合物",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -219,7 +219,7 @@
         },
         {
             "name": "凯利安_种族间医学交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -239,15 +239,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_泛生物医学",
                     "upgrade_cost": [
-                        "凯利安_有机结构",
-                        "凯利安_跨种族道德平等"
+                        "凯利安_跨种族道德平等",
+                        "凯利安_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_泛生物医学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -272,7 +272,7 @@
         },
         {
             "name": "凯利安_跨种族道德平等",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -291,15 +291,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_具体共相元理论学",
                     "upgrade_cost": [
-                        "凯利安_非时序分析",
-                        "凯利安_种族间医学交流"
+                        "凯利安_种族间医学交流",
+                        "凯利安_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_具体共相元理论学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -322,7 +322,7 @@
         },
         {
             "name": "凯利安_异文化交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -343,15 +343,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_多种族混合文化",
                     "upgrade_cost": [
-                        "凯利安_社会迁移",
-                        "凯利安_巨型建筑"
+                        "凯利安_巨型建筑",
+                        "凯利安_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_多种族混合文化",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -377,7 +377,7 @@
         },
         {
             "name": "凯利安_多元种族企业",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -398,15 +398,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_全种族间融合",
                     "upgrade_cost": [
-                        "凯利安_异文化交流",
-                        "凯利安_银河系通讯控制"
+                        "凯利安_银河系通讯控制",
+                        "凯利安_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_全种族间融合",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -431,7 +431,7 @@
         },
         {
             "name": "凯利安_社会迁移",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -454,15 +454,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_银河系殖民",
                     "upgrade_cost": [
-                        "凯利安_异文化交流",
-                        "凯利安_银河系通讯控制"
+                        "凯利安_银河系通讯控制",
+                        "凯利安_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_银河系殖民",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -489,7 +489,7 @@
         },
         {
             "name": "凯利安_量子计算机",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -508,15 +508,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_非确定性多项式塌缩",
                     "upgrade_cost": [
-                        "凯利安_临床永生",
-                        "凯利安_通用翻译器"
+                        "凯利安_通用翻译器",
+                        "凯利安_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_非确定性多项式塌缩",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -538,7 +538,7 @@
         },
         {
             "name": "凯利安_临床永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -556,15 +556,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_实用永生",
                     "upgrade_cost": [
-                        "凯利安_原子嬗变",
-                        "凯利安_基因工程学"
+                        "凯利安_基因工程学",
+                        "凯利安_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_实用永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -586,7 +586,7 @@
         },
         {
             "name": "凯利安_泛在文化知识库",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -604,15 +604,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_模因生命体",
                     "upgrade_cost": [
-                        "凯利安_量子计算机",
-                        "凯利安_通用翻译器"
+                        "凯利安_通用翻译器",
+                        "凯利安_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_模因生命体",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -634,7 +634,7 @@
         },
         {
             "name": "凯利安_非时序分析",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -654,15 +654,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_时间查看器",
                     "upgrade_cost": [
-                        "凯利安_奇点控制",
-                        "凯利安_反物质能源"
+                        "凯利安_反物质能源",
+                        "凯利安_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_时间查看器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -686,7 +686,7 @@
         },
         {
             "name": "凯利安_有机结构",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -706,15 +706,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_活体基础设施",
                     "upgrade_cost": [
-                        "凯利安_跨种族道德平等",
-                        "凯利安_种族间医学交流"
+                        "凯利安_种族间医学交流",
+                        "凯利安_跨种族道德平等"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_活体基础设施",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -738,7 +738,7 @@
         },
         {
             "name": "凯利安_超空间开采",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -757,15 +757,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_超空间定居点",
                     "upgrade_cost": [
-                        "凯利安_奇点控制",
-                        "凯利安_反物质能源"
+                        "凯利安_反物质能源",
+                        "凯利安_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_超空间定居点",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -789,7 +789,7 @@
         },
         {
             "name": "凯利安_银河系通讯控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -808,15 +808,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_银河系统治",
                     "upgrade_cost": [
-                        "凯利安_社会迁移",
-                        "凯利安_多元种族企业"
+                        "凯利安_多元种族企业",
+                        "凯利安_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_银河系统治",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -839,7 +839,7 @@
         },
         {
             "name": "凯利安_时间膨胀",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -859,15 +859,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_静滞场",
                     "upgrade_cost": [
-                        "凯利安_物质生成",
-                        "凯利安_巨型建筑"
+                        "凯利安_巨型建筑",
+                        "凯利安_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_静滞场",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -891,7 +891,7 @@
         },
         {
             "name": "凯利安_物质生成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -912,15 +912,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_大规模传送",
                     "upgrade_cost": [
-                        "凯利安_时间膨胀",
-                        "凯利安_多元种族企业"
+                        "凯利安_多元种族企业",
+                        "凯利安_时间膨胀"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_大规模传送",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -944,7 +944,7 @@
         },
         {
             "name": "凯利安_月球开采联盟",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -963,7 +963,6 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_奥克松斯式外恒星系采集",
                     "upgrade_cost": [
-                        "凯利安_有机结构",
                         {
                             "input_items": {
                                 "Information": 2,
@@ -974,14 +973,15 @@
                                 "Energy": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "凯利安_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_奥克松斯式外恒星系采集",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -1004,7 +1004,7 @@
         },
         {
             "name": "凯利安_行星生态支配",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1021,7 +1021,6 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_恒星系范围引力支配",
                     "upgrade_cost": [
-                        "凯利安_基因工程学",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -1032,14 +1031,15 @@
                                 "Energy": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "凯利安_基因工程学"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_恒星系范围引力支配",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1060,7 +1060,7 @@
         },
         {
             "name": "凯利安_原子嬗变",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1079,15 +1079,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_虚材料",
                     "upgrade_cost": [
-                        "凯利安_纳米科技",
-                        "凯利安_泛在文化知识库"
+                        "凯利安_泛在文化知识库",
+                        "凯利安_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_虚材料",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1109,7 +1109,7 @@
         },
         {
             "name": "凯利安_海洋处理",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 2
@@ -1127,7 +1127,6 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_行星范围工业化海水养殖",
                     "upgrade_cost": [
-                        "凯利安_反物质能源",
                         {
                             "input_items": {
                                 "Information": 2,
@@ -1138,14 +1137,15 @@
                                 "Energy": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "凯利安_反物质能源"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_行星范围工业化海水养殖",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 2
@@ -1167,7 +1167,7 @@
         },
         {
             "name": "凯利安_分布式远程网络",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 1
@@ -1185,7 +1185,6 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_安塞波驱动的跨恒星系社会",
                     "upgrade_cost": [
-                        "凯利安_泛在文化知识库",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -1196,14 +1195,15 @@
                                 "Energy": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "凯利安_泛在文化知识库"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_安塞波驱动的跨恒星系社会",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 1
@@ -1225,7 +1225,7 @@
         },
         {
             "name": "凯利安_奇点控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1247,15 +1247,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_虫洞网格",
                     "upgrade_cost": [
-                        "凯利安_非时序分析",
-                        "凯利安_超空间开采"
+                        "凯利安_超空间开采",
+                        "凯利安_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_虫洞网格",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1280,7 +1280,7 @@
         },
         {
             "name": "凯利安_巨型建筑",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1299,15 +1299,15 @@
                     "upgraded": false,
                     "upgrade_factory": "凯利安_戴森群",
                     "upgrade_cost": [
-                        "凯利安_物质生成",
-                        "凯利安_时间膨胀"
+                        "凯利安_时间膨胀",
+                        "凯利安_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "凯利安_戴森群",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3

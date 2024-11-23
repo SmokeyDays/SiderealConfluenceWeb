@@ -13,7 +13,9 @@
 
     <v-text :config="getTitleConfig(props.factory.name)" />
 
-    <converter-entry :="getMainConverterConfig()" />
+    <template v-for="converterConfig in getConverterConfigs()" :key="converterConfig.converter.input_items">
+      <converter-entry :="converterConfig" />
+    </template>
     
     <v-text :config="getConverterValueTextConfig()" /> 
     <template v-if="props.factory.feature.type === 'Research'">
@@ -48,7 +50,9 @@
       </template>
     </template>
     <template v-if="props.factory.preview">
-      <converter-entry :="getPreviewConverterConfig()" />
+      <template v-for="converterConfig in getPreviewConverterConfigs()" :key="converterConfig.converter.input_items">
+        <converter-entry :="converterConfig" />
+      </template>
       <v-text :config="getPreviewConverterValueTextConfig()" />
     </template>
     <template v-if="props.factory.feature.type === 'Colony' && props.factory.feature.properties['caylion_colony']">
@@ -94,7 +98,7 @@ export interface FactoryConfig {
   owner: string;
   producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => boolean;
   gameState: GameState;
-  produce: () => void;
+  produce: (converter_index: number) => void;
   upgradeColony: () => void;
   upgradeNormal: (id: number) => void;
   me: Player;
@@ -109,8 +113,8 @@ const getFactoryBackgroundImage = () => {
   return img;
 };
 
-const produceClick = () => {
-  props.produce();
+const produceClick = (converter_index: number) => {
+  props.produce(converter_index);
 }
 
 
@@ -139,38 +143,55 @@ const getTechTextConfig = () => {
   }
 }
 
-const getPreviewConverterConfig = () => {
-  let x = props.x + props.width * 0.28;
-  let y = props.y + props.height * 0.65;
+const getPreviewConverterConfigs = () => {
+  let xCenter = props.x + props.width * 0.5;
+  let yCenter = props.y + props.height * 0.85;
   let width = props.width * 0.4;
   let height = props.height * 0.4; 
   if (props.factory.feature.type === 'Research') {
-    x = props.x + props.width * 0.125;
-    y = props.y + props.height * 0.425;
+    xCenter = props.x + props.width * 0.325;
+    yCenter = props.y + props.height * 0.625;
     width = props.width * 0.75;
     height = props.height * 0.75;
   }
   if (props.factory.feature.type === 'Colony') {
-    x = props.x + props.width * 0.375;
-    y = props.y + props.height * 0.5;
+    xCenter = props.x + props.width * 0.575;
+    yCenter = props.y + props.height * 0.7;
     width = props.width * 0.75;
     height = props.height * 0.75;
   }
-  return {
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    scaleFactor: props.scaleFactor,
-    converter: props.factory.preview!, 
-    producible: props.producible(props.factory.preview!.input_items),
-    gameState: props.gameState,
-    onClick: () => {}
+  const res = [];
+  const totalCount = props.factory.preview!.length;
+  const totalHeight = height * totalCount;
+  let curY = yCenter - totalHeight / 2;
+  for (let i = 0; i < props.factory.preview!.length; i++) {
+    res.push({
+      x: xCenter - width / 2,
+      y: curY,
+      width: width,
+      height: height,
+      scaleFactor: props.scaleFactor,
+      converter: props.factory.preview![i], 
+      producible: props.producible(props.factory.preview![i].input_items),
+      gameState: props.gameState,
+      onClick: () => {}
+    })
+    curY += height;
   }
+  return res;
+}
+
+const getConvertersValue = (converters: Converter[]) => {
+  let value = "";
+  for (let i = 0; i < converters.length; i++) {
+    if (i != 0) value += " 以及 ";
+    value += getConverterValue(converters[i]);
+  }
+  return value;
 }
 
 const getPreviewConverterValueTextConfig = () => {
-  let value = getConverterValue(props.factory.preview!);
+  let value = getConvertersValue(props.factory.preview!);
   let fontSize = 0.03 * props.height;
   let x = props.x + props.width * 0.5;
   let y = props.y + props.height * 0.93;
@@ -255,7 +276,7 @@ const getUpgradeCostTextConfig = (text: string, id: number) => {
   }
 }
 
-const getMainConverterConfig = () => {
+const getConverterConfigs = () => {
   let y = props.y;
   if (props.factory.feature.type === 'Research') {
     y -= 0.2 * props.height;
@@ -263,22 +284,26 @@ const getMainConverterConfig = () => {
   if (props.factory.feature.type === 'Colony') {
     y -= 0.2 * props.height;
   }
-  return {
-    x: props.x,
-    y: y,
-    width: props.width,
-    height: props.height,
-    scaleFactor: props.scaleFactor,
-    producible: props.producible(props.factory.converter.input_items),
-    gameState: props.gameState,
-    converter: props.factory.converter, 
-    onClick: produceClick
+  const res = [];
+  for (let i = 0; i < props.factory.converters.length; i++) {
+    res.push({
+      x: props.x,
+      y: y + i * props.height,
+      width: props.width,
+      height: props.height,
+      scaleFactor: props.scaleFactor,
+      producible: props.producible(props.factory.converters[i].input_items),
+      gameState: props.gameState,
+      converter: props.factory.converters[i], 
+      onClick: () => produceClick(i)
+    })
   }
+  return res;
 }
 
 const getConverterValueTextConfig = () => {
   const fontSize = 0.08 * props.height;
-  const converterValue = getConverterValue(props.factory.converter);
+  const converterValue = getConvertersValue(props.factory.converters);
   const estimateWidth = converterValue.length * fontSize;
   return {
     text: converterValue,

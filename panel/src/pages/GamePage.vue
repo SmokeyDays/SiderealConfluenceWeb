@@ -240,7 +240,7 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
   return true;
 }
 
-const emitProduce = (factoryName: string, extra_properties: any) => {
+const emitProduce = (factoryName: string, converter_index: number, extra_properties: any) => {
   socket.emit("produce", {
     room_name: props.gameState.room_name,
     username: props.username,
@@ -249,7 +249,7 @@ const emitProduce = (factoryName: string, extra_properties: any) => {
   });
 }
 
-const produce = (factory: Factory, extra_properties?: any) => {
+const produce = (factory: Factory, converter_index: number, extra_properties?: any) => {
   if (factory.feature.type === "Research") {
     handleResearchPanel(factory);
     return;
@@ -259,7 +259,7 @@ const produce = (factory: Factory, extra_properties?: any) => {
     handleEnietInterestPanel(factory);
     return
   }
-  emitProduce(factory.name, extra_properties);
+  emitProduce(factory.name, converter_index, extra_properties);
 }
 
 const upgradeColony = (factory: Factory) => {
@@ -291,7 +291,7 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
     owner: factory.owner,
     producible: (input_items: { [key: string]: number } | [{ [key: string]: number }]) => checkFactoryAffordability(me, input_items, factory.feature),
     gameState: props.gameState,
-    produce: () => produce(factory),
+    produce: (converter_index: number) => produce(factory, converter_index),
     upgradeColony: () => {
       if (factory.feature.type === "Colony") {
         upgradeColony(factory);

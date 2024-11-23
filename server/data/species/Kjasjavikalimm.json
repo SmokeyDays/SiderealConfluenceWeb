@@ -27,7 +27,7 @@
     "factories": [
         {
             "name": "贾斯_纳米科技",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -45,15 +45,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_纳米制造",
                     "upgrade_cost": [
-                        "贾斯_原子嬗变",
-                        "贾斯_基因工程学"
+                        "贾斯_基因工程学",
+                        "贾斯_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_纳米制造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -75,7 +75,7 @@
         },
         {
             "name": "贾斯_基因工程学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -94,15 +94,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_基因再合成",
                     "upgrade_cost": [
-                        "贾斯_临床永生",
-                        "贾斯_纳米科技"
+                        "贾斯_纳米科技",
+                        "贾斯_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_基因再合成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -124,7 +124,7 @@
         },
         {
             "name": "贾斯_通用翻译器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -142,15 +142,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_通用共情交流",
                     "upgrade_cost": [
-                        "贾斯_量子计算机",
-                        "贾斯_泛在文化知识库"
+                        "贾斯_泛在文化知识库",
+                        "贾斯_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_通用共情交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -173,7 +173,7 @@
         },
         {
             "name": "贾斯_反物质能源",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -192,15 +192,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_反物质化合物",
                     "upgrade_cost": [
-                        "贾斯_有机结构",
-                        "贾斯_超空间开采"
+                        "贾斯_超空间开采",
+                        "贾斯_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_反物质化合物",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -223,7 +223,7 @@
         },
         {
             "name": "贾斯_种族间医学交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -242,15 +242,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_泛生物医学",
                     "upgrade_cost": [
-                        "贾斯_有机结构",
-                        "贾斯_跨种族道德平等"
+                        "贾斯_跨种族道德平等",
+                        "贾斯_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_泛生物医学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -273,7 +273,7 @@
         },
         {
             "name": "贾斯_跨种族道德平等",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -292,15 +292,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_具体共相元理论学",
                     "upgrade_cost": [
-                        "贾斯_非时序分析",
-                        "贾斯_种族间医学交流"
+                        "贾斯_种族间医学交流",
+                        "贾斯_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_具体共相元理论学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -323,7 +323,7 @@
         },
         {
             "name": "贾斯_异文化交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -344,15 +344,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_多种族混合文化",
                     "upgrade_cost": [
-                        "贾斯_社会迁移",
-                        "贾斯_巨型建筑"
+                        "贾斯_巨型建筑",
+                        "贾斯_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_多种族混合文化",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -378,7 +378,7 @@
         },
         {
             "name": "贾斯_多元种族企业",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -400,15 +400,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_全种族间融合",
                     "upgrade_cost": [
-                        "贾斯_异文化交流",
-                        "贾斯_银河系通讯控制"
+                        "贾斯_银河系通讯控制",
+                        "贾斯_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_全种族间融合",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -433,7 +433,7 @@
         },
         {
             "name": "贾斯_社会迁移",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -456,15 +456,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_银河系殖民",
                     "upgrade_cost": [
-                        "贾斯_异文化交流",
-                        "贾斯_银河系通讯控制"
+                        "贾斯_银河系通讯控制",
+                        "贾斯_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_银河系殖民",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -491,7 +491,7 @@
         },
         {
             "name": "贾斯_量子计算机",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -510,15 +510,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_非确定性多项式塌缩",
                     "upgrade_cost": [
-                        "贾斯_临床永生",
-                        "贾斯_通用翻译器"
+                        "贾斯_通用翻译器",
+                        "贾斯_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_非确定性多项式塌缩",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -540,7 +540,7 @@
         },
         {
             "name": "贾斯_临床永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -558,15 +558,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_实用永生",
                     "upgrade_cost": [
-                        "贾斯_原子嬗变",
-                        "贾斯_基因工程学"
+                        "贾斯_基因工程学",
+                        "贾斯_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_实用永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -588,7 +588,7 @@
         },
         {
             "name": "贾斯_泛在文化知识库",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -606,15 +606,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_模因生命体",
                     "upgrade_cost": [
-                        "贾斯_量子计算机",
-                        "贾斯_通用翻译器"
+                        "贾斯_通用翻译器",
+                        "贾斯_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_模因生命体",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -636,7 +636,7 @@
         },
         {
             "name": "贾斯_非时序分析",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -656,15 +656,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_时间查看器",
                     "upgrade_cost": [
-                        "贾斯_奇点控制",
-                        "贾斯_反物质能源"
+                        "贾斯_反物质能源",
+                        "贾斯_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_时间查看器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -689,7 +689,7 @@
         },
         {
             "name": "贾斯_有机结构",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -709,15 +709,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_活体基础设施",
                     "upgrade_cost": [
-                        "贾斯_跨种族道德平等",
-                        "贾斯_种族间医学交流"
+                        "贾斯_种族间医学交流",
+                        "贾斯_跨种族道德平等"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_活体基础设施",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -741,7 +741,7 @@
         },
         {
             "name": "贾斯_超空间开采",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -760,15 +760,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_超空间定居点",
                     "upgrade_cost": [
-                        "贾斯_奇点控制",
-                        "贾斯_反物质能源"
+                        "贾斯_反物质能源",
+                        "贾斯_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_超空间定居点",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -793,7 +793,7 @@
         },
         {
             "name": "贾斯_银河系通讯控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -812,15 +812,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_银河系统治",
                     "upgrade_cost": [
-                        "贾斯_社会迁移",
-                        "贾斯_多元种族企业"
+                        "贾斯_多元种族企业",
+                        "贾斯_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_银河系统治",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -843,7 +843,7 @@
         },
         {
             "name": "贾斯_时间膨胀",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -863,15 +863,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_静滞场",
                     "upgrade_cost": [
-                        "贾斯_物质生成",
-                        "贾斯_巨型建筑"
+                        "贾斯_巨型建筑",
+                        "贾斯_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_静滞场",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -895,7 +895,7 @@
         },
         {
             "name": "贾斯_物质生成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -916,15 +916,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_大规模传送",
                     "upgrade_cost": [
-                        "贾斯_时间膨胀",
-                        "贾斯_多元种族企业"
+                        "贾斯_多元种族企业",
+                        "贾斯_时间膨胀"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_大规模传送",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -948,7 +948,7 @@
         },
         {
             "name": "贾斯_征星者跃迁核心",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -966,15 +966,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_快速跃迁网络",
                     "upgrade_cost": [
-                        "贾斯_奇点控制",
-                        "贾斯_超空间开采"
+                        "贾斯_超空间开采",
+                        "贾斯_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_快速跃迁网络",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -995,7 +995,7 @@
         },
         {
             "name": "贾斯_地底都市",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1011,15 +1011,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_小行星采矿网络",
                     "upgrade_cost": [
-                        "贾斯_反物质能源",
-                        "贾斯_有机结构"
+                        "贾斯_有机结构",
+                        "贾斯_反物质能源"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_小行星采矿网络",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1039,7 +1039,7 @@
         },
         {
             "name": "贾斯_原子嬗变",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1058,15 +1058,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_虚材料",
                     "upgrade_cost": [
-                        "贾斯_纳米科技",
-                        "贾斯_泛在文化知识库"
+                        "贾斯_泛在文化知识库",
+                        "贾斯_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_虚材料",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1089,7 +1089,7 @@
         },
         {
             "name": "贾斯_香味信息素忠诚度",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -1109,15 +1109,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_多适性信息素",
                     "upgrade_cost": [
-                        "贾斯_纳米科技",
-                        "贾斯_基因工程学"
+                        "贾斯_基因工程学",
+                        "贾斯_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_多适性信息素",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -1142,7 +1142,7 @@
         },
         {
             "name": "贾斯_奇点控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1164,15 +1164,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_虫洞网格",
                     "upgrade_cost": [
-                        "贾斯_非时序分析",
-                        "贾斯_超空间开采"
+                        "贾斯_超空间开采",
+                        "贾斯_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_虫洞网格",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1197,7 +1197,7 @@
         },
         {
             "name": "贾斯_巨型建筑",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1216,15 +1216,15 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_戴森群",
                     "upgrade_cost": [
-                        "贾斯_物质生成",
-                        "贾斯_时间膨胀"
+                        "贾斯_时间膨胀",
+                        "贾斯_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "贾斯_戴森群",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1247,7 +1247,7 @@
         },
         {
             "name": "贾斯_割据状态殖民地",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 1
@@ -1276,7 +1276,6 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_星系外沿霸权",
                     "upgrade_cost": [
-                        "贾斯_nan",
                         {
                             "input_items": {
                                 "Water": 1,
@@ -1295,7 +1294,7 @@
         },
         {
             "name": "贾斯_星系外沿霸权",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 1
@@ -1340,7 +1339,7 @@
         },
         {
             "name": "贾斯_割据状态殖民地_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Desert": 1,
@@ -1363,7 +1362,7 @@
         },
         {
             "name": "贾斯_哈德沙诸侯领",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -1383,7 +1382,6 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_哈德沙帝国",
                     "upgrade_cost": [
-                        "贾斯_nan",
                         {
                             "input_items": {
                                 "Water": 1,
@@ -1402,7 +1400,7 @@
         },
         {
             "name": "贾斯_哈德沙帝国",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -1438,7 +1436,7 @@
         },
         {
             "name": "贾斯_哈德沙诸侯领_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Desert": 1,
@@ -1460,7 +1458,7 @@
         },
         {
             "name": "贾斯_瓦格莱格宗主权",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 2
@@ -1479,7 +1477,6 @@
                     "upgraded": false,
                     "upgrade_factory": "贾斯_瓦格莱格统治权",
                     "upgrade_cost": [
-                        "贾斯_nan",
                         {
                             "input_items": {
                                 "Jungle": 1,
@@ -1498,7 +1495,7 @@
         },
         {
             "name": "贾斯_瓦格莱格统治权",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 2
@@ -1532,7 +1529,7 @@
         },
         {
             "name": "贾斯_瓦格莱格宗主权_打出",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Desert": 1,

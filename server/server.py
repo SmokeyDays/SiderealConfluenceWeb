@@ -97,6 +97,8 @@ class Server:
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
+
+    print(test_room.game.to_dict())
     return
     
 

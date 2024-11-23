@@ -23,7 +23,7 @@
     "factories": [
         {
             "name": "恩尼艾特_纳米科技",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -41,15 +41,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_纳米制造",
                     "upgrade_cost": [
-                        "恩尼艾特_原子嬗变",
-                        "恩尼艾特_基因工程学"
+                        "恩尼艾特_基因工程学",
+                        "恩尼艾特_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_纳米制造",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 3
@@ -71,7 +71,7 @@
         },
         {
             "name": "恩尼艾特_基因工程学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -90,15 +90,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_基因再合成",
                     "upgrade_cost": [
-                        "恩尼艾特_临床永生",
-                        "恩尼艾特_纳米科技"
+                        "恩尼艾特_纳米科技",
+                        "恩尼艾特_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_基因再合成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 3
@@ -120,7 +120,7 @@
         },
         {
             "name": "恩尼艾特_通用翻译器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -138,15 +138,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_通用共情交流",
                     "upgrade_cost": [
-                        "恩尼艾特_量子计算机",
-                        "恩尼艾特_泛在文化知识库"
+                        "恩尼艾特_泛在文化知识库",
+                        "恩尼艾特_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_通用共情交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 3
@@ -169,7 +169,7 @@
         },
         {
             "name": "恩尼艾特_反物质能源",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -188,15 +188,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_反物质化合物",
                     "upgrade_cost": [
-                        "恩尼艾特_有机结构",
-                        "恩尼艾特_超空间开采"
+                        "恩尼艾特_超空间开采",
+                        "恩尼艾特_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_反物质化合物",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 4
@@ -219,7 +219,7 @@
         },
         {
             "name": "恩尼艾特_种族间医学交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -239,15 +239,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_泛生物医学",
                     "upgrade_cost": [
-                        "恩尼艾特_有机结构",
-                        "恩尼艾特_跨种族道德平等"
+                        "恩尼艾特_跨种族道德平等",
+                        "恩尼艾特_有机结构"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_泛生物医学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 4
@@ -272,7 +272,7 @@
         },
         {
             "name": "恩尼艾特_跨种族道德平等",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -291,15 +291,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_具体共相元理论学",
                     "upgrade_cost": [
-                        "恩尼艾特_非时序分析",
-                        "恩尼艾特_种族间医学交流"
+                        "恩尼艾特_种族间医学交流",
+                        "恩尼艾特_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_具体共相元理论学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 4
@@ -322,7 +322,7 @@
         },
         {
             "name": "恩尼艾特_异文化交流",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -343,15 +343,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_多种族混合文化",
                     "upgrade_cost": [
-                        "恩尼艾特_社会迁移",
-                        "恩尼艾特_巨型建筑"
+                        "恩尼艾特_巨型建筑",
+                        "恩尼艾特_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_多种族混合文化",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Industry": 5
@@ -377,7 +377,7 @@
         },
         {
             "name": "恩尼艾特_多元种族企业",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -399,15 +399,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_全种族间融合",
                     "upgrade_cost": [
-                        "恩尼艾特_异文化交流",
-                        "恩尼艾特_银河系通讯控制"
+                        "恩尼艾特_银河系通讯控制",
+                        "恩尼艾特_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_全种族间融合",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Food": 5
@@ -432,7 +432,7 @@
         },
         {
             "name": "恩尼艾特_社会迁移",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -455,15 +455,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_银河系殖民",
                     "upgrade_cost": [
-                        "恩尼艾特_异文化交流",
-                        "恩尼艾特_银河系通讯控制"
+                        "恩尼艾特_银河系通讯控制",
+                        "恩尼艾特_异文化交流"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_银河系殖民",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -490,7 +490,7 @@
         },
         {
             "name": "恩尼艾特_量子计算机",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -508,15 +508,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_非确定性多项式塌缩",
                     "upgrade_cost": [
-                        "恩尼艾特_临床永生",
-                        "恩尼艾特_通用翻译器"
+                        "恩尼艾特_通用翻译器",
+                        "恩尼艾特_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_非确定性多项式塌缩",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 2
@@ -537,7 +537,7 @@
         },
         {
             "name": "恩尼艾特_临床永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -555,15 +555,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_实用永生",
                     "upgrade_cost": [
-                        "恩尼艾特_原子嬗变",
-                        "恩尼艾特_基因工程学"
+                        "恩尼艾特_基因工程学",
+                        "恩尼艾特_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_实用永生",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -585,7 +585,7 @@
         },
         {
             "name": "恩尼艾特_泛在文化知识库",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -603,15 +603,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_模因生命体",
                     "upgrade_cost": [
-                        "恩尼艾特_量子计算机",
-                        "恩尼艾特_通用翻译器"
+                        "恩尼艾特_通用翻译器",
+                        "恩尼艾特_量子计算机"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_模因生命体",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 2
@@ -633,7 +633,7 @@
         },
         {
             "name": "恩尼艾特_非时序分析",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -653,15 +653,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_时间查看器",
                     "upgrade_cost": [
-                        "恩尼艾特_奇点控制",
-                        "恩尼艾特_反物质能源"
+                        "恩尼艾特_反物质能源",
+                        "恩尼艾特_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_时间查看器",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 3
@@ -684,7 +684,7 @@
         },
         {
             "name": "恩尼艾特_有机结构",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -703,15 +703,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_活体基础设施",
                     "upgrade_cost": [
-                        "恩尼艾特_跨种族道德平等",
-                        "恩尼艾特_种族间医学交流"
+                        "恩尼艾特_种族间医学交流",
+                        "恩尼艾特_跨种族道德平等"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_活体基础设施",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 3
@@ -734,7 +734,7 @@
         },
         {
             "name": "恩尼艾特_超空间开采",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -754,15 +754,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_超空间定居点",
                     "upgrade_cost": [
-                        "恩尼艾特_奇点控制",
-                        "恩尼艾特_反物质能源"
+                        "恩尼艾特_反物质能源",
+                        "恩尼艾特_奇点控制"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_超空间定居点",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 3
@@ -787,7 +787,7 @@
         },
         {
             "name": "恩尼艾特_银河系通讯控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -807,15 +807,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_银河系统治",
                     "upgrade_cost": [
-                        "恩尼艾特_社会迁移",
-                        "恩尼艾特_多元种族企业"
+                        "恩尼艾特_多元种族企业",
+                        "恩尼艾特_社会迁移"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_银河系统治",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Information": 4
@@ -839,7 +839,7 @@
         },
         {
             "name": "恩尼艾特_时间膨胀",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -859,15 +859,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_静滞场",
                     "upgrade_cost": [
-                        "恩尼艾特_物质生成",
-                        "恩尼艾特_巨型建筑"
+                        "恩尼艾特_巨型建筑",
+                        "恩尼艾特_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_静滞场",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 4
@@ -891,7 +891,7 @@
         },
         {
             "name": "恩尼艾特_物质生成",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -912,15 +912,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_大规模传送",
                     "upgrade_cost": [
-                        "恩尼艾特_时间膨胀",
-                        "恩尼艾特_多元种族企业"
+                        "恩尼艾特_多元种族企业",
+                        "恩尼艾特_时间膨胀"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_大规模传送",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Energy": 4
@@ -945,7 +945,7 @@
         },
         {
             "name": "恩尼艾特_骨骼雕刻",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -964,7 +964,6 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_纳米工艺",
                     "upgrade_cost": [
-                        "恩尼艾特_纳米科技",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -974,14 +973,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "恩尼艾特_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_纳米工艺",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Biotech": 2
@@ -1003,7 +1003,7 @@
         },
         {
             "name": "恩尼艾特_深潜狩猎",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1019,7 +1019,6 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_深海捕捞",
                     "upgrade_cost": [
-                        "恩尼艾特_基因工程学",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -1029,14 +1028,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "恩尼艾特_基因工程学"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_深海捕捞",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {},
                     "output_items": {
@@ -1056,7 +1056,7 @@
         },
         {
             "name": "恩尼艾特_原子嬗变",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1075,15 +1075,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_虚材料",
                     "upgrade_cost": [
-                        "恩尼艾特_纳米科技",
-                        "恩尼艾特_泛在文化知识库"
+                        "恩尼艾特_泛在文化知识库",
+                        "恩尼艾特_纳米科技"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_虚材料",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1106,7 +1106,7 @@
         },
         {
             "name": "恩尼艾特_合唱之歌",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -1126,7 +1126,6 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_永恒乐章",
                     "upgrade_cost": [
-                        "恩尼艾特_临床永生",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -1136,14 +1135,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "恩尼艾特_临床永生"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_永恒乐章",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Culture": 5
@@ -1167,7 +1167,7 @@
         },
         {
             "name": "恩尼艾特_通用应用元伦理学",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1185,7 +1185,6 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_全向种族元理论模型",
                     "upgrade_cost": [
-                        "恩尼艾特_原子嬗变",
                         {
                             "input_items": {
                                 "Biotech": 2,
@@ -1195,14 +1194,15 @@
                                 "Score": 1
                             },
                             "running_stage": "trading"
-                        }
+                        },
+                        "恩尼艾特_原子嬗变"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_全向种族元理论模型",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 1
@@ -1225,7 +1225,7 @@
         },
         {
             "name": "恩尼艾特_奇点控制",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1247,15 +1247,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_虫洞网格",
                     "upgrade_cost": [
-                        "恩尼艾特_非时序分析",
-                        "恩尼艾特_超空间开采"
+                        "恩尼艾特_超空间开采",
+                        "恩尼艾特_非时序分析"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_虫洞网格",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 2
@@ -1281,7 +1281,7 @@
         },
         {
             "name": "恩尼艾特_巨型建筑",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
@@ -1300,15 +1300,15 @@
                     "upgraded": false,
                     "upgrade_factory": "恩尼艾特_戴森群",
                     "upgrade_cost": [
-                        "恩尼艾特_物质生成",
-                        "恩尼艾特_时间膨胀"
+                        "恩尼艾特_时间膨胀",
+                        "恩尼艾特_物质生成"
                     ]
                 }
             }
         },
         {
             "name": "恩尼艾特_戴森群",
-            "convertors": [
+            "converters": [
                 {
                     "input_items": {
                         "Hypertech": 3
