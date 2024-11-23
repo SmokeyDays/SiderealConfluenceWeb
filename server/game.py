@@ -99,7 +99,7 @@ class DataManager:
     for specie in self.species:
       for factory in self.specie_factories[specie].values():
         if factory.feature["type"] == "Normal":
-          if factory.feature["properties"]["upgraded"]:
+          if factory.feature["properties"].get("upgraded", False):
             continue
           upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
           if upgraded_factory:
@@ -109,7 +109,7 @@ class DataManager:
           if unlock_factory:
             factory.preview = unlock_factory.converter
     for colony in self.colony_deck:
-      if colony.feature["properties"]["upgraded"]:
+      if colony.feature["properties"].get("upgraded", False):
         continue
       upgraded_colony = self.get_upgraded_colony(colony.name)
       if upgraded_colony:
@@ -136,11 +136,7 @@ class DataManager:
           if isinstance(cost, str):
             upgrade_cost.append(cost)
           else:
-            upgrade_cost.append(Converter(
-              cost["input_items"], 
-              cost["output_items"], 
-              'trading'
-            ).to_dict())
+            upgrade_cost.append(Converter(**cost))
         upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
         feature["properties"]["upgrade_cost"] = upgrade_cost
       product_stage = "production"
@@ -148,8 +144,8 @@ class DataManager:
         product_stage = "trading"
       factories[factory["name"]] = Factory(
         factory["name"], 
-        factory["input_items"], 
-        factory["output_items"], 
+        factory['convertors'][0]["input_items"], 
+        factory['convertors'][0]["output_items"], 
         specie,
         feature,
         product_stage
@@ -161,9 +157,6 @@ class DataManager:
     for factory in specie_data["start_resource"]["factories"]:
       if factory in self.specie_factories[specie]:
         init_factories[factory] = self.specie_factories[specie][factory]
-    for factory in self.specie_factories[specie].values():
-      if factory.feature["type"] == "Meta":
-        init_factories[factory.name] = factory
     specie_zh_name = specie_data["zh_name"]
     max_colony = specie_data["max_colony"]
     tie_breaker = specie_data["tie_breaker"]

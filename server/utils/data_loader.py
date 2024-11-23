@@ -1,5 +1,7 @@
+import os
 import re
 import pandas as pd
+import json
 translator = {
     'g': 'Food',
     'b': 'Industry',
@@ -21,107 +23,224 @@ translator = {
     'N': 'ArbitraryWorld',
     'F': 'Fleet'
 }
-def factory_gen(fac):
-    input=re.match('.*(?=➪|→)',fac).group()
-    input_items={
-                }
-    output_items={
-            }
+convertor_stage = {
+    '➪': 'production',
+    '→': 'trading',
+    '➾': 'stealing'
+}
+other_specie_info = {
+    'Caylion': {
+        "zh_name": "凯利安",
+        "max_colony": 3,
+        "tie_breaker": 1,
+        "init_colony": 1,
+        "init_research": 0,
+    },
+    'Eni': {
+        "zh_name": "恩尼艾特",
+        "max_colony": 3,
+        "tie_breaker": 3,
+        "init_colony": 1,
+        "init_research": 0,
+    },
+    'Im': {
+        "zh_name": "艾恩卓尔",
+        "max_colony": 0,
+        "tie_breaker": 8,
+        "init_colony": 0,
+        "init_research": 1,
+    },
+    'Unity': {
+        "zh_name": "联合体",
+        "max_colony": 1,
+        "tie_breaker": 4,
+        "init_colony": 1,
+        "init_research": 1,
+    },
+    'Yengii': {
+        "zh_name": "岩基艾",
+        "max_colony": 3,
+        "tie_breaker": 6,
+        "init_colony": 1,
+        "init_research": 1,
+    },
+    'Kjasjavikalimm': {
+        "zh_name": "贾斯",
+        "max_colony": 6,
+        "tie_breaker": 6,
+        "init_colony": 2,
+        "init_research": 0,
+    },
+    'Kit': {
+        "zh_name": "凯特",
+        "max_colony": 999,
+        "tie_breaker": 999,
+        "init_colony": 1,
+        "init_research": 1,
+    },
+    'Zeth': {
+        "zh_name": "泽思",
+        "max_colony": 3,
+        "tie_breaker": 2,
+        "init_colony": 0,
+        "init_research": 1,
+    },
+    'Faderan': {
+        "zh_name": "法德澜",
+        "max_colony": 4,
+        "tie_breaker": 7,
+        "init_colony": 1,
+        "init_research": 1,
+    }
+}
+MustLend = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '异种科技库', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响', '超科技共同体']
+EnietInterest = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响']
 
-    for i in input:
-        matched = False
-        for key in translator.keys():
-            if i==key:
-                input_items[translator[key]] = input_items.get(translator[key], 0) + 1
-                matched = True
-                break                      
-        if not matched:
-            raise NameError(f'i=={i},{fac}')
-                    
-    output=re.search('(?=➪|→).+',fac).group()[1:]
+def analyze_items(item_str, donation = False):
+    if item_str.endswith(' §'):
+        item_str = item_str[:-2]
+    item = {}
+
+    pattern = re.compile(r'(\D\d+|\D)')
+    matches = pattern.findall(item_str)
+    for m in matches:
+        if len(m) == 1:
+            i, count = m, 1
+        else:
+            i, count = m[0], int(m[1:])
+        if i not in translator.keys():
+            raise NameError(f'i=={i}')
+        real_key = translator[i] if not donation else translator[i] + 'Donation'
+        item[real_key] = item.get(real_key, 0) + count
+
+    return item
+
+def analyze_convertor(convertor_str):
+    input=re.match('.*(?=➪|→|➾)',convertor_str).group()
+    input_items={}
+    output_items={}
+
+    input_items = analyze_items(input)
+    output=re.search('(?=➪|→|➾).+',convertor_str).group()[1:]
     if re.search('\+',output):
         output_no_donation=re.search('.*(?=\+)',output).group()
         output_donation=re.search('(?=\+).*',output).group()[1:]
-        for i in output_donation:
-            matched = False
-            for key in translator.keys():
-                if i==key:
-                    key_donation = translator[key] + 'Donation'
-                    output_items[key_donation] = output_items.get(key_donation, 0) + 1
-                    matched = True
-                    break                      
-            if not matched:
-                raise NameError(f'i=={i},{fac}')
+        no_donation_items = analyze_items(output_no_donation, donation=False)
+        donation_items = analyze_items(output_donation, donation=True)
+        output_items = {**no_donation_items, **donation_items}
     else:
         output_no_donation=output
-    for i in output_no_donation:
-        matched = False
-        for key in translator.keys():
-            if i==key:
-                output_items[translator[key]] = output_items.get(translator[key], 0) + 1
-                matched = True
-                break                      
-        if not matched:
-            raise NameError(f'i=={i},{fac}')
-    return output_items,input_items
+        output_items = analyze_items(output_no_donation, donation=False)
 
-def factory_from_csv(fac):
-    factory={}
-    factory["name"]=f'{fac['Faction']}_{fac['Front Name']}'
-    output_items,input_items=factory_gen(fac['Front Factory'])
-    factory["output_items"]=output_items
-    factory['input_items']=input_items
-    factory['input']=float(fac['Input'])
-    factory['output']=fac['Front Output']
-    factory['efficiency']=fac['Front Efficiency']
-    factory['feature']={}
-    factory['feature']['type']='Normal'
-    factory['feature']['properties']={}
-    factory['feature']['properties']['upgraded']=False
-    factory['feature']['properties']['upgrade_factory']=f'{fac['Faction']}_{fac['Back Name']}'
+    arrow = re.search('➪|→|➾',convertor_str).group()
+    convertor = {
+        "input_items": input_items,
+        "output_items": output_items,
+        "running_stage": convertor_stage[arrow]
+    }
+    return convertor
+
+def analyze_convertors(convertors_str):
+    convertor_strs = convertors_str.split(',')
+    convertors = []
+    for convertor_str in convertor_strs:
+        convertors.append(analyze_convertor(convertor_str))
+    return convertors
+
+def factory_from_csv(fac, convertor_as_cost = False):
+    meta_factory = None
+    if convertor_as_cost:
+        meta_factory = {
+            "name": f'{fac["Faction"]}_{fac["Front Name"]}_打出',
+            "convertors": factory['convertors'],
+            'feature': {
+                'type': 'Meta',
+                'properties': {
+                    'unlock_factory': f'{fac["Faction"]}_{fac["Front Name"]}'
+                }
+            }
+        }
+    if fac['Front Name'].startswith('Fleet Support'):
+        return None, None, meta_factory
     upgrade=[]
-    upgrade.append(f'{fac['Faction']}_{fac['Upgrade2']}')
+    upgrade.append(f'{fac["Faction"]}_{fac["Upgrade2"]}')
     if re.search('→',fac['Upgrade1']):
-        upgrade_substance={}
-        output_items,input_items=factory_gen(fac['Upgrade1'])
-        upgrade_substance['input_items']=input_items
-        upgrade_substance['output_items']=output_items
+        upgrade_substance = analyze_convertor(fac['Upgrade1'])
         upgrade.append(upgrade_substance)
     else:
-        upgrade.append(f'{fac['Faction']}_{fac['Upgrade1']}')
-    factory['feature']['properties']['upgrade_cost']=upgrade
+        upgrade.append(f'{fac["Faction"]}_{fac["Upgrade1"]}')
+    factory = {
+        'name': f'{fac["Faction"]}_{fac["Front Name"]}',
+        'convertors': analyze_convertors(fac['Front Factory']),
+        'feature': {
+            'type': 'Normal',
+            'properties': {
+                'upgraded': False,
+                'upgrade_factory': f'{fac["Faction"]}_{fac["Back Name"]}',
+                'upgrade_cost': upgrade
+            }
+        }
+    }
 
-    back_factory={}
-    back_factory["name"]=f'{fac['Faction']}_{fac['Back Name']}'
-    output_items,input_items=factory_gen(fac['Back Factory'])
-    back_factory["output_items"]=output_items
-    back_factory['input_items']=input_items
-    back_factory['input']=float(fac['Input'])
-    back_factory['output']=fac['Back Output']
-    back_factory['efficiency']=fac['Back Efficiency']
-    back_factory['feature']={}
-    back_factory['feature']['type']='Normal'
-    back_factory['feature']['properties']={}
-    back_factory['feature']['properties']['upgraded']=True
+    back_factory={
+        'name': f'{fac["Faction"]}_{fac["Back Name"]}',
+        'convertors': analyze_convertors(fac['Back Factory']),
+        'feature': {
+            'type': 'Normal',
+            'properties': {
+                'upgraded': True
+            }
+        }
+    }
 
-    return factory,back_factory
+    if fac['Faction'] == '恩尼艾特':
+        if fac['Front Name'] in EnietInterest:
+            factory['feature']['properties']['EnietInterest'] = True
+            back_factory['feature']['properties']['EnietInterest'] = True
+        if fac['Front Name'] in MustLend:
+            factory['feature']['properties']['MustLend'] = True
+            back_factory['feature']['properties']['MustLend'] = True
 
+    return factory, back_factory, meta_factory
 
-a=pd.read_csv('data.csv')
-import json
+def deal_specie(csv_path, save_path, specie):
+    specie_zh_name = other_specie_info[specie]['zh_name']
+    csv_data=pd.read_csv(csv_path)
+    factory_list=[]
+    start_resource = {}
+    start_factories = []
+    for i in range(csv_data.shape[0]):
+        bac=csv_data.loc[i]
+        if bac['Faction']!=specie_zh_name:
+            continue
+        if bac['Cost']=='Starting' or bac['Cost']=='Researched' or re.search('→', str(bac['Cost']).strip()):
+            try:
+                fact, back_factory, meta_factory = factory_from_csv(bac, convertor_as_cost = re.search('→', str(bac['Cost']).strip()))
+            except:
+                print(bac)
+                raise
+            if fact:
+                factory_list.append(fact)
+                if bac['Cost']=='Starting':
+                    start_factories.append(fact['name'])
+            if back_factory:
+                factory_list.append(back_factory)
+            if meta_factory:
+                factory_list.append(meta_factory)
+                start_factories.append(meta_factory['name'])
+        if bac['Cost']=='Reference' and bac['Front Name'].startswith('Starting Race Card'):
+            start_resource['items'] = analyze_items(bac['Front Factory'])
+    start_resource['factories'] = start_factories
 
-factory_list=[]
-for i in range(395):
-    bac=a.loc[i]
-    if bac['Faction']=='艾恩卓尔' and (bac['Cost']=='Starting' or bac['Cost']=='Researched'):
-        #print(bac)
-        try:
-            fact,backfact=factory_from_csv(bac)
-        except:
-            print(bac)
-            raise
-        factory_list.append(fact)
-        factory_list.append(backfact)
-with open('Caylion_fac.json','w') as f:
-    string=json.dumps(factory_list,ensure_ascii=False)
-    f.write(string)
+    specie_info = other_specie_info[specie]
+    specie_info['name'] = specie
+    specie_info['start_resource'] = start_resource
+    specie_info['factories'] = factory_list
+    with open(save_path + specie + '.json','w', encoding='utf-8') as f:
+        string=json.dumps(specie_info, ensure_ascii=False, indent=4)
+        f.write(string)
+
+if __name__ == '__main__':
+    for specie in other_specie_info.keys():
+        deal_specie('./server/utils/raw_data.csv', './server/data/species/', specie)
+
