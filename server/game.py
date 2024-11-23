@@ -82,7 +82,7 @@ class DataManager:
     self.specie_factories = {}
     self.specie_init_players: list[Player] = {}
     self.species_data = {}
-    self.species = ["Caylion", "Yengii", "Eni", "Unity"]
+    self.species = ["Caylion", "Yengii", "Eni", "Unity", "Im"]
     self.load_species(path)
 
     self.researches_data = []
@@ -386,8 +386,14 @@ class Factory:
       game.develop_tech(player.user_id, tech)
       print(f"{player.user_id} 研发了 {tech}")
     else:
+      input_items = converter.input_items.copy()
+      if 'fleetCost' in self.feature['properties'] and self.run_count == 0:
+        fleet_cost = self.feature['properties']['fleetCost']
+        if player.storage.get('Fleet', 0) < fleet_cost:
+          return False, "舰队支持不足"
+        input_items['Fleet'] = fleet_cost
       if not special_factory:
-        if not player.remove_items_from_storage(converter.input_items):
+        if not player.remove_items_from_storage(input_items):
           return False, "玩家库存不足"
 
         for item, quantity in converter.output_items.items():
@@ -409,8 +415,8 @@ class Factory:
       success, msg = self.eniet_interest(converter, game, player, extra_properties)
     if not success:
       return False, msg
+    self.run_count += 1
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
-      self.run_count += 1
       if self.run_count >= 2:
         converter.used = True
     else:
@@ -556,6 +562,17 @@ class Player:
 
   def disagree(self):
     self.agreed = False
+
+  def on_new_round(self):
+    for factory in self.factories.values():
+      for converter in factory.converters:
+        if converter.running_stage == "constant":
+          self.add_items_to_storage(converter.output_items)
+  
+  def on_end_round(self):
+    expire_item_type = ['Fleet']
+    for item in expire_item_type:
+      self.remove_from_storage(item, self.storage.get(item, 0))
 
   def reset_factories(self):
     factories_to_remove = []
@@ -703,10 +720,19 @@ class Game:
 
   def start_game(self):
     self.current_round = 1
+    self.on_new_round()
     self.stage = "trading"
 
   def all_players_agreed(self) -> bool:
     return all(player.agreed for player in self.players)
+  
+  def on_new_round(self):
+    for player in self.players:
+      player.on_new_round()
+  
+  def on_end_round(self):
+    for player in self.players:
+      player.on_end_round()
   
   def move_to_next_stage(self):
     if self.stage == "trading":
@@ -740,7 +766,9 @@ class Game:
       self.stage = "trading"
       self.spread_tech()
       self.return_factories_to_owners()
+      self.on_end_round()
       self.current_round += 1
+      self.on_new_round()
 
   def reset_player_agreements(self):
     for player in self.players:

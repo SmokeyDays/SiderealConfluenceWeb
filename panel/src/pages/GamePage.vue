@@ -245,6 +245,7 @@ const emitProduce = (factoryName: string, converter_index: number, extra_propert
     room_name: props.gameState.room_name,
     username: props.username,
     factory_name: factoryName,
+    converter_index: converter_index,
     extra_properties: extra_properties ? extra_properties : {}
   });
 }

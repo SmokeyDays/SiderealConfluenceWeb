@@ -11,6 +11,7 @@ const props = defineProps<{
   iconHeight: number
   scaleFactor: number;
   desc?: string;
+  preview?: boolean;
 }>();
 
 const imageConfig = ref({
@@ -42,7 +43,7 @@ watch(() => [props.iconWidth, props.iconHeight], () => {
 </script>
 
 <template>
-  <v-group :config="{ x: props.x, y: props.y }">
+  <v-group :config="{ x: props.x, y: props.y, opacity: props.preview ? 0.5 : 1 }">
     <v-image :config="imageConfig" />
     <v-text v-if="count != 1" :config="{
       text: `${props.count}`,

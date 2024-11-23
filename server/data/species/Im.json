@@ -21,13 +21,13 @@
             "艾恩卓尔_小行星开采",
             "艾恩卓尔_微重力装配",
             "艾恩卓尔_法德澜遗迹隐藏处",
-            "艾恩卓尔_Fleet Support, 3_打出",
-            "艾恩卓尔_Fleet Support, 1_打出",
-            "艾恩卓尔_Fleet Support, 1_打出",
-            "艾恩卓尔_Fleet Support, 1_打出",
-            "艾恩卓尔_Fleet Support, 2_打出",
-            "艾恩卓尔_Starting Fleet Support, 2_128",
-            "艾恩卓尔_Fleet Support, 2_打出"
+            "艾恩卓尔_第一甲等舰队群「牧羊人」_打出",
+            "艾恩卓尔_第二丙等舰队群「青色原野」_打出",
+            "艾恩卓尔_第三丙等舰队群「白色雪山」_打出",
+            "艾恩卓尔_第四丙等舰队群「赤色荒原」_打出",
+            "艾恩卓尔_第五乙等舰队群「云泽」_打出",
+            "艾恩卓尔_第零乙等舰队群「高湖」",
+            "艾恩卓尔_第六乙等舰队群「穷海」_打出"
         ]
     },
     "factories": [
@@ -36,8 +36,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 3,
-                        "Fleet": 1
+                        "Industry": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -54,7 +53,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_基因工程学",
                         "艾恩卓尔_原子嬗变"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -63,8 +64,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 3,
-                        "Fleet": 1
+                        "Industry": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -77,7 +77,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -86,8 +87,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 3,
-                        "Fleet": 1
+                        "Food": 3
                     },
                     "output_items": {
                         "Energy": 1,
@@ -105,7 +105,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_纳米科技",
                         "艾恩卓尔_临床永生"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -114,8 +116,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 3,
-                        "Fleet": 1
+                        "Food": 3
                     },
                     "output_items": {
                         "Energy": 1,
@@ -128,7 +129,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -137,8 +139,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 3,
-                        "Fleet": 1
+                        "Culture": 3
                     },
                     "output_items": {
                         "Score": 1,
@@ -155,7 +156,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_泛在文化知识库",
                         "艾恩卓尔_量子计算机"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -164,8 +167,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 3,
-                        "Fleet": 1
+                        "Culture": 3
                     },
                     "output_items": {
                         "Score": 1,
@@ -179,7 +181,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -188,8 +191,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 4,
-                        "Fleet": 1
+                        "Industry": 4
                     },
                     "output_items": {
                         "Energy": 2,
@@ -207,7 +209,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_超空间开采",
                         "艾恩卓尔_有机结构"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -216,8 +220,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 4,
-                        "Fleet": 1
+                        "Industry": 4
                     },
                     "output_items": {
                         "Energy": 2,
@@ -231,7 +234,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -240,8 +244,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 4,
-                        "Fleet": 1
+                        "Food": 4
                     },
                     "output_items": {
                         "Score": 1,
@@ -260,7 +263,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_跨种族道德平等",
                         "艾恩卓尔_有机结构"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -269,8 +274,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 4,
-                        "Fleet": 1
+                        "Food": 4
                     },
                     "output_items": {
                         "Score": 1,
@@ -285,7 +289,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -294,8 +299,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 4,
-                        "Fleet": 1
+                        "Culture": 4
                     },
                     "output_items": {
                         "Score": 1,
@@ -313,7 +317,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_种族间医学交流",
                         "艾恩卓尔_非时序分析"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -322,8 +328,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 4,
-                        "Fleet": 1
+                        "Culture": 4
                     },
                     "output_items": {
                         "Score": 1,
@@ -337,7 +342,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -346,8 +352,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 5,
-                        "Fleet": 1
+                        "Industry": 5
                     },
                     "output_items": {
                         "Score": 1,
@@ -367,7 +372,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_巨型建筑",
                         "艾恩卓尔_社会迁移"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -376,8 +383,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 5,
-                        "Fleet": 1
+                        "Industry": 5
                     },
                     "output_items": {
                         "Score": 2,
@@ -394,7 +400,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -403,8 +410,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 5,
-                        "Fleet": 1
+                        "Food": 5
                     },
                     "output_items": {
                         "Score": 1,
@@ -426,7 +432,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_银河系通讯控制",
                         "艾恩卓尔_异文化交流"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -435,8 +443,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Food": 5,
-                        "Fleet": 1
+                        "Food": 5
                     },
                     "output_items": {
                         "Score": 2,
@@ -453,7 +460,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -462,8 +470,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 5,
-                        "Fleet": 1
+                        "Culture": 5
                     },
                     "output_items": {
                         "Score": 1,
@@ -485,7 +492,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_银河系通讯控制",
                         "艾恩卓尔_异文化交流"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -494,8 +503,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Culture": 5,
-                        "Fleet": 1
+                        "Culture": 5
                     },
                     "output_items": {
                         "Score": 2,
@@ -513,7 +521,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -522,8 +531,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 2,
-                        "Fleet": 1
+                        "Information": 2
                     },
                     "output_items": {
                         "Biotech": 1,
@@ -541,7 +549,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_通用翻译器",
                         "艾恩卓尔_临床永生"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -550,8 +560,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 2,
-                        "Fleet": 1
+                        "Information": 2
                     },
                     "output_items": {
                         "Biotech": 2,
@@ -564,7 +573,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -573,8 +583,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 2,
-                        "Fleet": 1
+                        "Biotech": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -591,7 +600,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_基因工程学",
                         "艾恩卓尔_原子嬗变"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -600,8 +611,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 2,
-                        "Fleet": 1
+                        "Biotech": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -614,7 +624,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -623,8 +634,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 2,
-                        "Fleet": 1
+                        "Energy": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -641,7 +651,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_通用翻译器",
                         "艾恩卓尔_量子计算机"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -650,8 +662,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 2,
-                        "Fleet": 1
+                        "Energy": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -664,7 +675,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -673,8 +685,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 3,
-                        "Fleet": 1
+                        "Information": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -693,7 +704,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_反物质能源",
                         "艾恩卓尔_奇点控制"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -702,8 +715,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 3,
-                        "Fleet": 1
+                        "Information": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -717,7 +729,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -726,8 +739,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 3,
-                        "Fleet": 1
+                        "Biotech": 3
                     },
                     "output_items": {
                         "Ship": 2,
@@ -746,7 +758,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_种族间医学交流",
                         "艾恩卓尔_跨种族道德平等"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -755,8 +769,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 3,
-                        "Fleet": 1
+                        "Biotech": 3
                     },
                     "output_items": {
                         "Ship": 2,
@@ -771,7 +784,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -780,8 +794,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 3,
-                        "Fleet": 1
+                        "Energy": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -800,7 +813,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_反物质能源",
                         "艾恩卓尔_奇点控制"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -809,8 +824,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 3,
-                        "Fleet": 1
+                        "Energy": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -827,7 +841,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -836,8 +851,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 4,
-                        "Fleet": 1
+                        "Information": 4
                     },
                     "output_items": {
                         "Score": 3,
@@ -856,7 +870,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_多元种族企业",
                         "艾恩卓尔_社会迁移"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -865,8 +881,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 4,
-                        "Fleet": 1
+                        "Information": 4
                     },
                     "output_items": {
                         "Score": 4,
@@ -881,7 +896,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -890,8 +906,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 4,
-                        "Fleet": 1
+                        "Biotech": 4
                     },
                     "output_items": {
                         "Score": 2,
@@ -910,7 +925,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_巨型建筑",
                         "艾恩卓尔_物质生成"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -919,8 +936,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Biotech": 4,
-                        "Fleet": 1
+                        "Biotech": 4
                     },
                     "output_items": {
                         "Score": 3,
@@ -935,7 +951,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -944,8 +961,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 4,
-                        "Fleet": 1
+                        "Energy": 4
                     },
                     "output_items": {
                         "Score": 2,
@@ -965,7 +981,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_多元种族企业",
                         "艾恩卓尔_时间膨胀"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -974,8 +992,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Energy": 4,
-                        "Fleet": 1
+                        "Energy": 4
                     },
                     "output_items": {
                         "Score": 3,
@@ -990,7 +1007,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -999,8 +1017,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 2,
-                        "Fleet": 2
+                        "Information": 2
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -1019,7 +1036,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_非时序分析",
                         "艾恩卓尔_超空间开采"
-                    ]
+                    ],
+                    "fleetCost": 2,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1028,8 +1047,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Information": 2,
-                        "Fleet": 1
+                        "Information": 2
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -1044,7 +1062,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -1052,9 +1071,7 @@
             "name": "艾恩卓尔_小行星开采",
             "converters": [
                 {
-                    "input_items": {
-                        "Fleet": 2
-                    },
+                    "input_items": {},
                     "output_items": {
                         "Ship": 1,
                         "Industry": 2
@@ -1070,7 +1087,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_反物质能源",
                         "艾恩卓尔_超空间开采"
-                    ]
+                    ],
+                    "fleetCost": 2,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1078,9 +1097,7 @@
             "name": "艾恩卓尔_小行星建设场",
             "converters": [
                 {
-                    "input_items": {
-                        "Fleet": 1
-                    },
+                    "input_items": {},
                     "output_items": {
                         "Ship": 1,
                         "Industry": 2
@@ -1101,7 +1118,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -1110,8 +1128,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 1,
-                        "Fleet": 1
+                        "Hypertech": 1
                     },
                     "output_items": {
                         "Energy": 1,
@@ -1129,7 +1146,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_泛在文化知识库",
                         "艾恩卓尔_纳米科技"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1138,8 +1157,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 1,
-                        "Fleet": 1
+                        "Hypertech": 1
                     },
                     "output_items": {
                         "Energy": 2,
@@ -1152,7 +1170,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -1161,8 +1180,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 4,
-                        "Fleet": 2
+                        "Industry": 4
                     },
                     "output_items": {
                         "Energy": 2,
@@ -1181,7 +1199,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_纳米科技",
                         "艾恩卓尔_量子计算机"
-                    ]
+                    ],
+                    "fleetCost": 2,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1190,8 +1210,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Industry": 4,
-                        "Fleet": 1
+                        "Industry": 4
                     },
                     "output_items": {
                         "Energy": 2,
@@ -1205,7 +1224,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -1214,8 +1234,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 2,
-                        "Fleet": 2
+                        "Hypertech": 2
                     },
                     "output_items": {
                         "Biotech": 2,
@@ -1236,7 +1255,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_原子嬗变",
                         "艾恩卓尔_临床永生"
-                    ]
+                    ],
+                    "fleetCost": 2,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1245,8 +1266,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 2,
-                        "Fleet": 1
+                        "Hypertech": 2
                     },
                     "output_items": {
                         "Biotech": 2,
@@ -1262,7 +1282,8 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
@@ -1271,8 +1292,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 2,
-                        "Fleet": 1
+                        "Hypertech": 2
                     },
                     "output_items": {
                         "Biotech": 1,
@@ -1293,7 +1313,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_超空间开采",
                         "艾恩卓尔_非时序分析"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1302,8 +1324,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 2,
-                        "Fleet": 1
+                        "Hypertech": 2
                     },
                     "output_items": {
                         "Biotech": 1,
@@ -1320,12 +1341,13 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 3_121",
+            "name": "艾恩卓尔_第一甲等舰队群「牧羊人」",
             "converters": [
                 {
                     "input_items": {},
@@ -1343,7 +1365,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 3_打出",
+            "name": "艾恩卓尔_第一甲等舰队群「牧羊人」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1359,7 +1381,7 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 3"
+                    "unlock_factory": "艾恩卓尔_第一甲等舰队群「牧羊人」"
                 }
             }
         },
@@ -1368,8 +1390,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 3,
-                        "Fleet": 1
+                        "Hypertech": 3
                     },
                     "output_items": {
                         "Score": 5,
@@ -1387,7 +1408,9 @@
                     "upgrade_cost": [
                         "艾恩卓尔_时间膨胀",
                         "艾恩卓尔_物质生成"
-                    ]
+                    ],
+                    "fleetCost": 1,
+                    "upgradeFleetCost": 1
                 }
             }
         },
@@ -1396,8 +1419,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "Hypertech": 3,
-                        "Fleet": 1
+                        "Hypertech": 3
                     },
                     "output_items": {
                         "Score": 6,
@@ -1411,12 +1433,13 @@
             "feature": {
                 "type": "Normal",
                 "properties": {
-                    "upgraded": true
+                    "upgraded": true,
+                    "fleetCost": 1
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_124",
+            "name": "艾恩卓尔_第二丙等舰队群「青色原野」",
             "converters": [
                 {
                     "input_items": {},
@@ -1434,7 +1457,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "name": "艾恩卓尔_第二丙等舰队群「青色原野」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1449,12 +1472,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                    "unlock_factory": "艾恩卓尔_第二丙等舰队群「青色原野」"
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_125",
+            "name": "艾恩卓尔_第三丙等舰队群「白色雪山」",
             "converters": [
                 {
                     "input_items": {},
@@ -1472,7 +1495,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "name": "艾恩卓尔_第三丙等舰队群「白色雪山」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1488,12 +1511,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                    "unlock_factory": "艾恩卓尔_第三丙等舰队群「白色雪山」"
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_126",
+            "name": "艾恩卓尔_第四丙等舰队群「赤色荒原」",
             "converters": [
                 {
                     "input_items": {},
@@ -1511,7 +1534,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 1_打出",
+            "name": "艾恩卓尔_第四丙等舰队群「赤色荒原」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1527,12 +1550,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 1"
+                    "unlock_factory": "艾恩卓尔_第四丙等舰队群「赤色荒原」"
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 2_127",
+            "name": "艾恩卓尔_第五乙等舰队群「云泽」",
             "converters": [
                 {
                     "input_items": {},
@@ -1550,7 +1573,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 2_打出",
+            "name": "艾恩卓尔_第五乙等舰队群「云泽」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1566,12 +1589,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 2"
+                    "unlock_factory": "艾恩卓尔_第五乙等舰队群「云泽」"
                 }
             }
         },
         {
-            "name": "艾恩卓尔_Starting Fleet Support, 2_128",
+            "name": "艾恩卓尔_第零乙等舰队群「高湖」",
             "converters": [
                 {
                     "input_items": {},
@@ -1589,7 +1612,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 2_129",
+            "name": "艾恩卓尔_第六乙等舰队群「穷海」",
             "converters": [
                 {
                     "input_items": {},
@@ -1607,7 +1630,7 @@
             }
         },
         {
-            "name": "艾恩卓尔_Fleet Support, 2_打出",
+            "name": "艾恩卓尔_第六乙等舰队群「穷海」_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1623,7 +1646,7 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "艾恩卓尔_Fleet Support, 2"
+                    "unlock_factory": "艾恩卓尔_第六乙等舰队群「穷海」"
                 }
             }
         }

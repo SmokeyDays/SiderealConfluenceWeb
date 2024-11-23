@@ -1,7 +1,11 @@
 <template>
-  <!-- Input items -->
-  <template v-if="!Array.isArray(props.converter.input_items)">
-      <v-group :config="{ x: props.x + 0.28 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.converter.input_items).length) }">
+  <v-group :config="{ opacity: props.preview ? 0.5 : 1 }">
+    <!-- Input items -->
+    <template v-if="!Array.isArray(props.converter.input_items)">
+      <v-group :config="{ 
+        x: props.x + 0.28 * props.width, 
+        y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.converter.input_items).length)
+      }">
         <template v-for="entry in generateItems(props.converter.input_items)" :key="'input-' + entry.item">
           <item-entry :item="entry.item" :count="entry.count" :x="entry.x" :y="entry.y" :scale-factor="entry.scaleFactor" :icon-width="entry.iconWidth" :icon-height="entry.iconHeight"/>
         </template>
@@ -37,7 +41,7 @@
     </v-group>
 
     <!-- Arrow connecting input to output -->
-    <template>
+    <template v-if="props.converter.running_stage !== 'constant'">
       <v-arrow :config="{
         points: [props.x + 0.4 * props.width, props.y + props.height / 2, props.x + props.width - 0.37 * props.width, props.y + props.height / 2],
         pointerLength: 0.03 * props.width,
@@ -80,6 +84,7 @@
         </template>
       </template>
     </template>
+  </v-group>
 </template>
 
 <script setup lang="ts">
@@ -98,6 +103,7 @@ const props = defineProps<{
   producible: boolean;
   converter: Converter;
   gameState: GameState;
+  preview?: boolean;
   onClick: () => void;
 }>();
 
@@ -105,6 +111,8 @@ const props = defineProps<{
 const stageOpacity = (running_stage: string) => {
   return props.gameState.stage === running_stage ? 1 : 0.5;
 }
+
+
 
 
 const generateItems = (items: {[key: string]: number}) => {
@@ -149,7 +157,7 @@ const generateResearchItems = (items: {[key: string]: number}, column: number) =
 }
 
 const getEstimatedItemEntriesHeight = (len: number) => {
-  return len * 0.6 / 4 * props.height;
+  return Math.min(len, 4) * 0.6 / 4 * props.height;
 }
 
 </script>

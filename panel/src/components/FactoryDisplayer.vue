@@ -49,20 +49,50 @@
         </template>
       </template>
     </template>
-    <template v-if="props.factory.preview">
+    <template v-if="directPreview()">
       <template v-for="converterConfig in getPreviewConverterConfigs()" :key="converterConfig.converter.input_items">
         <converter-entry :="converterConfig" />
       </template>
       <v-text :config="getPreviewConverterValueTextConfig()" />
     </template>
     <template v-if="props.factory.feature.type === 'Colony' && props.factory.feature.properties['caylion_colony']">
+      <v-circle :config="{
+        x: props.x + props.width * 0.94,
+        y: props.y + props.height * 0.09,
+        radius: 0.05 * props.width,
+        fill: 'darkgreen',
+        stroke: 'green',
+        strokeWidth: 0.02 * props.height
+      }"/>
       <v-text :config="getCaylionDescConfig()" />
+    </template>
+    <template v-if="props.factory.feature.properties['upgraded'] === false">
+      <v-circle :config="{
+        x: props.x + props.width / 2,
+        y: props.y + props.height * 0.9,
+        radius: 0.05 * props.width,
+        fill: isPreview ? 'white' : 'gray',
+        stroke: isPreview ? 'gray' : 'white',
+        strokeWidth: 0.02 * props.height
+      }" @click="togglePreview" @touchstart="togglePreview" />
+    </template>
+    <template v-if="getFleetCost() > 0">
+      <item-entry 
+        :item="'Fleet'" 
+        :count="getFleetCost()" 
+        :x="props.x + props.width * 0.12"
+        :y="props.y + props.height * 0.18"
+        :scale-factor="props.scaleFactor" 
+        :icon-width="0.5 / 6 * props.width" 
+        :icon-height="0.5 / 4 * props.height"
+        :preview="isPreview"
+      />
     </template>
   </v-group>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import { GameState, Player, type Factory } from '@/interfaces/GameState';
 import ItemEntry from '@/components/ItemEntry.vue';
 import ConverterEntry from '@/components/ConverterEntry.vue';
@@ -70,23 +100,6 @@ import { Converter } from '@/interfaces/GameState';
 import { getItemsDonationValue, getItemsValue, getSpecieColor } from '@/interfaces/GameConfig';
 import { getIconSvg } from '@/utils/icon';
 import { factory } from 'typescript';
-
-
-const getConverterValue = (converter: Converter) => {
-  let inputValue = "";
-  if (Array.isArray(converter.input_items)) {
-    for (let index = 0; index < converter.input_items.length; index++) {
-      if (index != 0) inputValue += " / ";
-      inputValue += getItemsValue(converter.input_items[index]).toString();
-    }
-  } else {
-    inputValue = getItemsValue(converter.input_items).toString();
-  }
-  let outputValue = getItemsValue(converter.output_items).toString();
-  let donationValue = getItemsDonationValue(converter.output_items).toString();
-  const donationText = donationValue === "0" ? "" : " + (" + donationValue + ")";
-  return inputValue + " -> " + outputValue + donationText;
-}
 
 export interface FactoryConfig {
   x: number;
@@ -106,6 +119,35 @@ export interface FactoryConfig {
 
 
 const props = defineProps<FactoryConfig>();
+
+const isPreview = ref(false);
+
+const togglePreview = () => {
+  isPreview.value = !isPreview.value;
+}
+
+const getFleetCost = () => {
+  return props.factory.feature.properties[isPreview.value ? 'upgradeFleetCost' : 'fleetCost'] || 0;
+}
+
+const directPreview = () => {
+  return props.factory.preview && (props.factory.feature.type === 'Colony' || props.factory.feature.type === 'Research');
+}
+const getConverterValue = (converter: Converter) => {
+  let inputValue = "";
+  if (Array.isArray(converter.input_items)) {
+    for (let index = 0; index < converter.input_items.length; index++) {
+      if (index != 0) inputValue += " / ";
+      inputValue += getItemsValue(converter.input_items[index]).toString();
+    }
+  } else {
+    inputValue = getItemsValue(converter.input_items).toString();
+  }
+  let outputValue = getItemsValue(converter.output_items).toString();
+  let donationValue = getItemsDonationValue(converter.output_items).toString();
+  const donationText = donationValue === "0" ? "" : " + (" + donationValue + ")";
+  return inputValue + " -> " + outputValue + donationText;
+}
 
 const getFactoryBackgroundImage = () => {
   const img = new Image();
@@ -277,24 +319,33 @@ const getUpgradeCostTextConfig = (text: string, id: number) => {
 }
 
 const getConverterConfigs = () => {
-  let y = props.y;
+  let xCenter = props.x + props.width * 0.5;
+  let yCenter = props.y + props.height * 0.5;
   if (props.factory.feature.type === 'Research') {
-    y -= 0.2 * props.height;
+    yCenter -= 0.2 * props.height;
   }
   if (props.factory.feature.type === 'Colony') {
-    y -= 0.2 * props.height;
+    yCenter -= 0.2 * props.height;
   }
   const res = [];
-  for (let i = 0; i < props.factory.converters.length; i++) {
+  const converters = isPreview.value ? props.factory.preview! : props.factory.converters;
+  const totalCount = converters.length;
+
+  const scaleFactor = 1 / Math.pow(1.5, totalCount - 1);
+  const estimateHeight = 0.4 * props.height * scaleFactor;
+  let width = props.width * scaleFactor;
+  let height = props.height * scaleFactor;
+  for (let i = 0; i < converters.length; i++) {
     res.push({
-      x: props.x,
-      y: y + i * props.height,
-      width: props.width,
-      height: props.height,
+      x: xCenter - width * 0.5,
+      y: yCenter - height * 0.5 + (i - (totalCount - 1) / 2) * estimateHeight,
+      width: width,
+      height: height,
       scaleFactor: props.scaleFactor,
-      producible: props.producible(props.factory.converters[i].input_items),
+      producible: props.producible(converters[i].input_items),
       gameState: props.gameState,
-      converter: props.factory.converters[i], 
+      preview: isPreview.value,
+      converter: converters[i], 
       onClick: () => produceClick(i)
     })
   }
@@ -303,7 +354,7 @@ const getConverterConfigs = () => {
 
 const getConverterValueTextConfig = () => {
   const fontSize = 0.08 * props.height;
-  const converterValue = getConvertersValue(props.factory.converters);
+  const converterValue = getConvertersValue(isPreview.value ? props.factory.preview! : props.factory.converters);
   const estimateWidth = converterValue.length * fontSize;
   return {
     text: converterValue,
@@ -312,7 +363,8 @@ const getConverterValueTextConfig = () => {
     fontFamily: 'Calibri',
     fill: 'white',
     x: props.x + 0.5 * props.width - estimateWidth / 4,
-    y: props.y + 0.15 * props.height
+    y: props.y + 0.15 * props.height,
+    opacity: isPreview.value ? 0.5 : 1
   }
 }
 

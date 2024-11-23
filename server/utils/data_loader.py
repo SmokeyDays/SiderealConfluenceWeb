@@ -182,9 +182,9 @@ def factory_from_csv(fac, converter_as_cost = False):
                 }
             }
         }
-    if re.search('Fleet Support', fac['Front Name']):
+    if re.search('舰队群', fac['Front Name']):
         factory = {
-            'name': f'{fac["Faction"]}_{fac["Front Name"]}_{fac["s"]}',
+            'name': f'{fac["Faction"]}_{fac["Front Name"]}',
             "converters": analyze_converters(fac['Front Factory']),
             'feature': {
                 'type': 'Normal',
@@ -270,6 +270,21 @@ def factory_from_csv(fac, converter_as_cost = False):
         if fac['Front Name'] in MustLend:
             factory['feature']['properties']['MustLend'] = True
             back_factory['feature']['properties']['MustLend'] = True
+    if fac['Faction'] == '艾恩卓尔':
+        fleetCost = 0
+        for converter in factory['converters']:
+            if converter['input_items'].get('Fleet', 0) > 0:
+                fleetCost += converter['input_items']['Fleet']
+                converter['input_items'].pop('Fleet')
+        factory['feature']['properties']['fleetCost'] = fleetCost
+
+        fleetCost = 0
+        for converter in back_factory['converters']:
+            if converter['input_items'].get('Fleet', 0) > 0:
+                fleetCost += converter['input_items']['Fleet']
+                converter['input_items'].pop('Fleet')
+        factory['feature']['properties']['upgradeFleetCost'] = fleetCost
+        back_factory['feature']['properties']['fleetCost'] = fleetCost
 
     return factory, back_factory, meta_factory
 

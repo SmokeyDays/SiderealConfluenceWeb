@@ -37,14 +37,15 @@ class Server:
     test_room.choose_specie("Bob", "Eni")
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")
-    test_room.game.develop_tech("Alice", "跨种族道德平等")
-    test_room.game.develop_tech("Alice", "基因工程学")
-    test_room.game.debug_draw_colony("Alice")
+    test_room.game.develop_tech("Alice", "纳米科技")
+    test_room.game.develop_tech("Alice", "反物质能源")
+    test_room.game.debug_draw_colony("Bob")
     test_room.game.debug_add_item("Alice", "Ship", 5)
     test_room.game.debug_add_item("Bob", "Ship", 5)
     test_room.game.debug_add_item("Alice", "Score", 5)
     test_room.game.debug_add_item("Alice", "ScoreDonation", 1)
     test_room.game.debug_add_item("Alice", "Hypertech", 5)
+    test_room.game.debug_add_item("Alice", "Industry", 5)
     # test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
     test_room.game.gift("Bob", "Alice", {"factories": ["恩尼艾特_相互理解"]})
@@ -53,10 +54,10 @@ class Server:
                                   ["Bob"], 
                                   {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
                                   {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
-    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
+    return
     # skip production
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -400,8 +401,9 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       extra_properties = data['extra_properties'] if 'extra_properties' in data else {}
-      print(f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
-      success, message = self.rooms[room_name].game.produce(username, data['factory_name'], extra_properties)
+      converter_index = data['converter_index'] if 'converter_index' in data else 0
+      log("info", f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
+      success, message = self.rooms[room_name].game.produce(username, data['factory_name'], converter_index, extra_properties)
       emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Produce Success" if success else "Produce Failed",
