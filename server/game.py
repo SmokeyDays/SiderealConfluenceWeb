@@ -903,6 +903,8 @@ class Game:
     return False, msg
 
   def upgrade_colony(self, player_name: str, factory_name: str) -> Tuple[bool, str]:
+    if self.stage != "trading":
+      return False, "当前阶段不是交易阶段"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
@@ -922,6 +924,8 @@ class Game:
     return True, ""
 
   def upgrade_normal(self, player_name: str, factory_name: str, cost_type: int) -> Tuple[bool, str]:
+    if self.stage != "trading":
+      return False, "当前阶段不是交易阶段"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player or factory_name not in player.factories:
       return False, "未指定玩家或工厂"
