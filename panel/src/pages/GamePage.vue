@@ -87,10 +87,10 @@ const handleRightClickDrag = (event: MouseEvent | TouchEvent) => {
   };
 
   if (gameStage) {
-    gameStage.addEventListener('mousemove', onMouseMove);
-    gameStage.addEventListener('touchmove', onMouseMove);
-    gameStage.addEventListener('mouseup', onMouseUp);
-    gameStage.addEventListener('touchend', onMouseUp);
+    gameStage.addEventListener('mousemove', onMouseMove, { passive: true });
+    gameStage.addEventListener('touchmove', onMouseMove, { passive: true });
+    gameStage.addEventListener('mouseup', onMouseUp, { passive: true });
+    gameStage.addEventListener('touchend', onMouseUp, { passive: true });
   }
 };
 
@@ -134,11 +134,11 @@ onMounted(() => {
 onMounted(() => {
   gameStage = document.querySelector('.game-stage');
   if (gameStage) {
-    gameStage.addEventListener('wheel', handleWheel);
-    gameStage.addEventListener('mousedown', handleRightClickDrag);
-    gameStage.addEventListener('touchstart', handleRightClickDrag);
-    gameStage.addEventListener('touchmove', handlePinch);
-    window.addEventListener('resize', handleResize);
+    gameStage.addEventListener('wheel', handleWheel, { passive: true });
+    gameStage.addEventListener('mousedown', handleRightClickDrag, { passive: true });
+    gameStage.addEventListener('touchstart', handleRightClickDrag, { passive: true });
+    gameStage.addEventListener('touchmove', handlePinch, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
   }
 });
 

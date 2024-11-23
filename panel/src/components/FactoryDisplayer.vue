@@ -149,16 +149,16 @@ const getPreviewConverterConfigs = () => {
   let width = props.width * 0.4;
   let height = props.height * 0.4; 
   if (props.factory.feature.type === 'Research') {
-    xCenter = props.x + props.width * 0.325;
-    yCenter = props.y + props.height * 0.625;
     width = props.width * 0.75;
     height = props.height * 0.75;
+    xCenter = props.x + props.width * 0.125 + width / 2;
+    yCenter = props.y + props.height * 0.425 + height / 2;
   }
   if (props.factory.feature.type === 'Colony') {
-    xCenter = props.x + props.width * 0.575;
-    yCenter = props.y + props.height * 0.7;
     width = props.width * 0.75;
     height = props.height * 0.75;
+    xCenter = props.x + props.width * 0.375 + width / 2;
+    yCenter = props.y + props.height * 0.5 + height / 2;
   }
   const res = [];
   const totalCount = props.factory.preview!.length;
