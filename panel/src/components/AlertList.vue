@@ -2,7 +2,7 @@
   <div class="alert-container">
     <TransitionGroup name="alert-anime">
       <template v-for="alert, index in alertList" :key="index">
-        <AlertMessage :title="alert.title" :content="alert.str" :type="alert.type" :closable="true" :visible="alert.visible"/>
+        <AlertMessage :title="alert.title" :content="alert.str" :type="alert.type" :closable="true" :visible="alert.visible" :icon="alert.icon"/>
       </template>
     </TransitionGroup>
   </div>
@@ -12,6 +12,7 @@
 import { ref } from 'vue';
 import AlertMessage from '@/components/AlertMessage.vue';
 import PubSub from "pubsub-js";
+import type { Achievement } from '@/interfaces/UserState';
 
 interface AlertInfo {
   title: string;
@@ -19,27 +20,34 @@ interface AlertInfo {
   dur: number;
   type: "default" | "error" | "info" | "success" | "warning" | undefined;
   visible: boolean;
+  icon?: string;
 }
 
 const alertList = ref<AlertInfo[]>([]);
+
+const addMsg = (msg: AlertInfo) => {
+  alertList.value.push(msg);
+  const index = alertList.value.length - 1;
+  setTimeout(() => {
+    alertList.value[index].visible = false;
+  }, msg.dur * 1000);
+}
 
 PubSub.subscribe('alert-pubsub-message', (id: string, msg: {
   title: string;
   str: string;
   type: "default" | "error" | "info" | "success" | "warning" | undefined;
   dur: number;
+  icon?: string;
 }) => {
-  alertList.value.push({
+  addMsg({
     title: msg.title,
     str: msg.str,
     type: msg.type,
     dur: msg.dur,
     visible: true,
+    icon: msg.icon,
   });
-  const index = alertList.value.length - 1;
-  setTimeout(() => {
-    alertList.value[index].visible = false;
-  }, msg.dur * 1000);
 });
 
 </script>

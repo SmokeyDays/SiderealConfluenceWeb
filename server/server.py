@@ -2,9 +2,12 @@ import datetime
 from flask_socketio import emit, join_room, leave_room
 from server.game import Game
 from server.room import Room
+from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
 from server.utils.logger import log
 from server.message import Message, MessageManager
+from server.utils.achievement import unlock_achievement, achievement_manager
+from server.user import user_manager
 
 class Server:
   def __init__(self):
@@ -22,10 +25,16 @@ class Server:
     self.bind_query_events()
   
   def mock1(self):
-    self.rooms["test"] = Room(2, "test", 2)
+    user_manager.get_user("Alice")
+    user_manager.get_user("Bob")
+    user_manager.get_user("Charlie")
+    user_manager.get_user("David")
+    self.rooms["test"] = Room(4, "test", 2)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
+    test_room.enter_room("Charlie")
+    test_room.enter_room("David")
 
     self.new_msg(Message("Alice", "HelloGlobal", str(datetime.datetime.now()), None, None))
     self.new_msg(Message("Bob", "HelloGlobal", str(datetime.datetime.now()), None, None))
@@ -36,17 +45,23 @@ class Server:
 
     test_room.choose_specie("Alice", "Kit")
     test_room.choose_specie("Bob", "Eni")
+    test_room.choose_specie("Charlie", "Unity")
+    test_room.choose_specie("David", "Yengii")
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")
+    test_room.agree_to_start("Charlie")
+    test_room.agree_to_start("David")
     test_room.game.develop_tech("Alice", "纳米科技")
     test_room.game.develop_tech("Alice", "反物质能源")
+    test_room.game.develop_tech("David", "跨种族道德平等")
     test_room.game.debug_draw_colony("Bob")
     test_room.game.debug_add_item("Alice", "Ship", 5)
     test_room.game.debug_add_item("Bob", "Ship", 5)
     test_room.game.debug_add_item("Alice", "Score", 5)
-    test_room.game.debug_add_item("Alice", "ScoreDonation", 1)
+    test_room.game.debug_add_item("Alice", "ScoreDonation", 10)
     test_room.game.debug_add_item("Alice", "Hypertech", 5)
     test_room.game.debug_add_item("Alice", "Industry", 5)
+    test_room.game.debug_add_item("David", "Culture", 5)
     # test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
     test_room.game.gift("Bob", "Alice", {"factories": ["恩尼艾特_相互理解"]})
@@ -54,7 +69,9 @@ class Server:
       test_room.game.trade_proposal("Alice", 
                                   ["Bob"], 
                                   {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
-                                  {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
+                                  {"items": {"Culture": 1}, "factories": ["恩尼艾特_文化包容"]})
+    suc, msg, id = test_room.game.trade_proposal("David", ["Alice"], {"items": {"Culture": 2}, "factories": ["岩基艾_跨种族道德平等"], "techs": ["跨种族道德平等"]}, {"items": {"ScoreDonation": 1}})
+    suc, msg = test_room.game.accept_trade_proposal("Alice", id)
     return
     # skip trading
     test_room.game.player_agree("Alice")
@@ -122,8 +139,6 @@ class Server:
     test_room.game.submit_bid("David", 1, 5)
     return
     
-
-
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
 
@@ -174,6 +189,7 @@ class Server:
       # Whenever we send a message to a user, we should use the 'to' parameter and specify the username as the room name.
       join_room(username)
       self.online_users[username] = self.online_users.get(username, 0) + 1
+      user = user_manager.get_user(username)
       msgs = self.message_manager.get_msgs_by_user(username)
       emit('sync-chat', {"msgs": [msg.to_dict() for msg in msgs]}, namespace=get_router_name())
       emit('alert-message', {
@@ -231,6 +247,7 @@ class Server:
         return
       self.rooms[room_name] = Room(max_players, room_name, 5)
       self.rooms[room_name].enter_room(data['username'])
+      unlock_achievement(data['username'], "create_room")
       emit('alert-message', {
         "type": "success",
         "title": "Room created",
@@ -516,6 +533,25 @@ class Server:
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
     
+
+  def update_achievements(self, user_id: str):
+    user = user_manager.get_user(user_id)
+    achievements = user.achievements
+    achievements_dict = {}
+    for achievement_id in achievements:
+      achievements_dict[achievement_id] = achievement_manager.get_achievement(achievement_id).to_dict()
+      achievements_dict[achievement_id]["unlocked"] = achievements[achievement_id]
+    emit('sync-achievements', {
+      "achievements": achievements_dict
+    }, namespace=get_router_name(), to=user_id)
+
+  def add_achievement(self, user_id: str, achievement_id: str):
+    emit('add-achievement', {
+      "achievement": achievement_manager.get_achievement(achievement_id).to_dict(),
+      "username": user_id
+    }, namespace=get_router_name(), to=user_id)
+    self.update_achievements(user_id)
+
   def bind_query_events(self):
     @self.socketio.on('query-factory', namespace=get_router_name())
     def query_factory(data):
@@ -528,3 +564,11 @@ class Server:
         "factory": factory.to_dict()
       }, namespace=get_router_name())
 
+    @self.socketio.on('query-achievement', namespace=get_router_name())
+    def query_achievement(data):
+      username = data['username']
+      self.update_achievements(username)
+    
+    def add_achievement_listener(data):
+      self.add_achievement(data['username'], data['id'])
+    pubsub.subscribe("add_achievement", add_achievement_listener)

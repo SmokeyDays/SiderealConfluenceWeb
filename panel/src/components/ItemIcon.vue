@@ -10,12 +10,19 @@ import WildSmall from '@/components/icons/items/WildSmall.vue';
 import WildBig from '@/components/icons/items/WildBig.vue';
 import Ship from '@/components/icons/items/Ship.vue';
 import Placeholder from '@/components/icons/items/Placeholder.vue';
+import IconUnknown from '@/components/icons/IconUnknown.vue';
+
+import Achievement0 from '@/components/icons/alerts/Achievement0.vue';
+import Achievement1 from '@/components/icons/alerts/Achievement1.vue';
+import Achievement2 from '@/components/icons/alerts/Achievement2.vue';
+import Achievement3 from '@/components/icons/alerts/Achievement3.vue';
 
 const props = defineProps<{
   item: string;
 }>();
 
 const getIcon = (item: string) =>  {
+  item = item.trim();
   switch (item) {
     case 'Food':
       return Food;
@@ -37,9 +44,16 @@ const getIcon = (item: string) =>  {
       return WildBig;
     case 'Ship':
       return Ship;
-      
+    case 'Achievement0':
+      return Achievement0;
+    case 'Achievement1':
+      return Achievement1;
+    case 'Achievement2':
+      return Achievement2;
+    case 'Achievement3':
+      return Achievement3;
     default:
-      return Placeholder;
+      return IconUnknown;
   }
 };
 </script>

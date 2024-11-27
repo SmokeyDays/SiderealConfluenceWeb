@@ -1,4 +1,5 @@
 from server.game import Game
+from server.utils.pubsub import pubsub
 
 class Room:
   def __init__(self, max_players, name, end_round):
@@ -60,6 +61,7 @@ class Room:
     self.game = Game(self.name, self.end_round)
     for user_id, player in self.players.items():
       self.game.add_player(player["specie"], user_id)
+      pubsub.publish("add_statistics", {"key": "games_played", "value": 1}, user_id)
     self.game_state = "playing"
     self.game.start_game()
 

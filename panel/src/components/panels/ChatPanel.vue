@@ -60,14 +60,21 @@ const getUserOptions = () => {
   return options;
 };
 
+const isSpecialMessage = (msg: Message) => {
+  return msg.sender === "OP";
+};
+
 const getMessages = () => {
   return props.messages.filter(msg => 
-    ((selectedRoom.value === "" && msg.room === null) || 
-      ((msg.room === selectedRoom.value))
-    ) &&
-    ((selectedUser.value === "" && msg.user === null) ||
-      msg.user === selectedUser.value || 
-      (msg.sender === selectedUser.value && msg.user !== null))
+    isSpecialMessage(msg) ||
+    (
+      ((selectedRoom.value === "" && msg.room === null) || 
+        ((msg.room === selectedRoom.value))
+      ) &&
+      ((selectedUser.value === "" && msg.user === null) ||
+        msg.user === selectedUser.value || 
+        (msg.sender === selectedUser.value && msg.user !== null))
+    )
   );
 };
 
@@ -106,25 +113,37 @@ onMounted(() => {
         <n-list hoverable :show-divider="false">
           <template v-for="msg in getMessages()" :key="msg.date">
             <n-list-item>
-              <div class="outer-chat-message-block">
-                <div class="chat-message-avatar" v-if="msg.sender !== username">
-                  <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
-                </div>
-                <div :class="msg.sender === username ? 'chat-message-block-self' : 'chat-message-block'">
-                  <div class="chat-message-sender">
-                    {{ msg.sender }}
-                  </div>
-                  <n-tooltip :placement="msg.sender === username ? 'right' : 'left'" trigger="click">
+              <template v-if="isSpecialMessage(msg)">
+                <div class="chat-message-block-special">
+                  <n-tooltip placement="top" trigger="click">
                     <template #trigger>
-                      <div class="chat-message-content">{{ msg.msg }}</div>
+                      <div class="chat-message-content special-message">{{ msg.msg }}</div>
                     </template>
                     <div>{{ new Date(msg.date).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}</div>
                   </n-tooltip>
                 </div>
-                <div class="chat-message-avatar" v-if="msg.sender === username">
-                  <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
+              </template>
+              <template v-else>
+                <div class="outer-chat-message-block">
+                  <div class="chat-message-avatar" v-if="msg.sender !== username">
+                    <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
+                  </div>
+                  <div :class="msg.sender === username ? 'chat-message-block-self' : 'chat-message-block'">
+                    <div class="chat-message-sender">
+                      {{ msg.sender }}
+                    </div>
+                    <n-tooltip :placement="msg.sender === username ? 'right' : 'left'" trigger="click">
+                      <template #trigger>
+                        <div class="chat-message-content">{{ msg.msg }}</div>
+                      </template>
+                      <div>{{ new Date(msg.date).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) }}</div>
+                    </n-tooltip>
+                  </div>
+                  <div class="chat-message-avatar" v-if="msg.sender === username">
+                    <n-avatar :src="getAvatarSrc(msg.sender)" round size="small" />
+                  </div>
                 </div>
-              </div>
+              </template>
             </n-list-item>
           </template>
         </n-list>
@@ -197,6 +216,12 @@ onMounted(() => {
   align-items: flex-end;
   width: 100%;
 }
+.chat-message-block-special {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 .chat-message-sender {
   font-size: 0.8rem;
   font-weight: bold;
@@ -220,5 +245,9 @@ onMounted(() => {
 .chat-selects {
   display: flex;
   justify-content: space-between;
+}
+.special-message {
+  font-style: italic;
+  font-size: 0.8rem;
 }
 </style>

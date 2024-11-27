@@ -3,6 +3,11 @@ import json
 from typing import Any, Callable, Dict, List, Tuple
 import random
 
+from server.message import Message
+from server.utils.achievement import unlock_achievement
+from server.utils.pubsub import pubsub
+from server.utils.trade_recorder import Trade, TradeRecorder
+
 def get_bid_board(player_num):
   num_dict={
     3:[1,2,3],
@@ -57,6 +62,27 @@ def get_item_value(item: str):
   }
   return item_values.get(item, 0)
 
+def get_items_value(items: Dict[str, Any]):
+  return sum([get_item_value(item) * count for item, count in items.items()])
+
+def get_gift_value(gift: Dict[str, Any]):
+  return get_items_value(gift["items"])
+
+def get_items_str(items: Dict[str, Any]):
+  return ", ".join([f"{item}x{count}" for item, count in items.items()])
+
+def get_gift_str(gift: Dict[str, Any]):
+  factories_str = ""
+  if "factories" in gift:
+    factories_str = f" and Factories {', '.join(gift['factories'])}"
+  tech_str = ""
+  if "techs" in gift:
+    tech_str = f" and Grant Techs {', '.join(gift['techs'])}"
+  items_str = ""
+  if "items" in gift:
+    items_str = f" ({get_items_str(gift['items'])})"
+  return f"{items_str}{factories_str}{tech_str}"
+
 class TradeProposal:
   trade_proposal_id = 1
   def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
@@ -76,6 +102,13 @@ class TradeProposal:
       "receive_gift": self.receive_gift,
       "message": self.message
     }
+  def get_value(self):
+    return get_gift_value(self.receive_gift) - get_gift_value(self.send_gift)
+  def __str__(self):
+    msg_str = ""
+    if self.message:
+      msg_str = f" ({self.message})"
+    return f"(id {self.id}) {self.from_player} -> {self.to_players}: {get_gift_str(self.send_gift)} -> {get_gift_str(self.receive_gift)}{msg_str}"
 
 class DataManager:
   def __init__(self, path: str):
@@ -620,6 +653,9 @@ class Player:
     return tech in self.tech
   
   def invent_tech(self, tech: str):
+    pubsub.publish("add_statistics", {"key": "tech_invented", "value": 1}, self.user_id)
+    if self.specie == "Yengii":
+      pubsub.publish("add_statistics", {"key": "yengii_tech_invented", "value": 1}, self.user_id)
     self.invented_tech.append(tech)
   
   def has_invented_tech(self, tech: str):
@@ -688,6 +724,7 @@ class Game:
     self.colony_bid_priority = []
     self.discard_colony = []
     self.endgame_score = {}
+    self.trade_recorder = TradeRecorder()
 
     self.Kajsjavikalimm_choose_split = None
   def get_player_num(self):
@@ -785,7 +822,33 @@ class Game:
       player.on_end_round()
     self.spread_tech()
     self.return_factories_to_owners()
-  
+
+  def get_winner(self):
+    return max(self.players, key=lambda x: x.score + 0.5 * x.item_value)
+
+  def end_game(self):
+    # check achievements
+    winner = self.get_winner()
+    if winner:
+      pubsub.publish("add_statistics", {"key": "wins", "value": 1}, winner.user_id)
+      max_trade_gap = 0
+      slave_player = None
+      for player in self.players:
+        pubsub.publish("add_statistics", {"key": "games_completed", "value": 1}, player.user_id)
+        if player.user_id != winner.user_id:
+          trade_gap = self.trade_recorder.get_pair_trade_gap(winner.user_id, player.user_id)
+          if trade_gap > max_trade_gap:
+            max_trade_gap = trade_gap
+            slave_player = player
+      if slave_player:
+        pubsub.publish("add_statistics", {"key": "slave", "value": 1}, slave_player.user_id)
+  def production_end(self):
+    self.save_new_product_items()
+    #check achievements
+    for player in self.players:
+      if player.specie == "Im":
+        if player.storage["Fleet"] == 0:
+          unlock_achievement(player.user_id, "im_no_fleet")
   def move_to_next_stage(self):
     if self.stage == "trading":
       self.stage = "discard_colony"
@@ -797,9 +860,10 @@ class Game:
     elif self.stage == 'discard_colony':
       self.stage = 'production'
     elif self.stage == "production":
-      self.save_new_product_items()
+      self.production_end()
       if self.current_round == self.end_round:
         self.stage = "gameend"
+        self.end_game()
       else:
         self.stage = "bid"
         self.reset_player_factories()
@@ -934,6 +998,10 @@ class Game:
     def callback():
       factory = sender.remove_factory(factory_name)
       receiver.add_factory(factory)
+      #check achievements
+      if sender.specie == "Eni":
+        if "MustLend" in factory.feature["properties"] and factory.feature["properties"]["MustLend"]:
+          unlock_achievement(sender.user_id, "eni_winwin")
     return True, "", callback
   
   def grant_tech(self, sender: Player, receiver: Player, tech: str) -> Tuple[bool, str, Callable]:
@@ -1013,6 +1081,10 @@ class Game:
 
     player.remove_factory(factory_name)
     player.add_factory(new_factory)
+    #check achievements
+    if player.specie == "Kit":
+      if new_factory.name in ["凯特_多恒星系恒星能量利用", "凯特_心理史学目的论再设计", "凯特_微型制造的自适应架构"]:
+        unlock_achievement(player.user_id, "kit_upgrade")
     return True, ""
 
   def player_agree(self, player_name: str):
@@ -1035,6 +1107,10 @@ class Game:
       player.colony_bid = colony_bid
       player.research_bid = research_bid
       self.player_agree(player_name)
+      #check achievements
+      if player.specie == "Kjasjavikalimm":
+        if player.research_bid >= 7:
+          unlock_achievement(player.user_id, "kjas_army_on_border")
       return True, ""
     return False, "未指定玩家"
 
@@ -1061,6 +1137,8 @@ class Game:
         self.colony_bid_cards[pick_id]["item"] = None
         # 注意这里要用 player.colony_bid 因为 get_colony_bid 计算的是经过 Caylion 修正后的出价
         player.remove_from_storage("Ship", player.colony_bid)
+        if player.specie == "Caylion":
+          pubsub.publish("add_statistics", {"key": "caylion_colonies", "value": 1}, player.user_id)
       self.colony_bid_priority.pop(0)
     elif type == "research":
       if pick_id != -1:
@@ -1140,6 +1218,9 @@ class Game:
         return False, "非法物品"
     if player.remove_items_from_storage(new_items):
       player.add_items_to_storage(items)
+      #check achievements
+      if player.specie == "Unity":
+        unlock_achievement(player.user_id, "unity_exchange")
       return True, ""
     return False, "玩家库存不足"
   
@@ -1201,12 +1282,13 @@ class Game:
       return success, msg
     for callback in callbacks:
       callback()
+    self.trade_recorder.record_trade(Trade(from_player, to_player, self.current_round, "Gift" + get_gift_str(gift), -get_gift_value(gift)))
     return True, ""
   
   def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
     proposal = TradeProposal(from_player, to_players, send_gift, receive_gift, message)
     self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
-    return True, ""
+    return True, "", proposal.id
 
   def decline_trade_proposal(self, from_player: str, id: int):
     if from_player in self.proposals:
@@ -1223,6 +1305,8 @@ class Game:
           success, msg = self.trade(sender, accept_player, proposal.send_gift, proposal.receive_gift)
           if success:
             self.proposals[sender].remove(proposal)
+            self.trade_recorder.record_trade(Trade(sender, accept_player, self.current_round, "Trade " + str(proposal), proposal.get_value()))
+            pubsub.publish("new-message", Message("OP", "交易达成：" + str(proposal), None, self.room_name, None))
             return True, msg
           return success, msg
     return False, "交易提案不存在"
@@ -1250,6 +1334,9 @@ class Game:
   def get_factory(self, username: str, factory_name: str) -> Factory:
     specie = next((p for p in self.players if p.user_id == username), None).specie
     return self.data_manager.get_factory_by_name(specie, factory_name)
+  
+  def get_trade_log(self):
+    return self.trade_recorder.get_trades_str()
 
   ###########################
   #                         #

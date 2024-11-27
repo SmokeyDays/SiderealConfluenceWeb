@@ -15,6 +15,9 @@ import IconChat from '@/components/icons/IconChat.vue';
 import IconRules from '@/components/icons/IconRules.vue';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
 import RulesPanel from '@/components/panels/RulesPanel.vue';
+import type { Achievement } from './interfaces/UserState';
+import AchievementPanel from './components/panels/AchievementPanel.vue';
+import Achievement3 from './components/icons/alerts/Achievement3.vue';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -42,10 +45,14 @@ const gameState = ref<GameState>({
   colony_bid_cards: [],
   current_pick: {
     type: '',
-    player: ''
+    player: '',
+    bid: 0
   },
   current_discard_colony_player: '',
-  proposals: {}
+  proposals: {},
+  research_bid_priority: [],
+  colony_bid_priority: [],
+  Kajsjavikalimm_choose_split: null
 });
 
 const setCurrentRoom = (room: string) => {
@@ -176,6 +183,16 @@ socket.on('sync-chat', (data: {msgs: Message[]}) => {
     visible: true,
   });
 });
+socket.on('add-achievement', (data: {achievement: Achievement, username: string}) => {
+  PubSub.publish('alert-pubsub-message', {
+    title: data.achievement.name,
+    str: data.achievement.description,
+    type: 'warning',
+    dur: 30,
+    visible: true,
+    icon: 'Achievement' + data.achievement.difficulty,
+  });
+});
 
 const displayMessagePanel = ref(false);
 
@@ -206,6 +223,25 @@ const openRulesPanel = () => {
 const closeRulesPanel = () => {
   displayRulesPanel.value = false;
 };
+
+const displayAchievementPanel = ref(false);
+const getDisplayAchievementPanel = () => {
+  return displayAchievementPanel.value && username.value !== '';
+};
+const closeAchievementPanel = () => {
+  displayAchievementPanel.value = false;
+};
+
+const openAchievementPanel = () => {
+  displayAchievementPanel.value = true;
+  socket.emit('query-achievement', {username: username.value});
+};
+
+const achievements = ref<Achievement[]>([]);
+socket.on('sync-achievements', (data: {achievements: Record<string, Achievement>}) => {
+  console.log(data);
+  achievements.value = Object.values(data.achievements);
+});
 
 onMounted(() => {
   const savedUsername = localStorage.getItem('username');
@@ -244,6 +280,11 @@ onMounted(() => {
       :closeMessagePanel="closeMessagePanel"
       :readMessage="readMessage"
     />
+    <AchievementPanel 
+      v-if="getDisplayAchievementPanel()" 
+      :closeAchievementPanel="closeAchievementPanel" 
+      :achievements="achievements" 
+    />
     <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
     <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">
       <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
@@ -255,6 +296,11 @@ onMounted(() => {
     <n-float-button @click="openRulesPanel" :bottom="10" :left="70" v-if="username !== ''" class="rules-float-button" type="primary">
       <n-icon>
         <IconRules />
+      </n-icon>
+    </n-float-button>
+    <n-float-button @click="openAchievementPanel" :bottom="10" :left="130" v-if="username !== ''" class="achievement-float-button" type="primary">
+      <n-icon>
+        <Achievement3 />
       </n-icon>
     </n-float-button>
   </div>
@@ -273,6 +319,10 @@ onMounted(() => {
 }
 
 .rules-float-button {
+  z-index: 1000;
+}
+
+.achievement-float-button {
   z-index: 1000;
 }
 </style>

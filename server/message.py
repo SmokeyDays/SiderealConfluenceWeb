@@ -1,5 +1,10 @@
+from server.utils.pubsub import pubsub
+from datetime import datetime
+
 class Message:
   def __init__(self, sender, msg, date, room = None, user = None):
+    if date is None:
+      date = str(datetime.now())
     self.date = date
     self.sender = sender
     self.msg = msg
@@ -20,6 +25,8 @@ class MessageManager:
     self.max_length = max_length
     self.msgs = []
     self.on_new_msg = on_new_msg
+
+    pubsub.subscribe("new-message", self.new_msg)
 
   def get_msgs_by_user(self, user_id):
     res = []

@@ -31,21 +31,21 @@ const submit = () => {
 };
 
 const getKeyItem = () => {
-  if ((props.factory.converter.input_items instanceof Array)) {
+  if ((props.factory.converters[0].input_items instanceof Array)) {
     return {
       type: "Error",
       count: 0
     };
   }
-  if (props.factory.converter.input_items["ArbitrarySmall"]) {
+  if (props.factory.converters[0].input_items["ArbitrarySmall"]) {
     return {
       type: "Small",
-      count: props.factory.converter.input_items["ArbitrarySmall"]
+      count: props.factory.converters[0].input_items["ArbitrarySmall"]
     }
-  } else if (props.factory.converter.input_items["ArbitraryBig"]) {
+  } else if (props.factory.converters[0].input_items["ArbitraryBig"]) {
     return {
       type: "Big",
-      count: props.factory.converter.input_items["ArbitraryBig"]
+      count: props.factory.converters[0].input_items["ArbitraryBig"]
     }
   } else {
     return {
@@ -66,7 +66,7 @@ const submitClose = () => {
 };
 
 const getOutputTypeOptions = () => {
-  if ((props.factory.converter.input_items instanceof Array)) {
+  if ((props.factory.converters[0].input_items instanceof Array)) {
     return [];
   }
   let legalOutputs = [];
