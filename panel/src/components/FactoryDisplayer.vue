@@ -35,16 +35,14 @@
       <converter-entry v-if="!props.factory.feature.properties['upgraded']" :="getColonyUpgradeConverterConfig()" />
     </template>
     <template 
-      v-if="props.factory.feature.type === 'Normal' && props.factory.feature.properties['upgrade_cost'] && props.factory.feature.properties['upgrade_cost'].length > 0">
-      <template v-if="typeof props.factory.feature.properties['upgrade_cost'][0] !== 'string'">
-        <converter-entry :="getUpgradeCostConverterConfig(props.factory.feature.properties['upgrade_cost'][0], 0)" />
+      v-if="props.factory.feature.type === 'Normal' && props.factory.feature.properties['upgrades'] && props.factory.feature.properties['upgrades'].length > 0">
+      <template v-if="typeof props.factory.feature.properties['upgrades'][0]['cost'] !== 'string'">
+        <converter-entry :="getUpgradeCostConverterConfig(props.factory.feature.properties['upgrades'][0]['cost'], 0)" />
       </template>
-      <template v-for="id in Object.keys(props.factory.feature.properties['upgrade_cost']).map(Number)" :key="id">
-        <template v-if="typeof props.factory.feature.properties['upgrade_cost'][id] === 'string'">
-          <v-text :config="getUpgradeCostTextConfig(props.factory.feature.properties['upgrade_cost'][id], id)" @click="() => {
-            if (props.me.factories[props.factory.feature.properties['upgrade_cost'][id]]) {
-              props.upgradeNormal(id);
-            }
+      <template v-for="id in Object.keys(props.factory.feature.properties['upgrades']).map(Number)" :key="id">
+        <template v-if="typeof props.factory.feature.properties['upgrades'][id]['cost'] === 'string'">
+          <v-text :config="getUpgradeCostTextConfig(props.factory.feature.properties['upgrades'][id]['cost'], id)" @click="() => {
+            props.upgradeNormal(id);
           }" />
         </template>
       </template>

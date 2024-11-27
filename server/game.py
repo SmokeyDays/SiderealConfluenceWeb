@@ -87,10 +87,12 @@ class DataManager:
 
     self.researches_data = []
     self.research_deck = []
+    self.researches = {}
     self.load_researches(path)
 
     self.colony_data = []
     self.colony_deck = []
+    self.colonies = {}
     self.upgraded_colonies = {}
     self.load_colonies(path)
     self.generate_preview()
@@ -101,7 +103,7 @@ class DataManager:
         if factory.feature["type"] == "Normal":
           if factory.feature["properties"].get("upgraded", False):
             continue
-          upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrade_factory"])
+          upgraded_factory = self.get_factory(specie, factory.feature["properties"]["upgrades"][0]["factory"])
           if upgraded_factory:
             factory.preview = upgraded_factory.converters
         elif factory.feature["type"] == "Meta":
@@ -130,15 +132,23 @@ class DataManager:
     factories = {}
     for factory in specie_data["factories"]:
       feature = factory["feature"]
-      if "upgrade_cost" in factory["feature"]["properties"]:
-        upgrade_cost = []
-        for cost in factory["feature"]["properties"]["upgrade_cost"]:
+      if "upgrades" in factory["feature"]["properties"]:
+        upgrades = []
+        for upgrade in factory["feature"]["properties"]["upgrades"]:
+          cost = upgrade["cost"]
+          upgrade_factory = upgrade["factory"]
           if isinstance(cost, str):
-            upgrade_cost.append(cost)
+            upgrades.append({
+              "cost": cost,
+              "factory": upgrade_factory
+            })
           else:
-            upgrade_cost.append(Converter(**cost).to_dict())
-        upgrade_cost.sort(key=lambda x: 1 if isinstance(x, str) else 0)
-        feature["properties"]["upgrade_cost"] = upgrade_cost
+            upgrades.append({
+              "cost": Converter(**cost).to_dict(),
+              "factory": upgrade_factory
+            })
+        upgrades.sort(key=lambda x: 1 if isinstance(x["cost"], str) else 0)
+        feature["properties"]["upgrades"] = upgrades
       factories[factory["name"]] = Factory(
         factory["name"], 
         [Converter(**converter) for converter in factory["converters"]],
@@ -201,6 +211,7 @@ class DataManager:
       self.researches_data = researches_data
       for research in researches_data:
         self.research_deck.append(self.load_research(research))
+        self.researches[research["name"]] = self.load_research(research)
       random.shuffle(self.research_deck)
       self.research_deck.sort(key=lambda x: x.feature["properties"]["level"])
 
@@ -228,6 +239,7 @@ class DataManager:
           self.upgraded_colonies[colony["name"][:-1]] = factory
         else:
           self.colony_deck.append(factory)
+        self.colonies[colony["name"]] = factory
       random.shuffle(self.colony_deck)
 
   def load_colony(self, colony_data: dict):
@@ -248,6 +260,22 @@ class DataManager:
     if colony_name in self.upgraded_colonies:
       return self.upgraded_colonies[colony_name]
     print(f"{colony_name} 的升级殖民地不存在")
+    return None
+  
+  def add_research_preview(self, specie: str, research):
+    preview = self.get_factory_by_tech(specie, research.feature["properties"]["tech"]).converters
+    research.preview = preview
+    return research
+
+  def get_factory_by_name(self, specie: str, factory_name: str):
+    if factory_name in self.specie_factories[specie]:
+      return self.specie_factories[specie][factory_name]
+    if factory_name in self.colonies:
+      return self.colonies[factory_name]
+    if factory_name in self.researches:
+      factory = self.researches[factory_name]
+      factory = self.add_research_preview(specie, factory)
+      return factory
     return None
 
 class Converter:
@@ -285,8 +313,12 @@ class Factory:
       "type": "Normal",
       "properties": {
         "upgraded": bool,
-        "upgrade_factory": str,
-        "upgrade_cost": List[str | Converter]
+        "upgrades":[
+          {
+            "cost": str | Converter,
+            "factory": str
+          }
+        ]
       }
     }
 
@@ -296,7 +328,7 @@ class Factory:
         "climate": str, in ["Jungle", "Water", "Desert", "Ice"],
         "upgrade_climate": str, in ["Jungle", "Water", "Desert", "Ice"],
         "upgraded": bool,
-        "upgrade_cost": Dict[str, int]
+        "upgrade_cost": Converter
       }
     }
 
@@ -492,8 +524,7 @@ class Player:
     self.add_factory(colony)
 
   def add_research(self, data_manager: DataManager, research: Factory):
-    preview = data_manager.get_factory_by_tech(self.specie, research.feature["properties"]["tech"]).converters
-    research.preview = preview
+    research = data_manager.add_research_preview(self.specie, research)
     self.add_factory(research)
   
   def add_tech(self, factory: Factory, tech: str):
@@ -960,18 +991,18 @@ class Game:
       return False, "工厂不是普通工厂"
     if factory.feature["properties"]["upgraded"]:
       return False, "工厂已经升级"
-    if cost_type < 0 or cost_type >= len(factory.feature["properties"]["upgrade_cost"]):
+    if cost_type < 0 or cost_type >= len(factory.feature["properties"]["upgrades"]):
       return False, "升级费用类型不存在"
-    new_factory = self.data_manager.get_factory(player.specie, factory.feature["properties"]["upgrade_factory"])
-    if isinstance(factory.feature["properties"]["upgrade_cost"][cost_type], str):
-      cost_factory_name = factory.feature["properties"]["upgrade_cost"][cost_type]
+    new_factory = self.data_manager.get_factory(player.specie, factory.feature["properties"]["upgrades"][cost_type]["factory"])
+    if isinstance(factory.feature["properties"]["upgrades"][cost_type]["cost"], str):
+      cost_factory_name = factory.feature["properties"]["upgrades"][cost_type]["cost"]
       cost_factory = next((f for f in player.factories.values() if f.name == cost_factory_name), None)
       if not cost_factory:
         return False, "升级所需工厂不存在"
       player.remove_factory(cost_factory_name)
     else:
       # cost is to run converter
-      converter = factory.feature["properties"]["upgrade_cost"][cost_type]
+      converter = factory.feature["properties"]["upgrades"][cost_type]["cost"]
       if not player.remove_items_from_storage(converter["input_items"]):
         return False, "玩家库存不足"
 
@@ -1208,6 +1239,17 @@ class Game:
     for callback in receive_callbacks:
       callback()
     return True, ""
+  
+  
+  ###########################
+  #                         #
+  #     Query Functions     #
+  #                         #
+  ###########################
+
+  def get_factory(self, username: str, factory_name: str) -> Factory:
+    specie = next((p for p in self.players if p.user_id == username), None).specie
+    return self.data_manager.get_factory_by_name(specie, factory_name)
 
   ###########################
   #                         #

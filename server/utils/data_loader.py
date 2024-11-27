@@ -170,6 +170,8 @@ def analyze_converters(converters_str):
 def factory_from_csv(fac, converter_as_cost = False):
     if fac['Front Name'] in FaderanRelicWorld:
         return None, None, None
+    if fac['Faction'] == '凯特' and fac['Cost'] == 'Starting':
+        return None, None, None
     meta_factory = None
     if converter_as_cost:
         meta_factory = {
@@ -194,9 +196,6 @@ def factory_from_csv(fac, converter_as_cost = False):
             }
         }
         return factory, None, meta_factory
-    if fac['Faction'] == '凯特' and not isinstance(fac['Upgrade1'], str):
-        # todo
-        return None, None, meta_factory
     upgrade=[]
     if isinstance(fac['Upgrade1'], str):
         if re.search('→',fac['Upgrade1']):
@@ -210,8 +209,10 @@ def factory_from_csv(fac, converter_as_cost = False):
             'type': 'Normal',
             'properties': {
                 'upgraded': False,
-                'upgrade_factory': f'{fac["Faction"]}_{fac["Back Name"]}',
-                'upgrade_cost': upgrade
+                'upgrades': [{
+                    'cost': item,
+                    'factory': f'{fac["Faction"]}_{fac["Back Name"]}'
+                } for item in upgrade]
             }
         }
     factory_str = fac["Front Factory"]
@@ -225,16 +226,21 @@ def factory_from_csv(fac, converter_as_cost = False):
           }
         }
         factory_name = f'{fac["Front Name"]}'
-    if fac['Faction'] == 'Colonies':
+    if fac['Faction'] == 'Colonies' or (fac['Faction'] == '凯特' and not isinstance(fac['Upgrade1'], str)):
         info = factory_str.split(',')
         climate, factory_str = info[0], info[1]
-        feature = {
-            "type": "Colony",
-            "properties": {
+        properties = {
+            "upgraded": True,
+        }
+        if fac['Faction'] == 'Colonies':
+            properties = {
                 "climate": translator[climate],
                 "upgraded": False,
                 "upgrade_cost": analyze_converter(fac["Upgrade1"])['input_items']
             }
+        feature = {
+            "type": "Colony",
+            "properties": properties
         }
         factory_name = f'{fac["Front Name"]}'
     factory = {
@@ -352,7 +358,9 @@ def deal_colony(csv_path, save_path):
         f.write(string)
 
 if __name__ == '__main__':
+    raw_csv_path = './server/utils/src/raw_data.csv'
+    save_path = './server/data/'
     for specie in other_specie_info.keys():
-        deal_specie('./server/utils/raw_data.csv', './server/data/species/', specie)
-    deal_research('./server/utils/raw_data.csv', './server/data/')
-    deal_colony('./server/utils/raw_data.csv', './server/data/')
+        deal_specie(raw_csv_path, save_path + 'species/', specie)
+    deal_research(raw_csv_path, save_path)
+    deal_colony(raw_csv_path, save_path)

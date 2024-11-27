@@ -43,10 +43,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_纳米制造",
-                    "upgrade_cost": [
-                        "贾斯_基因工程学",
-                        "贾斯_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_基因工程学",
+                            "factory": "贾斯_纳米制造"
+                        },
+                        {
+                            "cost": "贾斯_原子嬗变",
+                            "factory": "贾斯_纳米制造"
+                        }
                     ]
                 }
             }
@@ -92,10 +97,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_基因再合成",
-                    "upgrade_cost": [
-                        "贾斯_纳米科技",
-                        "贾斯_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_纳米科技",
+                            "factory": "贾斯_基因再合成"
+                        },
+                        {
+                            "cost": "贾斯_临床永生",
+                            "factory": "贾斯_基因再合成"
+                        }
                     ]
                 }
             }
@@ -140,10 +150,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_通用共情交流",
-                    "upgrade_cost": [
-                        "贾斯_泛在文化知识库",
-                        "贾斯_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_泛在文化知识库",
+                            "factory": "贾斯_通用共情交流"
+                        },
+                        {
+                            "cost": "贾斯_量子计算机",
+                            "factory": "贾斯_通用共情交流"
+                        }
                     ]
                 }
             }
@@ -190,10 +205,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_反物质化合物",
-                    "upgrade_cost": [
-                        "贾斯_超空间开采",
-                        "贾斯_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_超空间开采",
+                            "factory": "贾斯_反物质化合物"
+                        },
+                        {
+                            "cost": "贾斯_有机结构",
+                            "factory": "贾斯_反物质化合物"
+                        }
                     ]
                 }
             }
@@ -240,10 +260,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_泛生物医学",
-                    "upgrade_cost": [
-                        "贾斯_跨种族道德平等",
-                        "贾斯_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_跨种族道德平等",
+                            "factory": "贾斯_泛生物医学"
+                        },
+                        {
+                            "cost": "贾斯_有机结构",
+                            "factory": "贾斯_泛生物医学"
+                        }
                     ]
                 }
             }
@@ -290,10 +315,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_具体共相元理论学",
-                    "upgrade_cost": [
-                        "贾斯_种族间医学交流",
-                        "贾斯_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_种族间医学交流",
+                            "factory": "贾斯_具体共相元理论学"
+                        },
+                        {
+                            "cost": "贾斯_非时序分析",
+                            "factory": "贾斯_具体共相元理论学"
+                        }
                     ]
                 }
             }
@@ -342,10 +372,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_多种族混合文化",
-                    "upgrade_cost": [
-                        "贾斯_巨型建筑",
-                        "贾斯_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_巨型建筑",
+                            "factory": "贾斯_多种族混合文化"
+                        },
+                        {
+                            "cost": "贾斯_社会迁移",
+                            "factory": "贾斯_多种族混合文化"
+                        }
                     ]
                 }
             }
@@ -398,10 +433,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_全种族间融合",
-                    "upgrade_cost": [
-                        "贾斯_银河系通讯控制",
-                        "贾斯_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_银河系通讯控制",
+                            "factory": "贾斯_全种族间融合"
+                        },
+                        {
+                            "cost": "贾斯_异文化交流",
+                            "factory": "贾斯_全种族间融合"
+                        }
                     ]
                 }
             }
@@ -454,10 +494,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_银河系殖民",
-                    "upgrade_cost": [
-                        "贾斯_银河系通讯控制",
-                        "贾斯_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_银河系通讯控制",
+                            "factory": "贾斯_银河系殖民"
+                        },
+                        {
+                            "cost": "贾斯_异文化交流",
+                            "factory": "贾斯_银河系殖民"
+                        }
                     ]
                 }
             }
@@ -508,10 +553,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_非确定性多项式塌缩",
-                    "upgrade_cost": [
-                        "贾斯_通用翻译器",
-                        "贾斯_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_通用翻译器",
+                            "factory": "贾斯_非确定性多项式塌缩"
+                        },
+                        {
+                            "cost": "贾斯_临床永生",
+                            "factory": "贾斯_非确定性多项式塌缩"
+                        }
                     ]
                 }
             }
@@ -556,10 +606,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_实用永生",
-                    "upgrade_cost": [
-                        "贾斯_基因工程学",
-                        "贾斯_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_基因工程学",
+                            "factory": "贾斯_实用永生"
+                        },
+                        {
+                            "cost": "贾斯_原子嬗变",
+                            "factory": "贾斯_实用永生"
+                        }
                     ]
                 }
             }
@@ -604,10 +659,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_模因生命体",
-                    "upgrade_cost": [
-                        "贾斯_通用翻译器",
-                        "贾斯_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_通用翻译器",
+                            "factory": "贾斯_模因生命体"
+                        },
+                        {
+                            "cost": "贾斯_量子计算机",
+                            "factory": "贾斯_模因生命体"
+                        }
                     ]
                 }
             }
@@ -654,10 +714,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_时间查看器",
-                    "upgrade_cost": [
-                        "贾斯_反物质能源",
-                        "贾斯_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_反物质能源",
+                            "factory": "贾斯_时间查看器"
+                        },
+                        {
+                            "cost": "贾斯_奇点控制",
+                            "factory": "贾斯_时间查看器"
+                        }
                     ]
                 }
             }
@@ -707,10 +772,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_活体基础设施",
-                    "upgrade_cost": [
-                        "贾斯_种族间医学交流",
-                        "贾斯_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_种族间医学交流",
+                            "factory": "贾斯_活体基础设施"
+                        },
+                        {
+                            "cost": "贾斯_跨种族道德平等",
+                            "factory": "贾斯_活体基础设施"
+                        }
                     ]
                 }
             }
@@ -758,10 +828,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_超空间定居点",
-                    "upgrade_cost": [
-                        "贾斯_反物质能源",
-                        "贾斯_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_反物质能源",
+                            "factory": "贾斯_超空间定居点"
+                        },
+                        {
+                            "cost": "贾斯_奇点控制",
+                            "factory": "贾斯_超空间定居点"
+                        }
                     ]
                 }
             }
@@ -810,10 +885,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_银河系统治",
-                    "upgrade_cost": [
-                        "贾斯_多元种族企业",
-                        "贾斯_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_多元种族企业",
+                            "factory": "贾斯_银河系统治"
+                        },
+                        {
+                            "cost": "贾斯_社会迁移",
+                            "factory": "贾斯_银河系统治"
+                        }
                     ]
                 }
             }
@@ -861,10 +941,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_静滞场",
-                    "upgrade_cost": [
-                        "贾斯_巨型建筑",
-                        "贾斯_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_巨型建筑",
+                            "factory": "贾斯_静滞场"
+                        },
+                        {
+                            "cost": "贾斯_物质生成",
+                            "factory": "贾斯_静滞场"
+                        }
                     ]
                 }
             }
@@ -914,10 +999,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_大规模传送",
-                    "upgrade_cost": [
-                        "贾斯_多元种族企业",
-                        "贾斯_时间膨胀"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_多元种族企业",
+                            "factory": "贾斯_大规模传送"
+                        },
+                        {
+                            "cost": "贾斯_时间膨胀",
+                            "factory": "贾斯_大规模传送"
+                        }
                     ]
                 }
             }
@@ -964,10 +1054,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_快速跃迁网络",
-                    "upgrade_cost": [
-                        "贾斯_超空间开采",
-                        "贾斯_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_超空间开采",
+                            "factory": "贾斯_快速跃迁网络"
+                        },
+                        {
+                            "cost": "贾斯_奇点控制",
+                            "factory": "贾斯_快速跃迁网络"
+                        }
                     ]
                 }
             }
@@ -1009,10 +1104,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_小行星采矿网络",
-                    "upgrade_cost": [
-                        "贾斯_有机结构",
-                        "贾斯_反物质能源"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_有机结构",
+                            "factory": "贾斯_小行星采矿网络"
+                        },
+                        {
+                            "cost": "贾斯_反物质能源",
+                            "factory": "贾斯_小行星采矿网络"
+                        }
                     ]
                 }
             }
@@ -1056,10 +1156,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_虚材料",
-                    "upgrade_cost": [
-                        "贾斯_泛在文化知识库",
-                        "贾斯_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_泛在文化知识库",
+                            "factory": "贾斯_虚材料"
+                        },
+                        {
+                            "cost": "贾斯_纳米科技",
+                            "factory": "贾斯_虚材料"
+                        }
                     ]
                 }
             }
@@ -1107,10 +1212,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_多适性信息素",
-                    "upgrade_cost": [
-                        "贾斯_基因工程学",
-                        "贾斯_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_基因工程学",
+                            "factory": "贾斯_多适性信息素"
+                        },
+                        {
+                            "cost": "贾斯_纳米科技",
+                            "factory": "贾斯_多适性信息素"
+                        }
                     ]
                 }
             }
@@ -1162,10 +1272,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_虫洞网格",
-                    "upgrade_cost": [
-                        "贾斯_超空间开采",
-                        "贾斯_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_超空间开采",
+                            "factory": "贾斯_虫洞网格"
+                        },
+                        {
+                            "cost": "贾斯_非时序分析",
+                            "factory": "贾斯_虫洞网格"
+                        }
                     ]
                 }
             }
@@ -1214,10 +1329,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_戴森群",
-                    "upgrade_cost": [
-                        "贾斯_时间膨胀",
-                        "贾斯_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "贾斯_时间膨胀",
+                            "factory": "贾斯_戴森群"
+                        },
+                        {
+                            "cost": "贾斯_物质生成",
+                            "factory": "贾斯_戴森群"
+                        }
                     ]
                 }
             }
@@ -1274,19 +1394,21 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_星系外沿霸权",
-                    "upgrade_cost": [
+                    "upgrades": [
                         {
-                            "input_items": {
-                                "Water": 1,
-                                "Jungle": 1,
-                                "Desert": 1,
-                                "Industry": 2
+                            "cost": {
+                                "input_items": {
+                                    "Water": 1,
+                                    "Jungle": 1,
+                                    "Desert": 1,
+                                    "Industry": 2
+                                },
+                                "output_items": {
+                                    "Score": 2
+                                },
+                                "running_stage": "trading"
                             },
-                            "output_items": {
-                                "Score": 2
-                            },
-                            "running_stage": "trading"
+                            "factory": "贾斯_星系外沿霸权"
                         }
                     ]
                 }
@@ -1380,19 +1502,21 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_哈德沙帝国",
-                    "upgrade_cost": [
+                    "upgrades": [
                         {
-                            "input_items": {
-                                "Water": 1,
-                                "Desert": 1,
-                                "Ice": 1,
-                                "Energy": 2
+                            "cost": {
+                                "input_items": {
+                                    "Water": 1,
+                                    "Desert": 1,
+                                    "Ice": 1,
+                                    "Energy": 2
+                                },
+                                "output_items": {
+                                    "Score": 3
+                                },
+                                "running_stage": "trading"
                             },
-                            "output_items": {
-                                "Score": 3
-                            },
-                            "running_stage": "trading"
+                            "factory": "贾斯_哈德沙帝国"
                         }
                     ]
                 }
@@ -1475,19 +1599,21 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "贾斯_瓦格莱格统治权",
-                    "upgrade_cost": [
+                    "upgrades": [
                         {
-                            "input_items": {
-                                "Jungle": 1,
-                                "Desert": 1,
-                                "Ice": 1,
-                                "Energy": 2
+                            "cost": {
+                                "input_items": {
+                                    "Jungle": 1,
+                                    "Desert": 1,
+                                    "Ice": 1,
+                                    "Energy": 2
+                                },
+                                "output_items": {
+                                    "Score": 3
+                                },
+                                "running_stage": "trading"
                             },
-                            "output_items": {
-                                "Score": 3
-                            },
-                            "running_stage": "trading"
+                            "factory": "贾斯_瓦格莱格统治权"
                         }
                     ]
                 }

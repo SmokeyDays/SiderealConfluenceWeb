@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, watch , reactive } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch , reactive, type Component } from 'vue';
 import { defineProps } from 'vue';
 import { Gift, type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
@@ -17,6 +17,7 @@ import { socket } from '@/utils/connect';
 import { NFloatButton, NIcon } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
 import IconMenu from '@/components/icons/IconMenu.vue';
+import FactoryDisplayerAsync from '@/components/FactoryDisplayerAsync.vue';
 
 export interface GameProps {
   scaleFactor: number;
@@ -270,7 +271,7 @@ const upgradeColony = (factory: Factory) => {
     factory_name: factory.name
   });
 }
-const upgradeNormal = (factoryName: string, id: number) => {
+const upgradeNormal = (factoryName: string, id: number, newFactoryName: string) => {
   pleaseCheckAgain(() => {
     socket.emit("upgrade-normal", {
       room_name: props.gameState.room_name,
@@ -278,7 +279,17 @@ const upgradeNormal = (factoryName: string, id: number) => {
       factory_name: factoryName,
       cost_type: id
     });
-  }, `你是否确定以第 ${id} 种升级费用升级工厂 ${factoryName} ？注意这将是不可逆的操作。`);
+  }, `你是否确定以第 ${id} 种升级费用升级工厂 ${factoryName} 为 ${newFactoryName} ？注意这将是不可逆的操作。`,
+    {
+      component: FactoryDisplayerAsync,
+      props: {
+        roomName: props.gameState.room_name,
+        me: getMe(),
+        factory: newFactoryName,
+        getFactoryConfig: getFactoryConfig
+      }
+    }
+  );
 }
 
 const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): FactoryConfig => {
@@ -300,7 +311,7 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
     },
     upgradeNormal: (id: number) => {
       if (factory.feature.type === "Normal") {
-        upgradeNormal(factory.name, id);
+        upgradeNormal(factory.name, id, factory.feature.properties['upgrades'][id]['factory']);
       }
     },
     me: me
@@ -523,16 +534,19 @@ const closeEndPanel = () => {
 
 const checkPanel = ref(false);
 const checkCallback = ref<(() => void)>(() => {});
-const checkMessage = ref<string>("");
-const pleaseCheckAgain = (callback: () => void, message: string) => {
+const checkMessage = ref<{ component: Component, props: any } | null>(null);
+const checkTitle = ref<string>("");
+const pleaseCheckAgain = (callback: () => void, title: string, message: { component: Component, props: any } | null) => {
   checkPanel.value = true;
   checkCallback.value = callback;
   checkMessage.value = message;
+  checkTitle.value = title;
 }
 const closeCheckPanel = () => {
   checkPanel.value = false;
   checkCallback.value = () => {};
-  checkMessage.value = "";
+  checkMessage.value = null;
+  checkTitle.value = "";
 }
 
 const displayDiscardColonyPanel = ref(false);
@@ -648,6 +662,7 @@ const displayMask = () => {
     :get-me="getMe"
     :get-player="getPlayer"
     :username="props.username"
+    :room-name="props.gameState.room_name"
     :submit-kajsjavikalimm-choose-split="submitKajsjavikalimmChooseSplit"
     v-if="displayBidPanel"
   />
@@ -658,7 +673,7 @@ const displayMask = () => {
     :players="props.gameState.players"
     v-if="displayEndPanel"
   />
-  <CheckPanel :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
+  <CheckPanel :check-title="checkTitle" :check-message="checkMessage" :check-callback="checkCallback" :close-callback="closeCheckPanel" v-if="checkPanel" />
   <ExchangePanel 
     :submit-exchange="submitExchange" 
     :close-exchange-panel="closeExchangePanel" 

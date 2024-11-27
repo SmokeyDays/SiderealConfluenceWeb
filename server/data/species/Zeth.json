@@ -47,9 +47,11 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_超空间劫持",
-                    "upgrade_cost": [
-                        "泽思_超空间开采"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_超空间开采",
+                            "factory": "泽思_超空间劫持"
+                        }
                     ]
                 }
             }
@@ -99,10 +101,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_纳米制造",
-                    "upgrade_cost": [
-                        "泽思_基因工程学",
-                        "泽思_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_基因工程学",
+                            "factory": "泽思_纳米制造"
+                        },
+                        {
+                            "cost": "泽思_原子嬗变",
+                            "factory": "泽思_纳米制造"
+                        }
                     ]
                 }
             }
@@ -148,10 +155,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_基因再合成",
-                    "upgrade_cost": [
-                        "泽思_纳米科技",
-                        "泽思_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_纳米科技",
+                            "factory": "泽思_基因再合成"
+                        },
+                        {
+                            "cost": "泽思_临床永生",
+                            "factory": "泽思_基因再合成"
+                        }
                     ]
                 }
             }
@@ -196,10 +208,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_通用共情交流",
-                    "upgrade_cost": [
-                        "泽思_泛在文化知识库",
-                        "泽思_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_泛在文化知识库",
+                            "factory": "泽思_通用共情交流"
+                        },
+                        {
+                            "cost": "泽思_量子计算机",
+                            "factory": "泽思_通用共情交流"
+                        }
                     ]
                 }
             }
@@ -246,10 +263,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_反物质化合物",
-                    "upgrade_cost": [
-                        "泽思_超空间开采",
-                        "泽思_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_超空间开采",
+                            "factory": "泽思_反物质化合物"
+                        },
+                        {
+                            "cost": "泽思_有机结构",
+                            "factory": "泽思_反物质化合物"
+                        }
                     ]
                 }
             }
@@ -297,10 +319,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_泛生物医学",
-                    "upgrade_cost": [
-                        "泽思_跨种族道德平等",
-                        "泽思_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_跨种族道德平等",
+                            "factory": "泽思_泛生物医学"
+                        },
+                        {
+                            "cost": "泽思_有机结构",
+                            "factory": "泽思_泛生物医学"
+                        }
                     ]
                 }
             }
@@ -349,10 +376,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_具体共相元理论学",
-                    "upgrade_cost": [
-                        "泽思_种族间医学交流",
-                        "泽思_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_种族间医学交流",
+                            "factory": "泽思_具体共相元理论学"
+                        },
+                        {
+                            "cost": "泽思_非时序分析",
+                            "factory": "泽思_具体共相元理论学"
+                        }
                     ]
                 }
             }
@@ -401,10 +433,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_多种族混合文化",
-                    "upgrade_cost": [
-                        "泽思_巨型建筑",
-                        "泽思_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_巨型建筑",
+                            "factory": "泽思_多种族混合文化"
+                        },
+                        {
+                            "cost": "泽思_社会迁移",
+                            "factory": "泽思_多种族混合文化"
+                        }
                     ]
                 }
             }
@@ -458,10 +495,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_全种族间融合",
-                    "upgrade_cost": [
-                        "泽思_银河系通讯控制",
-                        "泽思_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_银河系通讯控制",
+                            "factory": "泽思_全种族间融合"
+                        },
+                        {
+                            "cost": "泽思_异文化交流",
+                            "factory": "泽思_全种族间融合"
+                        }
                     ]
                 }
             }
@@ -515,10 +557,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_银河系殖民",
-                    "upgrade_cost": [
-                        "泽思_银河系通讯控制",
-                        "泽思_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_银河系通讯控制",
+                            "factory": "泽思_银河系殖民"
+                        },
+                        {
+                            "cost": "泽思_异文化交流",
+                            "factory": "泽思_银河系殖民"
+                        }
                     ]
                 }
             }
@@ -568,10 +615,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_非确定性多项式塌缩",
-                    "upgrade_cost": [
-                        "泽思_通用翻译器",
-                        "泽思_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_通用翻译器",
+                            "factory": "泽思_非确定性多项式塌缩"
+                        },
+                        {
+                            "cost": "泽思_临床永生",
+                            "factory": "泽思_非确定性多项式塌缩"
+                        }
                     ]
                 }
             }
@@ -616,10 +668,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_实用永生",
-                    "upgrade_cost": [
-                        "泽思_基因工程学",
-                        "泽思_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_基因工程学",
+                            "factory": "泽思_实用永生"
+                        },
+                        {
+                            "cost": "泽思_原子嬗变",
+                            "factory": "泽思_实用永生"
+                        }
                     ]
                 }
             }
@@ -664,10 +721,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_模因生命体",
-                    "upgrade_cost": [
-                        "泽思_通用翻译器",
-                        "泽思_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_通用翻译器",
+                            "factory": "泽思_模因生命体"
+                        },
+                        {
+                            "cost": "泽思_量子计算机",
+                            "factory": "泽思_模因生命体"
+                        }
                     ]
                 }
             }
@@ -714,10 +776,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_时间查看器",
-                    "upgrade_cost": [
-                        "泽思_反物质能源",
-                        "泽思_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_反物质能源",
+                            "factory": "泽思_时间查看器"
+                        },
+                        {
+                            "cost": "泽思_奇点控制",
+                            "factory": "泽思_时间查看器"
+                        }
                     ]
                 }
             }
@@ -764,10 +831,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_活体基础设施",
-                    "upgrade_cost": [
-                        "泽思_种族间医学交流",
-                        "泽思_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_种族间医学交流",
+                            "factory": "泽思_活体基础设施"
+                        },
+                        {
+                            "cost": "泽思_跨种族道德平等",
+                            "factory": "泽思_活体基础设施"
+                        }
                     ]
                 }
             }
@@ -815,10 +887,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_超空间定居点",
-                    "upgrade_cost": [
-                        "泽思_反物质能源",
-                        "泽思_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_反物质能源",
+                            "factory": "泽思_超空间定居点"
+                        },
+                        {
+                            "cost": "泽思_奇点控制",
+                            "factory": "泽思_超空间定居点"
+                        }
                     ]
                 }
             }
@@ -868,10 +945,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_银河系统治",
-                    "upgrade_cost": [
-                        "泽思_多元种族企业",
-                        "泽思_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_多元种族企业",
+                            "factory": "泽思_银河系统治"
+                        },
+                        {
+                            "cost": "泽思_社会迁移",
+                            "factory": "泽思_银河系统治"
+                        }
                     ]
                 }
             }
@@ -919,10 +1001,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_静滞场",
-                    "upgrade_cost": [
-                        "泽思_巨型建筑",
-                        "泽思_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_巨型建筑",
+                            "factory": "泽思_静滞场"
+                        },
+                        {
+                            "cost": "泽思_物质生成",
+                            "factory": "泽思_静滞场"
+                        }
                     ]
                 }
             }
@@ -971,10 +1058,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_大规模传送",
-                    "upgrade_cost": [
-                        "泽思_多元种族企业",
-                        "泽思_时间膨胀"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_多元种族企业",
+                            "factory": "泽思_大规模传送"
+                        },
+                        {
+                            "cost": "泽思_时间膨胀",
+                            "factory": "泽思_大规模传送"
+                        }
                     ]
                 }
             }
@@ -1024,9 +1116,11 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_泽思人流散",
-                    "upgrade_cost": [
-                        "泽思_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_跨种族道德平等",
+                            "factory": "泽思_泽思人流散"
+                        }
                     ]
                 }
             }
@@ -1079,9 +1173,11 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_心理学史欺诈",
-                    "upgrade_cost": [
-                        "泽思_通用翻译器"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_通用翻译器",
+                            "factory": "泽思_心理学史欺诈"
+                        }
                     ]
                 }
             }
@@ -1134,10 +1230,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_虚材料",
-                    "upgrade_cost": [
-                        "泽思_泛在文化知识库",
-                        "泽思_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_泛在文化知识库",
+                            "factory": "泽思_虚材料"
+                        },
+                        {
+                            "cost": "泽思_纳米科技",
+                            "factory": "泽思_虚材料"
+                        }
                     ]
                 }
             }
@@ -1188,9 +1289,11 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_预测性代理人介入",
-                    "upgrade_cost": [
-                        "泽思_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_非时序分析",
+                            "factory": "泽思_预测性代理人介入"
+                        }
                     ]
                 }
             }
@@ -1246,9 +1349,11 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_无踪迹信任骗局",
-                    "upgrade_cost": [
-                        "泽思_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_纳米科技",
+                            "factory": "泽思_无踪迹信任骗局"
+                        }
                     ]
                 }
             }
@@ -1304,10 +1409,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_虫洞网格",
-                    "upgrade_cost": [
-                        "泽思_超空间开采",
-                        "泽思_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_超空间开采",
+                            "factory": "泽思_虫洞网格"
+                        },
+                        {
+                            "cost": "泽思_非时序分析",
+                            "factory": "泽思_虫洞网格"
+                        }
                     ]
                 }
             }
@@ -1357,10 +1467,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "泽思_戴森群",
-                    "upgrade_cost": [
-                        "泽思_时间膨胀",
-                        "泽思_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "泽思_时间膨胀",
+                            "factory": "泽思_戴森群"
+                        },
+                        {
+                            "cost": "泽思_物质生成",
+                            "factory": "泽思_戴森群"
+                        }
                     ]
                 }
             }

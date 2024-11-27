@@ -1,0 +1,388 @@
+[
+  {
+    "name": "凯特_手工制作的多功能组件",
+    "converters": [
+      {
+        "input_items": {},
+        "output_items": {
+          "Hypertech": 1,
+          "Ship": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_有机结构",
+            "factory": "凯特_微型制造的多功能组件"
+          },
+          {
+            "cost": "凯特_非时序分析",
+            "factory": "凯特_微型制造的多功能组件"
+          },
+          {
+            "cost": "凯特_原子嬗变",
+            "factory": "凯特_手工制作的自适应架构"
+          },
+          {
+            "cost": "凯特_量子计算机",
+            "factory": "凯特_手工制作的自适应架构"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_微型制造的多功能组件",
+    "converters": [
+      {
+        "input_items": {},
+        "output_items": {
+          "Food": 1,
+          "Industry": 1,
+          "Hypertech": 1,
+          "Ship": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_原子嬗变",
+            "factory": "凯特_微型制造的自适应架构"
+          },
+          {
+            "cost": "凯特_量子计算机",
+            "factory": "凯特_微型制造的自适应架构"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_手工制作的自适应架构",
+    "converters": [
+      {
+        "input_items": {},
+        "output_items": {
+          "Ship": 1,
+          "Biotech": 1,
+          "Hypertech": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_有机结构",
+            "factory": "凯特_微型制造的自适应架构"
+          },
+          {
+            "cost": "凯特_非时序分析",
+            "factory": "凯特_微型制造的自适应架构"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_微型制造的自适应架构",
+    "converters": [
+      {
+        "input_items": {},
+        "output_items": {
+          "Ship": 1,
+          "Biotech": 1,
+          "Hypertech": 1,
+          "Food": 1,
+          "Industry": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": true
+      }
+    }
+  },
+  {
+    "name": "凯特_无序牺牲性高风险实验室",
+    "converters": [
+      {
+        "input_items": {
+          "Hypertech": 1
+        },
+        "output_items": {
+          "Culture": 1,
+          "Food": 1,
+          "Industry": 2
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_临床永生",
+            "factory": "凯特_多恒星系高风险实验室"
+          },
+          {
+            "cost": "凯特_通用翻译器",
+            "factory": "凯特_多恒星系高风险实验室"
+          },
+          {
+            "cost": "凯特_超空间开采",
+            "factory": "凯特_无序牺牲性恒星能量利用"
+          },
+          {
+            "cost": "凯特_奇点控制",
+            "factory": "凯特_无序牺牲性恒星能量利用"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_多恒星系高风险实验室",
+    "converters": [
+      {
+        "input_items": {
+          "Hypertech": 1
+        },
+        "output_items": {
+          "Culture": 1,
+          "Food": 1,
+          "Industry": 2,
+          "Information": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_超空间开采",
+            "factory": "凯特_多恒星系恒星能量利用"
+          },
+          {
+            "cost": "凯特_奇点控制",
+            "factory": "凯特_多恒星系恒星能量利用"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_无序牺牲性恒星能量利用",
+    "converters": [
+      {
+        "input_items": {
+          "Hypertech": 1
+        },
+        "output_items": {
+          "Culture": 2,
+          "Food": 2,
+          "Industry": 2
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_临床永生",
+            "factory": "凯特_多恒星系恒星能量利用"
+          },
+          {
+            "cost": "凯特_通用翻译器",
+            "factory": "凯特_多恒星系恒星能量利用"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_多恒星系恒星能量利用",
+    "converters": [
+      {
+        "input_items": {
+          "Hypertech": 1
+        },
+        "output_items": {
+          "Culture": 2,
+          "Food": 2,
+          "Industry": 2,
+          "Information": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": true
+      }
+    }
+  },
+  {
+    "name": "凯特_广域社会扩散",
+    "converters": [
+      {
+        "input_items": {
+          "Food": 5
+        },
+        "output_items": {
+          "Biotech": 1,
+          "Energy": 1,
+          "Information": 1,
+          "Ship": 4
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_跨种族道德平等",
+            "factory": "凯特_心理史学扩散"
+          },
+          {
+            "cost": "凯特_种族间医学交流",
+            "factory": "凯特_心理史学扩散"
+          },
+          {
+            "cost": "凯特_纳米科技",
+            "factory": "凯特_广域社会目的论再设计"
+          },
+          {
+            "cost": "凯特_基因工程学",
+            "factory": "凯特_广域社会目的论再设计"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_心理史学扩散",
+    "converters": [
+      {
+        "input_items": {
+          "Food": 5
+        },
+        "output_items": {
+          "Culture": 1,
+          "Industry": 1,
+          "Biotech": 1,
+          "Energy": 1,
+          "Information": 1,
+          "Ship": 4
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_纳米科技",
+            "factory": "凯特_心理史学目的论再设计"
+          },
+          {
+            "cost": "凯特_基因工程学",
+            "factory": "凯特_心理史学目的论再设计"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_广域社会目的论再设计",
+    "converters": [
+      {
+        "input_items": {
+          "Food": 5
+        },
+        "output_items": {
+          "Biotech": 1,
+          "Energy": 1,
+          "Information": 1,
+          "Ship": 4,
+          "CultureDonation": 1,
+          "IndustryDonation": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": false,
+        "upgrades": [
+          {
+            "cost": "凯特_跨种族道德平等",
+            "factory": "凯特_心理史学目的论再设计"
+          },
+          {
+            "cost": "凯特_种族间医学交流",
+            "factory": "凯特_心理史学目的论再设计"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "凯特_心理史学目的论再设计",
+    "converters": [
+      {
+        "input_items": {
+          "Food": 5
+        },
+        "output_items": {
+          "Culture": 1,
+          "Industry": 1,
+          "Biotech": 1,
+          "Energy": 1,
+          "Information": 1,
+          "Ship": 4,
+          "CultureDonation": 1,
+          "IndustryDonation": 1
+        },
+        "running_stage": "production"
+      }
+    ],
+    "feature": {
+      "type": "Normal",
+      "properties": {
+        "upgraded": true
+      }
+    }
+  }
+]

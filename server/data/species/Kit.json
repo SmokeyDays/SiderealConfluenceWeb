@@ -16,12 +16,6 @@
             "Industry": 3
         },
         "factories": [
-            "凯特_多功能组件",
-            "凯特_手工制作的",
-            "凯特_高风险实验室",
-            "凯特_无序牺牲性",
-            "凯特_扩散",
-            "凯特_广域社会",
             "凯特_Zd'Nx_打出",
             "凯特_Kz'Tlr_打出",
             "凯特_Kln'Qn_打出",
@@ -56,10 +50,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_纳米制造",
-                    "upgrade_cost": [
-                        "凯特_基因工程学",
-                        "凯特_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_基因工程学",
+                            "factory": "凯特_纳米制造"
+                        },
+                        {
+                            "cost": "凯特_原子嬗变",
+                            "factory": "凯特_纳米制造"
+                        }
                     ]
                 }
             }
@@ -105,10 +104,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_基因再合成",
-                    "upgrade_cost": [
-                        "凯特_纳米科技",
-                        "凯特_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_纳米科技",
+                            "factory": "凯特_基因再合成"
+                        },
+                        {
+                            "cost": "凯特_临床永生",
+                            "factory": "凯特_基因再合成"
+                        }
                     ]
                 }
             }
@@ -153,10 +157,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_通用共情交流",
-                    "upgrade_cost": [
-                        "凯特_泛在文化知识库",
-                        "凯特_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_泛在文化知识库",
+                            "factory": "凯特_通用共情交流"
+                        },
+                        {
+                            "cost": "凯特_量子计算机",
+                            "factory": "凯特_通用共情交流"
+                        }
                     ]
                 }
             }
@@ -203,10 +212,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_反物质化合物",
-                    "upgrade_cost": [
-                        "凯特_超空间开采",
-                        "凯特_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_超空间开采",
+                            "factory": "凯特_反物质化合物"
+                        },
+                        {
+                            "cost": "凯特_有机结构",
+                            "factory": "凯特_反物质化合物"
+                        }
                     ]
                 }
             }
@@ -253,10 +267,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_泛生物医学",
-                    "upgrade_cost": [
-                        "凯特_跨种族道德平等",
-                        "凯特_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_跨种族道德平等",
+                            "factory": "凯特_泛生物医学"
+                        },
+                        {
+                            "cost": "凯特_有机结构",
+                            "factory": "凯特_泛生物医学"
+                        }
                     ]
                 }
             }
@@ -304,10 +323,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_具体共相元理论学",
-                    "upgrade_cost": [
-                        "凯特_种族间医学交流",
-                        "凯特_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_种族间医学交流",
+                            "factory": "凯特_具体共相元理论学"
+                        },
+                        {
+                            "cost": "凯特_非时序分析",
+                            "factory": "凯特_具体共相元理论学"
+                        }
                     ]
                 }
             }
@@ -356,10 +380,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_多种族混合文化",
-                    "upgrade_cost": [
-                        "凯特_巨型建筑",
-                        "凯特_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_巨型建筑",
+                            "factory": "凯特_多种族混合文化"
+                        },
+                        {
+                            "cost": "凯特_社会迁移",
+                            "factory": "凯特_多种族混合文化"
+                        }
                     ]
                 }
             }
@@ -412,10 +441,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_全种族间融合",
-                    "upgrade_cost": [
-                        "凯特_银河系通讯控制",
-                        "凯特_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_银河系通讯控制",
+                            "factory": "凯特_全种族间融合"
+                        },
+                        {
+                            "cost": "凯特_异文化交流",
+                            "factory": "凯特_全种族间融合"
+                        }
                     ]
                 }
             }
@@ -468,10 +502,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_银河系殖民",
-                    "upgrade_cost": [
-                        "凯特_银河系通讯控制",
-                        "凯特_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_银河系通讯控制",
+                            "factory": "凯特_银河系殖民"
+                        },
+                        {
+                            "cost": "凯特_异文化交流",
+                            "factory": "凯特_银河系殖民"
+                        }
                     ]
                 }
             }
@@ -522,10 +561,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_非确定性多项式塌缩",
-                    "upgrade_cost": [
-                        "凯特_通用翻译器",
-                        "凯特_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_通用翻译器",
+                            "factory": "凯特_非确定性多项式塌缩"
+                        },
+                        {
+                            "cost": "凯特_临床永生",
+                            "factory": "凯特_非确定性多项式塌缩"
+                        }
                     ]
                 }
             }
@@ -570,10 +614,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_实用永生",
-                    "upgrade_cost": [
-                        "凯特_基因工程学",
-                        "凯特_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_基因工程学",
+                            "factory": "凯特_实用永生"
+                        },
+                        {
+                            "cost": "凯特_原子嬗变",
+                            "factory": "凯特_实用永生"
+                        }
                     ]
                 }
             }
@@ -618,10 +667,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_模因生命体",
-                    "upgrade_cost": [
-                        "凯特_通用翻译器",
-                        "凯特_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_通用翻译器",
+                            "factory": "凯特_模因生命体"
+                        },
+                        {
+                            "cost": "凯特_量子计算机",
+                            "factory": "凯特_模因生命体"
+                        }
                     ]
                 }
             }
@@ -668,10 +722,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_时间查看器",
-                    "upgrade_cost": [
-                        "凯特_反物质能源",
-                        "凯特_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_反物质能源",
+                            "factory": "凯特_时间查看器"
+                        },
+                        {
+                            "cost": "凯特_奇点控制",
+                            "factory": "凯特_时间查看器"
+                        }
                     ]
                 }
             }
@@ -720,10 +779,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_活体基础设施",
-                    "upgrade_cost": [
-                        "凯特_种族间医学交流",
-                        "凯特_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_种族间医学交流",
+                            "factory": "凯特_活体基础设施"
+                        },
+                        {
+                            "cost": "凯特_跨种族道德平等",
+                            "factory": "凯特_活体基础设施"
+                        }
                     ]
                 }
             }
@@ -772,10 +836,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_超空间定居点",
-                    "upgrade_cost": [
-                        "凯特_反物质能源",
-                        "凯特_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_反物质能源",
+                            "factory": "凯特_超空间定居点"
+                        },
+                        {
+                            "cost": "凯特_奇点控制",
+                            "factory": "凯特_超空间定居点"
+                        }
                     ]
                 }
             }
@@ -824,10 +893,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_银河系统治",
-                    "upgrade_cost": [
-                        "凯特_多元种族企业",
-                        "凯特_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_多元种族企业",
+                            "factory": "凯特_银河系统治"
+                        },
+                        {
+                            "cost": "凯特_社会迁移",
+                            "factory": "凯特_银河系统治"
+                        }
                     ]
                 }
             }
@@ -875,10 +949,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_静滞场",
-                    "upgrade_cost": [
-                        "凯特_巨型建筑",
-                        "凯特_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_巨型建筑",
+                            "factory": "凯特_静滞场"
+                        },
+                        {
+                            "cost": "凯特_物质生成",
+                            "factory": "凯特_静滞场"
+                        }
                     ]
                 }
             }
@@ -927,10 +1006,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_大规模传送",
-                    "upgrade_cost": [
-                        "凯特_多元种族企业",
-                        "凯特_时间膨胀"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_多元种族企业",
+                            "factory": "凯特_大规模传送"
+                        },
+                        {
+                            "cost": "凯特_时间膨胀",
+                            "factory": "凯特_大规模传送"
+                        }
                     ]
                 }
             }
@@ -947,91 +1031,6 @@
                         "Hypertech": 1,
                         "Information": 1,
                         "Culture": 3
-                    },
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
-            "name": "凯特_多功能组件",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Ship": 1
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_自适应架构",
-                    "upgrade_cost": [
-                        "凯特_原子嬗变",
-                        "凯特_量子计算机"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_自适应架构",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Ship": 1,
-                        "Biotech": 1
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
-            "name": "凯特_手工制作的",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Hypertech": 1
-                    },
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_微型制造的",
-                    "upgrade_cost": [
-                        "凯特_有机结构",
-                        "凯特_非时序分析"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_微型制造的",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Food": 1,
-                        "Industry": 1,
-                        "Hypertech": 1
                     },
                     "running_stage": "production"
                 }
@@ -1061,10 +1060,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_虚材料",
-                    "upgrade_cost": [
-                        "凯特_泛在文化知识库",
-                        "凯特_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_泛在文化知识库",
+                            "factory": "凯特_虚材料"
+                        },
+                        {
+                            "cost": "凯特_纳米科技",
+                            "factory": "凯特_虚材料"
+                        }
                     ]
                 }
             }
@@ -1080,94 +1084,6 @@
                         "Information": 2,
                         "Food": 1,
                         "Energy": 1
-                    },
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
-            "name": "凯特_高风险实验室",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Culture": 1,
-                        "Food": 1,
-                        "Industry": 2
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_恒星能量利用",
-                    "upgrade_cost": [
-                        "凯特_超空间开采",
-                        "凯特_奇点控制"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_恒星能量利用",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Culture": 2,
-                        "Food": 2,
-                        "Industry": 2
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
-            "name": "凯特_无序牺牲性",
-            "converters": [
-                {
-                    "input_items": {
-                        "Hypertech": 1
-                    },
-                    "output_items": {},
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_多恒星系",
-                    "upgrade_cost": [
-                        "凯特_临床永生",
-                        "凯特_通用翻译器"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_多恒星系",
-            "converters": [
-                {
-                    "input_items": {
-                        "Hypertech": 1
-                    },
-                    "output_items": {
-                        "Information": 1
                     },
                     "running_stage": "production"
                 }
@@ -1201,10 +1117,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_虫洞网格",
-                    "upgrade_cost": [
-                        "凯特_超空间开采",
-                        "凯特_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_超空间开采",
+                            "factory": "凯特_虫洞网格"
+                        },
+                        {
+                            "cost": "凯特_非时序分析",
+                            "factory": "凯特_虫洞网格"
+                        }
                     ]
                 }
             }
@@ -1235,99 +1156,6 @@
             }
         },
         {
-            "name": "凯特_扩散",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Biotech": 1,
-                        "Energy": 1,
-                        "Information": 1,
-                        "Ship": 4
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_目的论再设计",
-                    "upgrade_cost": [
-                        "凯特_纳米科技",
-                        "凯特_基因工程学"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_目的论再设计",
-            "converters": [
-                {
-                    "input_items": {},
-                    "output_items": {
-                        "Biotech": 1,
-                        "Energy": 1,
-                        "Information": 1,
-                        "Ship": 4,
-                        "CultureDonation": 1,
-                        "IndustryDonation": 1
-                    },
-                    "running_stage": "constant"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
-            "name": "凯特_广域社会",
-            "converters": [
-                {
-                    "input_items": {
-                        "Food": 5
-                    },
-                    "output_items": {},
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": false,
-                    "upgrade_factory": "凯特_心理史学",
-                    "upgrade_cost": [
-                        "凯特_跨种族道德平等",
-                        "凯特_种族间医学交流"
-                    ]
-                }
-            }
-        },
-        {
-            "name": "凯特_心理史学",
-            "converters": [
-                {
-                    "input_items": {
-                        "Food": 5
-                    },
-                    "output_items": {
-                        "Culture": 1,
-                        "Industry": 1
-                    },
-                    "running_stage": "production"
-                }
-            ],
-            "feature": {
-                "type": "Normal",
-                "properties": {
-                    "upgraded": true
-                }
-            }
-        },
-        {
             "name": "凯特_巨型建筑",
             "converters": [
                 {
@@ -1345,10 +1173,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "凯特_戴森群",
-                    "upgrade_cost": [
-                        "凯特_时间膨胀",
-                        "凯特_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "凯特_时间膨胀",
+                            "factory": "凯特_戴森群"
+                        },
+                        {
+                            "cost": "凯特_物质生成",
+                            "factory": "凯特_戴森群"
+                        }
                     ]
                 }
             }
@@ -1376,6 +1209,27 @@
             }
         },
         {
+            "name": "Zd'Nx",
+            "converters": [
+                {
+                    "input_items": {
+                        "Information": 1
+                    },
+                    "output_items": {
+                        "Culture": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Zd'Nx_打出",
             "converters": [
                 {
@@ -1390,6 +1244,26 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_Zd'Nx"
+                }
+            }
+        },
+        {
+            "name": "Kz'Tlr",
+            "converters": [
+                {
+                    "input_items": {
+                        "Culture": 1
+                    },
+                    "output_items": {
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },
@@ -1412,6 +1286,24 @@
             }
         },
         {
+            "name": "Kln'Qn",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Kln'Qn_打出",
             "converters": [
                 {
@@ -1426,6 +1318,26 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_Kln'Qn"
+                }
+            }
+        },
+        {
+            "name": "Nz'Cht'Qt'Rz",
+            "converters": [
+                {
+                    "input_items": {
+                        "Energy": 1
+                    },
+                    "output_items": {
+                        "Hypertech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },
@@ -1448,6 +1360,27 @@
             }
         },
         {
+            "name": "Tn'Rg'Tx'Tc",
+            "converters": [
+                {
+                    "input_items": {
+                        "Information": 1
+                    },
+                    "output_items": {
+                        "Culture": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Tn'Rg'Tx'Tc_打出",
             "converters": [
                 {
@@ -1462,6 +1395,24 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_Tn'Rg'Tx'Tc"
+                }
+            }
+        },
+        {
+            "name": "Gz'Zd",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Culture": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },
@@ -1484,6 +1435,28 @@
             }
         },
         {
+            "name": "!IN'ZR'KZ",
+            "converters": [
+                {
+                    "input_items": {
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "output_items": {
+                        "Energy": 1,
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_!IN'ZR'KZ_打出",
             "converters": [
                 {
@@ -1498,6 +1471,24 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_!IN'ZR'KZ"
+                }
+            }
+        },
+        {
+            "name": "Tk'T!'Zk",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },
@@ -1520,6 +1511,26 @@
             }
         },
         {
+            "name": "Kr'Xn'Xx",
+            "converters": [
+                {
+                    "input_items": {
+                        "Industry": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Kr'Xn'Xx_打出",
             "converters": [
                 {
@@ -1534,6 +1545,26 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_Kr'Xn'Xx"
+                }
+            }
+        },
+        {
+            "name": "Kt'Dq'Rn'Nr",
+            "converters": [
+                {
+                    "input_items": {
+                        "Industry": 1
+                    },
+                    "output_items": {
+                        "Information": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },
@@ -1556,6 +1587,24 @@
             }
         },
         {
+            "name": "Nx'Xt'!In",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Nx'Xt'!In_打出",
             "converters": [
                 {
@@ -1574,6 +1623,26 @@
             }
         },
         {
+            "name": "Nx'Dr",
+            "converters": [
+                {
+                    "input_items": {
+                        "Food": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
+                }
+            }
+        },
+        {
             "name": "凯特_Nx'Dr_打出",
             "converters": [
                 {
@@ -1588,6 +1657,27 @@
                 "type": "Meta",
                 "properties": {
                     "unlock_factory": "凯特_Nx'Dr"
+                }
+            }
+        },
+        {
+            "name": "Nz'Tt",
+            "converters": [
+                {
+                    "input_items": {
+                        "Biotech": 1
+                    },
+                    "output_items": {
+                        "Culture": 1,
+                        "Industry": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Colony",
+                "properties": {
+                    "upgraded": true
                 }
             }
         },

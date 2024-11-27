@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { NButton, NPopover, NInputNumber, NCard, NTooltip } from 'naive-ui';
+import { NButton, NPopover, NInputNumber, NCard, NTooltip, NButtonGroup } from 'naive-ui';
 import type { GameState, Player, Factory } from '@/interfaces/GameState';
 import type { FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import FactoryDisplayer from '@/components/FactoryDisplayer.vue';
+import FactoryDisplayerAsync from '@/components/FactoryDisplayerAsync.vue';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
 
@@ -15,6 +16,7 @@ const props = defineProps<{
   getMe: () => Player | null;
   getPlayer: (playerId: string) => Player | null;
   username: string;
+  roomName: string;
   gameState: GameState;
   submitKajsjavikalimmChooseSplit: (chooseSplit: boolean) => void;
 }>();
@@ -125,11 +127,14 @@ const getCurrentPickPriority = () => {
                 <n-button quaternary class="bid-entry">{{ props.gameState.colony_bid_cards[id].price }}</n-button>
               </n-button-group>
             </template>
-            <v-stage :config="{ width: 300, height: 200 }">
-              <v-layer>
-                <FactoryDisplayer v-if="props.gameState.colony_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.colony_bid_cards[id].item!, 0, 0)" />
-              </v-layer>
-            </v-stage>
+            <template v-if="props.gameState.colony_bid_cards[id].item">
+              <FactoryDisplayerAsync 
+                :room-name="props.roomName" 
+                :me="props.getMe()!" 
+                :factory="props.gameState.colony_bid_cards[id].item.name" 
+                :get-factory-config="getFactoryConfig" 
+              />
+            </template>
           </n-popover>
         </div>
         <n-input-number v-model:value="colonyBid" placeholder="Colony Bid" :min="0" :max="getColonyBidMax()" v-if="bidNotSubmitted()" />
@@ -153,11 +158,14 @@ const getCurrentPickPriority = () => {
                 >{{ props.gameState.research_bid_cards[id].item?.name }}</n-button>
               </n-button-group>
             </template>
-            <v-stage :config="{ width: 300, height: 200 }"> 
-              <v-layer>
-                <FactoryDisplayer v-if="props.gameState.research_bid_cards[id].item" :="getFactoryConfig(props.getMe()!, props.gameState.research_bid_cards[id].item!, 0, 0)" />
-              </v-layer>
-            </v-stage>
+            <template v-if="props.gameState.research_bid_cards[id].item">
+              <FactoryDisplayerAsync 
+                :room-name="props.roomName" 
+                :me="props.getMe()!" 
+                :factory="props.gameState.research_bid_cards[id].item.name" 
+                :get-factory-config="getFactoryConfig" 
+              />
+            </template>
           </n-popover>
         </div>
         <n-input-number v-model:value="researchBid" placeholder="Research Bid" :min="0" :max="getResearchBidMax()" v-if="bidNotSubmitted()" />

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, type Component } from 'vue';
 import { NButton, NCard } from 'naive-ui';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 const props = defineProps<{
-  checkMessage: string;
+  checkTitle: string;
+  checkMessage: { component: Component, props: any } | null;
   checkCallback: () => void;
   closeCallback: () => void;
 }>();
@@ -21,7 +22,8 @@ const submitCheck = () => {
 <template>
   <PanelTemplate>
     <n-card hoverable class="research-panel standard-panel">
-      <div class="research-cost-title">{{ props.checkMessage }}</div>
+      <div class="research-cost-title">{{ props.checkTitle }}</div>
+      <component v-if="props.checkMessage" :is="props.checkMessage.component" :="props.checkMessage.props" />
       <div class="research-cost-input"> 
         <n-button class="submit-research-button" @click="submitCheck" type="primary">确定</n-button>
         <n-button class="close-research-button" @click="closeCheckPanel" type="error">取消</n-button>

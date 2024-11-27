@@ -40,10 +40,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_通用共情交流",
-                    "upgrade_cost": [
-                        "联合体_泛在文化知识库",
-                        "联合体_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_泛在文化知识库",
+                            "factory": "联合体_通用共情交流"
+                        },
+                        {
+                            "cost": "联合体_量子计算机",
+                            "factory": "联合体_通用共情交流"
+                        }
                     ]
                 }
             }
@@ -88,10 +93,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_极限+",
-                    "upgrade_cost": [
-                        "联合体_通用翻译器",
-                        "联合体_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_通用翻译器",
+                            "factory": "联合体_极限+"
+                        },
+                        {
+                            "cost": "联合体_量子计算机",
+                            "factory": "联合体_极限+"
+                        }
                     ]
                 }
             }
@@ -158,10 +168,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_具体共相元理论学",
-                    "upgrade_cost": [
-                        "联合体_种族间医学交流",
-                        "联合体_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_种族间医学交流",
+                            "factory": "联合体_具体共相元理论学"
+                        },
+                        {
+                            "cost": "联合体_非时序分析",
+                            "factory": "联合体_具体共相元理论学"
+                        }
                     ]
                 }
             }
@@ -208,10 +223,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_纳米制造",
-                    "upgrade_cost": [
-                        "联合体_基因工程学",
-                        "联合体_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_基因工程学",
+                            "factory": "联合体_纳米制造"
+                        },
+                        {
+                            "cost": "联合体_原子嬗变",
+                            "factory": "联合体_纳米制造"
+                        }
                     ]
                 }
             }
@@ -257,10 +277,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_基因再合成",
-                    "upgrade_cost": [
-                        "联合体_纳米科技",
-                        "联合体_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_纳米科技",
+                            "factory": "联合体_基因再合成"
+                        },
+                        {
+                            "cost": "联合体_临床永生",
+                            "factory": "联合体_基因再合成"
+                        }
                     ]
                 }
             }
@@ -311,10 +336,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_银河系殖民",
-                    "upgrade_cost": [
-                        "联合体_银河系通讯控制",
-                        "联合体_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_银河系通讯控制",
+                            "factory": "联合体_银河系殖民"
+                        },
+                        {
+                            "cost": "联合体_异文化交流",
+                            "factory": "联合体_银河系殖民"
+                        }
                     ]
                 }
             }
@@ -365,10 +395,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_反物质化合物",
-                    "upgrade_cost": [
-                        "联合体_超空间开采",
-                        "联合体_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_超空间开采",
+                            "factory": "联合体_反物质化合物"
+                        },
+                        {
+                            "cost": "联合体_有机结构",
+                            "factory": "联合体_反物质化合物"
+                        }
                     ]
                 }
             }
@@ -415,10 +450,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_泛生物医学",
-                    "upgrade_cost": [
-                        "联合体_跨种族道德平等",
-                        "联合体_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_跨种族道德平等",
+                            "factory": "联合体_泛生物医学"
+                        },
+                        {
+                            "cost": "联合体_有机结构",
+                            "factory": "联合体_泛生物医学"
+                        }
                     ]
                 }
             }
@@ -464,10 +504,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_模因生命体",
-                    "upgrade_cost": [
-                        "联合体_通用翻译器",
-                        "联合体_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_通用翻译器",
+                            "factory": "联合体_模因生命体"
+                        },
+                        {
+                            "cost": "联合体_量子计算机",
+                            "factory": "联合体_模因生命体"
+                        }
                     ]
                 }
             }
@@ -515,10 +560,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_多种族混合文化",
-                    "upgrade_cost": [
-                        "联合体_巨型建筑",
-                        "联合体_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_巨型建筑",
+                            "factory": "联合体_多种族混合文化"
+                        },
+                        {
+                            "cost": "联合体_社会迁移",
+                            "factory": "联合体_多种族混合文化"
+                        }
                     ]
                 }
             }
@@ -572,10 +622,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_全种族间融合",
-                    "upgrade_cost": [
-                        "联合体_银河系通讯控制",
-                        "联合体_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_银河系通讯控制",
+                            "factory": "联合体_全种族间融合"
+                        },
+                        {
+                            "cost": "联合体_异文化交流",
+                            "factory": "联合体_全种族间融合"
+                        }
                     ]
                 }
             }
@@ -625,10 +680,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_超空间定居点",
-                    "upgrade_cost": [
-                        "联合体_反物质能源",
-                        "联合体_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_反物质能源",
+                            "factory": "联合体_超空间定居点"
+                        },
+                        {
+                            "cost": "联合体_奇点控制",
+                            "factory": "联合体_超空间定居点"
+                        }
                     ]
                 }
             }
@@ -675,10 +735,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_非确定性多项式塌缩",
-                    "upgrade_cost": [
-                        "联合体_通用翻译器",
-                        "联合体_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_通用翻译器",
+                            "factory": "联合体_非确定性多项式塌缩"
+                        },
+                        {
+                            "cost": "联合体_临床永生",
+                            "factory": "联合体_非确定性多项式塌缩"
+                        }
                     ]
                 }
             }
@@ -724,10 +789,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_实用永生",
-                    "upgrade_cost": [
-                        "联合体_基因工程学",
-                        "联合体_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_基因工程学",
+                            "factory": "联合体_实用永生"
+                        },
+                        {
+                            "cost": "联合体_原子嬗变",
+                            "factory": "联合体_实用永生"
+                        }
                     ]
                 }
             }
@@ -775,10 +845,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_大规模传送",
-                    "upgrade_cost": [
-                        "联合体_多元种族企业",
-                        "联合体_时间膨胀"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_多元种族企业",
+                            "factory": "联合体_大规模传送"
+                        },
+                        {
+                            "cost": "联合体_时间膨胀",
+                            "factory": "联合体_大规模传送"
+                        }
                     ]
                 }
             }
@@ -826,10 +901,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_时间查看器",
-                    "upgrade_cost": [
-                        "联合体_反物质能源",
-                        "联合体_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_反物质能源",
+                            "factory": "联合体_时间查看器"
+                        },
+                        {
+                            "cost": "联合体_奇点控制",
+                            "factory": "联合体_时间查看器"
+                        }
                     ]
                 }
             }
@@ -877,10 +957,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_活体基础设施",
-                    "upgrade_cost": [
-                        "联合体_种族间医学交流",
-                        "联合体_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_种族间医学交流",
+                            "factory": "联合体_活体基础设施"
+                        },
+                        {
+                            "cost": "联合体_跨种族道德平等",
+                            "factory": "联合体_活体基础设施"
+                        }
                     ]
                 }
             }
@@ -928,10 +1013,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_虚材料",
-                    "upgrade_cost": [
-                        "联合体_泛在文化知识库",
-                        "联合体_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_泛在文化知识库",
+                            "factory": "联合体_虚材料"
+                        },
+                        {
+                            "cost": "联合体_纳米科技",
+                            "factory": "联合体_虚材料"
+                        }
                     ]
                 }
             }
@@ -978,10 +1068,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_银河系统治",
-                    "upgrade_cost": [
-                        "联合体_多元种族企业",
-                        "联合体_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_多元种族企业",
+                            "factory": "联合体_银河系统治"
+                        },
+                        {
+                            "cost": "联合体_社会迁移",
+                            "factory": "联合体_银河系统治"
+                        }
                     ]
                 }
             }
@@ -1029,10 +1124,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_静滞场",
-                    "upgrade_cost": [
-                        "联合体_巨型建筑",
-                        "联合体_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_巨型建筑",
+                            "factory": "联合体_静滞场"
+                        },
+                        {
+                            "cost": "联合体_物质生成",
+                            "factory": "联合体_静滞场"
+                        }
                     ]
                 }
             }
@@ -1083,10 +1183,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_虫洞网格",
-                    "upgrade_cost": [
-                        "联合体_超空间开采",
-                        "联合体_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_超空间开采",
+                            "factory": "联合体_虫洞网格"
+                        },
+                        {
+                            "cost": "联合体_非时序分析",
+                            "factory": "联合体_虫洞网格"
+                        }
                     ]
                 }
             }
@@ -1136,10 +1241,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_分型对称+",
-                    "upgrade_cost": [
-                        "联合体_奇点控制",
-                        "联合体_超空间开采"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_奇点控制",
+                            "factory": "联合体_分型对称+"
+                        },
+                        {
+                            "cost": "联合体_超空间开采",
+                            "factory": "联合体_分型对称+"
+                        }
                     ]
                 }
             }
@@ -1209,19 +1319,24 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_引力太阳透镜传感器阵列",
-                    "upgrade_cost": [
+                    "upgrades": [
                         {
-                            "input_items": {
-                                "ArbitaryBig": 2,
-                                "ArbitraryWorld": 1
+                            "cost": {
+                                "input_items": {
+                                    "ArbitaryBig": 2,
+                                    "ArbitraryWorld": 1
+                                },
+                                "output_items": {
+                                    "Score": 1
+                                },
+                                "running_stage": "trading"
                             },
-                            "output_items": {
-                                "Score": 1
-                            },
-                            "running_stage": "trading"
+                            "factory": "联合体_引力太阳透镜传感器阵列"
                         },
-                        "联合体_非时序分析"
+                        {
+                            "cost": "联合体_非时序分析",
+                            "factory": "联合体_引力太阳透镜传感器阵列"
+                        }
                     ]
                 }
             }
@@ -1268,10 +1383,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_戴森群",
-                    "upgrade_cost": [
-                        "联合体_时间膨胀",
-                        "联合体_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_时间膨胀",
+                            "factory": "联合体_戴森群"
+                        },
+                        {
+                            "cost": "联合体_物质生成",
+                            "factory": "联合体_戴森群"
+                        }
                     ]
                 }
             }
@@ -1317,10 +1437,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_可编程性虚物质",
-                    "upgrade_cost": [
-                        "联合体_原子嬗变",
-                        "联合体_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_原子嬗变",
+                            "factory": "联合体_可编程性虚物质"
+                        },
+                        {
+                            "cost": "联合体_临床永生",
+                            "factory": "联合体_可编程性虚物质"
+                        }
                     ]
                 }
             }
@@ -1364,19 +1489,24 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_预测性建造",
-                    "upgrade_cost": [
+                    "upgrades": [
                         {
-                            "input_items": {
-                                "ArbitarySmall": 3,
-                                "ArbitraryWorld": 1
+                            "cost": {
+                                "input_items": {
+                                    "ArbitarySmall": 3,
+                                    "ArbitraryWorld": 1
+                                },
+                                "output_items": {
+                                    "Score": 1
+                                },
+                                "running_stage": "trading"
                             },
-                            "output_items": {
-                                "Score": 1
-                            },
-                            "running_stage": "trading"
+                            "factory": "联合体_预测性建造"
                         },
-                        "联合体_纳米科技"
+                        {
+                            "cost": "联合体_纳米科技",
+                            "factory": "联合体_预测性建造"
+                        }
                     ]
                 }
             }
@@ -1419,10 +1549,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_贝塞尔+",
-                    "upgrade_cost": [
-                        "联合体_有机结构",
-                        "联合体_反物质能源"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_有机结构",
+                            "factory": "联合体_贝塞尔+"
+                        },
+                        {
+                            "cost": "联合体_反物质能源",
+                            "factory": "联合体_贝塞尔+"
+                        }
                     ]
                 }
             }
@@ -1488,10 +1623,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "联合体_色彩空间+",
-                    "upgrade_cost": [
-                        "联合体_种族间医学交流",
-                        "联合体_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "联合体_种族间医学交流",
+                            "factory": "联合体_色彩空间+"
+                        },
+                        {
+                            "cost": "联合体_跨种族道德平等",
+                            "factory": "联合体_色彩空间+"
+                        }
                     ]
                 }
             }

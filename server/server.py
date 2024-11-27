@@ -19,6 +19,7 @@ class Server:
     self.bind_basic_events()
     self.bind_lobby_events()
     self.bind_game_events()
+    self.bind_query_events()
   
   def mock1(self):
     self.rooms["test"] = Room(2, "test", 2)
@@ -33,7 +34,7 @@ class Server:
     self.new_msg(Message("Alice", "HelloBob", str(datetime.datetime.now()), None, "Bob"))
     self.new_msg(Message("Bob", "HelloAlice", str(datetime.datetime.now()), None, "Alice"))
 
-    test_room.choose_specie("Alice", "Kjasjavikalimm")
+    test_room.choose_specie("Alice", "Im")
     test_room.choose_specie("Bob", "Eni")
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")
@@ -54,6 +55,7 @@ class Server:
                                   ["Bob"], 
                                   {"items": {"Food": 1}, "factories": ["凯利安_跨种族道德平等"], "techs": ["跨种族道德平等"]}, 
                                   {"items": {"Biotech": 1}, "factories": ["恩尼艾特_文化包容"]})
+    return
     # skip trading
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -63,7 +65,6 @@ class Server:
     # skip bidding
     test_room.game.submit_bid("Alice", 4, 2)
     test_room.game.submit_bid("Bob", 2, 3)
-    return
     test_room.game.submit_pick("Bob", "colony", 0)
     test_room.game.submit_pick("Alice", "colony", 1)
     test_room.game.submit_pick("Bob", "research", 0)
@@ -515,3 +516,15 @@ class Server:
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
     
+  def bind_query_events(self):
+    @self.socketio.on('query-factory', namespace=get_router_name())
+    def query_factory(data):
+      room_name = data['room_name']
+      username = data['username']
+      factory_name = data['factory_name']
+      factory = self.rooms[room_name].game.get_factory(username, factory_name)
+      emit('factory-data', {
+        "room_name": room_name,
+        "factory": factory.to_dict()
+      }, namespace=get_router_name())
+

@@ -49,10 +49,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_纳米制造",
-                    "upgrade_cost": [
-                        "艾恩卓尔_基因工程学",
-                        "艾恩卓尔_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_基因工程学",
+                            "factory": "艾恩卓尔_纳米制造"
+                        },
+                        {
+                            "cost": "艾恩卓尔_原子嬗变",
+                            "factory": "艾恩卓尔_纳米制造"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -101,10 +106,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_基因再合成",
-                    "upgrade_cost": [
-                        "艾恩卓尔_纳米科技",
-                        "艾恩卓尔_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_纳米科技",
+                            "factory": "艾恩卓尔_基因再合成"
+                        },
+                        {
+                            "cost": "艾恩卓尔_临床永生",
+                            "factory": "艾恩卓尔_基因再合成"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -152,10 +162,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_通用共情交流",
-                    "upgrade_cost": [
-                        "艾恩卓尔_泛在文化知识库",
-                        "艾恩卓尔_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_泛在文化知识库",
+                            "factory": "艾恩卓尔_通用共情交流"
+                        },
+                        {
+                            "cost": "艾恩卓尔_量子计算机",
+                            "factory": "艾恩卓尔_通用共情交流"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -205,10 +220,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_反物质化合物",
-                    "upgrade_cost": [
-                        "艾恩卓尔_超空间开采",
-                        "艾恩卓尔_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_超空间开采",
+                            "factory": "艾恩卓尔_反物质化合物"
+                        },
+                        {
+                            "cost": "艾恩卓尔_有机结构",
+                            "factory": "艾恩卓尔_反物质化合物"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -259,10 +279,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_泛生物医学",
-                    "upgrade_cost": [
-                        "艾恩卓尔_跨种族道德平等",
-                        "艾恩卓尔_有机结构"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_跨种族道德平等",
+                            "factory": "艾恩卓尔_泛生物医学"
+                        },
+                        {
+                            "cost": "艾恩卓尔_有机结构",
+                            "factory": "艾恩卓尔_泛生物医学"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -313,10 +338,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_具体共相元理论学",
-                    "upgrade_cost": [
-                        "艾恩卓尔_种族间医学交流",
-                        "艾恩卓尔_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_种族间医学交流",
+                            "factory": "艾恩卓尔_具体共相元理论学"
+                        },
+                        {
+                            "cost": "艾恩卓尔_非时序分析",
+                            "factory": "艾恩卓尔_具体共相元理论学"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -368,10 +398,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_多种族混合文化",
-                    "upgrade_cost": [
-                        "艾恩卓尔_巨型建筑",
-                        "艾恩卓尔_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_巨型建筑",
+                            "factory": "艾恩卓尔_多种族混合文化"
+                        },
+                        {
+                            "cost": "艾恩卓尔_社会迁移",
+                            "factory": "艾恩卓尔_多种族混合文化"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -428,10 +463,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_全种族间融合",
-                    "upgrade_cost": [
-                        "艾恩卓尔_银河系通讯控制",
-                        "艾恩卓尔_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_银河系通讯控制",
+                            "factory": "艾恩卓尔_全种族间融合"
+                        },
+                        {
+                            "cost": "艾恩卓尔_异文化交流",
+                            "factory": "艾恩卓尔_全种族间融合"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -488,10 +528,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_Galactic Reunion",
-                    "upgrade_cost": [
-                        "艾恩卓尔_银河系通讯控制",
-                        "艾恩卓尔_异文化交流"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_银河系通讯控制",
+                            "factory": "艾恩卓尔_Galactic Reunion"
+                        },
+                        {
+                            "cost": "艾恩卓尔_异文化交流",
+                            "factory": "艾恩卓尔_Galactic Reunion"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -545,10 +590,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_非确定性多项式塌缩",
-                    "upgrade_cost": [
-                        "艾恩卓尔_通用翻译器",
-                        "艾恩卓尔_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_通用翻译器",
+                            "factory": "艾恩卓尔_非确定性多项式塌缩"
+                        },
+                        {
+                            "cost": "艾恩卓尔_临床永生",
+                            "factory": "艾恩卓尔_非确定性多项式塌缩"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -596,10 +646,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_实用永生",
-                    "upgrade_cost": [
-                        "艾恩卓尔_基因工程学",
-                        "艾恩卓尔_原子嬗变"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_基因工程学",
+                            "factory": "艾恩卓尔_实用永生"
+                        },
+                        {
+                            "cost": "艾恩卓尔_原子嬗变",
+                            "factory": "艾恩卓尔_实用永生"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -647,10 +702,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_模因生命体",
-                    "upgrade_cost": [
-                        "艾恩卓尔_通用翻译器",
-                        "艾恩卓尔_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_通用翻译器",
+                            "factory": "艾恩卓尔_模因生命体"
+                        },
+                        {
+                            "cost": "艾恩卓尔_量子计算机",
+                            "factory": "艾恩卓尔_模因生命体"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -700,10 +760,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_时间查看器",
-                    "upgrade_cost": [
-                        "艾恩卓尔_反物质能源",
-                        "艾恩卓尔_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_反物质能源",
+                            "factory": "艾恩卓尔_时间查看器"
+                        },
+                        {
+                            "cost": "艾恩卓尔_奇点控制",
+                            "factory": "艾恩卓尔_时间查看器"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -754,10 +819,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_活体基础设施",
-                    "upgrade_cost": [
-                        "艾恩卓尔_种族间医学交流",
-                        "艾恩卓尔_跨种族道德平等"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_种族间医学交流",
+                            "factory": "艾恩卓尔_活体基础设施"
+                        },
+                        {
+                            "cost": "艾恩卓尔_跨种族道德平等",
+                            "factory": "艾恩卓尔_活体基础设施"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -809,10 +879,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_超空间定居点",
-                    "upgrade_cost": [
-                        "艾恩卓尔_反物质能源",
-                        "艾恩卓尔_奇点控制"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_反物质能源",
+                            "factory": "艾恩卓尔_超空间定居点"
+                        },
+                        {
+                            "cost": "艾恩卓尔_奇点控制",
+                            "factory": "艾恩卓尔_超空间定居点"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -866,10 +941,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_银河系统治",
-                    "upgrade_cost": [
-                        "艾恩卓尔_多元种族企业",
-                        "艾恩卓尔_社会迁移"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_多元种族企业",
+                            "factory": "艾恩卓尔_银河系统治"
+                        },
+                        {
+                            "cost": "艾恩卓尔_社会迁移",
+                            "factory": "艾恩卓尔_银河系统治"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -921,10 +1001,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_静滞场",
-                    "upgrade_cost": [
-                        "艾恩卓尔_巨型建筑",
-                        "艾恩卓尔_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_巨型建筑",
+                            "factory": "艾恩卓尔_静滞场"
+                        },
+                        {
+                            "cost": "艾恩卓尔_物质生成",
+                            "factory": "艾恩卓尔_静滞场"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -977,10 +1062,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_大规模传送",
-                    "upgrade_cost": [
-                        "艾恩卓尔_多元种族企业",
-                        "艾恩卓尔_时间膨胀"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_多元种族企业",
+                            "factory": "艾恩卓尔_大规模传送"
+                        },
+                        {
+                            "cost": "艾恩卓尔_时间膨胀",
+                            "factory": "艾恩卓尔_大规模传送"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -1032,10 +1122,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_银河系藏宝地图绘制",
-                    "upgrade_cost": [
-                        "艾恩卓尔_非时序分析",
-                        "艾恩卓尔_超空间开采"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_非时序分析",
+                            "factory": "艾恩卓尔_银河系藏宝地图绘制"
+                        },
+                        {
+                            "cost": "艾恩卓尔_超空间开采",
+                            "factory": "艾恩卓尔_银河系藏宝地图绘制"
+                        }
                     ],
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
@@ -1083,10 +1178,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_小行星建设场",
-                    "upgrade_cost": [
-                        "艾恩卓尔_反物质能源",
-                        "艾恩卓尔_超空间开采"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_反物质能源",
+                            "factory": "艾恩卓尔_小行星建设场"
+                        },
+                        {
+                            "cost": "艾恩卓尔_超空间开采",
+                            "factory": "艾恩卓尔_小行星建设场"
+                        }
                     ],
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
@@ -1142,10 +1242,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_虚材料",
-                    "upgrade_cost": [
-                        "艾恩卓尔_泛在文化知识库",
-                        "艾恩卓尔_纳米科技"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_泛在文化知识库",
+                            "factory": "艾恩卓尔_虚材料"
+                        },
+                        {
+                            "cost": "艾恩卓尔_纳米科技",
+                            "factory": "艾恩卓尔_虚材料"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -1195,10 +1300,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_分散式建造",
-                    "upgrade_cost": [
-                        "艾恩卓尔_纳米科技",
-                        "艾恩卓尔_量子计算机"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_纳米科技",
+                            "factory": "艾恩卓尔_分散式建造"
+                        },
+                        {
+                            "cost": "艾恩卓尔_量子计算机",
+                            "factory": "艾恩卓尔_分散式建造"
+                        }
                     ],
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
@@ -1251,10 +1361,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_遗迹再合成",
-                    "upgrade_cost": [
-                        "艾恩卓尔_原子嬗变",
-                        "艾恩卓尔_临床永生"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_原子嬗变",
+                            "factory": "艾恩卓尔_遗迹再合成"
+                        },
+                        {
+                            "cost": "艾恩卓尔_临床永生",
+                            "factory": "艾恩卓尔_遗迹再合成"
+                        }
                     ],
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
@@ -1309,10 +1424,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_虫洞网格",
-                    "upgrade_cost": [
-                        "艾恩卓尔_超空间开采",
-                        "艾恩卓尔_非时序分析"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_超空间开采",
+                            "factory": "艾恩卓尔_虫洞网格"
+                        },
+                        {
+                            "cost": "艾恩卓尔_非时序分析",
+                            "factory": "艾恩卓尔_虫洞网格"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
@@ -1404,10 +1524,15 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": false,
-                    "upgrade_factory": "艾恩卓尔_戴森群",
-                    "upgrade_cost": [
-                        "艾恩卓尔_时间膨胀",
-                        "艾恩卓尔_物质生成"
+                    "upgrades": [
+                        {
+                            "cost": "艾恩卓尔_时间膨胀",
+                            "factory": "艾恩卓尔_戴森群"
+                        },
+                        {
+                            "cost": "艾恩卓尔_物质生成",
+                            "factory": "艾恩卓尔_戴森群"
+                        }
                     ],
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
