@@ -67,7 +67,6 @@ class User:
           return listener
         listener = make_listener(achievement_id)
         pubsub.subscribe(f"achievement_{achievement_id}", listener, self.username)
-        log('info', f"{self.username} 订阅了成就 {achievement_id}")
   def to_dict(self):
     return {
       "username": self.username,
