@@ -131,7 +131,7 @@ const getCurrentPickPriority = () => {
               <FactoryDisplayerAsync 
                 :room-name="props.roomName" 
                 :me="props.getMe()!" 
-                :factory="props.gameState.colony_bid_cards[id].item.name" 
+                :factory="props.gameState.colony_bid_cards[id].item!.name" 
                 :get-factory-config="getFactoryConfig" 
               />
             </template>
@@ -162,7 +162,7 @@ const getCurrentPickPriority = () => {
               <FactoryDisplayerAsync 
                 :room-name="props.roomName" 
                 :me="props.getMe()!" 
-                :factory="props.gameState.research_bid_cards[id].item.name" 
+                :factory="props.gameState.research_bid_cards[id].item!.name" 
                 :get-factory-config="getFactoryConfig" 
               />
             </template>
