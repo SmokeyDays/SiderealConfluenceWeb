@@ -41,7 +41,10 @@
       </template>
       <template v-for="id in Object.keys(props.factory.feature.properties['upgrades']).map(Number)" :key="id">
         <template v-if="typeof props.factory.feature.properties['upgrades'][id]['cost'] === 'string'">
-          <v-text :config="getUpgradeCostTextConfig(props.factory.feature.properties['upgrades'][id]['cost'], id)" @click="() => {
+          <v-text :config="getUpgradeCostTextConfig(
+            props.factory.feature.properties['upgrades'].length, 
+            props.factory.feature.properties['upgrades'][id]['cost'], 
+            id)" @click="() => {
             props.upgradeNormal(id);
           }" />
         </template>
@@ -64,7 +67,7 @@
       }"/>
       <v-text :config="getCaylionDescConfig()" />
     </template>
-    <template v-if="props.factory.preview && !directPreview()">
+    <template v-if="props.factory.preview && !directPreview() && !props.factory.feature.properties['multipleUpgrades']">
       <v-circle :config="{
         x: props.x + props.width / 2,
         y: props.y + props.height * 0.9,
@@ -296,13 +299,25 @@ const getUpgradeCostConverterConfig = (converter: Converter, id: number) => {
   }
 }
 
-const getUpgradeCostTextConfig = (text: string, id: number) => {
-  const pos = [
-    [props.x + 0.01 * props.width, props.y + 0.91 * props.height],
-    [props.x + 0.98 * props.width, props.y + 0.91 * props.height],
-    [props.x + 0.5 * props.width, props.y + 0.91 * props.height]
-  ]
-  const multiplier = [0, 1, 0.5];
+const getUpgradeCostTextConfig = (totalCount: number, text: string, id: number) => {
+  let pos: [number, number][] = []
+  let multiplier: number[] = []
+  if (totalCount <= 3) {
+    pos = [
+      [props.x + 0.01 * props.width, props.y + 0.91 * props.height],
+      [props.x + 0.98 * props.width, props.y + 0.91 * props.height],
+      [props.x + 0.5 * props.width, props.y + 0.91 * props.height],
+    ]
+    multiplier = [0, 1, 0.5];
+  } else if (totalCount <= 4) {
+    pos = [
+      [props.x + 0.01 * props.width, props.y + 0.83 * props.height],
+      [props.x + 0.01 * props.width, props.y + 0.93 * props.height],
+      [props.x + 0.98 * props.width, props.y + 0.83 * props.height],
+      [props.x + 0.98 * props.width, props.y + 0.93 * props.height]
+    ]
+    multiplier = [0, 0, 1, 1];
+  }
   const fontSize = 0.05 * props.height;
   const estimateWidth = text.length * fontSize;
   const opacity = props.me.factories[text]? 1: 0.4;

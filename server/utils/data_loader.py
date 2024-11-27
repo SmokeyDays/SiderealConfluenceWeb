@@ -105,6 +105,7 @@ other_specie_info = {
 MustLend = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '异种科技库', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响', '超科技共同体']
 EnietInterest = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响']
 FaderanRelicWorld = ['杜伦泰的赠礼', '关联集成存储器', '自动化运输网络', '遗迹探测器', '隐德莱希图书馆', '嬗变性分解器', '纳尔戈里安磨盘', '晨星废墟', '乐土转换器', '巴里安贸易舰队', '瑟尔的碎环', '雄伟浑天仪']
+KitStarting = ['凯特_手工制作的多功能组件', "凯特_广域社会扩散", "凯特_无序牺牲性高风险实验室"]
 
 def analyze_items(item_str, donation = False):
     if item_str.endswith(' §'):
@@ -229,20 +230,27 @@ def factory_from_csv(fac, converter_as_cost = False):
     if fac['Faction'] == 'Colonies' or (fac['Faction'] == '凯特' and not isinstance(fac['Upgrade1'], str)):
         info = factory_str.split(',')
         climate, factory_str = info[0], info[1]
-        properties = {
-            "upgraded": True,
+        feature = {
+            "type": "Normal",
+            "properties": {
+                "climate": translator[climate],
+                "upgraded": True,
+                "isColony": True,
+                'noOwner': True
+            }
         }
         if fac['Faction'] == 'Colonies':
-            properties = {
-                "climate": translator[climate],
-                "upgraded": False,
-                "upgrade_cost": analyze_converter(fac["Upgrade1"])['input_items']
+            feature = {
+                "type": "Colony",
+                "properties": {
+                    "climate": translator[climate],
+                    "upgraded": False,
+                    "upgrade_cost": analyze_converter(fac["Upgrade1"])['input_items']
+                }
             }
-        feature = {
-            "type": "Colony",
-            "properties": properties
-        }
         factory_name = f'{fac["Front Name"]}'
+        if meta_factory:
+            meta_factory['feature']['properties']['unlock_factory'] = factory_name
     factory = {
         'name': factory_name,
         'converters': analyze_converters(factory_str),
@@ -294,12 +302,22 @@ def factory_from_csv(fac, converter_as_cost = False):
 
     return factory, back_factory, meta_factory
 
+def get_kit_special():
+    kit_special_path = './server/utils/src/KitSpecial.json'
+    with open(kit_special_path, 'r', encoding='utf-8') as f:
+        kit_special = json.load(f)
+    return kit_special
+
 def deal_specie(csv_path, save_path, specie):
     specie_zh_name = other_specie_info[specie]['zh_name']
     csv_data=pd.read_csv(csv_path)
     factory_list=[]
     start_resource = {}
     start_factories = []
+    if specie == 'Kit':
+        kit_special_factories = get_kit_special()
+        factory_list += kit_special_factories
+        start_factories += KitStarting
     for i in range(csv_data.shape[0]):
         bac=csv_data.loc[i]
         if bac['Faction']!=specie_zh_name:

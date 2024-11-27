@@ -26,7 +26,7 @@ if (typeof props.factory === 'string') {
 
 <template>
   <template v-if="factory">
-    <v-stage :config="{ width: 300, height: 200 }">
+    <v-stage :config="{ width: getFactoryConfig(props.me, factory, 0, 0).width, height: getFactoryConfig(props.me, factory, 0, 0).height }">
       <v-layer>
         <FactoryDisplayer :="getFactoryConfig(props.me, factory, 0, 0)" />
       </v-layer>

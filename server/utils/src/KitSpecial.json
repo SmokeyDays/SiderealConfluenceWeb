@@ -32,7 +32,8 @@
             "cost": "凯特_量子计算机",
             "factory": "凯特_手工制作的自适应架构"
           }
-        ]
+        ],
+        "multipleUpgrades": true
       }
     }
   },
@@ -155,7 +156,8 @@
             "cost": "凯特_奇点控制",
             "factory": "凯特_无序牺牲性恒星能量利用"
           }
-        ]
+        ],
+        "multipleUpgrades": true
       }
     }
   },
@@ -284,7 +286,8 @@
             "cost": "凯特_基因工程学",
             "factory": "凯特_广域社会目的论再设计"
           }
-        ]
+        ],        
+        "multipleUpgrades": true
       }
     }
   },

@@ -292,6 +292,11 @@ const upgradeNormal = (factoryName: string, id: number, newFactoryName: string) 
   );
 }
 
+const foldMetaFactories = ref(false);
+const toggleFoldMetaFactories = () => {
+  foldMetaFactories.value = !foldMetaFactories.value;
+}
+
 const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): FactoryConfig => {
   return {
     x: x,
@@ -328,6 +333,9 @@ const getFactoryConfigs = (): {[key: string]: FactoryConfig} => {
   let xCnt = 0;
   let yOffset = 300 * props.gameProps.scaleFactor / 100;
   for (let factory in me.factories) {
+    if (factory.endsWith("_打出") && foldMetaFactories.value) {
+      continue;
+    }
     configs[factory] = getFactoryConfig(me, me.factories[factory], 
       xOffset + props.gameProps.offsetX, 
       yOffset + props.gameProps.offsetY
@@ -735,6 +743,9 @@ const displayMask = () => {
     <n-icon>
       <IconMenu />
     </n-icon>
+  </n-float-button>
+  <n-float-button @click="toggleFoldMetaFactories" :left="10" :bottom="60" :type="foldMetaFactories ? 'default' : 'primary'">
+    <template #description>{{ foldMetaFactories ? "展开打出" : "折叠打出" }}</template>
   </n-float-button>
 </template>
 
