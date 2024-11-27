@@ -244,6 +244,7 @@ def factory_from_csv(fac, converter_as_cost = False):
                 "type": "Colony",
                 "properties": {
                     "climate": translator[climate],
+                    "isColony": True,
                     "upgraded": False,
                     "upgrade_cost": analyze_converter(fac["Upgrade1"])['input_items']
                 }
@@ -270,6 +271,7 @@ def factory_from_csv(fac, converter_as_cost = False):
             info = back_factory_str.split(',')
             climate, back_factory_str = info[0], info[1]
             feature['properties']['climate'] = translator[climate]
+            feature['properties']['isColony'] = True
             back_factory_name = f'{fac["Front Name"]}+'
         back_factory={
             'name': back_factory_name,

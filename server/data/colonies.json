@@ -14,6 +14,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Culture": 2
@@ -37,7 +38,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -56,6 +58,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Food": 2
@@ -79,7 +82,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -98,6 +102,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Hypertech": 1
@@ -122,7 +127,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -141,6 +147,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -163,7 +170,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -182,6 +190,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -204,7 +213,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -223,6 +233,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -245,7 +256,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -264,6 +276,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -286,7 +299,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -305,6 +319,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -327,7 +342,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -346,6 +362,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -368,7 +385,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -387,6 +405,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -409,7 +428,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -428,6 +448,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -450,7 +471,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -469,6 +491,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -491,7 +514,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -510,6 +534,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -532,7 +557,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -551,6 +577,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -573,7 +600,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -592,6 +620,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -614,7 +643,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -633,6 +663,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Hypertech": 1
@@ -657,7 +688,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -676,6 +708,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -698,7 +731,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -717,6 +751,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Hypertech": 1
@@ -741,7 +776,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -760,6 +796,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -782,7 +819,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -801,6 +839,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -823,7 +862,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -842,6 +882,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Industry": 2
@@ -865,7 +906,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -884,6 +926,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Culture": 2
@@ -907,7 +950,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -926,6 +970,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -948,7 +993,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -967,6 +1013,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -989,7 +1036,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -1008,6 +1056,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -1030,7 +1079,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -1049,6 +1099,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1071,7 +1122,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -1090,6 +1142,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Jungle",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1112,7 +1165,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -1131,6 +1185,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Hypertech": 1
@@ -1155,7 +1210,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -1174,6 +1230,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1196,7 +1253,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -1215,6 +1273,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -1237,7 +1296,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -1256,6 +1316,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Food": 2
@@ -1279,7 +1340,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -1298,6 +1360,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Hypertech": 1
@@ -1322,7 +1385,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -1341,6 +1405,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -1363,7 +1428,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -1382,6 +1448,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1404,7 +1471,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -1423,6 +1491,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -1445,7 +1514,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Ice"
+                "climate": "Ice",
+                "isColony": true
             }
         }
     },
@@ -1464,6 +1534,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -1486,7 +1557,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -1505,6 +1577,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Information": 1
@@ -1527,7 +1600,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     },
@@ -1546,6 +1620,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Water",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1568,7 +1643,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Desert"
+                "climate": "Desert",
+                "isColony": true
             }
         }
     },
@@ -1587,6 +1663,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Ice",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Biotech": 1
@@ -1609,7 +1686,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Jungle"
+                "climate": "Jungle",
+                "isColony": true
             }
         }
     },
@@ -1628,6 +1706,7 @@
             "type": "Colony",
             "properties": {
                 "climate": "Desert",
+                "isColony": true,
                 "upgraded": false,
                 "upgrade_cost": {
                     "Energy": 1
@@ -1650,7 +1729,8 @@
             "type": "Normal",
             "properties": {
                 "upgraded": true,
-                "climate": "Water"
+                "climate": "Water",
+                "isColony": true
             }
         }
     }

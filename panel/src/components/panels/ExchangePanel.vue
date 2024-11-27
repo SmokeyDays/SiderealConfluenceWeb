@@ -37,7 +37,7 @@ const submitClose = () => {
 const getColonies = () => {
   const res = [];
   for (const factory of Object.values(props.getMe()!.factories)) {
-    if (factory.feature["type"] === "Colony") {
+    if (factory.feature["type"] === "Colony" || factory.feature["properties"]["isColony"]) {
       res.push(factory);
     }
   }
