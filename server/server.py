@@ -403,7 +403,7 @@ class Server:
     def trade_proposal(data):
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
+      success, message, id = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
       emit('alert-message', {
         "type": "success" if success else "error",
         "title": "Trade Proposal Success" if success else "Trade Proposal Failed",

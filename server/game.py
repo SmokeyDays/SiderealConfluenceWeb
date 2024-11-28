@@ -376,6 +376,11 @@ class Factory:
     """
     self.feature = feature
 
+  def on_enter_game(self, game, player):
+    for index, converter in enumerate(self.converters):
+      if converter.running_stage == "constant":
+        game.produce_factory(player, self, index, {})
+        
   def eniet_interest(self, converter, game, player, extra_properties):
     """
     extra_properties: {
@@ -467,6 +472,7 @@ class Factory:
     if self.feature["type"] == "Meta":
       unlock_factory = game.data_manager.get_factory(player.specie, self.feature["properties"]["unlock_factory"])
       player.add_factory(unlock_factory)
+      unlock_factory.on_enter_game(game, player)
       player.remove_factory(self.name)
 
     if not special_factory:

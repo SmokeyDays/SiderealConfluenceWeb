@@ -20,7 +20,6 @@ const props = defineProps<{
   visible: boolean
   icon?: string
 }>()
-console.log(props.icon);
 </script>
 
 <style scoped>

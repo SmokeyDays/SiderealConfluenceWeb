@@ -175,6 +175,13 @@ const getPlayerColonyColor = (player: Player) => {
   /* padding: 100px; */
   overflow-y: auto;
 }
+@media screen and (orientation: portrait) {
+  .game-panel {
+    height: 50vh;
+    width: 100vw;
+  }
+}
+
 .game-board-container {
   display: flex;
   flex-direction: column;

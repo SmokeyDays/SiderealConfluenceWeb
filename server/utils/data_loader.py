@@ -270,6 +270,7 @@ def factory_from_csv(fac, converter_as_cost = False):
         if fac['Faction'] == 'Colonies':
             info = back_factory_str.split(',')
             climate, back_factory_str = info[0], info[1]
+            feature['type'] = 'Colony'
             feature['properties']['climate'] = translator[climate]
             feature['properties']['isColony'] = True
             back_factory_name = f'{fac["Front Name"]}+'

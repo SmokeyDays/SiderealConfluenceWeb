@@ -21,7 +21,7 @@
     <template v-if="props.factory.feature.type === 'Research'">
       <v-text :config="getTechTextConfig()" />
     </template>
-    <template v-if="props.factory.feature.type === 'Colony'">
+    <template v-if="isColony()">
       <item-entry 
         :item="props.factory.feature.properties['climate']" 
         :count="1" 
@@ -41,12 +41,18 @@
       </template>
       <template v-for="id in Object.keys(props.factory.feature.properties['upgrades']).map(Number)" :key="id">
         <template v-if="typeof props.factory.feature.properties['upgrades'][id]['cost'] === 'string'">
-          <v-text :config="getUpgradeCostTextConfig(
-            props.factory.feature.properties['upgrades'].length, 
-            props.factory.feature.properties['upgrades'][id]['cost'], 
-            id)" @click="() => {
-            props.upgradeNormal(id);
-          }" />
+          <v-text 
+            :config="getUpgradeCostTextConfig(
+              props.factory.feature.properties['upgrades'].length, 
+              props.factory.feature.properties['upgrades'][id]['cost'], 
+              id)"
+            @click="() => {
+              props.upgradeNormal(id);
+            }" 
+            @touchstart="() => {
+              props.upgradeNormal(id);
+            }"
+          />
         </template>
       </template>
     </template>
@@ -56,7 +62,7 @@
       </template>
       <v-text :config="getPreviewConverterValueTextConfig()" />
     </template>
-    <template v-if="props.factory.feature.type === 'Colony' && props.factory.feature.properties['caylion_colony']">
+    <template v-if="isColony() && props.factory.feature.properties['caylion_colony']">
       <v-circle :config="{
         x: props.x + props.width * 0.94,
         y: props.y + props.height * 0.09,
@@ -132,7 +138,7 @@ const getFleetCost = () => {
 }
 
 const directPreview = () => {
-  return props.factory.preview && (props.factory.feature.type === 'Colony' || props.factory.feature.type === 'Research');
+  return props.factory.preview && (isColony() || props.factory.feature.type === 'Research');
 }
 const getConverterValue = (converter: Converter) => {
   let inputValue = "";
@@ -158,6 +164,10 @@ const getFactoryBackgroundImage = () => {
 
 const produceClick = (converter_index: number) => {
   props.produce(converter_index);
+}
+
+const isColony = () => {
+  return props.factory.feature.type === 'Colony' || props.factory.feature.properties['isColony'];
 }
 
 
@@ -197,7 +207,7 @@ const getPreviewConverterConfigs = () => {
     xCenter = props.x + props.width * 0.125 + width / 2;
     yCenter = props.y + props.height * 0.425 + height / 2;
   }
-  if (props.factory.feature.type === 'Colony') {
+  if (isColony()) {
     width = props.width * 0.75;
     height = props.height * 0.75;
     xCenter = props.x + props.width * 0.375 + width / 2;
@@ -239,13 +249,13 @@ const getPreviewConverterValueTextConfig = () => {
   let x = props.x + props.width * 0.5;
   let y = props.y + props.height * 0.93;
   if (props.factory.feature.type !== 'Research') {
-    if (props.factory.feature.type === 'Normal' || props.factory.feature.type === 'Colony') {
+    if (props.factory.feature.type === 'Normal' || isColony()) {
       value = "升级后：" + value;
     }
     if (props.factory.feature.type === 'Meta') {
       value = "打出：" + value;
     }
-    if (props.factory.feature.type === 'Colony') {
+    if (isColony()) {
       x = props.x + props.width * 0.9;
       y = props.y + props.height * 0.75;
       fontSize = 0.05 * props.height;
@@ -337,7 +347,7 @@ const getConverterConfigs = () => {
   if (props.factory.feature.type === 'Research') {
     yCenter -= 0.2 * props.height;
   }
-  if (props.factory.feature.type === 'Colony') {
+  if (isColony()) {
     yCenter -= 0.2 * props.height;
   }
   const res = [];

@@ -103,9 +103,12 @@ const handleWheel = (event: WheelEvent) => {
   });
 };
 
+const isPortrait = ref(false);
+
 const handleResize = () => {
   stageConfig.value.width = window.innerWidth;
   stageConfig.value.height = window.innerHeight;
+  isPortrait.value = window.innerWidth < window.innerHeight;
 };
 
 const handlePinch = (event: TouchEvent) => {
@@ -618,20 +621,22 @@ const displayMask = () => {
     || displayEnietInterestPanel.value;
 };
 
+const getToggleGameBoardButtonConfig = () => {
+  if (isPortrait.value) {
+    return {
+      top: 10,
+      left: 10,
+    }
+  }
+  return {
+    top: 10,
+    left: 10 + (showGameBoard.value ? 300 : 0),
+  }
+}
 </script>
 
 
 <template>
-  <GameBoard :game-state="props.gameState" 
-    :username="props.username" 
-    :handle-trade-panel="handleTradePanel" 
-    :selected-player="selectedPlayer"
-    :handle-select-player="handleSelectPlayer"
-    :handle-exchange-panel="handleExchangePanel"
-    :exit-game="() => props.switchPage('lobby')"
-    class="game-panel"
-    v-if="showGameBoard"
-  />
   <div class="game-stage" :class="{'game-stage-show-gameboard': showGameBoard, 'game-stage-hide-gameboard': !showGameBoard}">
     <v-stage :config="stageConfig" class="game-stage-canvas">
       <v-layer>
@@ -642,6 +647,16 @@ const displayMask = () => {
       </v-layer>
     </v-stage>
   </div>
+  <GameBoard :game-state="props.gameState" 
+    :username="props.username" 
+    :handle-trade-panel="handleTradePanel" 
+    :selected-player="selectedPlayer"
+    :handle-select-player="handleSelectPlayer"
+    :handle-exchange-panel="handleExchangePanel"
+    :exit-game="() => props.switchPage('lobby')"
+    class="game-panel"
+    v-if="showGameBoard"
+  />
   <TradePanel :submit-gift="submitGift" 
     :submit-proposal="submitProposal"
     :update-trade-items="updateTradeItems" 
@@ -737,8 +752,8 @@ const displayMask = () => {
 
   <n-float-button 
     @click="toggleGameBoard"
-    :top="10"
-    :left="10 + (showGameBoard ? 300 : 0)"
+    :top="getToggleGameBoardButtonConfig().top"
+    :left="getToggleGameBoardButtonConfig().left"
   >
     <n-icon>
       <IconMenu />
@@ -756,9 +771,13 @@ const displayMask = () => {
   height: 100vh;
   overflow: hidden;
 }
-.game-stage-show-gameboard {
+/* .game-stage-show-gameboard {
   left: 300px;
   width: calc(100vw - 300px);
+} */
+.game-stage-show-gameboard {
+  left: 0;
+  width: 100vw;
 }
 .game-stage-hide-gameboard {
   left: 0;
@@ -766,9 +785,5 @@ const displayMask = () => {
 }
 .game-stage-canvas {
   overflow: hidden;
-}
-
-.game-panel {
-  height: 100vh;
 }
 </style>
