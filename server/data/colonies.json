@@ -35,7 +35,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -79,7 +79,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -124,7 +124,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -167,7 +167,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -210,7 +210,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -253,7 +253,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -296,7 +296,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -339,7 +339,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -382,7 +382,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -425,7 +425,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -468,7 +468,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -511,7 +511,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -554,7 +554,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -597,7 +597,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -640,7 +640,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -685,7 +685,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -728,7 +728,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -773,7 +773,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -816,7 +816,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -859,7 +859,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -903,7 +903,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -947,7 +947,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -990,7 +990,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -1033,7 +1033,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -1076,7 +1076,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -1119,7 +1119,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -1162,7 +1162,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -1207,7 +1207,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -1250,7 +1250,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -1293,7 +1293,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -1337,7 +1337,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -1382,7 +1382,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -1425,7 +1425,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -1468,7 +1468,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -1511,7 +1511,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Ice",
@@ -1554,7 +1554,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -1597,7 +1597,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",
@@ -1640,7 +1640,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Desert",
@@ -1683,7 +1683,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Jungle",
@@ -1726,7 +1726,7 @@
             }
         ],
         "feature": {
-            "type": "Normal",
+            "type": "Colony",
             "properties": {
                 "upgraded": true,
                 "climate": "Water",

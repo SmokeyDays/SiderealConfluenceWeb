@@ -66,6 +66,8 @@ def get_items_value(items: Dict[str, Any]):
   return sum([get_item_value(item) * count for item, count in items.items()])
 
 def get_gift_value(gift: Dict[str, Any]):
+  if "items" not in gift:
+    return 0
   return get_items_value(gift["items"])
 
 def get_items_str(items: Dict[str, Any]):

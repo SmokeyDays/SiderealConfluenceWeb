@@ -88,6 +88,10 @@ const getCurrentPickPriority = () => {
   }
   return props.gameState.research_bid_priority;
 }
+
+const getIsPortrait = () => {
+  return window.innerWidth < window.innerHeight;
+}
 </script>
 
 <template>
@@ -114,7 +118,7 @@ const getCurrentPickPriority = () => {
           殖民地拍卖
         </div>
         <div v-for="id in Object.keys(props.gameState.colony_bid_cards).map(Number)" :key="id">
-          <n-popover placement="left">
+          <n-popover :placement="getIsPortrait() ? 'top' : 'left'">
             <template #trigger>
               <n-button-group>
                 <n-button 
@@ -145,7 +149,7 @@ const getCurrentPickPriority = () => {
           科研团队拍卖
         </div>
         <div v-for="id in Object.keys(props.gameState.research_bid_cards).map(Number)" :key="id">
-          <n-popover placement="right">
+          <n-popover :placement="getIsPortrait() ? 'top' : 'left'">
             <template #trigger>
               <n-button-group>  
                 <n-button quaternary class="bid-entry">{{ props.gameState.research_bid_cards[id].price }}</n-button>

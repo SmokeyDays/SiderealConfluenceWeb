@@ -17,7 +17,13 @@
             "恩尼艾特_骨骼雕刻",
             "恩尼艾特_深潜狩猎",
             "恩尼艾特_合唱之歌",
-            "恩尼艾特_通用应用元伦理学"
+            "恩尼艾特_通用应用元伦理学",
+            "恩尼艾特_文化包容",
+            "恩尼艾特_志愿医疗运动",
+            "恩尼艾特_相互理解",
+            "恩尼艾特_长者的智慧",
+            "恩尼艾特_跨文化档案",
+            "恩尼艾特_异种科技库"
         ]
     },
     "factories": [
@@ -1451,6 +1457,334 @@
                 "type": "Normal",
                 "properties": {
                     "upgraded": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_文化包容",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 8
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 13
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_跨种族道德平等",
+                            "factory": "恩尼艾特_全向文化动态包容"
+                        },
+                        {
+                            "cost": "恩尼艾特_反物质能源",
+                            "factory": "恩尼艾特_全向文化动态包容"
+                        }
+                    ],
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_全向文化动态包容",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 8
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 7,
+                        "Score": 3
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_志愿医疗运动",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 6
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 9
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_种族间医学交流",
+                            "factory": "恩尼艾特_全民健康"
+                        },
+                        {
+                            "cost": "恩尼艾特_有机结构",
+                            "factory": "恩尼艾特_全民健康"
+                        }
+                    ],
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_全民健康",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 6
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 5,
+                        "Score": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_相互理解",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 2
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 4
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_量子计算机",
+                            "factory": "恩尼艾特_种族间共情"
+                        },
+                        {
+                            "cost": "恩尼艾特_通用翻译器",
+                            "factory": "恩尼艾特_种族间共情"
+                        }
+                    ],
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_种族间共情",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitrarySmall": 2
+                    },
+                    "output_items": {
+                        "ArbitrarySmall": 3,
+                        "Score": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_长者的智慧",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitraryBig": 6
+                    },
+                    "output_items": {
+                        "ArbitraryBig": 10
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_量子计算机",
+                            "factory": "恩尼艾特_永生者的智慧"
+                        },
+                        {
+                            "cost": "恩尼艾特_临床永生",
+                            "factory": "恩尼艾特_永生者的智慧"
+                        }
+                    ],
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_永生者的智慧",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitraryBig": 6
+                    },
+                    "output_items": {
+                        "ArbitraryBig": 7,
+                        "Score": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_跨文化档案",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitraryBig": 3
+                    },
+                    "output_items": {
+                        "ArbitraryBig": 4
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_泛在文化知识库",
+                            "factory": "恩尼艾特_泛在文化影响"
+                        },
+                        {
+                            "cost": "恩尼艾特_通用翻译器",
+                            "factory": "恩尼艾特_泛在文化影响"
+                        }
+                    ],
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_泛在文化影响",
+            "converters": [
+                {
+                    "input_items": {
+                        "ArbitraryBig": 3
+                    },
+                    "output_items": {
+                        "ArbitraryBig": 3,
+                        "Score": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "EnietInterest": true,
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_异种科技库",
+            "converters": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 5
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": false,
+                    "upgrades": [
+                        {
+                            "cost": "恩尼艾特_超空间开采",
+                            "factory": "恩尼艾特_超科技共同体"
+                        },
+                        {
+                            "cost": "恩尼艾特_奇点控制",
+                            "factory": "恩尼艾特_超科技共同体"
+                        }
+                    ],
+                    "MustLend": true
+                }
+            }
+        },
+        {
+            "name": "恩尼艾特_超科技共同体",
+            "converters": [
+                {
+                    "input_items": {
+                        "Hypertech": 3
+                    },
+                    "output_items": {
+                        "Hypertech": 3,
+                        "Score": 3
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "MustLend": true
                 }
             }
         }

@@ -58,7 +58,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "Score": 1,
@@ -133,7 +133,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 3,
+                        "ArbitraryBig": 3,
                         "ArbitraryWorld": 1
                     },
                     "output_items": {
@@ -241,7 +241,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -295,7 +295,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "Energy": 1,
@@ -522,7 +522,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -753,7 +753,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "Biotech": 1,
@@ -807,7 +807,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "Score": 1,
@@ -1227,8 +1227,8 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 2,
-                        "ArbitaryBig": 1
+                        "ArbitrarySmall": 2,
+                        "ArbitraryBig": 1
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1259,8 +1259,8 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 2,
-                        "ArbitaryBig": 1
+                        "ArbitrarySmall": 2,
+                        "ArbitraryBig": 1
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1283,8 +1283,8 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 2,
-                        "ArbitaryBig": 1,
+                        "ArbitrarySmall": 2,
+                        "ArbitraryBig": 1,
                         "ArbitraryWorld": 1
                     },
                     "output_items": {
@@ -1305,7 +1305,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "Ship": 2,
@@ -1323,7 +1323,7 @@
                         {
                             "cost": {
                                 "input_items": {
-                                    "ArbitaryBig": 2,
+                                    "ArbitraryBig": 2,
                                     "ArbitraryWorld": 1
                                 },
                                 "output_items": {
@@ -1346,7 +1346,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "Ship": 2,
@@ -1424,7 +1424,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -1455,7 +1455,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "Hypertech": 1,
@@ -1493,7 +1493,7 @@
                         {
                             "cost": {
                                 "input_items": {
-                                    "ArbitarySmall": 3,
+                                    "ArbitrarySmall": 3,
                                     "ArbitraryWorld": 1
                                 },
                                 "output_items": {
@@ -1536,7 +1536,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1567,7 +1567,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3
+                        "ArbitrarySmall": 3
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1589,7 +1589,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitarySmall": 3,
+                        "ArbitrarySmall": 3,
                         "ArbitraryWorld": 1
                     },
                     "output_items": {
@@ -1610,7 +1610,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1641,7 +1641,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2
+                        "ArbitraryBig": 2
                     },
                     "output_items": {
                         "WildBig": 1,
@@ -1663,7 +1663,7 @@
             "converters": [
                 {
                     "input_items": {
-                        "ArbitaryBig": 2,
+                        "ArbitraryBig": 2,
                         "ArbitraryWorld": 1
                     },
                     "output_items": {
