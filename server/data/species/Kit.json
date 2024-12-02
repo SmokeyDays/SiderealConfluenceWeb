@@ -453,7 +453,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_纳米制造",
@@ -507,7 +508,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_基因再合成",
@@ -560,7 +562,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_通用共情交流",
@@ -615,7 +618,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_反物质化合物",
@@ -670,7 +674,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_泛生物医学",
@@ -726,7 +731,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_具体共相元理论学",
@@ -783,7 +789,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_多种族混合文化",
@@ -844,7 +851,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_全种族间融合",
@@ -905,7 +913,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_银河系殖民",
@@ -964,7 +973,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_非确定性多项式塌缩",
@@ -1017,7 +1027,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_实用永生",
@@ -1070,7 +1081,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_模因生命体",
@@ -1125,7 +1137,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_时间查看器",
@@ -1182,7 +1195,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_活体基础设施",
@@ -1239,7 +1253,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_超空间定居点",
@@ -1296,7 +1311,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_银河系统治",
@@ -1352,7 +1368,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_静滞场",
@@ -1409,7 +1426,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_大规模传送",
@@ -1463,7 +1481,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_虚材料",
@@ -1520,7 +1539,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_虫洞网格",
@@ -1576,7 +1596,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_戴森群",
@@ -1622,7 +1643,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Zd'Nx_打出",
@@ -1663,7 +1685,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Kz'Tlr_打出",
@@ -1702,7 +1725,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Kln'Qn_打出",
@@ -1743,7 +1767,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Nz'Cht'Qt'Rz_打出",
@@ -1785,7 +1810,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Tn'Rg'Tx'Tc_打出",
@@ -1824,7 +1850,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Gz'Zd_打出",
@@ -1867,7 +1894,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_!IN'ZR'KZ_打出",
@@ -1906,7 +1934,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Tk'T!'Zk_打出",
@@ -1947,7 +1976,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Kr'Xn'Xx_打出",
@@ -1988,7 +2018,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Kt'Dq'Rn'Nr_打出",
@@ -2027,7 +2058,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Nx'Xt'!In_打出",
@@ -2068,7 +2100,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Nx'Dr_打出",
@@ -2110,7 +2143,8 @@
                     "isColony": true,
                     "noOwner": true
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "凯特_Nz'Tt_打出",

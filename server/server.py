@@ -43,7 +43,7 @@ class Server:
     self.new_msg(Message("Alice", "HelloBob", str(datetime.datetime.now()), None, "Bob"))
     self.new_msg(Message("Bob", "HelloAlice", str(datetime.datetime.now()), None, "Alice"))
 
-    test_room.choose_specie("Alice", "Kit")
+    test_room.choose_specie("Alice", "Faderan")
     test_room.choose_specie("Bob", "Eni")
     test_room.choose_specie("Charlie", "Unity")
     test_room.choose_specie("David", "Yengii")
@@ -62,9 +62,12 @@ class Server:
     test_room.game.debug_add_item("Alice", "Hypertech", 5)
     test_room.game.debug_add_item("Alice", "Industry", 5)
     test_room.game.debug_add_item("David", "Culture", 5)
-    # test_room.game.debug_add_item("Alice", "WildSmall", 5)
+    test_room.game.debug_add_item("Alice", "Ice", 5)
+    test_room.game.debug_add_item("Alice", "WildSmall", 5)
     test_room.game.debug_add_item("Alice", "WildBig", 5)
+    test_room.game.debug_add_item("David", "WildBig", 6)
     test_room.game.gift("Bob", "Alice", {"factories": ["恩尼艾特_相互理解"]})
+    test_room.game.gift("Alice", "Bob", {"items": {"Favor": 10}})
     for _ in range(10):
       test_room.game.trade_proposal("Alice", 
                                   ["Bob"], 
@@ -72,6 +75,10 @@ class Server:
                                   {"items": {"Culture": 1}, "factories": ["恩尼艾特_文化包容"]})
     suc, msg, id = test_room.game.trade_proposal("David", ["Alice"], {"items": {"Culture": 2}, "factories": ["岩基艾_跨种族道德平等"], "techs": ["跨种族道德平等"]}, {"items": {"ScoreDonation": 1}})
     suc, msg = test_room.game.accept_trade_proposal("Alice", id)
+    for _ in range(12):
+      test_room.game.draw_special_deck(test_room.game.players[0], "FaderanRelicWorld")
+    suc, msg, id = test_room.game.trade_proposal("Alice", ["David"], {"items": {"Favor": 10}, "factories": ["法德澜_杜伦泰的赠礼"], "techs": []}, {"items": {}, "factories": []})
+    suc, msg = test_room.game.accept_trade_proposal("David", id)
     return
     # skip trading
     test_room.game.player_agree("Alice")

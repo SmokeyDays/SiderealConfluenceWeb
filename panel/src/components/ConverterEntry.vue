@@ -34,14 +34,14 @@
     </template>
     
     <!-- Output items -->
-    <v-group :config="{ x: props.x + props.width - 0.33 * props.width, y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.converter.output_items).length) }">
+    <v-group :config="getOutputItemsConfig()">
       <template v-for="entry in generateItems(props.converter.output_items)" :key="'output-' + entry.item">
         <item-entry :item="entry.item" :count="entry.count" :x="entry.x" :y="entry.y" :scale-factor="entry.scaleFactor" :icon-width="entry.iconWidth" :icon-height="entry.iconHeight"/>
       </template>
     </v-group>
 
     <!-- Arrow connecting input to output -->
-    <template v-if="props.converter.running_stage !== 'constant'">
+    <template v-if="props.converter.running_stage !== 'constant' && props.converter.running_stage !== 'instant'">
       <v-arrow :config="{
         points: [props.x + 0.4 * props.width, props.y + props.height / 2, props.x + props.width - 0.37 * props.width, props.y + props.height / 2],
         pointerLength: 0.03 * props.width,
@@ -90,7 +90,7 @@
 <script setup lang="ts">
 import ItemEntry from '@/components/ItemEntry.vue';
 import { getItemsValue } from '@/interfaces/GameConfig';
-import type { Converter, GameState } from '@/interfaces/GameState';
+import { isOnFavorBuff, type Converter, type GameState, type Player } from '@/interfaces/GameState';
 
 
 
@@ -103,6 +103,7 @@ const props = defineProps<{
   producible: boolean;
   converter: Converter;
   gameState: GameState;
+  selectedPlayer: string;
   preview?: boolean;
   onClick: () => void;
 }>();
@@ -113,7 +114,16 @@ const stageOpacity = (running_stage: string) => {
 }
 
 
-
+const getOutputItemsConfig = () => {
+  let x = props.x + props.width - 0.33 * props.width;
+  if (props.converter.running_stage === 'instant') {
+    x = props.x + 0.4 *props.width
+  }
+  return { 
+    x: x, 
+    y: props.y + 0.5 * props.height - 0.5 * getEstimatedItemEntriesHeight(generateItems(props.converter.output_items).length) 
+  }
+}
 
 const generateItems = (items: {[key: string]: number}) => {
   const entries: { item: string, count: number, x: number, y: number, scaleFactor: number, iconWidth: number, iconHeight: number, isFirst: boolean}[] = [];
@@ -141,9 +151,13 @@ const generateResearchItems = (items: {[key: string]: number}, column: number) =
   let num = 0;
   for (let item in items) {
     if (items[item] === 0) continue;
+    let count = items[item];
+    if (isOnFavorBuff(props.gameState, props.selectedPlayer)) {
+      count -= 1;
+    }
     entries.push({
       item: item,
-      count: items[item],
+      count: count,
       x: column * 0.9 / 6 * props.width,
       y: num * 0.8 / 4 * props.height,
       scaleFactor: props.scaleFactor * researchItemScaleFactor,

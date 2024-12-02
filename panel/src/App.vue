@@ -52,7 +52,9 @@ const gameState = ref<GameState>({
   proposals: {},
   research_bid_priority: [],
   colony_bid_priority: [],
-  Kajsjavikalimm_choose_split: null
+  Kajsjavikalimm_choose_split: null,
+  favor_buff_in_game: false,
+  faderan_relic_world_deck_size: 0
 });
 
 const setCurrentRoom = (room: string) => {

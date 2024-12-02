@@ -33,7 +33,8 @@ export class Factory {
     public preview: Converter[] | null,
     public owner: string,
     public feature: { type: string, properties: { [key: string]: any } },
-    public run_count: number
+    public run_count: number,
+    public description: string
   ) {}
 }
 
@@ -74,6 +75,16 @@ export class GameState {
     public current_pick: { type: string, player: string, bid: number },
     public current_discard_colony_player: string,
     public proposals: { [key: string]: TradeProposal[] },
-    public Kajsjavikalimm_choose_split: boolean | null
+    public Kajsjavikalimm_choose_split: boolean | null,
+    public favor_buff_in_game: boolean,
+    public faderan_relic_world_deck_size: number
   ) {}
+}
+
+export function isOnFavorBuff(gameState: GameState, player_id: string): boolean {
+  const player = gameState.players.find(player => player.user_id === player_id);
+  if (gameState.favor_buff_in_game && player && player.specie !== "Faderan" && getStorage(player, "Favor") > 0) {
+    return true;
+  }
+  return false;
 }

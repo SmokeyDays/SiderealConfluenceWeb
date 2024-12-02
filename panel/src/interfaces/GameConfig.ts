@@ -13,6 +13,10 @@ const specieColors: {[key: string]: string} = {
   'None': 'white'
 };
 
+const specieColorsDark: {[key: string]: string} = {
+  'Faderan': 'orange',
+}
+
 const specieZhNames: {[key: string]: string} = {
   'Caylion': '凯利安',
   'Yengii': '岩基艾',
@@ -26,9 +30,16 @@ const specieZhNames: {[key: string]: string} = {
   'None': '未知'
 };
 
-export const getSpecieColor = (specie: string) => {
-  if (specie in specieColors) {
+export const getSpecieColor = (specie: string, dark = false) => {
+  if (!dark && specie in specieColors) {
     return specieColors[specie];
+  }
+  if (dark) {
+    if (specie in specieColorsDark) {
+      return specieColorsDark[specie];
+    } else {
+      return specieColors[specie];
+    }
   }
   return 'black';
 };
@@ -40,7 +51,7 @@ export const getSpecieZhName = (specie: string) => {
   return '未知';
 };
 
-export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall", "ArbitrarySmall", "ArbitraryBig", "FoodDonation", "CultureDonation", "IndustryDonation", "EnergyDonation", "InformationDonation", "BiotechDonation", "HypertechDonation", "ShipDonation", "ScoreDonation", "WildBigDonation", "WildSmallDonation", "ArbitrarySmallDonation", "ArbitraryBigDonation"];
+export const items = ["Food", "Culture", "Industry", "Energy", "Information", "Biotech", "Hypertech", "Ship", "Score","WildBig", "WildSmall", "ArbitrarySmall", "ArbitraryBig", "FoodDonation", "CultureDonation", "IndustryDonation", "EnergyDonation", "InformationDonation", "BiotechDonation", "HypertechDonation", "ShipDonation", "ScoreDonation", "WildBigDonation", "WildSmallDonation", "ArbitrarySmallDonation", "ArbitraryBigDonation", "Favor", "Fleet"];
 export const smallItem = ["Food", "Culture", "Industry"];
 export const bigItem = ["Energy", "Information", "Biotech"];
 export const wildSmallTarget = [...smallItem, "ArbitrarySmall"];
@@ -102,6 +113,8 @@ const itemZhNames: {[key: string]: string} = {
   'Jungle': '丛林殖民地',
   'Desert': '沙漠殖民地',
   'Water': '海洋殖民地',
+  'Favor': '感谢',
+  'Fleet': '舰队',
 }
 
 const itemZhDescs: {[key: string]: string} = {
@@ -118,6 +131,8 @@ const itemZhDescs: {[key: string]: string} = {
   'WildSmall': '小灰',
   'ArbitrarySmall': '小彩色',
   'ArbitraryBig': '大彩色',
+  'Favor': '法德澜感谢',
+  'Fleet': '舰队',
 }
 
 export const getItemZhName = (item: string) => {

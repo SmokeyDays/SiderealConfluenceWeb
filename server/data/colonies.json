@@ -20,7 +20,8 @@
                     "Culture": 2
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南十字二+",
@@ -64,7 +65,8 @@
                     "Food": 2
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "角宿一+",
@@ -108,7 +110,8 @@
                     "Hypertech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "心宿二+",
@@ -153,7 +156,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南十字三+",
@@ -196,7 +200,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "轩辕十四+",
@@ -239,7 +244,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北河二+",
@@ -282,7 +288,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南船五+",
@@ -325,7 +332,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南门二+",
@@ -368,7 +376,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "弧矢一+",
@@ -411,7 +420,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "天船三+",
@@ -454,7 +464,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北斗七+",
@@ -497,7 +508,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "尾宿五+",
@@ -540,7 +552,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "孔雀十一+",
@@ -583,7 +596,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "天社三+",
@@ -626,7 +640,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北极星+",
@@ -669,7 +684,8 @@
                     "Hypertech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北落师门+",
@@ -714,7 +730,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南十字一+",
@@ -757,7 +774,8 @@
                     "Hypertech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "参宿四+",
@@ -802,7 +820,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "大角星+",
@@ -845,7 +864,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "鹤一+",
@@ -888,7 +908,8 @@
                     "Industry": 2
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北斗五+",
@@ -932,7 +953,8 @@
                     "Culture": 2
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "弧矢七+",
@@ -976,7 +998,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "天狼星+",
@@ -1019,7 +1042,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "参宿七+",
@@ -1062,7 +1086,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "娄宿三+",
@@ -1105,7 +1130,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "毕宿五+",
@@ -1148,7 +1174,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "三角形三+",
@@ -1191,7 +1218,8 @@
                     "Hypertech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "参宿一+",
@@ -1236,7 +1264,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "马腹一+",
@@ -1279,7 +1308,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "五车二+",
@@ -1322,7 +1352,8 @@
                     "Food": 2
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "尾宿八+",
@@ -1366,7 +1397,8 @@
                     "Hypertech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "老人星+",
@@ -1411,7 +1443,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "织女星+",
@@ -1454,7 +1487,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "牛郎星+",
@@ -1497,7 +1531,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "天记星+",
@@ -1540,7 +1575,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "北河三+",
@@ -1583,7 +1619,8 @@
                     "Information": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "天津四+",
@@ -1626,7 +1663,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "参宿五+",
@@ -1669,7 +1707,8 @@
                     "Biotech": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "水委一+",
@@ -1712,7 +1751,8 @@
                     "Energy": 1
                 }
             }
-        }
+        },
+        "description": ""
     },
     {
         "name": "南河三+",

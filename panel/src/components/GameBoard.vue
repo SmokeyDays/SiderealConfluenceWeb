@@ -33,7 +33,7 @@ const getPlayerSelectOptions = () => {
   return props.gameState.players.map(player => ({
     label: getSpecieZhName(player.specie) + (player.user_id === props.username ? ' (你)' : `(${player.user_id})`),
     value: player.user_id, 
-    style: { color: getSpecieColor(player.specie), fontWeight: 'bold' }
+    style: { color: getSpecieColor(player.specie, true), fontWeight: 'bold' }
   }));
 };
 const agreeToNextStage = () => {
@@ -97,6 +97,7 @@ const getPlayerColonyColor = (player: Player) => {
           </n-tooltip>
           <div class="player-tie-breaker" :style="{ fontWeight: 'bold'}">出价平手决胜: {{ getPlayer()!.tie_breaker }}</div>
         </div>
+        <div class="relic-world-deck-size" :style="{ fontWeight: 'bold' , color: getSpecieColor(getPlayer()!.specie, true)}" v-if="getPlayer()!.specie === 'Faderan'">遗物世界牌堆剩余: {{ gameState.faderan_relic_world_deck_size }}</div>
         <div class="storage-container">
           <template v-for="(item_count, item_id) in getPlayer()!.storage">
             <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0 && !isOtherPlayerScore(getPlayer()!.user_id, item_id as string)"/>

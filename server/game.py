@@ -1,5 +1,6 @@
 from copy import deepcopy
 import json
+from math import ceil
 from typing import Any, Callable, Dict, List, Tuple
 import random
 
@@ -117,7 +118,10 @@ class DataManager:
     self.specie_factories = {}
     self.specie_init_players: list[Player] = {}
     self.species_data = {}
-    self.species = ["Caylion", "Yengii", "Eni", "Unity", "Im", "Kjasjavikalimm", "Kit"]
+    self.species = ["Caylion", "Yengii", "Eni", "Unity", "Im", "Kjasjavikalimm", "Kit", "Faderan"]
+    self.special_decks = {
+      "FaderanRelicWorld": []
+    }
     self.load_species(path)
 
     self.researches_data = []
@@ -184,13 +188,20 @@ class DataManager:
             })
         upgrades.sort(key=lambda x: 1 if isinstance(x["cost"], str) else 0)
         feature["properties"]["upgrades"] = upgrades
-      factories[factory["name"]] = Factory(
+      description = factory.get("description", "")
+      factoryObj = Factory(
         factory["name"], 
         [Converter(**converter) for converter in factory["converters"]],
         "None" if "noOwner" in factory['feature']['properties'] else specie,
-        feature
+        feature,
+        description
       )
+      factories[factory["name"]] = factoryObj
+      if feature["properties"].get("FaderanRelicWorld", False):
+        self.special_decks["FaderanRelicWorld"].append(factoryObj)
     self.specie_factories[specie] = factories
+    if specie == "Faderan":
+      random.shuffle(self.special_decks["FaderanRelicWorld"])
 
   def create_init_players(self, specie: str, specie_data: dict):
     init_factories = {}
@@ -263,6 +274,13 @@ class DataManager:
     if len(self.research_deck) == 0:
       return None
     return self.research_deck.pop(0)
+  
+  def draw_special_deck(self, category: str):
+    if category == "FaderanRelicWorld":
+      if len(self.special_decks["FaderanRelicWorld"]) == 0:
+        return None
+      return self.special_decks["FaderanRelicWorld"].pop()
+    return None
 
   def load_colonies(self, path: str):
     with open(f"{path}/colonies.json", "r", encoding="utf-8") as f:
@@ -334,11 +352,13 @@ class Factory:
     converters: List[Converter],
     owner: str, 
     feature = {"type": "Normal", "properties": {}},
+    description: str = ""
   ):
     self.name = name
     self.converters = converters
     self.preview = None
     self.owner = owner
+    self.description = description
     self.run_count = 0
 
     """
@@ -380,9 +400,43 @@ class Factory:
 
   def on_enter_game(self, game, player):
     for index, converter in enumerate(self.converters):
-      if converter.running_stage == "constant":
-        game.produce_factory(player, self, index, {})
-        
+      if converter.running_stage == "constant" or converter.running_stage == "instant":
+        self.produce(game, player, index, {"NeverCount": True})
+    if self.name == "法德澜_晨星废墟":
+      bonus = game.get_tech_spread_bonus(player.user_id)
+      player.add_items_to_storage({
+        "Score": bonus
+      })
+    if self.name == "法德澜_自动化运输网络":
+      for _ in range(2):
+        player.add_colony(game.draw_colony())
+    if self.name == "法德澜_关联集成存储器":
+      total_favor = 0
+      for other_player in game.players:
+        if other_player.specie != "Faderan":
+          total_favor += other_player.storage.get("Favor", 0)
+      score_bonus = ceil(total_favor / 3.0)
+      player.add_items_to_storage({
+        "Score": score_bonus
+      })
+      game.favor_buff_in_game = True
+
+  def on_transfer(self, game, sender, receiver):
+    if self.name == "法德澜_杜伦泰的赠礼":
+      if self.run_count == 0:
+        sender.add_items_to_storage({
+          "Hypertech": 1,
+          "Biotech": 1,
+          "Food": 1,
+          "Industry": 1
+        })
+        faderan_player = game.get_player_by_specie('Faderan')
+        if faderan_player:
+          faderan_player.add_items_to_storage({
+            "Biotech": 1
+          })
+        self.run_count += 1
+
   def eniet_interest(self, converter, game, player, extra_properties):
     """
     extra_properties: {
@@ -426,7 +480,7 @@ class Factory:
     converter = self.converters[converter_index]
     if converter.used:
       return False, "工厂已使用"
-    if converter.running_stage != game.stage:
+    if converter.running_stage != game.stage and converter.running_stage != "instant" and converter.running_stage != "constant":
       return False, "当前阶段不正确"
     
     if 'MustLend' in self.feature['properties']:
@@ -445,6 +499,11 @@ class Factory:
       assert "cost_type" in extra_properties
       cost_type = extra_properties["cost_type"]
       cost = converter.input_items[cost_type]
+      if game.favor_buff_in_game and player.specie != "Faderan":
+        cost_dict = deepcopy(cost)
+        for item, quantity in cost_dict.items():
+          if item != "Hypertech":
+            cost[item] = quantity - 1
       tech = self.feature["properties"]["tech"]
 
       if not player.remove_items_from_storage(cost):
@@ -473,22 +532,25 @@ class Factory:
 
     if self.feature["type"] == "Meta":
       unlock_factory = game.data_manager.get_factory(player.specie, self.feature["properties"]["unlock_factory"])
-      player.add_factory(unlock_factory)
-      unlock_factory.on_enter_game(game, player)
+      game.unlock_factory(player, unlock_factory)
       player.remove_factory(self.name)
 
     if not special_factory:
+      if "RelicWorld" in res:
+        game.draw_special_deck(player, "FaderanRelicWorld")
+        res.pop("RelicWorld")
       if converter.running_stage == 'production':
         player.add_new_product_items(res)
       else:
         player.add_items_to_storage(res)
 
     success = True
-    if "EnietInterest" in self.feature["properties"]:
+    if self.feature["properties"].get("EnietInterest", False):
       success, msg = self.eniet_interest(converter, game, player, extra_properties)
     if not success:
       return False, msg
-    self.run_count += 1
+    if not extra_properties.get("NeverCount", False):
+      self.run_count += 1
     if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
       if self.run_count >= 2:
         converter.used = True
@@ -508,7 +570,8 @@ class Factory:
       "owner": self.owner,
       "feature": self.feature,
       "preview": [converter.to_dict() for converter in self.preview] if self.preview else None,
-      "run_count": self.run_count
+      "run_count": self.run_count,
+      "description": self.description
     }
 
 
@@ -583,7 +646,6 @@ class Player:
       if item != "Score" and item != "ScoreDonation":
         self.item_value += quantity * get_item_value(item)
 
-
   def modify_storage(self, item: str, quantity: int):
     self.storage[item] = self.storage.get(item, 0) + quantity
     self.calculate_score()
@@ -635,11 +697,13 @@ class Player:
   def disagree(self):
     self.agreed = False
 
-  def on_new_round(self):
+  def on_new_round(self, game):
     for factory in self.factories.values():
-      for converter in factory.converters:
+      for index, converter in enumerate(factory.converters):
         if converter.running_stage == "constant":
-          self.add_items_to_storage(converter.output_items)
+          self.produce(game, self, index, {})
+    if self.specie == "Faderan":
+      self.add_items_to_storage({"Favor": 99})
   
   def on_end_round(self):
     expire_item_type = ['Fleet']
@@ -656,15 +720,25 @@ class Player:
         factory.reset()
     for factory_name in factories_to_remove:
       self.remove_factory(factory_name)
+  
+  def get_max_colony(self):
+    if "法德澜_自动化运输网络" in self.factories:
+      return self.max_colony + 2
+    return self.max_colony
 
   def has_tech(self, tech: str):
     return tech in self.tech
   
-  def invent_tech(self, tech: str):
+  def invent_tech(self, game, tech: str):
     pubsub.publish("add_statistics", {"key": "tech_invented", "value": 1}, self.user_id)
     if self.specie == "Yengii":
       pubsub.publish("add_statistics", {"key": "yengii_tech_invented", "value": 1}, self.user_id)
     self.invented_tech.append(tech)
+    if self.specie != "Faderan":
+      faderan_player = game.get_player_by_specie("Faderan")
+      if faderan_player and self.storage.get("Favor", 0) > 0:
+        faderan_player.add_items_to_storage({"Score": 1})
+        self.remove_from_storage("Favor", 1)
   
   def has_invented_tech(self, tech: str):
     return tech in self.invented_tech
@@ -699,7 +773,7 @@ class Player:
       "specie_zh_name": self.specie_zh_name,
       "storage": self.storage,
       "factories": {name: factory.to_dict() for name, factory in self.factories.items()},
-      "max_colony": self.max_colony,
+      "max_colony": self.get_max_colony(),
       "tie_breaker": self.tie_breaker,
       "init_colony": self.init_colony,
       "init_research": self.init_research,
@@ -735,6 +809,7 @@ class Game:
     self.trade_recorder = TradeRecorder()
 
     self.Kajsjavikalimm_choose_split = None
+    self.favor_buff_in_game = False
   def get_player_num(self):
     return max(len(self.players), 3)
 
@@ -771,6 +846,10 @@ class Game:
       if len(self.discard_colony) > 0:
         return self.discard_colony[0]
     return ""
+  
+  @property
+  def faderan_relic_world_deck_size(self):
+    return len(self.data_manager.special_decks["FaderanRelicWorld"])
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):
@@ -822,7 +901,7 @@ class Game:
   
   def on_new_round(self):
     for player in self.players:
-      player.on_new_round()
+      player.on_new_round(self)
     self.supply_bid_items()
   
   def on_end_round(self):
@@ -924,7 +1003,7 @@ class Game:
   def calculate_discard_colony(self):
     self.discard_colony = []
     for player in self.players:
-      if (player.get_factory_num_by_type("Colony") > player.max_colony):
+      if (player.get_factory_num_by_type("Colony") > player.get_max_colony()):
         self.discard_colony.append(player.user_id)
 
   def save_new_product_items(self):
@@ -963,7 +1042,7 @@ class Game:
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
       self.get_tech(player, tech)
-      player.invent_tech(tech)
+      player.invent_tech(self, tech)
 
     if player.specie != "Yengii":
       if self.current_round not in self.tech_spread_list:
@@ -986,6 +1065,17 @@ class Game:
     if player:
       player.add_colony(self.draw_colony())
 
+  def unlock_factory(self, player: Player, factory: Factory):
+    player.add_factory(factory)
+    factory.on_enter_game(self, player)
+
+  def draw_special_deck(self, player: Player, category: str):
+    factory = None
+    if category == "FaderanRelicWorld":
+      factory = self.data_manager.draw_special_deck("FaderanRelicWorld")
+    if factory:
+      self.unlock_factory(player, factory)
+
   def debug_add_item(self, player_name: str, item: str, quantity: int):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
@@ -1006,6 +1096,7 @@ class Game:
     def callback():
       factory = sender.remove_factory(factory_name)
       receiver.add_factory(factory)
+      factory.on_transfer(self, sender, receiver)
       #check achievements
       if sender.specie == "Eni":
         if "MustLend" in factory.feature["properties"] and factory.feature["properties"]["MustLend"]:
@@ -1018,6 +1109,9 @@ class Game:
     def callback():
       self.get_tech(receiver, tech)
     return True, "", callback
+
+  def get_player_by_specie(self, specie: str):
+    return next((p for p in self.players if p.specie == specie), None)
   ############################
   #                          #
   # Game Interface Functions #
@@ -1240,7 +1334,7 @@ class Game:
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
       return False, "未指定玩家"
-    discard_num = player.get_factory_num_by_type("Colony") - player.max_colony
+    discard_num = player.get_factory_num_by_type("Colony") - player.get_max_colony()
     if len(colonies) != discard_num:
       return False, "需要弃置的殖民地数量不符"
     for colony in colonies:
@@ -1384,7 +1478,9 @@ class Game:
       "current_pick": self.current_pick_player,
       "current_discard_colony_player": self.current_discard_colony_player,
       "proposals": {sender: [proposal.to_dict() for proposal in proposals] for sender, proposals in self.proposals.items()},
-      "Kajsjavikalimm_choose_split": self.Kajsjavikalimm_choose_split
+      "Kajsjavikalimm_choose_split": self.Kajsjavikalimm_choose_split,
+      "favor_buff_in_game": self.favor_buff_in_game,
+      "faderan_relic_world_deck_size": self.faderan_relic_world_deck_size
     }
 
     """
@@ -1475,7 +1571,9 @@ class Game:
             ...
           ],
         },
-        "Kajsjavikalimm_choose_split": bool | None  
+        "Kajsjavikalimm_choose_split": bool | None,
+        "favor_buff_in_game": bool,
+        "faderan_relic_world_deck_size": int
     }
     """
     """

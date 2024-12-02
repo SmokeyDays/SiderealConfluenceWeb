@@ -1,13 +1,13 @@
 <template>
   <div 
     class="player-specie" 
-    :style="{ fontWeight: 'bold', color: getSpecieColor(specie) }"
+    :style="{ fontWeight: 'bold', color: getSpecieColor(specie, true) }"
     v-if="!props.isSpan"
   >
     {{ getSpecieZhName(specie) }}
     {{ isMe ? ' (你)' : '' }}
   </div>
-  <span v-else :style="{ fontWeight: 'bold', color: getSpecieColor(specie) }">
+  <span v-else :style="{ fontWeight: 'bold', color: getSpecieColor(specie, true) }">
     {{ getSpecieZhName(specie) }}
     {{ isMe ? ' (你)' : '' }}
   </span>

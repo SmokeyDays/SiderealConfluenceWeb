@@ -95,6 +95,11 @@
         :preview="isPreview"
       />
     </template>
+    <template v-if="props.factory.description !== ''">
+      <template v-for="config in getDescriptionTextConfigs()" :key="config.text">
+        <v-text :config="config" />
+      </template>
+    </template>
   </v-group>
 </template>
 
@@ -122,6 +127,7 @@ export interface FactoryConfig {
   upgradeColony: () => void;
   upgradeNormal: (id: number) => void;
   me: Player;
+  selectedPlayer: string;
 }
 
 
@@ -196,6 +202,27 @@ const getTechTextConfig = () => {
   }
 }
 
+const getDescriptionTextConfigs = () => {
+  const res = []
+  let entries = props.factory.description.split('\\n');
+  const maxLength = entries.reduce((max, entry) => Math.max(max, entry.length), 0);
+  const fontSize = 0.05 * props.height;
+  let y = props.y + props.height * 0.35 - fontSize * entries.length / 2;
+  for (let entry of entries) {
+    const estimateWidth = entry.length * fontSize;
+    const estimateHeight = fontSize;
+    res.push({
+      text: entry,
+      fontSize: fontSize,
+      fill: 'white',
+      x: props.x + props.width * 0.5 - estimateWidth / 2,
+      y: y
+    })
+    y += estimateHeight * 1.5;
+  }
+  return res;
+}
+
 const getPreviewConverterConfigs = () => {
   let xCenter = props.x + props.width * 0.5;
   let yCenter = props.y + props.height * 0.85;
@@ -227,6 +254,7 @@ const getPreviewConverterConfigs = () => {
       converter: props.factory.preview![i], 
       producible: props.producible(props.factory.preview![i].input_items),
       gameState: props.gameState,
+      selectedPlayer: props.selectedPlayer,
       onClick: () => {}
     })
     curY += height;
@@ -291,6 +319,7 @@ const getColonyUpgradeConverterConfig = () => {
     producible: props.producible(props.factory.feature.properties['upgrade_cost']),
     gameState: props.gameState,
     converter: converter,
+    selectedPlayer: props.selectedPlayer,
     onClick: props.upgradeColony
   }
 }
@@ -305,6 +334,7 @@ const getUpgradeCostConverterConfig = (converter: Converter, id: number) => {
     producible: props.producible(converter.input_items),
     gameState: props.gameState,
     converter: converter,
+    selectedPlayer: props.selectedPlayer,
     onClick: () => props.upgradeNormal(id)
   }
 }
@@ -369,6 +399,7 @@ const getConverterConfigs = () => {
       gameState: props.gameState,
       preview: isPreview.value,
       converter: converters[i], 
+      selectedPlayer: props.selectedPlayer,
       onClick: () => produceClick(i)
     })
   }

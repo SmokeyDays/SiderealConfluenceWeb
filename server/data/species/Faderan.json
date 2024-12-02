@@ -15,6 +15,7 @@
             "Ship": 2
         },
         "factories": [
+            "法德澜_遗迹挖掘舰队",
             "法德澜_遗迹再利用",
             "法德澜_古代自动化支持网络",
             "法德澜_仪式化管理",
@@ -22,6 +23,352 @@
         ]
     },
     "factories": [
+        {
+            "name": "法德澜_遗迹挖掘舰队",
+            "converters": [
+                {
+                    "input_items": {
+                        "Culture": 4,
+                        "Ice": 1
+                    },
+                    "output_items": {
+                        "RelicWorld": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": []
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_杜伦泰的赠礼",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {},
+                    "running_stage": "instant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true,
+                    "noOwner": true
+                }
+            },
+            "description": "每当这张牌第一次被交易出去时，赠出者获得\\n{UTgb}\\n法德澜获得\\n{b}"
+        },
+        {
+            "name": "法德澜_关联集成存储器",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {},
+                    "running_stage": "instant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": "这张牌进入游戏时：\\n场上每有 3 个感谢，你得 1 分；\\n拥有感谢的玩家开发科技时：\\n -1 资源消耗（大块/小块）"
+        },
+        {
+            "name": "法德澜_自动化运输网络",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": "这张牌进入游戏时，抽 2 殖民地\\n持有者 +2 殖民地支持"
+        },
+        {
+            "name": "法德澜_遗迹探测器",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {
+                        "Food": 3,
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "RelicWorld": 1
+                    },
+                    "running_stage": "trading"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_隐德莱希图书馆",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "ScoreDonation": 1,
+                        "InformationDonation": 1,
+                        "FoodDonation": 1,
+                        "CultureDonation": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_嬗变性分解器",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {
+                        "Ship": 2
+                    },
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Industry": 1,
+                        "Food": 1,
+                        "Energy": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_纳尔戈里安磨盘",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {
+                        "Score": 1
+                    },
+                    "output_items": {
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Industry": 1,
+                        "Food": 1
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_晨星废墟",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Score": 2
+                    },
+                    "running_stage": "instant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": "这张牌进入游戏时，你额外获得当前共享奖励的分"
+        },
+        {
+            "name": "法德澜_乐土转换器",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Information": 1,
+                        "Biotech": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {
+                        "ArbitraryWorld": 1
+                    },
+                    "output_items": {
+                        "Score": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_巴里安贸易舰队",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Hypertech": 1,
+                        "Biotech": 1,
+                        "Information": 1,
+                        "Energy": 1,
+                        "Food": 1,
+                        "Industry": 1,
+                        "Culture": 1,
+                        "Ship": 4,
+                        "Score": 1
+                    },
+                    "running_stage": "instant"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_瑟尔的碎环",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Food": 1,
+                        "Industry": 1,
+                        "Culture": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {
+                        "Energy": 1,
+                        "Information": 1
+                    },
+                    "output_items": {
+                        "Score": 2
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
+        {
+            "name": "法德澜_雄伟浑天仪",
+            "converters": [
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Score": 1
+                    },
+                    "running_stage": "instant"
+                },
+                {
+                    "input_items": {},
+                    "output_items": {
+                        "Ship": 4
+                    },
+                    "running_stage": "production"
+                }
+            ],
+            "feature": {
+                "type": "Normal",
+                "properties": {
+                    "upgraded": true,
+                    "upgrades": [],
+                    "FaderanRelicWorld": true
+                }
+            },
+            "description": ""
+        },
         {
             "name": "法德澜_纳米科技",
             "converters": [
@@ -51,7 +398,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_纳米制造",
@@ -105,7 +453,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_基因再合成",
@@ -158,7 +507,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_通用共情交流",
@@ -213,7 +563,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_反物质化合物",
@@ -268,7 +619,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_泛生物医学",
@@ -324,7 +676,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_具体共相元理论学",
@@ -381,7 +734,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_多种族混合文化",
@@ -443,7 +797,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_全种族间融合",
@@ -505,7 +860,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_银河系殖民",
@@ -564,7 +920,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_非确定性多项式塌缩",
@@ -617,7 +974,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_实用永生",
@@ -670,7 +1028,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_模因生命体",
@@ -725,7 +1084,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_时间查看器",
@@ -782,7 +1142,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_活体基础设施",
@@ -839,7 +1200,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_超空间定居点",
@@ -895,7 +1257,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_银河系统治",
@@ -951,7 +1314,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_静滞场",
@@ -1009,7 +1373,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_大规模传送",
@@ -1064,7 +1429,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_遗迹建造",
@@ -1117,7 +1483,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_已驯化的自动化支持网络",
@@ -1172,7 +1539,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_虚材料",
@@ -1226,7 +1594,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_跨种族首都",
@@ -1281,7 +1650,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_基因可塑动物群",
@@ -1338,7 +1708,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_虫洞网格",
@@ -1395,7 +1766,8 @@
                         }
                     ]
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "法德澜_戴森群",

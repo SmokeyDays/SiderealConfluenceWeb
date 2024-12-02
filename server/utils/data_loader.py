@@ -30,7 +30,8 @@ converter_stage = {
     '➪': 'production',
     '→': 'trading',
     '➾': 'stealing',
-    '↺': 'constant'
+    '↺': 'constant',
+    '↯': 'instant'
 }
 def arrow_pattern():
     res = ''
@@ -106,7 +107,7 @@ MustLend = ['文化包容', '志愿医疗运动', '相互理解', '长者的智�
 EnietInterest = ['文化包容', '志愿医疗运动', '相互理解', '长者的智慧', '跨文化档案', '全向文化动态包容', '全民健康', '种族间共情', '永生者的智慧', '泛在文化影响']
 FaderanRelicWorld = ['杜伦泰的赠礼', '关联集成存储器', '自动化运输网络', '遗迹探测器', '隐德莱希图书馆', '嬗变性分解器', '纳尔戈里安磨盘', '晨星废墟', '乐土转换器', '巴里安贸易舰队', '瑟尔的碎环', '雄伟浑天仪']
 KitStarting = ['凯特_手工制作的多功能组件', "凯特_广域社会扩散", "凯特_无序牺牲性高风险实验室"]
-
+NoOwner = ['杜伦泰的赠礼']
 def analyze_items(item_str, donation = False):
     if item_str.endswith(' §'):
         item_str = item_str[:-2]
@@ -138,8 +139,8 @@ def analyze_items_with_donation(item_str):
     
 
 def analyze_converter(converter_str):
-    if not re.search(f'({arrow_pattern()})', converter_str):
-        converter_str = '↺' + converter_str
+    # if not re.search(f'({arrow_pattern()})', converter_str):
+    #     converter_str = '↺' + converter_str
     input=re.match(f'.*(?={arrow_pattern()})',converter_str).group()
     input_items={}
     output_items={}
@@ -162,6 +163,8 @@ def analyze_converter(converter_str):
     return converter
 
 def analyze_converters(converters_str):
+    if pd.isna(converters_str):
+        converters_str = '↯'
     converter_strs = converters_str.split(',')
     converters = []
     for converter_str in converter_strs:
@@ -169,12 +172,10 @@ def analyze_converters(converters_str):
     return converters
 
 def factory_from_csv(fac, converter_as_cost = False):
-    if fac['Front Name'] in FaderanRelicWorld:
-        return None, None, None
     if fac['Faction'] == '凯特' and fac['Cost'] == 'Starting':
         return None, None, None
     meta_factory = None
-    if converter_as_cost:
+    if converter_as_cost and fac['Front Name'] not in FaderanRelicWorld:
         meta_factory = {
             "name": f'{fac["Faction"]}_{fac["Front Name"]}_打出',
             "converters": analyze_converters(fac['Cost']),
@@ -209,7 +210,7 @@ def factory_from_csv(fac, converter_as_cost = False):
     feature = {
             'type': 'Normal',
             'properties': {
-                'upgraded': False,
+                'upgraded': len(upgrade) == 0,
                 'upgrades': [{
                     'cost': item,
                     'factory': f'{fac["Faction"]}_{fac["Back Name"]}'
@@ -252,10 +253,18 @@ def factory_from_csv(fac, converter_as_cost = False):
         factory_name = f'{fac["Front Name"]}'
         if meta_factory:
             meta_factory['feature']['properties']['unlock_factory'] = factory_name
+    if fac['Faction'] == '法德澜' and fac['Front Name'] in FaderanRelicWorld:
+        feature['properties']['FaderanRelicWorld'] = True
+    if fac['Front Name'] in NoOwner:
+        feature['properties']['noOwner'] = True
+    desc = fac['Desc']
+    if pd.isna(desc):
+        desc = ''
     factory = {
         'name': factory_name,
         'converters': analyze_converters(factory_str),
-        'feature': feature
+        'feature': feature,
+        'description': desc
     }
     back_factory = None
     if isinstance(fac['Back Factory'], str):

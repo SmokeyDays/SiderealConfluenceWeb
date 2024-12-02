@@ -62,7 +62,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_纳米制造",
@@ -119,7 +120,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_基因再合成",
@@ -175,7 +177,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_通用共情交流",
@@ -233,7 +236,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_反物质化合物",
@@ -292,7 +296,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_泛生物医学",
@@ -351,7 +356,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_具体共相元理论学",
@@ -411,7 +417,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_多种族混合文化",
@@ -476,7 +483,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_全种族间融合",
@@ -541,7 +549,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_Galactic Reunion",
@@ -603,7 +612,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_非确定性多项式塌缩",
@@ -659,7 +669,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_实用永生",
@@ -715,7 +726,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_模因生命体",
@@ -773,7 +785,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_时间查看器",
@@ -832,7 +845,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_活体基础设施",
@@ -892,7 +906,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_超空间定居点",
@@ -954,7 +969,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_银河系统治",
@@ -1014,7 +1030,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_静滞场",
@@ -1075,7 +1092,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_大规模传送",
@@ -1135,7 +1153,8 @@
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_银河系藏宝地图绘制",
@@ -1191,7 +1210,8 @@
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_小行星建设场",
@@ -1255,7 +1275,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_虚材料",
@@ -1313,7 +1334,8 @@
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": "1"
         },
         {
             "name": "艾恩卓尔_分散式建造",
@@ -1374,7 +1396,8 @@
                     "fleetCost": 2,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_遗迹再合成",
@@ -1437,7 +1460,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_虫洞网格",
@@ -1537,7 +1561,8 @@
                     "fleetCost": 1,
                     "upgradeFleetCost": 1
                 }
-            }
+            },
+            "description": ""
         },
         {
             "name": "艾恩卓尔_戴森群",

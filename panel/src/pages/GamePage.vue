@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch , reactive, type Component } from 'vue';
 import { defineProps } from 'vue';
-import { Gift, type Factory, type GameState, type Player } from '../interfaces/GameState';
+import { Gift, isOnFavorBuff, type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GameBoard from '@/components/GameBoard.vue';
@@ -195,6 +195,12 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
   //     return false;
   //   }
   // }
+  let discount = 0;
+  if (feature.type === "Research" && Array.isArray(input_items)) {
+    if (isOnFavorBuff(props.gameState, player.user_id)) {
+      discount = 1;
+    }
+  }
   if (feature.properties['EnietInterest']) {
     if (Array.isArray(input_items)) {
       return false;
@@ -231,7 +237,7 @@ const checkFactoryAffordability = (player: Player, input_items: { [key: string]:
     for (let cost of input_items) {
       let affordable = true;
       for (let item in cost) {
-        if ((player.storage[item] || 0) < cost[item]) {
+        if ((player.storage[item] || 0) < cost[item] - discount) {
           affordable = false;
         }
       }
@@ -322,7 +328,8 @@ const getFactoryConfig = (me: Player, factory: Factory, x: number, y: number): F
         upgradeNormal(factory.name, id, factory.feature.properties['upgrades'][id]['factory']);
       }
     },
-    me: me
+    me: me,
+    selectedPlayer: selectedPlayer.value
   }
 }
 
