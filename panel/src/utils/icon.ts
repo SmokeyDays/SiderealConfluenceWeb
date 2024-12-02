@@ -29,6 +29,7 @@ import ArbitrarySmallSvg from '@/components/icons/items/ArbitrarySmall.svg';
 import ArbitraryBigSvg from '@/components/icons/items/ArbitraryBig.svg';
 import ArbitraryWorldSvg from '@/components/icons/items/ArbitraryWorld.svg';
 import FleetSvg from '@/components/icons/items/Fleet.svg';
+import FavorSvg from '@/components/icons/items/Favor.svg';
 
 export const getIconSvg = (item: string) =>  {
   switch (item) {
@@ -95,6 +96,8 @@ export const getIconSvg = (item: string) =>  {
     // Special items
     case 'Fleet':
       return FleetSvg;
+    case 'Favor':
+      return FavorSvg;
     default:
       return PlaceholderSvg;
   }
