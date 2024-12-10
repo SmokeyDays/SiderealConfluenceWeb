@@ -701,7 +701,7 @@ class Player:
     for factory in self.factories.values():
       for index, converter in enumerate(factory.converters):
         if converter.running_stage == "constant":
-          self.produce(game, self, index, {})
+          factory.produce(game, self, index, {})
     if self.specie == "Faderan":
       self.add_items_to_storage({"Favor": 99})
   
