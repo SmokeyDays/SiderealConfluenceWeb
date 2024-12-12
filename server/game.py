@@ -832,7 +832,7 @@ class Game:
         return {
           "type": "research",
           "player": self.research_bid_priority[0][0].user_id,
-          "bid": self.colony_bid_priority[0][0].get_research_bid()
+          "bid": self.research_bid_priority[0][0].get_research_bid()
         }
     return {
       "type": "",
@@ -959,6 +959,8 @@ class Game:
       self.stage = "pick"
       if any(player.specie == "Kjasjavikalimm" for player in self.players):
         self.Kajsjavikalimm_choose_split = None
+      else:
+        self.Kajsjavikalimm_choose_split = False
       self.init_bid_priority()
       self.reset_player_agreements()
     elif self.stage == "pick":
