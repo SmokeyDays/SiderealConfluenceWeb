@@ -832,7 +832,7 @@ class Game:
         return {
           "type": "research",
           "player": self.research_bid_priority[0][0].user_id,
-          "bid": self.research_bid_priority[0][0].get_research_bid()
+          "bid": self.research_bid_priority[0][0].research_bid
         }
     return {
       "type": "",
