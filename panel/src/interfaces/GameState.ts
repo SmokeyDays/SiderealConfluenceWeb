@@ -88,3 +88,10 @@ export function isOnFavorBuff(gameState: GameState, player_id: string): boolean 
   }
   return false;
 }
+
+export function getFavorCost(gameState: GameState, player_id: string, item: string, cost: number): number {
+  if (isOnFavorBuff(gameState, player_id) && item !== "Hypertech") {
+    return cost - 1;
+  }
+  return cost;
+}

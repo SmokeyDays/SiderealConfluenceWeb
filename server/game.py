@@ -23,6 +23,7 @@ def get_bid_board(player_num):
   return num_dict[player_num]
 
 def get_share_score(player_num,turn):
+  turn = turn - 1
   yengii_table=[
     [3,2,2,1,1,0],
     [3,2,2,1,1,0],
@@ -332,11 +333,11 @@ class DataManager:
     return None
 
 class Converter:
-  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], running_stage: str):
+  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], running_stage: str, used: bool = False):
     self.input_items = input_items
     self.output_items = output_items
     self.running_stage = running_stage
-    self.used = False
+    self.used = used
 
   def to_dict(self) -> Dict[str, Any]:
     return {
@@ -345,6 +346,20 @@ class Converter:
       "running_stage": self.running_stage,
       "used": self.used
     }
+  
+  def __str__(self):
+    input_str = ""
+    if isinstance(self.input_items, list):
+      for i in range(len(self.input_items)):
+        input_str += f"{get_items_str(self.input_items[i])}"
+        if i < len(self.input_items) - 1:
+          input_str += "/"
+    else:
+      if len(self.input_items) > 0:
+        input_str = get_items_str(self.input_items)
+      else:
+        input_str = "Free"
+    return f"{input_str} -> {get_items_str(self.output_items)}"
 
 
 class Factory:
@@ -748,6 +763,8 @@ class Player:
     for factory in self.factories.values():
       if factory.feature["type"] == query_type:
         res += 1
+      elif query_type == "Colony" and factory.feature["properties"].get("isColony", False):
+        res += 1
     return res
 
   def get_research_priority(self):
@@ -911,7 +928,7 @@ class Game:
     self.return_factories_to_owners()
 
   def get_winner(self):
-    return max(self.players, key=lambda x: x.score + 0.5 * x.item_value)
+    return max(self.players, key=lambda x: x.score + 0.5 * x.item_value / 3)
 
   def end_game(self):
     # check achievements
@@ -1114,6 +1131,9 @@ class Game:
 
   def get_player_by_specie(self, specie: str):
     return next((p for p in self.players if p.specie == specie), None)
+  
+  def get_player_by_id(self, user_id: str):
+    return next((p for p in self.players if p.user_id == user_id), None)
   ############################
   #                          #
   # Game Interface Functions #

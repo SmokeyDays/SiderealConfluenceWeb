@@ -56,6 +56,9 @@ const handleRightClickDrag = (event: MouseEvent | TouchEvent) => {
   }
 
   const onMouseMove = (moveEvent: MouseEvent | TouchEvent) => {
+    if(moveEvent instanceof TouchEvent && moveEvent.touches.length !== 1) {
+      return;
+    }
     let clientX = 0;
     let clientY = 0;
 
@@ -111,13 +114,15 @@ const handleResize = () => {
   isPortrait.value = window.innerWidth < window.innerHeight;
 };
 
+const lastDistance = ref(0);
 const handlePinch = (event: TouchEvent) => {
   if (event.touches.length === 2) {
     const distance = Math.hypot(
       event.touches[0].clientX - event.touches[1].clientX,
       event.touches[0].clientY - event.touches[1].clientY
     );
-    const scaleDelta = distance < 0 ? 1 : -1;
+    const scaleDelta = distance > lastDistance.value ? 4 : -4;
+    lastDistance.value = distance;
     props.updateGameProps({
       ...props.gameProps,
       scaleFactor: Math.max(5, Math.min(200, props.gameProps.scaleFactor + scaleDelta)),

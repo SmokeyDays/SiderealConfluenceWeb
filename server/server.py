@@ -1,5 +1,6 @@
 import datetime
 from flask_socketio import emit, join_room, leave_room
+from server.agent.prompt import get_prompt
 from server.game import Game
 from server.room import Room
 from server.utils.pubsub import pubsub
@@ -19,10 +20,13 @@ class Server:
     
     self.mock1()
     self.mock2()
+    self.mock3()
+    
     self.bind_basic_events()
     self.bind_lobby_events()
     self.bind_game_events()
     self.bind_query_events()
+    
   
   def mock1(self):
     user_manager.get_user("Alice")
@@ -123,7 +127,6 @@ class Server:
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
-    return
     # add debug items
     test_room.game.debug_add_item("Alice", "Ship", 10)
     test_room.game.debug_add_item("Bob", "Ship", 10)
@@ -144,6 +147,18 @@ class Server:
     test_room.game.submit_bid("Bob", 2, 3)
     test_room.game.submit_bid("Charlie", 1, 1)
     test_room.game.submit_bid("David", 1, 5)
+
+    test_room.game.Kajsjavikalimm_split("Alice", True)
+
+    test_room.game.submit_pick("Bob", "colony", 0)
+    test_room.game.submit_pick("Alice", "colony", 1)
+    test_room.game.submit_pick("Alice", "colony", 2)
+    test_room.game.submit_pick("David", "colony", -1)
+    test_room.game.submit_pick("Charlie", "colony", -1)
+    return
+  
+  def mock3(self):
+    print(get_prompt(self.rooms["test2"].game, "Alice"))
     return
     
   def run(self, **kwargs):
@@ -226,6 +241,18 @@ class Server:
         data['user'] if 'user' in data else None
       )
       self.new_msg(msg)
+
+    @self.socketio.on('admin-command', namespace=get_router_name())
+    def admin_command(data):
+      command = data['command']
+      try:
+        eval(command)
+      except Exception as e:
+        emit('alert-message', {
+          "type": "error",
+          "title": "Admin Command Failed",
+          "str": f"Command failed: {e}"
+        }, namespace=get_router_name())
 
   def update_rooms(self):
     rooms = {}
@@ -540,7 +567,6 @@ class Server:
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
     
-
   def update_achievements(self, user_id: str):
     user = user_manager.get_user(user_id)
     achievements = user.achievements
@@ -575,6 +601,15 @@ class Server:
     def query_achievement(data):
       username = data['username']
       self.update_achievements(username)
+
+    @self.socketio.on('query-prompt', namespace=get_router_name())
+    def query_prompt(data):
+      room_name = data['room_name']
+      username = data['username']
+      prompt = get_prompt(self.rooms[room_name].game, username)
+      emit('prompt', {
+        "prompt": prompt
+      }, namespace=get_router_name())
     
     def add_achievement_listener(data):
       self.add_achievement(data['username'], data['id'])

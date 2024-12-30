@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { NButton, NSelect, NCard } from 'naive-ui';
 import { getItemZhDesc, getSpecieColor, items } from '@/interfaces/GameConfig';
-import type { Factory, GameState } from '@/interfaces/GameState';
+import { getFavorCost, isOnFavorBuff, type Factory, type GameState } from '@/interfaces/GameState';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
@@ -32,7 +32,9 @@ const getCostTypeOptions = () => {
   for (const cost of Object.keys(props.factory.converters[0].input_items).map(Number)) {
     let description = "";
     for (const item in props.factory.converters[0].input_items[cost]) {
-      description += `${getItemZhDesc(item)}: ${props.factory.converters[0].input_items[cost][item]} `;
+      let num = props.factory.converters[0].input_items[cost][item];
+      num = getFavorCost(props.gameState, props.username, item, num);
+      description += `${getItemZhDesc(item)}: ${num} `;
     }
     res.push({ label: description, value: cost });
   }
@@ -48,7 +50,9 @@ const affordCost = () => {
     return false;
   }
   for (const item in props.factory.converters[0].input_items[costType.value]) {
-    if (player.storage[item] < props.factory.converters[0].input_items[costType.value][item]) {
+    let cost = props.factory.converters[0].input_items[costType.value][item];
+    cost = getFavorCost(props.gameState, props.username, item, cost);
+    if (player.storage[item] < cost) {
       return false;
     }
   }

@@ -153,7 +153,9 @@ const generateResearchItems = (items: {[key: string]: number}, column: number) =
     if (items[item] === 0) continue;
     let count = items[item];
     if (isOnFavorBuff(props.gameState, props.selectedPlayer)) {
-      count -= 1;
+      if (item !== "Hypertech") {
+        count -= 1;
+      }
     }
     entries.push({
       item: item,

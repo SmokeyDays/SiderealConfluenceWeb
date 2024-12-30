@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { NButton, NSpace, NFloatButton, NIcon, NBadge } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
+import GamePureTextPage from '@/pages/GamePureTextPage.vue';
 import LobbyPage from '@/pages/LobbyPage.vue';
 import AlertList from '@/components/AlertList.vue';
 import { socket } from '@/utils/connect';
@@ -24,9 +25,18 @@ const displayPage = ref('home');
 const username = ref(isProduction? '': 'Alice');
 const messages = ref<Message[]>([]);
 const currentRoom = ref('');
+const displayPureText = ref(false);
+const pureText = ref('');
 
 const switchPage = (page: string) => {
   displayPage.value = page;
+};
+
+const switchPureTextMode = () => {
+  displayPureText.value = !displayPureText.value;
+  if (displayPureText.value) {
+    socket.emit('query-prompt', {room_name: currentRoom.value, username: username.value});
+  }
 };
 
 const gameProps = ref({
@@ -63,7 +73,14 @@ const setCurrentRoom = (room: string) => {
 
 socket.on('game-state', (data: {state: GameState}) => {
   gameState.value = data.state;
+  if (displayPureText.value) {
+    socket.emit('query-prompt', {room_name: currentRoom.value, username: username.value});
+  }
   console.log(data);
+});
+
+socket.on('prompt', (data: {prompt: string}) => {
+  pureText.value = data.prompt;
 });
 
 socket.on('room-list', (data: {rooms: RoomList}) => {
@@ -259,7 +276,12 @@ onMounted(() => {
       <HomePage :submitUsername="submitUsername" />
     </template>
     <template v-else-if="displayPage === 'game'">
-      <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
+      <template v-if="displayPureText">
+        <GamePureTextPage :pureText="pureText" />
+      </template>
+      <template v-else>
+        <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
+      </template>
     </template>
     <template v-else-if="displayPage === 'lobby'">
       <LobbyPage 
@@ -304,6 +326,9 @@ onMounted(() => {
       <n-icon>
         <Achievement3 />
       </n-icon>
+    </n-float-button>
+    <n-float-button @click="switchPureTextMode" :bottom="10" :left="190" v-if="username !== ''" class="pure-text-float-button" type="primary">
+
     </n-float-button>
   </div>
 </template>
