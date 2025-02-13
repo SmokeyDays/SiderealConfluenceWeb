@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { NButton, NSelect, NCard } from 'naive-ui';
 import { getSpecieColor, items } from '@/interfaces/GameConfig';
-import type { Factory, GameState, Player } from '@/interfaces/GameState';
+import { isColony, type Factory, type GameState, type Player } from '@/interfaces/GameState';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
 const props = defineProps<{
@@ -26,7 +26,7 @@ const submitClose = () => {
 const getColonyOptions = () => {
   const res: { label: string, value: string }[] = [];
   for (const factory of Object.keys(props.getMe().factories)) {
-    if (props.getMe().factories[factory].feature["type"] === "Colony") {
+    if (isColony(props.getMe().factories[factory])) {
       const colony_name = props.getMe().factories[factory].name;
       res.push({ label: colony_name, value: colony_name });
     }

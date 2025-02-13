@@ -23,6 +23,8 @@ def get_bid_board(player_num):
   return num_dict[player_num]
 
 def get_share_score(player_num,turn):
+  if turn > 6:
+    turn = 6
   turn = turn - 1
   yengii_table=[
     [3,2,2,1,1,0],
@@ -90,6 +92,14 @@ def get_gift_str(gift: Dict[str, Any]):
 class TradeProposal:
   trade_proposal_id = 1
   def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
+    """
+    TradeProposal is a class that represents a trade proposal.
+    send_gift: {
+      "items": Dict[str, int],
+      "factories": List[str],
+      "techs": List[str]
+    }
+    """
     self.id = TradeProposal.trade_proposal_id
     TradeProposal.trade_proposal_id += 1
     self.from_player = from_player
@@ -452,6 +462,9 @@ class Factory:
           })
         self.run_count += 1
 
+  def is_colony(self):
+    return self.feature["type"] == "Colony" or self.feature["properties"].get("isColony", False)
+
   def eniet_interest(self, converter, game, player, extra_properties):
     """
     extra_properties: {
@@ -566,7 +579,7 @@ class Factory:
       return False, msg
     if not extra_properties.get("NeverCount", False):
       self.run_count += 1
-    if self.feature["type"] == "Colony" and "caylion_colony" in self.feature["properties"] and self.feature["properties"]["caylion_colony"]:
+    if self.is_colony() and self.feature["properties"].get("caylion_colony", False):
       if self.run_count >= 2:
         converter.used = True
     else:
@@ -763,7 +776,7 @@ class Player:
     for factory in self.factories.values():
       if factory.feature["type"] == query_type:
         res += 1
-      elif query_type == "Colony" and factory.feature["properties"].get("isColony", False):
+      elif query_type == "Colony" and factory.is_colony():
         res += 1
     return res
 
@@ -805,7 +818,11 @@ class Player:
 
 
 class Game:
+  game_id = 1
   def __init__(self, room_name: str, end_round: int):
+    self.id = Game.game_id
+    Game.game_id += 1
+
     self.players: List[Player] = []
     self.current_round = 0
     self.end_round = end_round
@@ -1101,6 +1118,8 @@ class Game:
       player.add_to_storage(item, quantity)
 
   def give_items(self, sender: Player, receiver: Player, items: Dict[str, int]) -> Tuple[bool, str, Callable]:
+    if "Favor" in items and sender.specie != "Faderan":
+      return False, "只有法德兰可以赠送好感度", lambda: None
     if sender.check_storage(items):
       def callback():
         sender.remove_items_from_storage(items)

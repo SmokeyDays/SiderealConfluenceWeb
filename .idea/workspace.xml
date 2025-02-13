@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="53090a18-652b-45a6-b47b-9c4e49052591" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/components/panels/DiscardColonyPanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/components/panels/DiscardColonyPanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/components/panels/ExchangePanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/components/panels/ExchangePanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/components/panels/TradePanel.vue" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/components/panels/TradePanel.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/interfaces/GameState.ts" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/interfaces/GameState.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/pages/GamePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/pages/GamePage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panel/src/utils/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/panel/src/utils/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/user.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2sjsx7FnoMnGAWTJpYpokzaMLdI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53090a18-652b-45a6-b47b-9c4e49052591" name="Default Changelist" comment="" />
+      <created>1738980565924</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738980565924</updated>
+      <workItem from="1738980566997" duration="6000" />
+    </task>
+    <servers />
+  </component>
+</project>

@@ -2,7 +2,7 @@
 import { computed, ref, type CSSProperties } from 'vue';
 import { NButton, NSelect, NCard, NInputNumber, NSwitch, NTabs, NTabPane } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource, arbitraryWorldSource, getItemOption, getItemZhNameDesc, getSpecieColor, items, wildBigTarget, wildSmallTarget } from '@/interfaces/GameConfig';
-import type { Factory, GameState, Player } from '@/interfaces/GameState';
+import { isColony, type Factory, type GameState, type Player } from '@/interfaces/GameState';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import PanelTemplate from '@/components/panels/PanelTemplate.vue';
 
@@ -37,7 +37,7 @@ const submitClose = () => {
 const getColonies = () => {
   const res = [];
   for (const factory of Object.values(props.getMe()!.factories)) {
-    if (factory.feature["type"] === "Colony" || factory.feature["properties"]["isColony"]) {
+    if (isColony(factory)) {
       res.push(factory);
     }
   }

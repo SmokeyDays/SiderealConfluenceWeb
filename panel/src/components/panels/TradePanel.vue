@@ -80,6 +80,9 @@ const getItemRestriction = (item: string) => {
   if (item === "Score") {
     return 0;
   }
+  if (item === "Favor" && gift_type.value === "send") {
+    return 0;
+  }
   if (gift_type.value === "receive") {
     return 1000000;
   }

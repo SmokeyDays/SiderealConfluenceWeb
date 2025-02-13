@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch , reactive, type Component } from 'vue';
 import { defineProps } from 'vue';
-import { Gift, isOnFavorBuff, type Factory, type GameState, type Player } from '../interfaces/GameState';
+import { Gift, isColony, isOnFavorBuff, type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import GameBoard from '@/components/GameBoard.vue';
@@ -595,8 +595,7 @@ const closeDiscardColonyPanel = () => {
 const getDiscardNum = () => {
   const me = getMe()!;
   const maxColony = me.max_colony;
-  const colonies = Object.keys(me.factories).filter(factory => me.factories[factory].feature.type === "Colony");
-  console.log(colonies, maxColony);
+  const colonies = Object.keys(me.factories).filter(factory => isColony(me.factories[factory]));
   return colonies.length > maxColony ? colonies.length - maxColony : 0;
 }
 

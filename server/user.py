@@ -94,6 +94,8 @@ class UserManager:
     return self.users[username]
   
   def save_users(self):
+    if not os.path.exists('./server/data'):
+      os.makedirs('./server/data')
     with open('./server/data/users.json', 'w') as f:
       users_dict = {username: user.to_dict() for username, user in self.users.items()}
       json.dump(users_dict, f)

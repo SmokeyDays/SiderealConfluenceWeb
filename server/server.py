@@ -1,21 +1,25 @@
 import datetime
+import textwrap
 from flask_socketio import emit, join_room, leave_room
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.room import Room
+from server.utils.decorators import Registry, add_para_desc, set_attr
 from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
 from server.utils.logger import log
 from server.message import Message, MessageManager
 from server.utils.achievement import unlock_achievement, achievement_manager
 from server.user import user_manager
+from server.utils.saver_loader import load_all_rooms, save_room
 
 class Server:
   def __init__(self):
     self.app, self.socketio = create_app()
     
     self.online_users = {}
-    self.rooms: dict[str, Room] = {}
+    # self.rooms: dict[str, Room] = {}
+    self.rooms = load_all_rooms()
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     
     self.mock1()
@@ -246,7 +250,7 @@ class Server:
     def admin_command(data):
       command = data['command']
       try:
-        eval(command)
+        eval(command, {"self": self})
       except Exception as e:
         emit('alert-message', {
           "type": "error",
@@ -413,8 +417,11 @@ class Server:
     if room_name in self.rooms:
       for user_id in self.rooms[room_name].players:
         self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
-
+      save_room(self.rooms[room_name])
   def bind_game_events(self):
+
+    registry = Registry()
+    
     @self.socketio.on('get-game-state', namespace=get_router_name())
     def get_game_state(data):
       room_name = data['room_name']
@@ -432,9 +439,18 @@ class Server:
         "str": message
       }, namespace=get_router_name())
       self.update_game_state(room_name)
-
+    
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('trade-proposal', namespace=get_router_name())
     def trade_proposal(data):
+      """
+      trade_proposal: Propose a trade to the other players in the game.
+        - to: [player1, player2, ...], players you propose to trade with.
+        - send: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you send to the other players in the trade.
+        - receive: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you receive from the other players in the trade.
+        - message: str, any other notes you want to attach to the trade proposal.
+      """
       room_name = data['room_name']
       username = data['username']
       success, message, id = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
@@ -445,8 +461,14 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('decline-trade-proposal', namespace=get_router_name())
     def decline_trade_proposal(data):
+      """
+      decline_trade_proposal: Decline a trade proposal you proposed.
+        - id: int, the id of the trade proposal to decline.
+      """
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.decline_trade_proposal(username, data['id'])
@@ -457,8 +479,14 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('accept-trade-proposal', namespace=get_router_name())
     def accept_trade_proposal(data):
+      """
+      accept_trade_proposal: Accept a trade proposal you received.
+        - id: int, the id of the trade proposal to accept.
+      """
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.accept_trade_proposal(username, data['id'])
@@ -469,8 +497,16 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["production"])
     @self.socketio.on('produce', namespace=get_router_name())
     def produce(data):
+      """
+      produce: Select a converter of a factory to produce.
+        - factory_name: str, the name of the factory to produce.
+        - converter_index: int, the index of the converter to produce.
+        - extra_properties: Dict[str, Any], at most of time, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.
+      """
       room_name = data['room_name']
       username = data['username']
       extra_properties = data['extra_properties'] if 'extra_properties' in data else {}
@@ -484,8 +520,13 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading", "production"])
     @self.socketio.on('agree', namespace=get_router_name())
     def agree(data):
+      """
+      agree: Agree to continue the game and go to the next stage.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.player_agree(username)
@@ -498,13 +539,19 @@ class Server:
       self.rooms[room_name].game.player_disagree(username)
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["bid"])
     @self.socketio.on('submit-bid', namespace=get_router_name())
     def submit_bid(data):
+      """
+      submit_bid: Submit a bid for bidding cards.
+        - colony_bid: int, your bid for the colony.
+        - research_bid: int, your bid for the research.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
       self.update_game_state(room_name)
-      print(f"submit-bid: {room_name}, {username}, {data['colony_bid']}, {data['research_bid']}")
 
     @self.socketio.on('submit-kajsjavikalimm-choose-split', namespace=get_router_name())
     def submit_kajsjavikalimm_choose_split(data):
@@ -513,22 +560,42 @@ class Server:
       self.rooms[room_name].game.Kajsjavikalimm_split(username, data['choose_split'])
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["pick"])
     @self.socketio.on('submit-pick', namespace=get_router_name())
     def pick_item(data):
+      """
+      submit_pick: Pick an item from the deck.
+        - type: str, the type of the item to pick. It can be "colony" or "research".
+        - pick_id: int, the id of the item to pick.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('upgrade-colony', namespace=get_router_name())
     def upgrade_colony(data):
+      """
+      upgrade_colony: Upgrade a colony.
+        - factory_name: str, the name of the colony to upgrade.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.upgrade_colony(username, data['factory_name'])
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('upgrade-normal', namespace=get_router_name())
     def upgrade_normal(data):
+      """
+      upgrade_normal: Upgrade a normal factory.
+        - factory_name: str, the name of the factory to upgrade.
+        - cost_type: str, id of the cost type you choose to upgrade.
+      """
       room_name = data['room_name']
       username = data['username']
       success, message = self.rooms[room_name].game.upgrade_normal(username, data['factory_name'], data['cost_type'])
@@ -539,33 +606,69 @@ class Server:
       }, namespace=get_router_name())
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('exchange-colony', namespace=get_router_name())
     def exchange_colony(data):
+      """
+      exchange_colony: Exchange a colony for a material.
+        - colony_name: str, the name of the colony you spend to exchange.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.exchange_colony(username, data['colony_name'])
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('exchange-arbitrary', namespace=get_router_name())
     def exchange_arbitrary(data):
+      """
+      exchange_arbitrary: If a converter requires "AnySmall" or "AnyBig", you can use this to exchange your blocks for the converter. Industry, Culture and Food will be exchanged for "AnySmall" and Biotech, Energy and Information will be exchanged for "AnyBig".
+        - items: Dict[str, int], the items you want to exchange.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.exchange_arbitrary(username, data['items'])
       self.update_game_state(room_name)
     
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('exchange-wild', namespace=get_router_name())
     def exchange_wild(data):
+      """
+      exchange_wild: If you have "WildSmall" or "WildBig" in your hand, you can use this to exchange them for any blocks. WildSmall will be exchanged for Industry, Culture or Food. WildBig will be exchanged for Biotech, Energy or Information.
+        - items: Dict[str, int], the items you want to exchange. e.g. {"Industry": 1, "Culture": 1, "Biotech": 1} will spend 2 WildSmall and 1 WildBig automatically.
+      """
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.exchange_wild(username, data['items'])
       self.update_game_state(room_name)
 
+    @registry("game-interface")
+    @set_attr("stage", ["trading"])
     @self.socketio.on('discard-colonies', namespace=get_router_name())
     def discard_colonies(data):
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
+
+    def gen_prompt(stage):
+      handles = self.registry.get("game-interface")
+      handle_map = {}
+      prompt = ""
+      for handle in handles:
+        if handle.attrs.get("stage") == stage:
+          desc = textwrap.dedent(handle.__doc__)
+          prompt += f"{desc}\n"
+        if handle.attrs.get("name"):
+          handle_map[handle.attrs.get("name")] = handle
+      return prompt, handle_map
+
+
+    def parse(func, data):
+      func(data)
     
   def update_achievements(self, user_id: str):
     user = user_manager.get_user(user_id)
@@ -584,6 +687,7 @@ class Server:
       "username": user_id
     }, namespace=get_router_name(), to=user_id)
     self.update_achievements(user_id)
+    user_manager.save_users()
 
   def bind_query_events(self):
     @self.socketio.on('query-factory', namespace=get_router_name())

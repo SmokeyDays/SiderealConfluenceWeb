@@ -95,3 +95,8 @@ export function getFavorCost(gameState: GameState, player_id: string, item: stri
   }
   return cost;
 }
+
+export function isColony(factory: Factory): boolean {
+  return factory.feature["type"] === "Colony" || factory.feature["properties"]["isColony"] === true;
+}
+
