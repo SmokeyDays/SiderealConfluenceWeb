@@ -421,6 +421,7 @@ class Server:
   def bind_game_events(self):
 
     registry = Registry()
+    self.prompt_api_registry = registry
     
     @self.socketio.on('get-game-state', namespace=get_router_name())
     def get_game_state(data):
@@ -666,9 +667,13 @@ class Server:
           handle_map[handle.attrs.get("name")] = handle
       return prompt, handle_map
 
-
     def parse(func, data):
       func(data)
+    
+    # def :
+    #   stages = ["trading"]
+    #   prompt, handle_map = gen_prompt
+    
     
   def update_achievements(self, user_id: str):
     user = user_manager.get_user(user_id)

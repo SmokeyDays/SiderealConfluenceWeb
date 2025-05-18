@@ -19,6 +19,7 @@ import RulesPanel from '@/components/panels/RulesPanel.vue';
 import type { Achievement } from './interfaces/UserState';
 import AchievementPanel from './components/panels/AchievementPanel.vue';
 import Achievement3 from './components/icons/alerts/Achievement3.vue';
+import UtilsPanel from './components/panels/UtilsPanel.vue';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -256,6 +257,16 @@ const openAchievementPanel = () => {
   socket.emit('query-achievement', {username: username.value});
 };
 
+const displayUtilsPanel = ref(false);
+
+const openUtilsPanel = () => {
+  displayUtilsPanel.value = true;
+}
+
+const closeUtilsPanel = () => {
+  displayUtilsPanel.value = false;
+}
+
 const achievements = ref<Achievement[]>([]);
 socket.on('sync-achievements', (data: {achievements: Record<string, Achievement>}) => {
   console.log(data);
@@ -309,6 +320,7 @@ onMounted(() => {
       :closeAchievementPanel="closeAchievementPanel" 
       :achievements="achievements" 
     />
+    <UtilsPanel v-if="displayUtilsPanel" :closeUtilsPanel="closeUtilsPanel" />
     <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
     <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">
       <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
@@ -330,6 +342,11 @@ onMounted(() => {
     <n-float-button @click="switchPureTextMode" :bottom="10" :left="190" v-if="username !== ''" class="pure-text-float-button" type="primary">
 
     </n-float-button>
+  <n-float-button @click="openUtilsPanel" :bottom="10" :left="250" v-if="username !== ''" class="utils-float-button" type="primary">
+    <n-icon>
+      <IconUtils />
+    </n-icon>
+  </n-float-button>
   </div>
 </template>
 
