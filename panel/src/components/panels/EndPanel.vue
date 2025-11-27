@@ -14,7 +14,7 @@
   }>();
 
   const getPlayerScore = (player: Player) => {
-    return player.score + player.item_value * 0.5;
+    return player.score + player.item_value * 0.5 / 3;
   }
 
   const sortedPlayers = computed(() => {
@@ -45,7 +45,7 @@
             <td>{{ index + 1 }}</td>
             <td>{{ player.user_id }}</td>
             <td><SpecieZhDiv :specie="player.specie" :is-me="player.user_id === props.username" /></td>
-            <td>{{ getPlayerScore(player) + ' (' + player.score + ' + ' + player.item_value * 0.5 + ')' }}</td>
+            <td>{{ getPlayerScore(player) + ' (' + player.score + ' + ' + (player.item_value * 0.5 / 3) + ')' }}</td>
           </tr>
         </tbody>
       </table>

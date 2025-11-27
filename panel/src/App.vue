@@ -144,6 +144,13 @@ const logout = () => {
   localStorage.removeItem('username');
 }
 
+const sendAdminCommand = (code: string) => {
+  if (!code) return;
+  console.log(`[Admin] Sending command: ${code}`);
+  // 发送信号
+  socket.emit('admin-command', code);
+};
+
 onMounted(() => {
   PubSub.publish('alert-pubsub-message', {
     title: '欢迎！',
@@ -153,6 +160,9 @@ onMounted(() => {
     visible: true,
   });
   socket.emit('get-room-list');
+
+  (window as any).admin = sendAdminCommand;
+  console.log('✅ Admin console command loaded. Use admin("code") to execute.');
 })
 
 onUnmounted(() => {
