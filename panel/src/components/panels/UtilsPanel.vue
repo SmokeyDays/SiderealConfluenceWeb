@@ -5,11 +5,11 @@
       <div v-for="(playerValue, index) in playerValues" :key="index" class="player-value-item">
         <n-input v-model:value="playerValues[index].id" placeholder="输入参与者ID" class="input-id" />
         <n-input-number v-model:value="playerValues[index].value" placeholder="输入参与者单方价值" type="number" />
-        <n-button @click="removePlayerValue(index)" type="error" class="remove-button">-</n-button>
+        <n-button @click="removePlayerValue(index)" type="error" class="remove-button">x</n-button>
       </div>
-      <n-button @click="addPlayerValue" type="primary" color="green">+</n-button>
+      <n-button @click="addPlayerValue" type="primary" color="green" class="utils-add">+</n-button>
       
-      <n-input-number v-model:value="grandValue" placeholder="输入全体参与者合作后的最终总价值" type="number" />
+      <n-input-number v-model:value="grandValue" placeholder="输入全体参与者合作后的最终总价值" type="number" class="utils-totalvalue" />
       <n-button @click="calculateShapleyValues" type="primary" color="purple">计算夏普里值</n-button>
       <div v-if="shapleyResults.size > 0">
         <div class="results-title">计算结果:</div>
@@ -93,6 +93,13 @@ const calculateShapleyValues = () => {
 }
 .input-id {
   width: 150px;
+}
+.utils-add {
+  width: 80%;
+}
+.utils-totalvalue {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .remove-button {
   border-radius: 50%;

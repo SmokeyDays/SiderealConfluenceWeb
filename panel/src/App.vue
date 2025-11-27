@@ -12,14 +12,17 @@ import type { RoomList } from './interfaces/RoomState';
 import Logo from '@/components/Logo.vue';
 import { isProduction } from './utils/config';
 import { messageEqual, type Message } from './interfaces/ChatState';
-import IconChat from '@/components/icons/IconChat.vue';
-import IconRules from '@/components/icons/IconRules.vue';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
 import RulesPanel from '@/components/panels/RulesPanel.vue';
 import type { Achievement } from './interfaces/UserState';
 import AchievementPanel from './components/panels/AchievementPanel.vue';
-import Achievement3 from './components/icons/alerts/Achievement3.vue';
 import UtilsPanel from './components/panels/UtilsPanel.vue';
+
+import IconChat from '@/components/icons/IconChat.vue';
+import IconRules from '@/components/icons/IconRules.vue';
+import Achievement3 from './components/icons/alerts/Achievement3.vue';
+import IconUtils from './components/icons/IconUtils.vue';
+import IconRobot from './components/icons/IconRobot.vue';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -339,14 +342,16 @@ onMounted(() => {
         <Achievement3 />
       </n-icon>
     </n-float-button>
-    <n-float-button @click="switchPureTextMode" :bottom="10" :left="190" v-if="username !== ''" class="pure-text-float-button" type="primary">
-
+    <n-float-button @click="openUtilsPanel" :bottom="10" :left="190" v-if="username !== '' && displayPage === 'game'" class="utils-float-button" type="primary">
+      <n-icon>
+        <IconUtils />
+      </n-icon>
     </n-float-button>
-  <n-float-button @click="openUtilsPanel" :bottom="10" :left="250" v-if="username !== ''" class="utils-float-button" type="primary">
-    <n-icon>
-      <IconUtils />
-    </n-icon>
-  </n-float-button>
+    <n-float-button @click="switchPureTextMode" :bottom="10" :left="250" v-if="username !== '' && displayPage === 'game'" class="pure-text-float-button" type="primary">
+      <n-icon>
+        <IconRobot />
+      </n-icon>
+    </n-float-button>
   </div>
 </template>
 
