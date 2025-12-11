@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { computed } from 'vue';
   import { NButton } from 'naive-ui';
-  import type { Player } from '@/interfaces/GameState';
+  import { getPlayerScore, type Player } from '@/interfaces/GameState';
   import PanelTemplate from '@/components/panels/PanelTemplate.vue';
   import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
   import { getSpecieZhName } from '@/interfaces/GameConfig';
@@ -13,9 +13,6 @@
     players: Player[];
   }>();
 
-  const getPlayerScore = (player: Player) => {
-    return player.score + player.item_value * 0.5 / 3;
-  }
 
   const sortedPlayers = computed(() => {
     return [...props.players].sort((a, b) => getPlayerScore(b) - getPlayerScore(a));
@@ -45,14 +42,14 @@
             <td>{{ index + 1 }}</td>
             <td>{{ player.user_id }}</td>
             <td><SpecieZhDiv :specie="player.specie" :is-me="player.user_id === props.username" /></td>
-            <td>{{ getPlayerScore(player) + ' (' + player.score + ' + ' + (player.item_value * 0.5 / 3) + ')' }}</td>
+            <td>{{ getPlayerScore(player).toFixed(3) + ' (' + player.score + ' + ' + (player.item_value * 0.5 / 3).toFixed(3) + ')' }}</td>
           </tr>
         </tbody>
       </table>
 
       <div v-if="winner" class="winner-message">
         <h2>恭喜 {{ winner.user_id }} ({{ getSpecieZhName(winner.specie) }}) 获得胜利！</h2>
-        <p>得分：{{ getPlayerScore(winner) }}</p>
+        <p>得分：{{ getPlayerScore(winner).toFixed(3) }}</p>
       </div>
 
       <n-button type="error" @click="props.closeEndPanel">Close</n-button>

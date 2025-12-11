@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { NSpace, NSelect, NButton, NDivider, NCard, NTooltip, NCollapse, NCollapseItem } from 'naive-ui';
-import { GameState, Player } from '@/interfaces/GameState';
+import { getPlayerScore, GameState, Player } from '@/interfaces/GameState';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
 import ItemEntryDiv from '@/components/ItemEntryDiv.vue';
 import { getSpecieColor, getSpecieZhName } from '@/interfaces/GameConfig';
@@ -125,7 +125,14 @@ const getPlayerColonyColor = (player: Player) => {
       <n-collapse>
         <n-collapse-item title="玩家分数" name="score">
           <template #header-extra>
-            {{ getMe()!.score + ' (' + getMe()!.item_value + ')' }}
+            <n-tooltip placement="top" trigger="hover">
+              <template #trigger>
+                {{ getPlayerScore(getMe()!).toFixed(3) + ' = ' + getMe()!.score + ' + (' + getMe()!.item_value + ' / 6)' }}
+              </template>
+              <div>
+                终局计分时，玩家得分 = 分数 + 物品价值 * 0.5
+              </div>
+            </n-tooltip>
           </template>
           <div class="score-table">
             <table>

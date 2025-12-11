@@ -100,3 +100,6 @@ export function isColony(factory: Factory): boolean {
   return factory.feature["type"] === "Colony" || factory.feature["properties"]["isColony"] === true;
 }
 
+export function getPlayerScore(player: Player): number{
+  return (player.score + player.item_value * 0.5 / 3);
+}

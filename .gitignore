@@ -5,3 +5,5 @@ __pycache__/
 memory_library/
 
 saves/
+
+server/data/users.json
