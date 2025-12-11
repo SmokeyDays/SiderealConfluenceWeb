@@ -1,9 +1,6 @@
 __pycache__/
-
 .vscode/
-
 memory_library/
-
 saves/
-
 server/data/users.json
+.env

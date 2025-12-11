@@ -26,4 +26,5 @@ Each commit should belong to types below:
 - feat: add a new feature.
 - fix: fix a bug.
 - docs: add document
+- refactor: refactor some module but not really add new feature
 - chore: adjust parameter or some tiny update/polish.

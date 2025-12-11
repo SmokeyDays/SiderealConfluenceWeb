@@ -1,6 +1,5 @@
+import logging
 from enum import Enum
-
-verbose = True
 
 class CONSOLE_COLOR(Enum):
   WHITE = 0
@@ -19,23 +18,50 @@ class CONSOLE_COLOR(Enum):
   LIGHT_MAGENTA = 95
   LIGHT_CYAN = 96
   BLACK = 97
-  
 
+# Create a custom logger
+logger = logging.getLogger(__name__)
+formatter = logging.Formatter('[%(asctime)s][%(filename)s:%(lineno)d][%(levelname)s] %(message)s')
+
+# Create a console handler
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
 
 def set_verbose(v):
-  global verbose
-  verbose = v
+  if v:
+    logger.setLevel(logging.DEBUG)
+  else:
+    logger.setLevel(logging.WARNING)
 
-prefix = {
-  # info is default, warning is yellow, error is red
-  "info": "\033[0m[Info]\033[0m ",
-  "warning": "\033[33m[Warning]\033[0m ",
-  "error": "\033[31m[Error]\033[0m ",
-}
+def set_file_log(v):
+  if v:
+    handler = logging.FileHandler('log/log.txt')
+    handler.setLevel(logging.DEBUG)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
-def log(pre, *args):
-  if verbose:
-    print(prefix[pre], *args)
+def set_file_log_path(path):
+  old_handler = None
+  for handler in logger.handlers:
+    if type(handler) is logging.FileHandler:
+      old_handler = handler
+      break
+  if old_handler is not None:
+    logger.removeHandler(old_handler)
+  handler = logging.FileHandler(path)
+  handler.setLevel(logging.DEBUG)
+  handler.setFormatter(formatter)
+  logger.addHandler(handler)
+
+# def log(pre, *args, file = None):
+#   message = ' '.join(map(str, args))
+#   if pre == "info":
+#     logger.info(message)
+#   elif pre == "warning":
+#     logger.warning(message)
+#   elif pre == "error":
+#     logger.error(message)
 
 def colored_text(text, color):
   return f"\033[{color}m{text}\033[0m"

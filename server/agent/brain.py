@@ -9,3 +9,5 @@ class Brain:
     self.current_plan = "There is no specific plan for this turn."
     self.promises = []
     
+  def call(self, prompt):
+    return call_llm(llm_name, prompt)
