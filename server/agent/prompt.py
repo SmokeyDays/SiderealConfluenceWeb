@@ -105,7 +105,11 @@ Your response must be a json object with the following format:
 }
 """
 
+
+###
+# Should add description of species into the prompt later, 
+# such as allowed max colonies number, special abilities ... 
+###
 def get_prompt(game: Game, player_id: str):
   return game_desc() + game_obs(game, player_id) + game_plan()
-
 
