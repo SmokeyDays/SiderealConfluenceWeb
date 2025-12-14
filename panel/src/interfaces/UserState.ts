@@ -9,3 +9,14 @@ export class Achievement {
     public unlocked: boolean
   ) {}
 }
+
+export function checkUsername(newUsername: string) {
+  if (newUsername.trim() === '') {
+    return false;
+  }
+  // length must be between 3 and 16
+  if (newUsername.length < 3 || newUsername.length > 16) {
+    return false;
+  }
+  return true;
+}

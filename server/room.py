@@ -7,6 +7,7 @@ class Room:
     self.end_round = end_round
     self.max_players = max_players
     self.players = {}
+    self.bots = []
     self.game_state = "waiting"
     self.game = None
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
@@ -36,6 +37,16 @@ class Room:
       return True
     else:
       return False
+    
+  def addBot(self, user_id, bot_id, specie):
+    if user_id in self.players and user_id not in self.bots:
+      self.bots.append(bot_id)
+      self.enter_room(bot_id)
+      self.choose_specie(bot_id, specie)
+  
+  def removeBot(self, user_id, bot_id):
+    if user_id in self.players and user_id not in self.bots:
+      self.leave_room(bot_id)
 
   def agree_to_start(self, user_id):
     if user_id in self.players:
@@ -57,6 +68,7 @@ class Room:
   def set_end_round(self, end_round):
     self.end_round = end_round
     return True
+  
   def start_game(self): 
     self.game = Game(self.name, self.end_round)
     for user_id, player in self.players.items():
@@ -70,7 +82,9 @@ class Room:
       "name": self.name,
       "players": self.players,
       "game_state": self.game_state,
-      "max_players": self.max_players
+      "max_players": self.max_players,
+      "end_round": self.end_round,
+      "bots": self.bots
     }
 
     """

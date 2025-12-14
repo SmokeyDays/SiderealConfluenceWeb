@@ -1,7 +1,7 @@
 import json
 import os
 
-from server.utils.logger import log
+from server.utils.logger import logger
 from server.utils.pubsub import pubsub
 
 
@@ -53,4 +53,4 @@ achievement_manager = AchievementManager()
 def unlock_achievement(username: str, achievement_id: str):
   pubsub.publish(f"achievement_{achievement_id}", None, username)
   pubsub.publish(f"add_achievement", {"id": achievement_id, "username": username})
-  log('info', f"{username} 解锁了成就 {achievement_id}")
+  logger.info(f"{username} 解锁了成就 {achievement_id}")

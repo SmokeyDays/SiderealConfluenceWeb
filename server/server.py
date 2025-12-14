@@ -7,7 +7,7 @@ from server.room import Room
 from server.utils.decorators import Registry, add_para_desc, set_attr
 from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
-from server.utils.logger import log
+from server.utils.logger import logger
 from server.message import Message, MessageManager
 from server.utils.achievement import unlock_achievement, achievement_manager
 from server.user import user_manager
@@ -183,13 +183,13 @@ class Server:
         receivers.append(user)
     else:
       if room not in self.rooms:
-        log('error', f"Room {room} not found")
+        logger.error(f"Room {room} not found")
       if user is None:
         for user_id in self.rooms[room].players:
           receivers.append(user_id)
       else:
         if user not in self.rooms[room].players:
-          log('error', f"User {user} not found in room {room}")
+          logger.error(f"User {user} not found in room {room}")
           return
         receivers.append(user)
       for receiver in receivers:
@@ -283,7 +283,7 @@ class Server:
           "str": f"Room {room_name} already exists."
         }, namespace=get_router_name())
         return
-      self.rooms[room_name] = Room(max_players, room_name, 5)
+      self.rooms[room_name] = Room(max_players, room_name, 6)
       self.rooms[room_name].enter_room(data['username'])
       unlock_achievement(data['username'], "create_room")
       emit('alert-message', {
@@ -379,6 +379,34 @@ class Server:
           "type": "error",
           "title": "Room not found",
           "str": f"Room {room_name} not found."
+        }, namespace=get_router_name())
+
+    @self.socketio.on('add-bot', namespace=get_router_name())
+    def add_bot(data):
+      room_name = data['room_name']
+      username = data['username']
+      bot_id = data['bot_id']
+      specie = data['specie']
+      emit('alert-message', {
+          "type": "success",
+          "title": "Add bot",
+          "str": f"You have add bot {bot_id} to room {room_name} playing as {specie}."
+        }, namespace=get_router_name())
+      self.rooms[room_name].addBot(username, bot_id, specie)
+      self.rooms[room_name].agree_to_start(bot_id)
+      self.update_rooms()
+
+    @self.socketio.on('remove-bot', namespace=get_router_name())
+    def remove_bot(data):
+      room_name = data['room_name']
+      username = data['username']
+      bot_id = data['bot_id']
+      self.rooms[room_name].removeBot(username, bot_id)
+      self.update_rooms()
+      emit('alert-message', {
+          "type": "success",
+          "title": "Remove bot",
+          "str": f"You have remove bot {bot_id} from room {room_name}."
         }, namespace=get_router_name())
 
     @self.socketio.on('agree-to-start', namespace=get_router_name())
@@ -512,7 +540,7 @@ class Server:
       username = data['username']
       extra_properties = data['extra_properties'] if 'extra_properties' in data else {}
       converter_index = data['converter_index'] if 'converter_index' in data else 0
-      log("info", f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
+      logger.info(f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
       success, message = self.rooms[room_name].game.produce(username, data['factory_name'], converter_index, extra_properties)
       emit('alert-message', {
         "type": "success" if success else "error",

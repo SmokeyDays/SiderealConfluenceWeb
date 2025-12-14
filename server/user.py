@@ -4,7 +4,7 @@ import json
 import os
 from typing import Callable
 from server.utils.achievement import achievement_manager, unlock_achievement
-from server.utils.logger import log
+from server.utils.logger import logger
 from server.utils.pubsub import pubsub
 
 class User:

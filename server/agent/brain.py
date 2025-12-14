@@ -10,9 +10,6 @@ class Brain:
     self.promises = []  
     self.turn_plan_caller = TurnPlanCaller()
 
-
-
-     
   def TurnPlanCall(self):
     """
     TurnPlanCall should update the current_plan of this agent.
@@ -25,7 +22,7 @@ class Brain:
     :return:
     :rtype: Any
     """
-    return TurnPlanCaller.sth
+    return TurnPlanCaller.plan()
   
   def EconomyMoveCall(self):
     """
@@ -35,7 +32,8 @@ class Brain:
     :return: 
     :rtype: 
     """
-    return EconomyMoveCaller.sth
+    # return EconomyMoveCaller.sth
+    pass
 
   def BidMoveCall(self):
     """
@@ -46,7 +44,8 @@ class Brain:
     :return: 
     :rtype: Any
     """
-    return BidMoveCaller.sth
+    # return BidMoveCaller.sth
+    pass
   
   def EvaluateTransactionCall(self, player_id, transaction):
     """
@@ -68,7 +67,7 @@ class Brain:
     :param player_id: 说明
     :param transaction: 说明
     """
-    return sth.
+    return None
 
   
 
