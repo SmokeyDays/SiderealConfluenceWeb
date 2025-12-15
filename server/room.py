@@ -1,13 +1,16 @@
+from server.agent.brain import Brain
 from server.game import Game
 from server.utils.pubsub import pubsub
+from typing import Dict, Any, List
 
 class Room:
   def __init__(self, max_players, name, end_round):
     self.name = name
     self.end_round = end_round
     self.max_players = max_players
-    self.players = {}
-    self.bots = []
+    self.players: Dict[str, Dict[str, Any]] = {}
+    self.bots: List[str] = []
+    self.bot_agents: Dict[str, Brain] = {}
     self.game_state = "waiting"
     self.game = None
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
@@ -38,15 +41,21 @@ class Room:
     else:
       return False
     
-  def addBot(self, user_id, bot_id, specie):
+  def add_bot(self, user_id, bot_id, specie):
     if user_id in self.players and user_id not in self.bots:
       self.bots.append(bot_id)
       self.enter_room(bot_id)
       self.choose_specie(bot_id, specie)
   
-  def removeBot(self, user_id, bot_id):
+  def remove_bot(self, user_id, bot_id):
     if user_id in self.players and user_id not in self.bots:
       self.leave_room(bot_id)
+
+  def step_bots(self, get_handlers):
+    handlers_prompt, handlers_map = get_handlers(self.game.stage)
+    for bot in self.bots:
+      if self.game.waiting_player(bot):
+        self.bot_agents[bot].step(handlers_prompt, handlers_map)
 
   def agree_to_start(self, user_id):
     if user_id in self.players:
@@ -76,6 +85,8 @@ class Room:
       pubsub.publish("add_statistics", {"key": "games_played", "value": 1}, user_id)
     self.game_state = "playing"
     self.game.start_game()
+    for bot in self.bots:
+      self.bot_agents[bot] = Brain(self.game, bot)
 
   def to_dict(self):
     return {

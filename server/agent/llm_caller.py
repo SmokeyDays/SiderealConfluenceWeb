@@ -121,18 +121,48 @@ class TurnPlanCaller(BasicCaller):
                     prompt_file = prompt_file,
                     planner_name = planner_name,
                     vision = vision)
-  def render_human_message(self, observation, handler, verbose = True):
+  def render_human_message(self, observation, verbose = True):
     content = []
     text = ""
     text += "### Observation\n"
     text += observation
-    text += "### Handlers\n"
-    text += handler
     content.append({"type": "text", "text": text})
 
     human_message = HumanMessage(content=content)
 
     return human_message
+  
+class TradeCaller(BasicCaller):
+  def __init__(self,
+        model_name = 'gpt-4o-mini',
+        max_tokens = 1024,
+        temperature = 0,
+        vlm = langchain_llms_api,
+        parser = JsonOutputParser(pydantic_object=LongtermPlan),
+        prompt_file = "trade_plan",
+        planner_name = "TradeCaller",
+        vision = False,):
+    super().__init__(model_name,
+                  max_tokens, 
+                  temperature, 
+                  vlm = vlm, 
+                  parser = parser,
+                  prompt_file = prompt_file,
+                  planner_name = planner_name,
+                  vision = vision)
+def render_human_message(self, observation, handler, verbose = True):
+  content = []
+  text = ""
+  text += "### Observation\n"
+  text += observation
+  text += "### Handlers\n"
+  text += handler
+  content.append({"type": "text", "text": text})
+
+  human_message = HumanMessage(content=content)
+
+  return human_message
+
 
 if __name__ == '__main__':
   turnPlanCaller = TurnPlanCaller()

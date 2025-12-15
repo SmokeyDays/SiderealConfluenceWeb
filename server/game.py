@@ -884,6 +884,19 @@ class Game:
   @property
   def faderan_relic_world_deck_size(self):
     return len(self.data_manager.special_decks["FaderanRelicWorld"])
+  
+  def waiting_player(self, player_id: str):
+    if self.stage == "trading" or self.stage == "production":
+      return True
+    if self.stage == "discard_colony":
+      return self.current_discard_colony_player == player_id
+    if self.stage == "pick":
+      return self.current_pick_player["player"] == player_id
+    if self.stage == "bid":
+      return self.current_bid_player == player_id
+    if self.stage == "end":
+      return self.current_end_player == player_id
+    return False
 
   def init_bid_cards(self):
     for i in range(self.research_bid_num):

@@ -1,6 +1,9 @@
 from server.agent.prompt import get_prompt
 from server.game import Game
-from server.agent.llm_caller import BasicCaller, TurnPlanCaller
+from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller
+
+turn_plan_caller = TurnPlanCaller()
+trade_caller = TradeCaller()
 
 class Brain:
   def __init__(self, game: Game, player_id: str):
@@ -8,68 +11,20 @@ class Brain:
     self.player_id = player_id
     self.current_plan = "There is no specific plan for this turn."
     self.promises = []  
-    self.turn_plan_caller = TurnPlanCaller()
 
-  def TurnPlanCall(self):
+  def step(self, handlers_prompt, handlers_map):
     """
-    TurnPlanCall should update the current_plan of this agent.
-    Should give the resoureces needed, buy, sell, borrow and factories to run and to upgrade in the plan.
-    Should behave faithfully according to the promises before give proposals.
-    Should give proposals according to the current plan.
-
-    
-    :param self:
-    :return:
-    :rtype: Any
+    Auto detect the current stage of the game and call the corresponding function.
     """
-    return TurnPlanCaller.plan()
-  
-  def EconomyMoveCall(self):
-    """
-    EconomyMoveCall should make economic moves based on the plan and resources.
-    
-    :param self: 
-    :return: 
-    :rtype: 
-    """
-    # return EconomyMoveCaller.sth
-    pass
-
-  def BidMoveCall(self):
-    """
-    BidMoveCall should make bidding moves based on resources and species, 
-    may seeing other players' resources and species.
-    
-    :param self: 
-    :return: 
-    :rtype: Any
-    """
-    # return BidMoveCaller.sth
-    pass
-  
-  def EvaluateTransactionCall(self, player_id, transaction):
-    """
-    EvaluateTransactionCall should go through all current transaction;
-    return whether to accept the transaction or not.
-    If accept, should send a pre-confirm request to the server.
-
-    "For each proposal, the server should change the state of transaction from pending to lock,
-    and should check and freeze the resources involved in the transaction.
-    For already locked transaction, server should refuse the pre-confirm. 
-
-    After the transaction, the game description changed, 
-    it maybe should be updated after each transaction, or a fixed time interval?
-    and the agent may update the current plan accordingly."
-
-
-    
-    :param self: 说明
-    :param player_id: 说明
-    :param transaction: 说明
-    """
-    return None
-
-  
-
-### some maybe useful functions
-# def ChatCall(self, self.current_plan, self.promises):
+    rule, obs = get_prompt(self.game, self.player_id)
+    if self.game.stage == "trading":
+      if self.current_plan == None:
+        turn_plan_caller.plan(rule, obs)
+      callbacks = trade_caller.plan(rule, obs, handlers_prompt)
+      for callback in callbacks:
+        func, data = callback['func'], callback['data']
+        func(data)
+    # elif self.game.stage == "production":
+    #   self.EconomyMoveCall()
+    # elif self.game.stage == "bid":
+    #   self.BidMoveCall()

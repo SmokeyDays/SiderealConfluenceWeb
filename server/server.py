@@ -21,6 +21,7 @@ class Server:
     # self.rooms: dict[str, Room] = {}
     self.rooms = load_all_rooms()
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
+    self.get_handlers = lambda: [], []
     
     self.mock1()
     self.mock2()
@@ -392,7 +393,7 @@ class Server:
           "title": "Add bot",
           "str": f"You have add bot {bot_id} to room {room_name} playing as {specie}."
         }, namespace=get_router_name())
-      self.rooms[room_name].addBot(username, bot_id, specie)
+      self.rooms[room_name].add_bot(username, bot_id, specie)
       self.rooms[room_name].agree_to_start(bot_id)
       self.update_rooms()
 
@@ -401,7 +402,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       bot_id = data['bot_id']
-      self.rooms[room_name].removeBot(username, bot_id)
+      self.rooms[room_name].remove_bot(username, bot_id)
       self.update_rooms()
       emit('alert-message', {
           "type": "success",
@@ -441,10 +442,12 @@ class Server:
             "str": f"You have changed end round of room {room_name} to {end_round}."
           }, namespace=get_router_name())
 
-  def update_game_state(self, room_name):
+  def update_game_state(self, room_name, important=False):
     if room_name in self.rooms:
       for user_id in self.rooms[room_name].players:
         self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
+      if important:
+        self.rooms[room_name].step_bots(self.get_handlers)
       save_room(self.rooms[room_name])
   def bind_game_events(self):
 
@@ -683,17 +686,18 @@ class Server:
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
 
-    def gen_prompt(stage):
-      handles = self.registry.get("game-interface")
-      handle_map = {}
+    def get_handlers(stage):
+      handlers = self.registry.get("game-interface")
+      handler_map = {}
       prompt = ""
-      for handle in handles:
-        if handle.attrs.get("stage") == stage:
-          desc = textwrap.dedent(handle.__doc__)
+      for handler in handlers:
+        if handler.attrs.get("stage") == stage:
+          desc = textwrap.dedent(handler.__doc__)
           prompt += f"{desc}\n"
-        if handle.attrs.get("name"):
-          handle_map[handle.attrs.get("name")] = handle
-      return prompt, handle_map
+        if handler.attrs.get("name"):
+          handler_map[handler.attrs.get("name")] = handler
+      return prompt, handler_map
+    self.get_handlers = get_handlers
 
     def parse(func, data):
       func(data)
@@ -743,7 +747,8 @@ class Server:
     def query_prompt(data):
       room_name = data['room_name']
       username = data['username']
-      prompt = get_prompt(self.rooms[room_name].game, username)
+      rule, obs = get_prompt(self.rooms[room_name].game, username)
+      prompt = f"{rule}\n{obs}"
       emit('prompt', {
         "prompt": prompt
       }, namespace=get_router_name())
