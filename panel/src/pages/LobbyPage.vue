@@ -239,6 +239,7 @@ import type { GameState } from '@/interfaces/GameState';
 import LogoutOutlined from '@/components/icons/LogoutOutlined.vue';
 import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
 import { checkUsername } from '@/interfaces/UserState';
+import { pubMsg } from '@/utils/general';
 
 const props = defineProps<{
   rooms: RoomList;
@@ -264,7 +265,7 @@ const isBot = (name: string) => {
 const removeBot = (botName: string) => socket.emit('remove-bot', { room_name: props.currentRoom, bot_id: botName });
 const addBot = () => {
   if (!checkUsername(botId.value)) {
-    PubSub.publish('alert-pubsub-message', { title: '错误！', str: '机器人ID必须在3到16个字符之间', type: 'error', dur: 2, visible: true });
+    pubMsg('错误！', '机器人ID必须在3到16个字符之间！', 'error', 2);
     return;
   }
   socket.emit('add-bot', { username: props.username, room_name: props.currentRoom, bot_id: botId.value, specie: botSpecie.value });
@@ -307,7 +308,7 @@ socket.on('game-state', (data: {state: GameState}) => {
 const createRoom = (room_name: string) => {
   room_name = room_name.trim();
   if (room_name.length < 3 || room_name.length > 16) {
-    PubSub.publish('alert-pubsub-message', { title: '错误！', str: '房间名长度必须在3到16个字符之间', type: 'error', dur: 2, visible: true });
+    pubMsg('错误！', '房间名长度必须在3到16个字符之间', 'error', 2);
     return;
   }
   socket.emit('create-room', { username: props.username, room_name: room_name });

@@ -51,11 +51,19 @@ class Room:
     if user_id in self.players and user_id not in self.bots:
       self.leave_room(bot_id)
 
+  def is_bot(self, user_id):
+    return user_id in self.bots
+
   def step_bots(self, get_handlers):
     handlers_prompt, handlers_map = get_handlers(self.game.stage)
     for bot in self.bots:
       if self.game.waiting_player(bot):
         self.bot_agents[bot].step(handlers_prompt, handlers_map)
+
+  def step_bot(self, bot_id, get_handlers):
+    handlers_prompt, handlers_map = get_handlers(self.game.stage)
+    if bot_id in self.bots and self.game.waiting_player(bot_id):
+      self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
 
   def agree_to_start(self, user_id):
     if user_id in self.players:

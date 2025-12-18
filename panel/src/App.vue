@@ -14,7 +14,7 @@ import { isProduction } from './utils/config';
 import { messageEqual, type Message } from './interfaces/ChatState';
 import ChatPanel from '@/components/panels/ChatPanel.vue';
 import RulesPanel from '@/components/panels/RulesPanel.vue';
-import type { Achievement } from './interfaces/UserState';
+import { checkUsername, type Achievement } from './interfaces/UserState';
 import AchievementPanel from './components/panels/AchievementPanel.vue';
 import UtilsPanel from './components/panels/UtilsPanel.vue';
 
@@ -23,6 +23,7 @@ import IconRules from '@/components/icons/IconRules.vue';
 import Achievement3 from './components/icons/alerts/Achievement3.vue';
 import IconUtils from './components/icons/IconUtils.vue';
 import IconRobot from './components/icons/IconRobot.vue';
+import { pubMsg } from './utils/general';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -38,9 +39,6 @@ const switchPage = (page: string) => {
 
 const switchPureTextMode = () => {
   displayPureText.value = !displayPureText.value;
-  if (displayPureText.value) {
-    socket.emit('query-prompt', {room_name: currentRoom.value, username: username.value});
-  }
 };
 
 const gameProps = ref({
@@ -83,25 +81,11 @@ socket.on('game-state', (data: {state: GameState}) => {
   console.log(data);
 });
 
-socket.on('prompt', (data: {prompt: string}) => {
-  pureText.value = data.prompt;
-});
-
 socket.on('room-list', (data: {rooms: RoomList}) => {
   rooms.value = data.rooms;
   console.log(data);
 });
 
-function checkUsername(newUsername: string) {
-  if (newUsername.trim() === '') {
-    return false;
-  }
-  // length must be between 3 and 16
-  if (newUsername.length < 3 || newUsername.length > 16) {
-    return false;
-  }
-  return true;
-}
 
 const updateGameProps = (newProps: GameProps) => {
   gameProps.value = newProps;
@@ -111,13 +95,7 @@ const submitUsername = (newUsername: string) => {
   if (checkUsername(newUsername)) {
     socket.emit('login',{username: newUsername, oldname: username.value});
   } else {
-    PubSub.publish('alert-pubsub-message', {
-      title: '错误！',
-      str: '用户名格式不正确！',
-      type: 'error',
-      dur: 2,
-      visible: true,
-    });
+    pubMsg('错误！', '用户名格式不正确！','error', 2);
   }
 };
 
@@ -128,13 +106,7 @@ const login = (newUsername: string) => {
 
 socket.on('login-success', (data: any) => {
   login(data['username']);
-  PubSub.publish('alert-pubsub-message', {
-    title: '登录成功！',
-    str: '欢迎！ ' + username.value,
-    type: 'success',
-    dur: 2,
-    visible: true,
-  });
+  pubMsg('登录成功！', '欢迎！ ' + username.value, 'success', 2);
   switchPage('lobby');
 });
 
@@ -152,13 +124,7 @@ const sendAdminCommand = (code: string) => {
 };
 
 onMounted(() => {
-  PubSub.publish('alert-pubsub-message', {
-    title: '欢迎！',
-    str: '客户端启动成功！',
-    type: 'success',
-    dur: 2,
-    visible: true,
-  });
+  pubMsg('欢迎！', '客户端启动成功！', 'success', 2);
   socket.emit('get-room-list');
 
   (window as any).admin = sendAdminCommand;
@@ -180,13 +146,7 @@ const addMessage = (message: Message) => {
   if (messages.value.length > 0 && messageEqual(messages.value[messages.value.length - 1], message)) {
     return;
   }
-  PubSub.publish('alert-pubsub-message', {
-    title: '新消息：' + message.sender + "->" + (message.user? message.user : "All") + " in  " + (message.room? message.room : "All"),
-    str: message.msg,
-    type: 'info',
-    dur: 2,
-    visible: true,
-  });
+  pubMsg('新消息！', message.sender + ": " + message.msg, 'info', 2);
   messages.value.push(message);
 }
 
@@ -208,23 +168,10 @@ socket.on('new-message', (data: {msg: Message}) => {
 socket.on('sync-chat', (data: {msgs: Message[]}) => {
   console.log(data);
   messages.value = data.msgs;
-  PubSub.publish('alert-pubsub-message', {
-    title: '聊天同步',
-    str: '聊天同步成功！同步了' + data.msgs.length + '条消息！',
-    type: 'success',
-    dur: 2,
-    visible: true,
-  });
+  pubMsg('聊天同步', '聊天同步成功！同步了' + data.msgs.length + '条消息！', 'success', 2);
 });
 socket.on('add-achievement', (data: {achievement: Achievement, username: string}) => {
-  PubSub.publish('alert-pubsub-message', {
-    title: data.achievement.name,
-    str: data.achievement.description,
-    type: 'warning',
-    dur: 30,
-    visible: true,
-    icon: 'Achievement' + data.achievement.difficulty,
-  });
+  pubMsg(data.achievement.name, data.achievement.description, 'warning', 30);
 });
 
 const displayMessagePanel = ref(false);
@@ -301,7 +248,7 @@ onMounted(() => {
     </template>
     <template v-else-if="displayPage === 'game'">
       <template v-if="displayPureText">
-        <GamePureTextPage :pureText="pureText" />
+        <GamePureTextPage :username="username" :gameState="gameState" :rooms="rooms"/>
       </template>
       <template v-else>
         <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>

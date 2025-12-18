@@ -4,6 +4,7 @@ from flask_socketio import emit, join_room, leave_room
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.room import Room
+from server.utils.config import get_config
 from server.utils.decorators import Registry, add_para_desc, set_attr
 from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
@@ -38,7 +39,7 @@ class Server:
     user_manager.get_user("Bob")
     user_manager.get_user("Charlie")
     user_manager.get_user("David")
-    self.rooms["test"] = Room(4, "test", 2)
+    self.rooms["test"] = Room(6, "test", 2)
     test_room = self.rooms['test']
     test_room.enter_room("Alice")
     test_room.enter_room("Bob")
@@ -56,10 +57,15 @@ class Server:
     test_room.choose_specie("Bob", "Eni")
     test_room.choose_specie("Charlie", "Unity")
     test_room.choose_specie("David", "Yengii")
+    test_room.add_bot("David", "Bot1", "Im")
+    test_room.add_bot("David", "Bot2", "Kit")
+
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
+    test_room.agree_to_start("Bot1")
+    test_room.agree_to_start("Bot2")
     test_room.game.develop_tech("Alice", "纳米科技")
     test_room.game.develop_tech("Alice", "反物质能源")
     test_room.game.develop_tech("David", "跨种族道德平等")
@@ -284,7 +290,7 @@ class Server:
           "str": f"Room {room_name} already exists."
         }, namespace=get_router_name())
         return
-      self.rooms[room_name] = Room(max_players, room_name, 6)
+      self.rooms[room_name] = Room(max_players, room_name, get_config('default_turn'))
       self.rooms[room_name].enter_room(data['username'])
       unlock_achievement(data['username'], "create_room")
       emit('alert-message', {
@@ -446,14 +452,15 @@ class Server:
     if room_name in self.rooms:
       for user_id in self.rooms[room_name].players:
         self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
-      if important:
+      if important and get_config("auto_step_bot"):
         self.rooms[room_name].step_bots(self.get_handlers)
       save_room(self.rooms[room_name])
   def bind_game_events(self):
 
     registry = Registry()
     self.prompt_api_registry = registry
-    
+  
+
     @self.socketio.on('get-game-state', namespace=get_router_name())
     def get_game_state(data):
       room_name = data['room_name']
@@ -699,13 +706,6 @@ class Server:
       return prompt, handler_map
     self.get_handlers = get_handlers
 
-    def parse(func, data):
-      func(data)
-    
-    # def :
-    #   stages = ["trading"]
-    #   prompt, handle_map = gen_prompt
-    
     
   def update_achievements(self, user_id: str):
     user = user_manager.get_user(user_id)
@@ -752,7 +752,32 @@ class Server:
       emit('prompt', {
         "prompt": prompt
       }, namespace=get_router_name())
+
+    @self.socketio.on('query-is-bot', namespace=get_router_name())
+    def query_is_bot(data):
+      room_name = data['room_name']
+      username = data['username']
+      is_bot = self.rooms[room_name].game.is_bot(username)
+      emit('is-bot', {
+        "is_bot": is_bot
+      }, namespace=get_router_name())
+
+    @self.socketio.on('query-recent-response', namespace=get_router_name())
+    def query_recent_response(data):
+      room_name = data['room_name']
+      username = data['username']
+      recent_response = self.rooms[room_name].bots[username].get_recent_response()
+      emit('recent-response', {
+        "recent_response": recent_response
+      }, namespace=get_router_name())
     
+    @self.socketio.on('force-step-bot', namespace=get_router_name())
+    def force_step_bot(data):
+      room_name = data['room_name']
+      bot_id = data['bot_id']
+      if bot_id in self.rooms[room_name].bots:
+        self.rooms[room_name].step_bot(bot_id, self.get_handlers)
+
     def add_achievement_listener(data):
       self.add_achievement(data['username'], data['id'])
     pubsub.subscribe("add_achievement", add_achievement_listener)
