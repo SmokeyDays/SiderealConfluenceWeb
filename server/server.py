@@ -24,14 +24,14 @@ class Server:
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     self.get_handlers = lambda: [], []
     
-    self.mock1()
-    self.mock2()
-    self.mock3()
-    
     self.bind_basic_events()
     self.bind_lobby_events()
     self.bind_game_events()
     self.bind_query_events()
+
+    self.mock1()
+    self.mock2()
+    self.mock3()
     
   
   def mock1(self):
@@ -94,6 +94,7 @@ class Server:
       test_room.game.draw_special_deck(test_room.game.players[0], "FaderanRelicWorld")
     suc, msg, id = test_room.game.trade_proposal("Alice", ["David"], {"items": {"Favor": 10}, "factories": ["法德澜_杜伦泰的赠礼"], "techs": []}, {"items": {}, "factories": []})
     suc, msg = test_room.game.accept_trade_proposal("David", id)
+    test_room.step_bot()
     return
     # skip trading
     test_room.game.player_agree("Alice")
@@ -694,7 +695,7 @@ class Server:
       self.update_game_state(room_name)
 
     def get_handlers(stage):
-      handlers = self.registry.get("game-interface")
+      handlers = self.prompt_api_registry.get("game-interface")
       handler_map = {}
       prompt = ""
       for handler in handlers:

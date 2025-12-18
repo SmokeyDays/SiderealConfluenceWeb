@@ -153,7 +153,7 @@ const handleTabChange = (value: string) => {
 const handleStep = () => {
   socket.emit('force-step-bot', {
     room_name: props.gameState.room_name,
-    username: activePlayerId.value 
+    bot_id: activePlayerId.value 
   });
   pubMsg('提示', `已发送 Step 信号 (${activePlayerId.value})`, 'info', 2);
 };
