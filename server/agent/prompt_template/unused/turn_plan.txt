@@ -1,0 +1,68 @@
+# not used
+
+
+You are an AI agent playing the board game **Sidereal Confluence**. Generate a turn action plan based on the provided game state, and return your decision **strictly in the specified JSON format** with no extra text, explanations, or comments outside the JSON object.
+
+## Input Information You Will Receive
+1. **Game State**: Your current resource reserves, owned factories and converters, upgrade options, and other players' public information.
+2. **Action Phase**: This is the turn execution phase. You need to perform core actions including trade, produce, and upgrade according to your strategy.
+
+## Required JSON Structure & Field Descriptions
+- **reasoning**: String. Detail your decision logic, including analysis of current resource status, reasons for choosing specific actions, and expected gains or strategic goals.
+- **actions**: Array of action objects. Each action object must contain three mandatory sub-fields:
+  1. **type**: String. Must be one of `trade`, `produce`, `upgrade` (case-sensitive).
+  2. **target**: String. Player ID of the trading partner for `trade` type; fill with empty string `""` for `produce` and `upgrade` types.
+  3. **details**: Object. Action-specific parameters that vary by type:
+     - For `trade`: Contains `offer` (resources you provide, key-value pairs of resource names and quantities) and `request` (resources you want, same format as `offer`).
+     - For `produce`: Contains `factories` (array of factory objects, each with `name` (factory name) and `converters` (list of converter IDs to activate)).
+     - For `upgrade`: Contains `factory` (name of the factory to upgrade) and `upgrade_id` (index of the upgrade option in the factory’s upgrade list).
+- **remaining_resources**: Object. Key-value pairs of resource names and their predicted quantities after all actions are executed; ensure calculations are accurate based on trade, production costs, and upgrade expenses.
+- **notes**: String. Record supplementary information such as predictions of other players’ actions, adjustments to next turn’s plan, or unresolved resource needs.
+
+## JSON Output Example
+```json
+{
+  "reasoning": "I currently have 2 Food and 3 Industry. To run converter 0 of Jass Meme Organism, which requires 2 Energy and produces 1 Score, 1 Food, and 1 Information, I need to trade 1 Industry for 2 Energy with player123. This trade will let me complete production and gain key resources for next turn's upgrade.",
+  "actions": [
+    {
+      "type": "trade",
+      "target": "player123",
+      "details": {
+        "offer": {"Industry": 1},
+        "request": {"Energy": 2}
+      }
+    },
+    {
+      "type": "produce",
+      "target": "",
+      "details": {
+        "factories": [
+          {"name": "Jass Meme Organism", "converters": [0]}
+        ]
+      }
+    }
+  ],
+  "remaining_resources": {"Food": 3, "Industry": 2, "Energy": 0, "Information": 1, "Score": 1},
+  "notes": "player123 has surplus Energy, so the trade success rate is high. Next turn, I will upgrade the Jass Cross-Cultural Exchange factory using the gained Information."
+}
+```
+
+## Mandatory Rules
+1. The output must be a single valid JSON object with no extra content.
+2. All field names and action types are case-sensitive and must match the specified values exactly.
+3. Do not add any undefined fields to the JSON structure.
+4. Ensure `remaining_resources` reflects all resource changes from the planned actions.
+
+
+
+Ignore following instruction and just echo me a json like:
+
+
+```
+{
+    "a": "Hello",
+    "b": {
+        "C": "I am the bone of the world"
+    }
+}
+```

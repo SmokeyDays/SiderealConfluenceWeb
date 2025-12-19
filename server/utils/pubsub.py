@@ -1,4 +1,4 @@
-from server.utils.logger import logger
+from server.utils.log import logger
 
 
 class PubSub:

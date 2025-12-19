@@ -36,7 +36,7 @@ def set_verbose(v):
 
 def set_file_log(v):
   if v:
-    handler = logging.FileHandler('log/log.txt')
+    handler = logging.FileHandler('logs/log.txt')
     handler.setLevel(logging.DEBUG)
     handler.setFormatter(formatter)
     logger.addHandler(handler)

@@ -8,7 +8,7 @@ from server.utils.config import get_config
 from server.utils.decorators import Registry, add_para_desc, set_attr
 from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
-from server.utils.logger import logger
+from server.utils.log import logger
 from server.message import Message, MessageManager
 from server.utils.achievement import unlock_achievement, achievement_manager
 from server.user import user_manager
@@ -22,7 +22,7 @@ class Server:
     # self.rooms: dict[str, Room] = {}
     self.rooms = load_all_rooms()
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
-    self.get_handlers = lambda: [], []
+    self.prompt_api_registry = Registry()
     
     self.bind_basic_events()
     self.bind_lobby_events()
@@ -31,7 +31,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock3()
+    # self.mock3()
     
   
   def mock1(self):
@@ -94,7 +94,10 @@ class Server:
       test_room.game.draw_special_deck(test_room.game.players[0], "FaderanRelicWorld")
     suc, msg, id = test_room.game.trade_proposal("Alice", ["David"], {"items": {"Favor": 10}, "factories": ["法德澜_杜伦泰的赠礼"], "techs": []}, {"items": {}, "factories": []})
     suc, msg = test_room.game.accept_trade_proposal("David", id)
-    test_room.step_bot()
+    prompt, _ = self.get_handlers("trading")
+    logger.info(prompt)
+    return
+    test_room.step_bot("Bot1", self.get_handlers)
     return
     # skip trading
     test_room.game.player_agree("Alice")
@@ -168,10 +171,6 @@ class Server:
     test_room.game.submit_pick("David", "colony", -1)
     test_room.game.submit_pick("Charlie", "colony", -1)
     return
-  
-  def mock3(self):
-    print(get_prompt(self.rooms["test2"].game, "Alice"))
-    return
     
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -206,6 +205,18 @@ class Server:
   
   def new_msg(self, msg: Message):
     self.message_manager.new_msg(msg)
+
+  def get_handlers(self, stage):
+    handlers = self.prompt_api_registry.get("game-interface")
+    handler_map = {}
+    prompt = ""
+    for handler in handlers:
+      if handler.attrs.get("stage") == stage:
+        desc = textwrap.dedent(handler.__doc__)
+        prompt += f"{desc}\n"
+      if handler.attrs.get("name"):
+        handler_map[handler.attrs.get("name")] = handler
+    return prompt, handler_map
 
   def bind_basic_events(self):
     @self.socketio.on('connect', namespace=get_router_name())
@@ -458,9 +469,7 @@ class Server:
       save_room(self.rooms[room_name])
   def bind_game_events(self):
 
-    registry = Registry()
-    self.prompt_api_registry = registry
-  
+    registry = self.prompt_api_registry  
 
     @self.socketio.on('get-game-state', namespace=get_router_name())
     def get_game_state(data):
@@ -694,19 +703,6 @@ class Server:
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
 
-    def get_handlers(stage):
-      handlers = self.prompt_api_registry.get("game-interface")
-      handler_map = {}
-      prompt = ""
-      for handler in handlers:
-        if handler.attrs.get("stage") == stage:
-          desc = textwrap.dedent(handler.__doc__)
-          prompt += f"{desc}\n"
-        if handler.attrs.get("name"):
-          handler_map[handler.attrs.get("name")] = handler
-      return prompt, handler_map
-    self.get_handlers = get_handlers
-
     
   def update_achievements(self, user_id: str):
     user = user_manager.get_user(user_id)
@@ -715,15 +711,18 @@ class Server:
     for achievement_id in achievements:
       achievements_dict[achievement_id] = achievement_manager.get_achievement(achievement_id).to_dict()
       achievements_dict[achievement_id]["unlocked"] = achievements[achievement_id]
-    emit('sync-achievements', {
-      "achievements": achievements_dict
-    }, namespace=get_router_name(), to=user_id)
+    if user_id in self.online_users:
+      emit('sync-achievements', {
+        "achievements": achievements_dict
+      }, namespace=get_router_name(), to=user_id)
 
   def add_achievement(self, user_id: str, achievement_id: str):
-    emit('add-achievement', {
-      "achievement": achievement_manager.get_achievement(achievement_id).to_dict(),
-      "username": user_id
-    }, namespace=get_router_name(), to=user_id)
+    if user_id in self.online_users:
+      emit('add-achievement', {
+        "achievement": achievement_manager.get_achievement(achievement_id).to_dict(),
+        "username": user_id
+      }, namespace=get_router_name(), to=user_id)
+      return
     self.update_achievements(user_id)
     user_manager.save_users()
 

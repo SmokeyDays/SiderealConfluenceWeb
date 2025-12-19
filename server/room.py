@@ -1,5 +1,6 @@
 from server.agent.brain import Brain
 from server.game import Game
+from server.utils.log import logger
 from server.utils.pubsub import pubsub
 from typing import Dict, Any, List
 
@@ -61,7 +62,11 @@ class Room:
         self.bot_agents[bot].step(handlers_prompt, handlers_map)
 
   def step_bot(self, bot_id, get_handlers):
+    if bot_id not in self.bots:
+      logger.warning(f"Bot {bot_id} is not in room {self.name} as a bot.")
+      return
     handlers_prompt, handlers_map = get_handlers(self.game.stage)
+    logger.info(f"Stepping bot {bot_id} in room {self.name}")
     if bot_id in self.bots and self.game.waiting_player(bot_id):
       self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
 

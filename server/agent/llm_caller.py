@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import random
 from server.agent.prompt_template import load_prompt
 from langchain_openai import AzureChatOpenAI
@@ -7,7 +8,7 @@ from pydantic import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from server.agent.interface import langchain_llms_api, langchain_vlm_api, langchain_llms_api_alts
 # from server.agent.parser import buildingStrategies, citizenActionParser
-from server.utils.logger import logger
+from server.utils.log import logger
 LLMs_total_tokens = 0
 LLMs_total_cost = 0
 
@@ -40,14 +41,14 @@ def str_msg(msg):
   return res
 class BasicCaller():
   def __init__(self,
-         model_name = 'gpt-4o-mini',
-         max_tokens = 1024,
-         temperature = 0,
-         vlm = langchain_llms_api,
-         parser = JsonOutputParser(pydantic_object=LongtermPlan),
-         prompt_file = "turn_plan",
-         planner_name = "BasicCaller",
-         vision = False,):
+        model_name = 'gpt-4o-mini',
+        max_tokens = 1024,
+        temperature = 0,
+        vlm = langchain_llms_api,
+        parser = JsonOutputParser(pydantic_object=LongtermPlan),
+        prompt_file = "turn_plan",
+        planner_name = "BasicCaller",
+        vision = False,):
     
     self.model_name = model_name
     self.max_tokens = max_tokens
@@ -72,8 +73,19 @@ class BasicCaller():
     system_prompt = load_prompt(self.prompt_file)
     return SystemMessage(content=system_prompt)
 
-  def render_human_message(self, profile, report, observation, verbose = True):
-    pass
+  def render_human_message(self, chapters, verbose = True):
+    content = []
+    text = ""
+    for k, v in chapters.items():
+      text += f"### {k}\n"
+      text += v
+      text += "\n"
+    content.append({"type": "text", "text": text})
+
+    human_message = HumanMessage(content=content)
+
+    return human_message
+
 
   def plan(self, *args):
 
@@ -82,6 +94,7 @@ class BasicCaller():
 
     message = [system_message, human_message]
     long_term_plan = {}
+    logger.info(f"****{self.planner_name}****\n{system_message.content}\n{str_msg(human_message)}")
     try:
       with get_openai_callback() as cb:
         long_term_plan = self.get_chain().invoke(message)
@@ -95,7 +108,6 @@ Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
         add_LLMs_total_tokens(total_tokens)
         total_cost = cb.total_cost
         add_LLMs_total_cost(total_cost)
-      logger.info(f"****{self.planner_name}****\n{system_message.content}\n{str_msg(human_message)}")
       logger.info(f"****{self.planner_name}****\n{long_term_plan}")
     except Exception as e:
       import traceback
@@ -113,36 +125,29 @@ class TurnPlanCaller(BasicCaller):
          prompt_file = "turn_plan",
          planner_name = "TurnPlanCaller",
          vision = False,):
-      super().__init__(model_name,
-                    max_tokens, 
-                    temperature, 
-                    vlm = vlm, 
-                    parser = parser,
-                    prompt_file = prompt_file,
-                    planner_name = planner_name,
-                    vision = vision)
-  def render_human_message(self, observation, verbose = True):
-    content = []
-    text = ""
-    text += "### Observation\n"
-    text += observation
-    content.append({"type": "text", "text": text})
+      super().__init__(
+        model_name,
+        max_tokens, 
+        temperature, 
+        vlm = vlm, 
+        parser = parser,
+        prompt_file = prompt_file,
+        planner_name = planner_name,
+        vision = vision
+      )
 
-    human_message = HumanMessage(content=content)
-
-    return human_message
-  
 class TradeCaller(BasicCaller):
   def __init__(self,
-        model_name = 'gpt-4o-mini',
-        max_tokens = 1024,
-        temperature = 0,
-        vlm = langchain_llms_api,
-        parser = JsonOutputParser(pydantic_object=LongtermPlan),
-        prompt_file = "trade_plan",
-        planner_name = "TradeCaller",
-        vision = False,):
-    super().__init__(model_name,
+      model_name = 'gpt-4o-mini',
+      max_tokens = 1024,
+      temperature = 0,
+      vlm = langchain_llms_api,
+      parser = JsonOutputParser(pydantic_object=LongtermPlan),
+      prompt_file = "trade_plan",
+      planner_name = "TradeCaller",
+      vision = False,):
+    super().__init__(
+      model_name,
                   max_tokens, 
                   temperature, 
                   vlm = vlm, 
@@ -150,18 +155,6 @@ class TradeCaller(BasicCaller):
                   prompt_file = prompt_file,
                   planner_name = planner_name,
                   vision = vision)
-def render_human_message(self, observation, handler, verbose = True):
-  content = []
-  text = ""
-  text += "### Observation\n"
-  text += observation
-  text += "### Handlers\n"
-  text += handler
-  content.append({"type": "text", "text": text})
-
-  human_message = HumanMessage(content=content)
-
-  return human_message
 
 
 if __name__ == '__main__':

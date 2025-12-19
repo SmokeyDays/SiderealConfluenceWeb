@@ -1,7 +1,7 @@
 import json
 import os
 
-from server.utils.logger import logger
+from server.utils.log import logger
 from server.utils.pubsub import pubsub
 
 

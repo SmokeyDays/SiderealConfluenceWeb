@@ -1,0 +1,28 @@
+Now is the planning stage of this turn.
+Reviewing the game state and your history, please update your current plan.
+Your task involves planning resource management, factory operations, and formulating proposals for other players.
+
+Please follow these instructions:
+1. **Check Promises**: Review previous agreements. You must behave faithfully according to promises made in earlier turns.
+2. **Factory Planning**: Decide which factories to run and which to upgrade based on efficiency and needs.
+3. **Resource Calculation**: Calculate the net resources needed. Determine what should be bought, sold, or borrowed.
+4. **Proposals**: Based on your plan, formulate specific proposals (trades/deals) you intend to offer to other players.
+
+Your response must be a json object with the following format:
+{
+  "reasoning": "Detailed analysis of promises, strategy, and resource gaps...",
+  "faithful_check": "Confirmation that this plan adheres to previous promises",
+  "factories_run": [{"factory_name": <string>, "converters": [<converter_id>, ...]}, ...],
+  "factories_upgrade": [{"factory_name": <string>, "converter_id": [<converter_id>, ...]}, ...],
+  "resources_needed": {"<resource_name>": <quantity>, ...},
+  "trade_strategy": {
+      "buy": {"<resource_name>": <quantity>, ...},
+      "sell": {"<resource_name>": <quantity>, ...},
+      "borrow": {"<resource_name>": <quantity>, ...}
+      "return": {"<resource_name>": <quantity>, ...}
+  },
+  "proposals": [
+      {"target_player_id": <id>, "offer": {...}, "request": {...}, "note": "..."},
+      ...
+  ]
+}

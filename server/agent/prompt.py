@@ -44,29 +44,7 @@ Converters:
 def game_desc():
   # resource_list = "\n".join([f"{item}({item_abbr})" for item, item_abbr in items_abbr.items()])
   desc = f"""
-You are playing a game named "Sidereal Confluence".
-This is a game of production and trade. You own some factories, each factory contains some converters, each converter receives some resources and produces some resources.
-The game is turn-based, and each turn contains following stages:
-Beginning stage:
-  - You must plan for this turn.
-Trade stage:
-  - You can trade resources with other players to prepare for production.
-  - You can upgrade factories to get more efficient converters.
-Production stage:
-  - You can run factories to produce resources.
-  - You can only run a converter once in a turn.
-  - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
-Your final goal is to be the richest player.
-Here are introduction of resources:
-And as suggesting, each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision.
-Note that the value is only a rough estimation, and you should not rely on it too much:
-Food, Industry and Culture, sometimes called "small block", each has a estimated value of 1
-Biotech, Energy, Information, sometimes called "big block", each has a estimated value of 1.5
-Ship has a estimated value of 1, and its value is very changeable.
-Hypertech, Score, each has a estimated value of 3
-WildSmall may replace any small block as input item, and WildBig may replace any big block as input item.
-w and W each has a value of 1, but sometimes they may become more valuable.
-ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
+
 """
   return desc
 
@@ -88,63 +66,6 @@ You are owning those factories:
 {factory_desc}
 """
   return obs
-
-
-###
-# Maybe add the promise thing, like borrow bulabula?
-###
-
-# def game_plan():
-#   return """
-# Now is the beginning stage of this turn.
-# Reviewing the instructions below, please make a plan for this turn.
-# Your plan may containing following parts:
-# 1. What factories (and its converters) to run.
-# 2. What resources are needed to run the factories or to upgrade the factories.
-# 3. What resources are not needed in this turn and can be used to trade with other players.
-# 4. What resources you want to buy from other players.
-# Your response must be a json object with the following format:
-# {
-#   "reasoning": <reasoning>,
-#   "factories": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
-#   "resources": {"<resource_name>": <resource_quantity>, ...},
-#   "sell": {"<resource_name>": <resource_quantity>, ...},
-#   "buy": {"<resource_name>": <resource_quantity>, ...}
-# }
-# """
-
-### borrow may need complicated logic, need to think more carefully
-def turn_plan_prompt():
-    return """
-Now is the planning stage of this turn.
-Reviewing the game state and your history, please update your current plan.
-Your task involves planning resource management, factory operations, and formulating proposals for other players.
-
-Please follow these instructions:
-1. **Check Promises**: Review previous agreements. You must behave faithfully according to promises made in earlier turns.
-2. **Factory Planning**: Decide which factories to run and which to upgrade based on efficiency and needs.
-3. **Resource Calculation**: Calculate the net resources needed. Determine what should be bought, sold, or borrowed.
-4. **Proposals**: Based on your plan, formulate specific proposals (trades/deals) you intend to offer to other players.
-
-Your response must be a json object with the following format:
-{
-  "reasoning": "Detailed analysis of promises, strategy, and resource gaps...",
-  "faithful_check": "Confirmation that this plan adheres to previous promises",
-  "factories_run": [{"factory_name": <string>, "converters": [<converter_id>, ...]}, ...],
-  "factories_upgrade": [{"factory_name": <string>, "converter_id": [<converter_id>, ...]}, ...],
-  "resources_needed": {"<resource_name>": <quantity>, ...},
-  "trade_strategy": {
-      "buy": {"<resource_name>": <quantity>, ...},
-      "sell": {"<resource_name>": <quantity>, ...},
-      "borrow": {"<resource_name>": <quantity>, ...}
-  },
-  "proposals": [
-      {"target_player_id": <id>, "offer": {...}, "request": {...}, "note": "..."},
-      ...
-  ]
-}
-"""
-
 
 ### It maybe easier to implement if the upgrade action can be shifted here for AI, 
 ### or we may should add some upgrade actions to turn_plan_prompt or make a new call for upgrade?
@@ -242,5 +163,5 @@ Your response must be a json object with the following format:
 # such as allowed max colonies number, special abilities ... 
 ###
 def get_prompt(game: Game, player_id: str):
-  return game_desc(), game_obs(game, player_id)
+  return game_obs(game, player_id)
 

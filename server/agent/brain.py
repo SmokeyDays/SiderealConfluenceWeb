@@ -1,7 +1,7 @@
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller
-from server.utils import logger
+from server.utils.log import logger
 
 turn_plan_caller = TurnPlanCaller()
 trade_caller = TradeCaller()
@@ -10,25 +10,44 @@ class Brain:
   def __init__(self, game: Game, player_id: str):
     self.game = game
     self.player_id = player_id
-    self.current_plan = "There is no specific plan for this turn."
+    self.current_plan = None
     self.promises = []
     self.recent_responses = []
+
+  def record_response(self, response):
+    logger.info(f"Bot {self.player_id} record response: {response}")
+    self.recent_responses.append(response)
 
   def step(self, handlers_prompt, handlers_map):
     """
     Auto detect the current stage of the game and call the corresponding function.
     """
-    rule, obs = get_prompt(self.game, self.player_id)
+    obs = get_prompt(self.game, self.player_id)
     if self.game.stage == "trading":
       if self.current_plan == None:
-        response = turn_plan_caller.plan(rule, obs)
-        logger.info(f"Bot {self.player_id} generated plan: {response['plan']}")
-        self.current_plan = response['plan']
-      callbacks = trade_caller.plan(rule, obs, handlers_prompt)
-      for callback in callbacks:
-        func_name, data = callback['func'], callback['data']
-        func = handlers_map[func]
-        func(data)
+        response = turn_plan_caller.plan({"Observation": obs})
+        self.record_response(response)
+        response.pop("reasoning")
+        self.current_plan = response
+
+      response = trade_caller.plan({
+        "Plan": str(self.current_plan),
+        "Observation": obs,
+        "Actions": handlers_prompt
+      })
+      self.record_response(response)
+      if "actions" not in response.keys():
+        logger.warning(f"Bot {self.player_id} trade caller returned no callbacks: {response}")
+        return
+      callbacks = response.get("actions", [])
+      try:
+        for callback in callbacks:
+          func_name, data = callback['func'], callback['data']
+          func = handlers_map[func_name]
+          func(data)
+      except Exception as e:
+        import traceback
+        logger.error(f"Bot {self.player_id} trade caller execute callback error: {e}, {traceback.format_exc()}")
     # elif self.game.stage == "production":
     #   self.EconomyMoveCall()
     # elif self.game.stage == "bid":
