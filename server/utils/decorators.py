@@ -35,4 +35,7 @@ class Registry:
     return inner
 
   def get(self, tag):
-      return self._registry.get(tag, [])
+    return self._registry.get(tag, [])
+  
+  def get_all_tags(self):
+    return list(self._registry.keys())

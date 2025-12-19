@@ -43,6 +43,8 @@ class Brain:
       try:
         for callback in callbacks:
           func_name, data = callback['func'], callback['data']
+          data['room_name'] = self.game.room_name
+          data['username'] = self.player_id
           func = handlers_map[func_name]
           func(data)
       except Exception as e:
