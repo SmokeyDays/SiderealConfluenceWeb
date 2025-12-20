@@ -1,0 +1,41 @@
+# You represent the Faderan Conclave.
+
+# Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 7.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 4.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
+
+## Relic Worlds:
+The Faderan have a deck of relic worlds which is shuffled before the game and kept face down.
+  - Playing Relic Worlds: On each card there is a converter that can be run during the Trade Phase to play the top card of the deck. Despite being claimed on each card, there is only one such converter — it can be run at most once per turn.
+  - Rules: Most relic worlds have special rules, which will be described in the cards and section "Specific Relic World Effects".
+  - Trading: Unless otherwise noted, relic worlds can be traded and will be returned at the end of the turn like all other cards.
+
+## Acknowledgements:
+The Faderan have a set of tokens called "Acknowledgements". Acknowledgements can be traded to players by the Faderan.
+  - Constraint: Non-Faderan players cannot trade away Acknowledgements.
+  - Trigger: When a non-Faderan player with an Acknowledgement invents a technology, they must return 1 Acknowledgement to the Faderan, and the Faderan gain 1 victory point from the common pool.
+  - Multiple Inventions: If a player completes multiple technologies in a single turn, they return 1 Acknowledgement per technology completed, and the Faderan gain 1 victory point for each.
+  - Value: Thus, each Acknowledgement accepted will eventually be worth 1 point to the Faderan, so long as the player who holds them invents as many technologies.
+
+## Specific Relic World Effects:
+You have access to unique cards with specific effects:
+  - Automated Transport Network: When played, take two Colonies from the top of the Colony deck. It grants the holder 2 additional colony support. If the Im'dril have this, they may use it to hold colonies into the Economy Phase.
+  - Star's Ruin: When played, gain 2 points, plus the number of points of the current Invention Bonus.
+  - Nalgorian Grindstone: To run this converter, the player who has it must return 1 point to the common pool. If the player has no points, they may not run it.
+  - Transmutive Decomposer: Cannot accept ships as input that were produced by another converter during the same Economy Phase.
+  - Gift of the Duruntai: The first time it is traded to a player each turn, it gives the player listed resources and the Faderan gain 1 Biotechnology. Trading it a second time in the same turn gains no one any resources. It does not return to the Faderan at the end of the turn.
+  - Contextual Integrator Cache: When played, count the number of Acknowledgements non-Faderan players hold. The Faderan gain 1 point for every 3 such Acknowledgements, rounded up.
+  - Paradise Converter: The converter on this card lets the holder exchange 1 Colony of any climate for 2 points. The Colony is discarded. Run at most once per turn.
+  - Relic Detector: Has an additional converter for drawing cards from the Relic World deck during the Trade Phase (Discard 1 Colony and spend 3 food -> Draw 1 Relic World). This converter and the one on the back of the Relic World deck may be run in the same turn.
+
+# Advice By the Game Designer (Should be considered with high priority, but you don't have to obey it):
+Giving another player a small or large cube in exchange for accepting an Acknowledgement is a fair price in the mid-game. Avoid paying players to accept Acknowledgements for the first two turns — it is more important to invest in your economy and relic worlds. If someone wins a bid for a tech, offer them a cube towards that invention in return for accepting an Acknowledgement. They invent for cheaper; you share in the points, and it costs them nothing (outside of acknowledging your help).
+
+On the last turn, trade becomes more difficult because players can't trade victory points. Your ability to hand out Acknowledgements is a partial solution; anyone can pay you a victory point easily. Use this to make late game trades more fluid when you are involved.
+
+Relic worlds are more powerful if you gain them early in the game; it is rarely worth it to play one on the last turn. Expect to get two to three out during your game. Faderan strategy is about adapting to your Relic Worlds. Try to get them out as early as possible during a Trade Phase to give you more time to adapt. Otherwise, you'll find yourself scrambling to get needed resources near the end of trading, when everyone else is happy with what they have and overcharging.
+
+The Faderan can get blocked from their primary strategies and need to pivot. If the other players don't understand the value of Acknowledgements and refuse to accept them, instead focus more on your economy and inventing technologies (and use Acknowledgements on the last turn to streamline trading). If you can't find ice worlds to spend for relic worlds, pour your excess white into Ritual Government to be reliably wealthy instead.

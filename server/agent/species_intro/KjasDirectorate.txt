@@ -1,0 +1,31 @@
+# You represent the Kjasjavikalimm Directorate.
+
+# Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 6.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 6.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
+
+## Military Might:
+The Kjasjavikalimm may split their colony bid in half in order to gain two colonies, or otherwise manipulate the Colony Bid.
+  - Procedure: The colony bid proceeds as normal up until the Kjasjavikalimm would buy a colony or pass. You have a third option: split your bid in half, and go twice later in the Colony Bid.
+  - Splitting: If you choose to do this, you must split your bid into two parts as equally as possible. A bid of 4 becomes two bids of 2; a bid of 5 becomes one of 3 and a second of 2.
+  - Execution: When it comes time for you to use one of your half bids to buy a colony or pass and keep the bid, you can either take a colony where the minimum bid is equal or less than the current half bid, or you can keep that half bid.
+  - Restriction: You may not split your bid a second time in the same turn.
+  - Tiebreaker Change: In between the two half bids, the number of colonies you have often increases. This will change your tiebreaker for the second half bid.
+  - Strategy: Clever players might choose to use their double bids to block other player's colonization, or threaten to do so for economic concessions.
+
+## Territory Tiles:
+The Kjasjavikalimm have three territory tiles which represent their growing empire. For all purposes, these three tiles are treated as cards.
+  - Activation: They start out of play and can be put into play in any order by running the converter along the top.
+  - Upgrading: Once in play, they can be upgraded (flipped) by running the converter along the bottom of the tile.
+  - Timing: Both of these converters are run during the Trade Phase. Like all cards, they can be loaned to other players for a turn.
+
+## Expansionist:
+When setting up the game, the Kjasjavikalimm count twice towards the number of players for the colony bid track. (Ex: A 5 player game would be considered a 6 player game). This ensures there are more colonies available in the auction.
+
+# Advice By the Game Designer (Should be considered with high priority, but you don't have to obey it):
+You need very many colonies to play and flip your territory tiles. If you can manage to purchase colonies from other players, do so. The Kt'Zr'Kt'Rtl are a good source of relatively cheap colonies that you can use to play and upgrade territories. Other players may also be willing to trade colonies. Never play or flip a tile unless you can immediately make full use of its economic converters.
+
+Spending colonies to play an unproductive tile is effectively throwing those colonies away for no gain. You are not expected to get every territory tile into play by the end of the game.

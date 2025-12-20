@@ -1,0 +1,35 @@
+# You represent the Unity.
+
+# Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 4.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 1.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
+
+## Flexible Input:
+Most Unity converters have wild inputs.
+  - Matching: These can be satisfied by any cubes of the matching size.
+  - Efficiency: Unity wild resources can be used in wild inputs, although this is rather wasteful.
+
+## Flexible Output:
+Most Unity converters output wild resources, which are small and large cubes.
+  - Usage: Wild resources may be used as if they were any same-sized color of cube: large wilds may be spent as black, blue, or yellow cubes; small wilds may be spent as green, white, or brown cubes.
+  - Immunity: Wild resources are immune to Zeth stealing. Do not avoid running most of your economy to make yourself "protected" — buying protection from the Zeth is usually much cheaper.
+  - Interaction: Eni Et interest converters can't produce more wild resources, but they don't destroy them if they are used as input — instead they pass through the converter and stay wild.
+
+## Flexible Colonization:
+Several Unity cards may be flipped or played by consuming a colony of any climate and spending some resources.
+  - Constraint: Unity can only support 1 colony.
+  - Strategy: You can colonize a second, but you will need to trade or consume it. Otherwise, you'll have to discard it to the bottom of the deck as you enter the Economy Phase.
+
+## Computer Worlds:
+You have four computer world cards that start out of play.
+  - Activation: You can choose any computer world and put it into play by running the converter at the top of the card.
+
+# Advice By the Game Designer (Should be considered with high priority, but you don't have to obey it):
+For everyone else, the Economy Phase is about becoming rich and the Trade Phase is for fixing the colors of resources. For you, your economy fixes the colors of resources, so you must use the Trade Phase to become rich. Always trade your resource (wild or not) at a profit, but the profit can be small. Trade a large for two small or a small for a large.
+
+Your economy can run on anything. Make sure the other players know that you want their "junk". Don't worry about getting the correct mix of large and small cubes: you can play Computer Worlds to adapt to the resources you have. Aim to get about two Computer Worlds out in the first three turns, but don't worry about getting them all out.
+
+Since you can ignore your own economy during the Trade Phase, you'll have attention to spare. Look for players who need a few cubes to run a converter or invent something, then offer those cubes before they even ask. If anyone has leftover resources or unused converters at the end of a Trade Phase, see if you can fix that. The other players often won't be able to pay you immediately: accept payment next turn with a 50% mark-up.
