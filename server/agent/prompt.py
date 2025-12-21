@@ -25,7 +25,6 @@ def factory_abbr(factory: Factory):
   
   upgrade_desc = ""
   if "upgrades" in factory.feature["properties"]:
-    upgrade_desc = "Upgrades:\n"
     upgrade_targets = {}
     for i, upgrade in enumerate(factory.feature["properties"]["upgrades"]):
       cost = upgrade["cost"]
@@ -36,9 +35,16 @@ def factory_abbr(factory: Factory):
         if isinstance(cost, dict):
           cost = Converter(**cost)
         upgrade_desc += f"  - {i}: By running the specific converter {cost}, you can upgrade {factory.name} to {target}\n"
+    if upgrade_desc != "":
+      upgrade_desc = f"Upgrades:\n{upgrade_desc}"
+  feature_desc = ""
+  if factory.description != "":
+    feature_desc = """Other features:
+{factory.description}
+"""
   res = f"""{factory.name}
 Converters:
-{converters_desc}{upgrade_desc}"""
+{converters_desc}{upgrade_desc}{feature_desc}"""
   return res
 
 def game_desc():
@@ -48,6 +54,14 @@ def game_desc():
 """
   return desc
 
+def another_player(game: Game, player: Player):
+  if not player:
+    return "Player not found."
+  player_desc = f"""
+Player {player.user_id} ({player.specie}):
+  - Resources: {get_items_str(player.storage)}
+"""
+  return player_desc
 ###
 # Should add the player's promises into the obs later
 ###
@@ -58,12 +72,18 @@ def game_obs(game: Game, player_id: str):
   factory_desc = ""
   for factory in player.factories.values():
     factory_desc += f"{factory_abbr(factory)}"
+  other_player_desc = ""
+  for player in game.players:
+    if player.user_id != player_id:
+      other_player_desc += another_player(game, player)
   obs = f"""
 You are {player.user_id} playing a specie named {player.specie} in the game.
 You are owning those items:
 {get_items_str(player.storage)}
 You are owning those factories:
 {factory_desc}
+Other players, their specie and their items are listed below. Noting that anywhere you need to mention other players should use their user_id instead of specie name:
+{other_player_desc}
 """
   return obs
 

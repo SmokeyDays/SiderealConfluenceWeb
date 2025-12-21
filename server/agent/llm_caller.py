@@ -87,10 +87,10 @@ class BasicCaller():
     return human_message
 
 
-  def plan(self, *args):
+  def plan(self, chapters):
 
     system_message = self.render_system_message()
-    human_message = self.render_human_message(*args)
+    human_message = self.render_human_message(chapters)
 
     message = [system_message, human_message]
     long_term_plan = {}

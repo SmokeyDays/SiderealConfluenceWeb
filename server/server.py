@@ -31,7 +31,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    # self.mock3()
+    self.mock3()
     
   
   def mock1(self):
@@ -57,15 +57,11 @@ class Server:
     test_room.choose_specie("Bob", "Eni")
     test_room.choose_specie("Charlie", "Unity")
     test_room.choose_specie("David", "Yengii")
-    test_room.add_bot("David", "Bot1", "Im")
-    test_room.add_bot("David", "Bot2", "Kit")
 
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
-    test_room.agree_to_start("Bot1")
-    test_room.agree_to_start("Bot2")
     test_room.game.develop_tech("Alice", "纳米科技")
     test_room.game.develop_tech("Alice", "反物质能源")
     test_room.game.develop_tech("David", "跨种族道德平等")
@@ -93,8 +89,6 @@ class Server:
     for _ in range(12):
       test_room.game.draw_special_deck(test_room.game.players[0], "FaderanRelicWorld")
     suc, msg, id = test_room.game.trade_proposal("Alice", ["David"], {"items": {"Favor": 10}, "factories": ["法德澜_杜伦泰的赠礼"], "techs": []}, {"items": {}, "factories": []})
-    suc, msg = test_room.game.accept_trade_proposal("David", id)
-    test_room.step_bot("Bot1", self.get_handlers)
     return
     # skip trading
     test_room.game.player_agree("Alice")
@@ -168,6 +162,20 @@ class Server:
     test_room.game.submit_pick("David", "colony", -1)
     test_room.game.submit_pick("Charlie", "colony", -1)
     return
+  
+  def mock3(self):
+    self.rooms["test_bot"] = Room(4, "test_bot", 6)
+    test_room = self.rooms['test_bot']
+    test_room.enter_room("Alice")
+    test_room.choose_specie("Alice", "Faderan")
+    test_room.add_bot("Alice", "Bot1", "Im")
+    test_room.add_bot("Alice", "Bot2", "Kit")
+    test_room.add_bot("Alice", "Bot3", "Unity")
+    
+    test_room.agree_to_start("Alice")
+    test_room.agree_to_start("Bot1")
+    test_room.agree_to_start("Bot2")
+    test_room.agree_to_start("Bot3")
     
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -758,12 +766,11 @@ class Server:
     def query_prompt(data):
       room_name = data['room_name']
       username = data['username']
-      rule, obs = get_prompt(self.rooms[room_name].game, username)
-      prompt = f"{rule}\n{obs}"
-      if username in self.online_users:
-        emit('prompt', {
-          "prompt": prompt
-        }, namespace=get_router_name())
+      obs = get_prompt(self.rooms[room_name].game, username)
+      prompt = f"{obs}"
+      emit('prompt', {
+        "prompt": prompt
+      }, namespace=get_router_name())
 
     @self.socketio.on('query-is-bot', namespace=get_router_name())
     def query_is_bot(data):

@@ -2,7 +2,6 @@ from langchain_openai import AzureChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
-from simcity.agents.brain.interface import langchain_llms_api
 
 class BuildingStrategy(BaseModel):
   code: str = Field(description="a line of function call. e.g. func1(para1, para2)")

@@ -14,9 +14,12 @@ class Brain:
     self.promises = []
     self.recent_responses = []
 
-  def record_response(self, response):
-    logger.info(f"Bot {self.player_id} record response: {response}")
-    self.recent_responses.append(response)
+  def record_response(self, prompt, response):
+    logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
+    self.recent_responses.append({
+      "prompt": prompt,
+      "response": response
+    })
 
   def step(self, handlers_prompt, handlers_map):
     """
@@ -25,17 +28,19 @@ class Brain:
     obs = get_prompt(self.game, self.player_id)
     if self.game.stage == "trading":
       if self.current_plan == None:
-        response = turn_plan_caller.plan({"Observation": obs})
-        self.record_response(response)
+        prompt = {"Observation": obs}
+        response = turn_plan_caller.plan(prompt)
+        self.record_response(prompt, response)
         response.pop("reasoning")
         self.current_plan = response
 
-      response = trade_caller.plan({
+      prompt = {
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
-      })
-      self.record_response(response)
+      }
+      response = trade_caller.plan(prompt)
+      self.record_response(prompt, response)
       if "actions" not in response.keys():
         logger.warning(f"Bot {self.player_id} trade caller returned no callbacks: {response}")
         return
