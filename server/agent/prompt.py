@@ -54,12 +54,24 @@ def game_desc():
 """
   return desc
 
+def get_bulletin_board_desc(player: Player):
+  bb = player.bulletin_board
+  message = bb.get("message", "")
+  seeking = get_items_str(bb.get("seeking", {}))
+  offering = get_items_str(bb.get("offering", {}))
+
+  if not message and not seeking and not offering:
+    return "  - Bulletin Board: (Empty)\n"
+    
+  return f"  - Bulletin Board: [Message: '{message}'] [Seeking: {seeking}] [Offering: {offering}]\n"
+
 def another_player(game: Game, player: Player):
   if not player:
     return "Player not found."
   player_desc = f"""
 Player {player.user_id} ({player.specie}):
   - Resources: {get_items_str(player.storage)}
+  {get_bulletin_board_desc(player)}
 """
   return player_desc
 ###
@@ -80,6 +92,8 @@ def game_obs(game: Game, player_id: str):
 You are {player.user_id} playing a specie named {player.specie} in the game.
 You are owning those items:
 {get_items_str(player.storage)}
+You current Bulletin Board status:
+{get_bulletin_board_desc(player)}
 You are owning those factories:
 {factory_desc}
 Other players, their specie and their items are listed below. Noting that anywhere you need to mention other players should use their user_id instead of specie name:
@@ -185,3 +199,16 @@ Your response must be a json object with the following format:
 def get_prompt(game: Game, player_id: str):
   return game_obs(game, player_id)
 
+# def get_bulletin_board_prompt(game: Game):
+#   bulletin_board_message = ""
+#   for player in game.players:
+#       bulletin_board_message += f"Player {player.user_id} Bulletin Board:[\n"
+#       bulletin_board_message += f"Message: {player.bulletin_board['message']}\n"
+#       bulletin_board_message += f"Seeking: {player.bulletin_board['seeking']}\n"
+#       bulletin_board_message += f"Offering: {player.bulletin_board['offering']}\n"
+#       bulletin_board_message += "]\n"
+#   message = f"""
+# Current bulletin board messages from all players:
+# {bulletin_board_message}
+# """
+#   return message

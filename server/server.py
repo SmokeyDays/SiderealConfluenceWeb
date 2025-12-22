@@ -118,7 +118,7 @@ class Server:
     test_room.enter_room("Bob")
     test_room.enter_room("Charlie")
     test_room.enter_room("David")
-
+    return 
     self.new_msg(Message("Alice", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Bob", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Charlie", "HelloRoom", str(datetime.datetime.now()), "test2"))
@@ -169,14 +169,21 @@ class Server:
     test_room.enter_room("Alice")
     test_room.choose_specie("Alice", "Faderan")
     test_room.add_bot("Alice", "Bot1", "Im")
-    test_room.add_bot("Alice", "Bot2", "Kit")
-    test_room.add_bot("Alice", "Bot3", "Unity")
+    # test_room.add_bot("Alice", "Bot2", "Kit")
+    # test_room.add_bot("Alice", "Bot3", "Unity")
     
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bot1")
-    test_room.agree_to_start("Bot2")
-    test_room.agree_to_start("Bot3")
-    
+    # test_room.agree_to_start("Bot2")
+    # test_room.agree_to_start("Bot3")
+
+    test_room.game.debug_add_item("Alice", "Ship", 10)
+    test_room.game.debug_add_item("Bot1", "Ship", 10)
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bot1")
+    # test_room.game.player_agree("Bot2")
+    # test_room.game.player_agree("Bot3")
+
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
 
@@ -716,6 +723,22 @@ class Server:
       username = data['username']
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
       self.update_game_state(room_name)
+
+    @self.socketio.on('update-bulletin-board', namespace=get_router_name())
+    @registry(["game-interface"])
+    @set_attr("stage", ["trading"])
+    def update_bulletin_board(data):
+      """
+      update_bulletin_board: Update your public trade bulletin board.
+        - message: str, a short message to broadcast.
+        - seeking: Dict[str, int], items you are looking for with quantities.
+        - offering: Dict[str, int], items you are offering with quantities.
+      """
+      room_name = data['room_name']
+      username = data['username']
+      self.rooms[room_name].game.update_bulletin_board(username, data['message'], data['seeking'], data['offering'])
+      self.update_game_state(room_name)
+
 
     # logger.info("Registered game-interface functions:")
     # for func in registry.get("game-interface"):

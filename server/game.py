@@ -634,7 +634,8 @@ class Player:
     self.invented_tech = []
     self.score = 0
     self.item_value = 0
-    
+    self.bulletin_board = {"message": "", "seeking": {}, "offering": {}}
+
     self.add_items_to_storage(start_storage)
     for factory_name, factory in factories.items():
       self.new_factory(factory)
@@ -813,7 +814,15 @@ class Player:
       "tech": self.tech,
       "invented_tech": self.invented_tech,
       "score": self.score,
-      "item_value": self.item_value
+      "item_value": self.item_value,
+      "bulletin_board": self.bulletin_board
+    }
+
+  def update_bulletin_board(self, message: str, seeking: Dict[str, int], offering: Dict[str, int]):
+    self.bulletin_board = {
+      "message": message,
+      "seeking": seeking,
+      "offering": offering
     }
 
 
@@ -1479,8 +1488,14 @@ class Game:
     for callback in receive_callbacks:
       callback()
     return True, ""
-  
-  
+
+  def update_bulletin_board(self, player_name: str, message: str, seeking: Dict[str, int], offering: Dict[str, int]):
+    player = next((p for p in self.players if p.user_id == player_name), None)
+    if not player:
+      return False, "未指定玩家"
+    player.update_bulletin_board(message, seeking, offering)
+    return True, ""
+
   ###########################
   #                         #
   #     Query Functions     #
