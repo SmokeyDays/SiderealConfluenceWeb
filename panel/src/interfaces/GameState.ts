@@ -53,7 +53,12 @@ export class Player {
     public tech: string[],
     public invented_tech: string[],
     public score: number,
-    public item_value: number
+    public item_value: number,
+    public bulletin_board: {
+      message: string,
+      seeking: { [key: string]: number },
+      offering: { [key: string]: number }
+    }
   ) {}
 }
 

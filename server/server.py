@@ -19,8 +19,7 @@ class Server:
     self.app, self.socketio = create_app()
     
     self.online_users = {}
-    # self.rooms: dict[str, Room] = {}
-    self.rooms = load_all_rooms()
+    self.rooms: dict[str, Room] = load_all_rooms()
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     self.prompt_api_registry = Registry()
     
@@ -169,20 +168,32 @@ class Server:
     test_room.enter_room("Alice")
     test_room.choose_specie("Alice", "Faderan")
     test_room.add_bot("Alice", "Bot1", "Im")
-    # test_room.add_bot("Alice", "Bot2", "Kit")
-    # test_room.add_bot("Alice", "Bot3", "Unity")
+    test_room.add_bot("Alice", "Bot2", "Kit")
+    test_room.add_bot("Alice", "Bot3", "Unity")
     
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bot1")
-    # test_room.agree_to_start("Bot2")
-    # test_room.agree_to_start("Bot3")
-
+    test_room.agree_to_start("Bot2")
+    test_room.agree_to_start("Bot3")
+    # t-1 trading
     test_room.game.debug_add_item("Alice", "Ship", 10)
     test_room.game.debug_add_item("Bot1", "Ship", 10)
+    test_room.game.debug_add_item("Bot2", "Ship", 10)
+    test_room.game.debug_add_item("Bot3", "Ship", 10)
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bot1")
-    # test_room.game.player_agree("Bot2")
-    # test_room.game.player_agree("Bot3")
+    test_room.game.player_agree("Bot2")
+    test_room.game.player_agree("Bot3")
+    # t-1 producing
+    test_room.game.player_agree("Alice")
+    test_room.game.player_agree("Bot1")
+    test_room.game.player_agree("Bot2")
+    test_room.game.player_agree("Bot3")
+    # t-1 bid
+    test_room.game.submit_bid("Alice", 1, 2)
+    test_room.game.submit_bid("Bot1", 4, 3)
+    test_room.game.submit_bid("Bot2", 3, 2)
+    test_room.game.submit_bid("Bot3", 2, 2)
 
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -590,7 +601,7 @@ class Server:
     @set_attr("stage", ["trading", "production"])
     def agree(data):
       """
-      agree: Agree to continue the game and go to the next stage. Once you "agree" to move, you cannot perform any more actions in the current stage.
+      agree: Agree to continue the game and go to the next stage. Once all players "agree" to move, this game will step to the next stage. No further properties are required.
       """
       room_name = data['room_name']
       username = data['username']
@@ -628,7 +639,7 @@ class Server:
     @self.socketio.on('submit-pick', namespace=get_router_name())
     @registry(["game-interface"])
     @set_attr("stage", ["pick"])
-    def pick_item(data):
+    def submit_pick(data):
       """
       submit_pick: Pick an item from the deck.
         - type: str, the type of the item to pick. It can be "colony" or "research".

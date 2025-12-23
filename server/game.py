@@ -8,6 +8,8 @@ from server.message import Message
 from server.utils.achievement import unlock_achievement
 from server.utils.pubsub import pubsub
 from server.utils.trade_recorder import Trade, TradeRecorder
+from server.utils.log import logger
+
 
 def get_bid_board(player_num):
   num_dict={
@@ -899,12 +901,11 @@ class Game:
       return True
     if self.stage == "discard_colony":
       return self.current_discard_colony_player == player_id
+    if self.stage == "bid":
+      return True
     if self.stage == "pick":
       return self.current_pick_player["player"] == player_id
-    if self.stage == "bid":
-      return self.current_bid_player == player_id
-    if self.stage == "end":
-      return self.current_end_player == player_id
+    logger.warning(f"未知的游戏阶段: {self.stage}")
     return False
 
   def init_bid_cards(self):

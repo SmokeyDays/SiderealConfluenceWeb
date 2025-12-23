@@ -1,4 +1,5 @@
 from server.game import Converter, Factory, Game, Player, get_items_str, get_items_value
+from server.utils.log import logger
 
 # First stage: provide game obs and factories, and ask llms to provide a plan
 # Second stage: provide the plan and chat history, llms must react players' trade request
@@ -18,7 +19,20 @@ items_abbr = {
   "ArbitrarySmall": "a",
   "ArbitraryBig": "A",
 }
-def factory_abbr(factory: Factory):
+
+def add_tab(str_to_process, tab_num = 1):
+  tab = "  "
+  tab_str = tab * tab_num
+  lend_n = False
+  if str_to_process.endswith("\n"):
+    str_to_process = str_to_process[:-1]
+    lend_n = True
+  str_to_process = tab_str + str_to_process.replace("\n", f"\n{tab_str}")
+  if lend_n:
+    str_to_process += "\n"
+  return str_to_process
+
+def get_factory_desc(factory: Factory):
   converters_desc = ""
   for i, converter in enumerate(factory.converters):
     converters_desc += f"  - {i}: {converter}\n"
@@ -38,21 +52,14 @@ def factory_abbr(factory: Factory):
     if upgrade_desc != "":
       upgrade_desc = f"Upgrades:\n{upgrade_desc}"
   feature_desc = ""
-  if factory.description != "":
-    feature_desc = """Other features:
+  if factory.description != f"":
+    feature_desc = f"""Other features:
 {factory.description}
 """
   res = f"""{factory.name}
 Converters:
 {converters_desc}{upgrade_desc}{feature_desc}"""
   return res
-
-def game_desc():
-  # resource_list = "\n".join([f"{item}({item_abbr})" for item, item_abbr in items_abbr.items()])
-  desc = f"""
-
-"""
-  return desc
 
 def get_bulletin_board_desc(player: Player):
   bb = player.bulletin_board
@@ -63,41 +70,98 @@ def get_bulletin_board_desc(player: Player):
   if not message and not seeking and not offering:
     return "  - Bulletin Board: (Empty)\n"
     
-  return f"  - Bulletin Board: [Message: '{message}'] [Seeking: {seeking}] [Offering: {offering}]\n"
+  return f"""
+  - Bulletin Board:
+    - Message: {message}
+    - Seeking: {seeking}
+    - Offering: {offering}"""
 
-def another_player(game: Game, player: Player):
+def get_another_player_desc(game: Game, player: Player):
   if not player:
+    logger.warning("Player not found in another_player function.")
     return "Player not found."
   player_desc = f"""
 Player {player.user_id} ({player.specie}):
   - Resources: {get_items_str(player.storage)}
-  {get_bulletin_board_desc(player)}
-"""
+{get_bulletin_board_desc(player)}"""
   return player_desc
 ###
 # Should add the player's promises into the obs later
 ###
+def get_bid_desc(game: Game):
+  colony_bid = game.colony_bid_cards
+  technology_bid = game.research_bid_cards
+  colony_desc = ""
+  for bid_id in range(len(colony_bid)):
+    bid_item = colony_bid[bid_id]
+    price = bid_item["price"]
+    item = bid_item["item"]
+    colony_desc += f"  Number {bid_id} item, at least {price} ships are needed:\n"
+    colony_desc += add_tab(get_factory_desc(item))
+  technology_desc = ""
+  for bid_id in range(len(technology_bid)):
+    bid_item = technology_bid[bid_id]
+    price = bid_item["price"]
+    item = bid_item["item"]
+    technology_desc += f"  Number {bid_id} item, at least {price} ships are needed for bid:\n"
+    technology_desc += add_tab(get_factory_desc(item))
+  return f"""Auction tracks:
+There're colonies up for bid:
+{colony_desc}There're technology research teams up for bid:
+{technology_desc}"""
+
+def get_pick_desc(game: Game, player: Player):
+  if not game.waiting_player(player.user_id):
+    logger.warning(f"Player {player.user_id} tried to get pick desc when it's not their turn.")
+    return "It's not your turn to pick."
+  bid_type = game.current_pick_player['type']
+  cards_to_pick = game.colony_bid_cards if game.current_pick_player['type'] == 'colony' else game.research_bid_cards
+  bid_bound = player.colony_bid if game.current_pick_player['type'] == 'colony' else player.research_bid
+
+  cards = ""
+  for pick_id in range(len(cards_to_pick)):
+    price = cards_to_pick[pick_id]["price"]
+    if price > bid_bound:
+      continue
+    item = cards_to_pick[pick_id]["item"]
+    cards += f"  Number {pick_id} item:\n"
+    if item != None:
+      cards += add_tab(get_factory_desc(item))
+    else:
+      cards += "  - This card is picked.\n"
+  return f"""Now you may pick up to one {bid_type} card from the auction track.
+Auction track for {bid_type} cards:
+{cards}"""
 def game_obs(game: Game, player_id: str):
   player = game.get_player_by_id(player_id)
   if not player:
     return "Player not found."
-  factory_desc = ""
-  for factory in player.factories.values():
-    factory_desc += f"{factory_abbr(factory)}"
-  other_player_desc = ""
-  for player in game.players:
-    if player.user_id != player_id:
-      other_player_desc += another_player(game, player)
+  factory_desc = "".join(
+    get_factory_desc(factory) 
+    for factory in player.factories.values()
+  )
+  other_player_desc = "".join(
+    get_another_player_desc(game, player)
+    for other_player in game.players
+    if other_player.user_id != player_id
+  )
+  bid_board_desc = ""
+  if game.stage == "bid":
+    bid_board_desc = get_bid_desc(game)
+  pick_desc = ""
+  if game.stage == "pick":
+    pick_desc = get_pick_desc(game, player)
   obs = f"""
 You are {player.user_id} playing a specie named {player.specie} in the game.
-You are owning those items:
+You own those items:
 {get_items_str(player.storage)}
 You current Bulletin Board status:
 {get_bulletin_board_desc(player)}
 You are owning those factories:
 {factory_desc}
-Other players, their specie and their items are listed below. Noting that anywhere you need to mention other players should use their user_id instead of specie name:
+Other players, their species and their items are listed below. Note that anywhere you need to mention other players should use their user_id instead of specie name:
 {other_player_desc}
+{bid_board_desc}{pick_desc}
 """
   return obs
 
