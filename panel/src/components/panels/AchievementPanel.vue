@@ -69,7 +69,7 @@ const props = defineProps<{
   border: 1px solid var(--n-border-color);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
-  background-color: #eeeeee;
+  /* background-color: #eeeeee; */
 }
 .achievement-item-0:hover {
   color: #eeeeee;
@@ -82,7 +82,7 @@ const props = defineProps<{
   background-color: #7b7676;
 }
 .achievement-item-3:hover {
-  background-color: #d9fe46;
+  background-color: #91ab29;
 }
 .achievement-desc {
   display: flex;

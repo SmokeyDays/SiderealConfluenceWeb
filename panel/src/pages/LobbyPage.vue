@@ -1,17 +1,18 @@
 <template>
   <div class="lobby-page">
-    <header class="lobby-navbar glass-panel">
+    <header class="lobby-navbar scifi-panel bottom-border-only">
       <div class="nav-left">
+        <div class="deco-block"></div>
         <h3 class="app-title">游戏大厅</h3>
       </div>
       <div class="nav-right">
         <span class="welcome-text">
-          当前用户: <b>{{ props.username }}</b>
+          玩家: <span class="highlight">{{ props.username }}</span>
         </span>
-        <n-divider vertical />
-        <n-button size="small" quaternary type="error" @click="logout">
+        <div class="v-sep"></div>
+        <n-button size="small" secondary type="error" @click="logout" class="logout-btn">
           <template #icon><n-icon><LogoutOutlined /></n-icon></template>
-          退出
+          退出登录
         </n-button>
       </div>
     </header>
@@ -20,136 +21,148 @@
       <transition name="fade" mode="out-in">
         
         <div v-if="currentView === 'list'" class="view-container list-view" key="list">
-          <div class="glass-panel action-bar">
-             <div class="action-title">房间列表</div>
+          
+          <div class="scifi-panel action-bar">
+             <div class="action-title">
+               <span class="icon">>></span> 房间列表
+             </div>
              <n-input-group class="create-room-group">
                 <n-input 
                   v-model:value="newRoomName" 
-                  placeholder="输入新房间名称" 
+                  placeholder="新房间 ID..." 
                   @keyup.enter="createRoom(newRoomName)" 
                 />
-                <n-button type="primary" @click="createRoom(newRoomName)">
-                  创建
+                <n-button type="primary" secondary @click="createRoom(newRoomName)">
+                  新建房间
                 </n-button>
              </n-input-group>
           </div>
 
-          <div class="room-grid-wrapper">
-             <div v-if="Object.keys(rooms).length === 0" class="empty-state glass-panel">
-                暂无房间，创建一个吧！
+          <div class="room-grid-wrapper custom-scrollbar">
+             <div v-if="Object.keys(rooms).length === 0" class="empty-state">
+               <div class="scan-line"></div>
+               <div class="empty-text">NO SIGNAL DETECTED<br/><span class="sub">Initialize new sector to proceed</span></div>
              </div>
              
              <div class="room-grid" v-else>
-                <n-card 
+                <div 
                   v-for="(room, index) in rooms" 
                   :key="index" 
-                  class="room-card glass-card" 
+                  class="room-card-container"
                   :class="getRoomType(room.name)" 
                   @click="switchView('room', room.name)" 
-                  hoverable
-                  size="small"
-                  :bordered="false"
                 >
-                  <template #header>
-                    <div class="room-card-header">
-                      <span class="room-name-text" :title="room.name">{{ room.name }}</span>
-                      <n-tag :type="getRoomStatusType(room)" size="small" round>
-                          {{ getRoomStatusText(room) }}
-                      </n-tag>
-                    </div>
-                  </template>
-                  
-                  <div class="room-details">
-                    <div class="detail-item">
-                      <span class="label">人数</span>
-                      <span class="value">{{ Object.keys(room.players).length }} / {{ room.max_players }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="label">总轮数</span>
-                      <span class="value">{{ room.end_round }}</span>
-                    </div>
-                    
-                    <div v-if="meInRoom(room.name)" class="my-status-mini">
-                      <n-divider style="margin: 6px 0" />
-                      <div class="role-row">
-                        <span>扮演: </span>
-                        <SpecieZhDiv v-if="props.rooms[room.name].players[props.username].specie" 
-                                     :specie="props.rooms[room.name].players[props.username].specie" 
-                                     :is-me="false" is-span />
-                        <span v-else class="text-gray">(未选)</span>
+                  <div class="room-card-inner">
+                    <div class="status-strip"></div>
+                    <div class="card-content">
+                      <div class="card-header">
+                        <span class="room-id">{{ room.name }}</span>
+                        <div class="status-indicator">
+                           <div class="led" :class="getRoomStatusType(room)"></div>
+                        </div>
+                      </div>
+                      
+                      <div class="card-body">
+                         <div class="data-row">
+                           <span class="label">玩家数</span>
+                           <span class="value">{{ Object.keys(room.players).length }} / {{ room.max_players }}</span>
+                         </div>
+                         <div class="data-row">
+                           <span class="label">最大轮数</span>
+                           <span class="value">{{ room.end_round }}</span>
+                         </div>
+                         <div class="data-row role-row" v-if="meInRoom(room.name)">
+                            <span class="label">种族</span>
+                            <SpecieZhDiv 
+                              v-if="props.rooms[room.name].players[props.username].specie" 
+                              :specie="props.rooms[room.name].players[props.username].specie" 
+                              :is-me="false" 
+                              is-span 
+                            />
+                            <span v-else class="text-dim">PENDING...</span>
+                         </div>
+                      </div>
+
+                      <div class="card-footer">
+                        <span class="state-text">{{ room.game_state === 'playing' ? '🔥 进行中' : '💤 等待中' }}</span>
+                        <n-button 
+                          v-if="Object.keys(room.players).length === 0" 
+                          size="tiny" type="error" ghost
+                          @click.stop="deleteRoom(room.name)"
+                        >
+                          删除
+                        </n-button>
                       </div>
                     </div>
                   </div>
-
-                  <template #action>
-                    <div class="card-footer">
-                      <span class="state-text">{{ room.game_state === 'playing' ? '🔥 进行中' : '💤 等待中' }}</span>
-                      <n-button 
-                        v-if="Object.keys(room.players).length === 0" 
-                        size="tiny" type="error" ghost
-                        @click.stop="deleteRoom(room.name)"
-                      >
-                        删除
-                      </n-button>
-                    </div>
-                  </template>
-                </n-card>
+                </div>
              </div>
           </div>
         </div>
 
         <div v-else class="view-container room-view" key="room">
-          <div class="glass-panel room-header">
+          <div class="scifi-panel room-header">
              <n-button text @click="switchView('list', '')" class="back-btn">
-                <span style="font-size: 1.2em; margin-right: 5px">←</span> 返回大厅
+                &lt; 返回大厅
              </n-button>
-             <n-divider vertical />
-             <span class="room-title">{{ props.currentRoom }}</span>
-             <span class="room-subtitle">({{ Object.keys(props.rooms[props.currentRoom].players).length }} / {{ props.rooms[props.currentRoom].max_players }}人)</span>
+             <div class="v-sep"></div>
+             <span class="room-title">房间: {{ props.currentRoom }}</span>
+             <span class="room-subtitle"> // 人数限制: {{ Object.keys(props.rooms[props.currentRoom].players).length }}/{{ props.rooms[props.currentRoom].max_players }}</span>
           </div>
 
           <div class="room-content-split">
-             <div class="left-panel glass-panel">
-                <div class="panel-title">玩家列表</div>
-                <div class="player-list-scroll">
+             <div class="left-panel scifi-panel">
+                <div class="panel-header">
+                  <div class="deco-square"></div>
+                  玩家列表
+                </div>
+                <div class="player-list-scroll custom-scrollbar">
                    <div 
                       v-for="(info, name) in props.rooms[props.currentRoom].players" 
                       :key="name" 
                       class="player-item"
                       :class="{ 'bot-item': isBot(name), 'me-item': name === props.username }"
                     >
-                      <div class="p-info">
-                        <div class="p-name">
+                      <div class="corner-mark"></div>
+                      
+                      <div class="p-main">
+                        <div class="p-id">
                           {{ name }}
-                          <n-tag v-if="isBot(name)" size="tiny" :bordered="false" class="ml-1">BOT</n-tag>
-                          <n-tag v-if="name === props.username" type="info" size="tiny" :bordered="false" class="ml-1">我</n-tag>
+                          <span v-if="isBot(name)" class="tag bot">AI</span>
+                          <span v-if="name === props.username" class="tag me">YOU</span>
                         </div>
                         <div class="p-specie">
-                           <span :style="{ color: info.specie ? getSpecieColor(info.specie) : '#999' }">
-                             {{ info.specie ? getSpecieZhName(info.specie) : '等待选择种族...' }}
+                           种族: 
+                           <span :style="{ color: info.specie ? getSpecieColor(info.specie) : 'var(--scifi-text-dim)' }">
+                             {{ info.specie ? getSpecieZhName(info.specie) : 'NULL' }}
                            </span>
                         </div>
                       </div>
+                      
                       <div class="p-status">
-                         <n-tag v-if="info.agreed" type="success" size="small" round :bordered="false">已准备</n-tag>
-                         <n-tag v-else type="warning" size="small" round :bordered="false">未准备</n-tag>
+                         <div class="status-box" :class="info.agreed ? 'ready' : 'pending'">
+                           {{ info.agreed ? '准备开始' : '等待中...' }}
+                         </div>
                          <n-popconfirm v-if="isBot(name)" @positive-click="removeBot(name)">
                             <template #trigger>
-                              <n-button circle size="tiny" type="error" quaternary class="del-bot-btn">✕</n-button>
+                              <n-button size="tiny" type="error" secondary class="del-bot-btn">移除 Bot</n-button>
                             </template>
-                            移除该机器人？
+                            Terminate AI Unit?
                          </n-popconfirm>
                       </div>
                    </div>
                 </div>
              </div>
 
-             <div class="right-panel glass-panel">
-                <div class="panel-title">游戏设置</div>
-                <div class="controls-wrapper">
+             <div class="right-panel scifi-panel">
+                <div class="panel-header">
+                  <div class="deco-square warning"></div>
+                  控制面板
+                </div>
+                <div class="controls-wrapper custom-scrollbar">
                    
                    <div v-if="!meInRoom(props.currentRoom)" class="join-box">
-                      <n-button type="primary" block size="large" 
+                      <n-button type="primary" block size="large" secondary
                         @click="enterRoom" 
                         :disabled="roomIsFull(props.currentRoom) || props.rooms[props.currentRoom].game_state === 'playing'">
                         加入房间
@@ -158,12 +171,12 @@
 
                    <template v-else>
                       <div class="control-group">
-                         <div class="group-label">我的种族</div>
+                         <div class="group-label">种族选择</div>
                          <n-input-group>
                            <n-select 
                              v-model:value="chosenSpecie" 
                              :options="getSpecieSelectOptions()" 
-                             placeholder="选择种族" 
+                             placeholder="选择..." 
                              :disabled="isAgreed(props.currentRoom)"
                            />
                            <n-button type="primary" ghost @click="submitSpecieChoice" :disabled="isAgreed(props.currentRoom)">确定</n-button>
@@ -173,10 +186,10 @@
                       <div class="control-group main-btn-group">
                          <n-button 
                            v-if="isAgreed(props.currentRoom)" 
-                           type="warning" block size="large" secondary
+                           type="warning" block size="large" secondary dashed
                            @click="disagreeToStart"
                          >
-                           取消准备
+                           CANCEL READY
                          </n-button>
                          <n-button 
                            v-else 
@@ -188,30 +201,29 @@
                          </n-button>
                       </div>
                       
-                      <n-divider style="margin: 15px 0" />
+                      <div class="h-sep"></div>
 
                       <div class="control-group">
-                         <div class="group-label">结束回合<span class="text-gray">（当前{{ props.rooms[props.currentRoom].end_round }}轮）</span></div>
+                         <div class="group-label"> 游戏轮数 <span class="text-dim"> [当前: {{ props.rooms[props.currentRoom].end_round }}]</span></div>
                          <n-input-group size="small">
-                            <n-input-number v-model:value="endRoundInput" :min="1" :placeholder="String(props.rooms[props.currentRoom].end_round)" style="flex:1"/>
-                            <n-button ghost @click="setEndRound">修改</n-button>
+                            <n-input-number v-model:value="endRoundInput" :min="1" style="flex:1"/>
+                            <n-button ghost @click="setEndRound">设置</n-button>
                          </n-input-group>
                       </div>
 
                       <div class="control-group" v-if="Object.keys(props.rooms[props.currentRoom].players).length < props.rooms[props.currentRoom].max_players">
-                         <div class="group-label">添加电脑玩家</div>
+                         <div class="group-label">添加 BOT</div>
                          <n-space vertical size="small">
-                            <n-input v-model:value="botId" placeholder="ID" size="small"/>
+                            <n-input v-model:value="botId" placeholder="BOT ID" size="small"/>
                             <n-select v-model:value="botSpecie" :options="getSpecieSelectOptions()" placeholder="种族" size="small"/>
-                            <n-button dashed block size="small" @click="addBot">添加 Bot</n-button>
+                            <n-button dashed block size="small" type="info" @click="addBot">添加</n-button>
                          </n-space>
                       </div>
 
                       <div class="spacer"></div>
                       
-                      <n-button type="error" quaternary block @click="leaveRoom">
-                        <template #icon><n-icon><LogoutOutlined /></n-icon></template>
-                        离开房间
+                      <n-button type="error" ghost block @click="leaveRoom" class="leave-btn">
+                        退出房间
                       </n-button>
                    </template>
                 </div>
@@ -225,11 +237,10 @@
 </template>
 
 <script setup lang="ts">
-// (Script 部分保持原样，无需修改逻辑，直接复用原代码即可)
+// 逻辑部分保持完全一致，无需改动
 import { ref } from 'vue';
 import { 
-  NButton, NSpace, NSelect, NInput, NInputNumber, NCard, 
-  NIcon, NTag, NInputGroup, NDivider, NPopconfirm,
+  NButton, NSpace, NSelect, NInput, NInputNumber, NIcon, NInputGroup, NPopconfirm,
   type SelectGroupOption, type SelectOption 
 } from 'naive-ui';
 import type { RoomList } from '../interfaces/RoomState';
@@ -257,7 +268,7 @@ const endRoundInput = ref(6);
 const botId = ref('');
 const botSpecie = ref('');
 
-// --- Helper Functions (Logic identical to original) ---
+// --- Helpers ---
 const isBot = (name: string) => {
   const room = props.rooms[props.currentRoom];
   return room.bots && room.bots.includes(name);
@@ -279,14 +290,9 @@ const getRoomType = (room_name: string) => {
   return 'room-full';
 };
 const getRoomStatusType = (room: any) => {
-    if (room.game_state === 'playing') return 'error';
-    if (Object.keys(room.players).length >= room.max_players) return 'warning';
-    return 'success';
-}
-const getRoomStatusText = (room: any) => {
-    if (room.game_state === 'playing') return '游戏中';
-    if (Object.keys(room.players).length >= room.max_players) return '满员';
-    return '可加入';
+    if (room.game_state === 'playing') return 'active'; // CSS class
+    if (Object.keys(room.players).length >= room.max_players) return 'full';
+    return 'open';
 }
 const specieChosen = (room_name: string) => props.rooms[room_name].players[props.username].specie;
 const meInRoom = (room_name: string) => props.rooms[room_name].players[props.username] !== undefined;
@@ -340,55 +346,78 @@ const getSpecieSelectOptions = () => {
 </script>
 
 <style scoped>
-/* === 1. 基础布局 === */
+/* 引入全局科幻变量 (假设 main.css 已定义) */
+
 .lobby-page {
   position: relative;
   height: 100vh;
   width: 100vw;
-  /* 背景图设置 */
-  background-image: url('/images/lobby-bg.webp');
-  background-size: cover;
-  background-position: center;
-  /* Flex布局：顶栏固定，内容撑满 */
+  /* 移除图片背景，透出 App.vue 的网格背景 */
+  background: transparent;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
-/* === 2. 通用 Glassmorphism (毛玻璃) 样式 === */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.8); /* 半透明白 */
-  backdrop-filter: blur(12px); /* 模糊背景 */
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+/* === Scifi Panel System === */
+.scifi-panel {
+  background: var(--scifi-card-bg);
+  border: 1px solid var(--scifi-border);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  /* 去圆角，硬朗风格 */
+  border-radius: 0; 
+}
+.scifi-panel.bottom-border-only {
+  background: rgba(5, 10, 20, 0.9);
+  border: none;
+  border-bottom: 2px solid var(--scifi-primary);
 }
 
-/* 如果是深色背景图，可以用深色毛玻璃:
-.glass-panel.dark {
-    background: rgba(30, 30, 30, 0.6);
-    color: #fff;
-} 
-*/
-
-/* 导航栏 */
+/* === Navbar === */
 .lobby-navbar {
+  height: 60px;
+  padding: 0 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
-  height: 60px;
-  flex-shrink: 0;
   z-index: 10;
 }
-.app-title { font-size: 1.25rem; font-weight: 800; color: #333; margin: 0; }
-.nav-right { display: flex; align-items: center; gap: 12px; }
+.deco-block {
+  width: 10px;
+  height: 20px;
+  background: var(--scifi-primary);
+  margin-right: 10px;
+  display: inline-block;
+}
+.app-title {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  font-size: 1.2rem;
+  color: var(--scifi-text);
+  margin: 0;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.highlight {
+  color: var(--scifi-primary);
+  text-shadow: 0 0 5px var(--scifi-primary);
+}
+.v-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--scifi-border);
+}
 
-/* 内容容器 */
+/* === Content === */
 .view-content {
   flex: 1;
   padding: 20px;
-  overflow: hidden; /* 防止最外层滚动，让内部滚动 */
+  overflow: hidden;
   position: relative;
 }
 .view-container {
@@ -397,150 +426,242 @@ const getSpecieSelectOptions = () => {
   flex-direction: column;
 }
 
-/* === 3. 房间列表视图 (List View) === */
+/* === List View === */
 .action-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
-  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  /* 装饰切角 */
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+.action-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--scifi-text);
+  font-size: 1.1rem;
+}
+.action-title .icon {
+  color: var(--scifi-primary);
+  margin-right: 5px;
+}
+.create-room-group { width: 320px; }
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  border: 1px dashed var(--scifi-border);
+  color: var(--scifi-text-dim, #777);
+  background: rgba(0,0,0,0.2);
+}
+.scan-line {
+  width: 100%;
+  height: 2px;
+  background: var(--scifi-primary);
+  animation: scan 2s infinite linear;
+  opacity: 0.5;
   margin-bottom: 20px;
 }
-.action-title { font-weight: bold; font-size: 1.1em; color: #444; }
-.create-room-group { width: 300px; }
+@keyframes scan { 0% { transform: translateY(-20px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+.empty-text { text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 1.2rem; }
+.empty-text .sub { font-size: 0.8rem; color: #555; }
 
+/* Room Grid */
 .room-grid-wrapper {
   flex: 1;
-  overflow-y: auto; /* 仅网格区域滚动 */
-  padding-right: 5px; /* 滚动条间距 */
+  overflow-y: auto;
+  padding-right: 10px;
 }
-
 .room-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   padding-bottom: 20px;
 }
 
-.empty-state {
+/* === Sci-Fi Room Card === */
+.room-card-container {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.room-card-container:hover {
+  transform: translateY(-2px);
+}
+.room-card-container:hover .room-card-inner {
+  border-color: var(--scifi-primary);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+}
+
+/* Card Body */
+.room-card-inner {
+  background: rgba(10, 20, 30, 0.8);
+  border: 1px solid var(--scifi-border);
+  height: 100%;
   display: flex;
-  justify-content: center;
+  /* 切角设计 */
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Status Strip (Left Bar) */
+.status-strip {
+  left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: #333;
+  margin-right: 10px;
+  transition: background 0.3s;
+}
+.room-joined .status-strip { 
+  background: var(--scifi-primary); 
+  box-shadow: 0 0 10px var(--scifi-primary); 
+}
+.room-available .status-strip { background: var(--scifi-success); }
+.room-full .status-strip { background: var(--scifi-error); }
+
+.card-content {
+  flex: 1;
+  padding: 12px 15px 12px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  height: 200px;
-  border-radius: 12px;
-  color: #666;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.room-id {
+  font-family: 'Orbitron', sans-serif;
   font-size: 1.1rem;
+  color: #fff;
+}
+/* LED Status Light */
+.led { width: 8px; height: 8px; border-radius: 50%; background: #333; }
+.led.active { background: var(--scifi-error); box-shadow: 0 0 5px var(--scifi-error); animation: blink 1s infinite; }
+.led.full { background: var(--scifi-warning); }
+.led.open { background: var(--scifi-success); box-shadow: 0 0 5px var(--scifi-success); }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.card-body { flex: 1; font-size: 0.85rem; }
+.data-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-family: 'Share Tech Mono', monospace; }
+.label { color: var(--scifi-text-dim, #666); }
+.value { color: var(--scifi-text); }
+.text-dim { color: #555; font-style: italic; }
+
+.card-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--scifi-text-dim, #777);
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  padding-top: 6px;
 }
 
-/* 房间卡片样式微调 */
-.glass-card {
-  background: rgba(255, 255, 255, 0.55); /* 比面板稍微透明一点 */
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 12px;
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-}
-.glass-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-.room-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.room-name-text { font-weight: bold; font-size: 1.1rem; color: #333; }
-.room-details { font-size: 0.9rem; color: #555; }
-.detail-item { display: flex; justify-content: space-between; margin-bottom: 4px; }
-.card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-.state-text { font-size: 0.85rem; color: #888; }
-.text-gray { color: #999; }
-
-/* 房间状态边框颜色 (可选增强视觉) */
-.room-joined { border-left: 4px solid #2080f0; }
-.room-available { border-left: 4px solid #18a058; }
-.room-full { border-left: 4px solid #d03050; }
-
-/* === 4. 房间详情视图 (Room View) === */
+/* === Room View === */
 .room-header {
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  flex-shrink: 0;
+  margin-bottom: 20px;
+  font-family: 'Orbitron', sans-serif;
 }
-.room-title { font-size: 1.3rem; font-weight: bold; color: #222; margin: 0 10px; }
-.room-subtitle { color: #666; }
+.back-btn { font-family: 'Share Tech Mono', monospace; font-weight: bold; }
+.room-title { margin-left: 10px; font-size: 1.2rem; color: var(--scifi-primary); }
+.room-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; color: var(--scifi-text-dim); }
 
-.room-content-split {
-  flex: 1;
+.room-content-split { flex: 1; display: flex; gap: 20px; overflow: hidden; }
+
+/* Panels */
+.panel-header {
+  padding: 10px 15px;
+  background: rgba(0, 212, 255, 0.05);
+  border-bottom: 1px solid var(--scifi-border);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
   display: flex;
-  gap: 20px;
-  overflow: hidden; /* 内部面板各自滚动 */
+  align-items: center;
+  color: var(--scifi-primary);
 }
+.deco-square { width: 8px; height: 8px; background: var(--scifi-primary); margin-right: 8px; }
+.deco-square.warning { background: var(--scifi-warning); }
 
-/* 左侧面板 */
-.left-panel {
-  flex: 1; /* 占据剩余宽度 */
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  min-width: 0; /* 防止flex子元素溢出 */
-}
+.left-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.right-panel { width: 340px; display: flex; flex-direction: column; flex-shrink: 0; }
 
-/* 右侧面板 */
-.right-panel {
-  width: 320px; /* 固定宽度 */
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
+.player-list-scroll { flex: 1; overflow-y: auto; padding: 10px; }
+.controls-wrapper { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
 
-.panel-title {
-  padding: 15px 20px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  color: #444;
-}
-
-/* 玩家列表滚动区 */
-.player-list-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-}
-
+/* Player Item */
 .player-item {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.4);
-  margin-bottom: 8px;
-  padding: 12px 15px;
-  border-radius: 8px;
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 5px;
+  padding: 10px 15px;
 }
-.player-item.me-item { background: rgba(32, 128, 240, 0.1); border-color: rgba(32, 128, 240, 0.2); }
-.player-item.bot-item { background: rgba(0,0,0,0.03); border: 1px dashed rgba(0,0,0,0.1); }
-
-.p-info { display: flex; flex-direction: column; }
-.p-name { font-weight: bold; font-size: 1rem; color: #333; display: flex; align-items: center; }
-.p-specie { font-size: 0.85rem; margin-top: 2px; }
-.ml-1 { margin-left: 6px; }
-
-/* 右侧控制区 */
-.controls-wrapper {
-  padding: 20px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+.player-item.me-item {
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid var(--scifi-primary);
 }
+.player-item.bot-item {
+  border-style: dashed;
+  opacity: 0.8;
+}
+.corner-mark {
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-top: 6px solid var(--scifi-border);
+  border-right: 6px solid transparent;
+}
+.me-item .corner-mark { border-top-color: var(--scifi-primary); }
+
+.p-id { font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; color: #fff; display: flex; align-items: center; gap: 5px; }
+.p-specie { font-size: 0.8rem; color: var(--scifi-text-dim); }
+
+.tag { font-size: 0.6rem; padding: 1px 4px; background: #333; border-radius: 2px; }
+.tag.bot { background: #1431d6; color: #e0e0e0; }
+.tag.me { background: var(--scifi-primary); color: #9d3030; font-weight: bold; }
+
+.status-box {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border: 1px solid #444;
+  color: #666;
+}
+.status-box.ready {
+  border-color: var(--scifi-success);
+  color: var(--scifi-success);
+  box-shadow: 0 0 5px rgba(0, 255, 157, 0.2);
+}
+.status-box.pending {
+  border-color: var(--scifi-warning);
+  color: var(--scifi-warning);
+}
+.del-bot-btn { margin-left: 10px; }
+
+/* Right Controls */
 .control-group { margin-bottom: 20px; }
-.group-label { font-size: 0.9rem; color: #666; margin-bottom: 6px; }
+.group-label { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; margin-bottom: 5px; color: var(--scifi-text); }
+.h-sep { height: 1px; background: var(--scifi-border); margin: 20px 0; opacity: 0.5; }
 .spacer { flex: 1; }
 
-/* 动画 */
-.fade-enter-active, .fade-leave-active { transition: opacity 0.25s ease; }
+.join-box { margin-top: auto; margin-bottom: auto; }
+
+/* Transition */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>

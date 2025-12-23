@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import { NButton, NSpace, NFloatButton, NIcon, NBadge } from 'naive-ui';
+import { NConfigProvider, darkTheme, type GlobalThemeOverrides, NGlobalStyle } from 'naive-ui';
 import HomePage from '@/pages/HomePage.vue';
 import GamePage, { type GameProps } from '@/pages/GamePage.vue';
 import GamePureTextPage from '@/pages/GamePureTextPage.vue';
@@ -24,6 +25,7 @@ import Achievement3 from './components/icons/alerts/Achievement3.vue';
 import IconUtils from './components/icons/IconUtils.vue';
 import IconRobot from './components/icons/IconRobot.vue';
 import { pubMsg } from './utils/general';
+import { sidConThemeOverrides } from './interfaces/SidConTheme';
 
 const rooms = ref<RoomList>({});
 const displayPage = ref('home');
@@ -242,93 +244,181 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app">
-    <template v-if="displayPage === 'home'">
-      <HomePage :submitUsername="submitUsername" />
-    </template>
-    <template v-else-if="displayPage === 'game'">
-      <template v-if="displayPureText">
-        <GamePureTextPage :username="username" :gameState="gameState" :rooms="rooms"/>
+  <n-config-provider :theme="darkTheme" :theme-overrides="sidConThemeOverrides">
+    <n-global-style />
+    
+    <div class="sci-fi-background">
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="app">
+      <template v-if="displayPage === 'home'">
+        <HomePage :submitUsername="submitUsername" />
       </template>
-      <template v-else>
-        <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
+      <template v-else-if="displayPage === 'game'">
+        <template v-if="displayPureText">
+          <GamePureTextPage :username="username" :gameState="gameState" :rooms="rooms"/>
+        </template>
+        <template v-else>
+          <GamePage :gameProps="gameProps" :updateGameProps="updateGameProps" :username="username" :gameState="gameState" :switchPage="switchPage"/>
+        </template>
       </template>
-    </template>
-    <template v-else-if="displayPage === 'lobby'">
-      <LobbyPage 
-        :rooms="rooms" 
-        :username="username" 
-        :switchPage="switchPage" 
-        :currentRoom="currentRoom" 
-        :setCurrentRoom="setCurrentRoom" 
-        :logout="logout"
+      <template v-else-if="displayPage === 'lobby'">
+        <LobbyPage 
+          :rooms="rooms" 
+          :username="username" 
+          :switchPage="switchPage" 
+          :currentRoom="currentRoom" 
+          :setCurrentRoom="setCurrentRoom" 
+          :logout="logout"
+        />
+      </template>
+
+      <AlertList/>
+      <ChatPanel
+        v-if="getDisplayMessagePanel()"
+        :sendMessage="sendMessage"
+        :messages="messages"
+        :rooms="rooms"
+        :username="username"
+        :currentRoom="currentRoom"
+        :closeMessagePanel="closeMessagePanel"
+        :readMessage="readMessage"
       />
-    </template>
-    <AlertList/>
-    <ChatPanel
-      v-if="getDisplayMessagePanel()"
-      :sendMessage="sendMessage"
-      :messages="messages"
-      :rooms="rooms"
-      :username="username"
-      :currentRoom="currentRoom"
-      :closeMessagePanel="closeMessagePanel"
-      :readMessage="readMessage"
-    />
-    <AchievementPanel 
-      v-if="getDisplayAchievementPanel()" 
-      :closeAchievementPanel="closeAchievementPanel" 
-      :achievements="achievements" 
-    />
-    <UtilsPanel v-if="displayUtilsPanel" :closeUtilsPanel="closeUtilsPanel" />
-    <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
-    <n-float-button @click="openMessagePanel" :bottom="10" :left="10" v-if="username !== ''" class="chat-float-button" type="primary">
-      <n-badge :value="messages.length - viewedCount" :max="99" :offset="[6, -8]">
-        <n-icon>
-          <IconChat />
-        </n-icon>
-      </n-badge>
-    </n-float-button>
-    <n-float-button @click="openRulesPanel" :bottom="10" :left="70" v-if="username !== ''" class="rules-float-button" type="primary">
-      <n-icon>
-        <IconRules />
-      </n-icon>
-    </n-float-button>
-    <n-float-button @click="openAchievementPanel" :bottom="10" :left="130" v-if="username !== ''" class="achievement-float-button" type="primary">
-      <n-icon>
-        <Achievement3 />
-      </n-icon>
-    </n-float-button>
-    <n-float-button @click="openUtilsPanel" :bottom="10" :left="190" v-if="username !== '' && displayPage === 'game'" class="utils-float-button" type="primary">
-      <n-icon>
-        <IconUtils />
-      </n-icon>
-    </n-float-button>
-    <n-float-button @click="switchPureTextMode" :bottom="10" :left="250" v-if="username !== '' && displayPage === 'game'" class="pure-text-float-button" type="primary">
-      <n-icon>
-        <IconRobot />
-      </n-icon>
-    </n-float-button>
-  </div>
+      <AchievementPanel 
+        v-if="getDisplayAchievementPanel()" 
+        :closeAchievementPanel="closeAchievementPanel" 
+        :achievements="achievements" 
+      />
+      <UtilsPanel v-if="displayUtilsPanel" :closeUtilsPanel="closeUtilsPanel" />
+      <RulesPanel v-if="displayRulesPanel" :closeRulesPanel="closeRulesPanel" />
+
+      <div class="system-dock" v-if="username !== ''">
+        <div class="dock-deco-line"></div>
+        
+        <n-button class="dock-btn" @click="openMessagePanel" type="primary" secondary>
+           <template #icon><n-icon><IconChat /></n-icon></template>
+           <n-badge :value="messages.length - viewedCount" :max="99" :offset="[5, -5]" class="dock-badge" />
+           MSG
+        </n-button>
+
+        <n-button class="dock-btn" @click="openRulesPanel" type="primary" secondary>
+           <template #icon><n-icon><IconRules /></n-icon></template>
+           DATA
+        </n-button>
+
+        <n-button class="dock-btn" @click="openAchievementPanel" type="primary" secondary>
+           <template #icon><n-icon><Achievement3 /></n-icon></template>
+           ACHV
+        </n-button>
+
+        <n-button class="dock-btn" v-if="displayPage === 'game'" @click="openUtilsPanel" type="primary" secondary>
+           <template #icon><n-icon><IconUtils /></n-icon></template>
+           TOOLS
+        </n-button>
+
+        <n-button class="dock-btn" v-if="displayPage === 'game'" @click="switchPureTextMode" :type="displayPureText ? 'warning' : 'primary'" secondary>
+           <template #icon><n-icon><IconRobot /></n-icon></template>
+           {{ displayPureText ? 'GUI' : 'TXT' }}
+        </n-button>
+      </div>
+      
+    </div>
+  </n-config-provider>
 </template>
 
 <style scoped>
+/* 引入科幻字体 (如果可以在 index.html 引入更好) */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+/* 全局布局 */
 .app {
   width: 100vw;
-  margin: 0 auto;
-  font-weight: normal;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1; /* 确保内容在背景之上 */
+  /* 使用科技感字体 */
+  font-family: 'Share Tech Mono', 'Consolas', monospace;
+  color: #e0e0e0;
 }
 
-.chat-float-button {
-  z-index: 1000;
+/* --- 背景特效 --- */
+.sci-fi-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background-color: #050a14;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 60%);
+  pointer-events: none;
 }
 
-.rules-float-button {
-  z-index: 1000;
+/* 网格线效果 */
+.grid-overlay {
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%); /* 渐隐效果 */
 }
 
-.achievement-float-button {
+/* --- 底部系统坞 (System Dock) --- */
+.system-dock {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  padding: 10px 20px;
+  background: rgba(0, 10, 20, 0.85);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+  backdrop-filter: blur(5px);
   z-index: 1000;
+  /* 切角效果 (Clip-path) */
+  clip-path: polygon(
+    15px 0, 100% 0, 
+    100% calc(100% - 15px), calc(100% - 15px) 100%, 
+    0 100%, 0 15px
+  );
+}
+
+/* 装饰线 */
+.dock-deco-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+}
+
+.dock-btn {
+  height: 48px;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+}
+
+/* 覆盖 Naive UI 内部样式以适配 Dock */
+:deep(.n-button) {
+  background-color: transparent;
+}
+:deep(.n-button:hover) {
+  background-color: rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}
+
+/* 聊天气泡位置微调 */
+.dock-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  overflow: visible;
 }
 </style>

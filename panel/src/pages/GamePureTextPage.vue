@@ -1,117 +1,103 @@
 <template>
-  <div class="game-dashboard">
-    <div class="header-bar">
-      <n-tabs 
-        v-model:value="activePlayerId" 
-        type="segment" 
-        animated
-        @update:value="handleTabChange"
-      >
-        <n-tab-pane 
-          v-for="player in props.gameState.players" 
-          :key="player.user_id" 
-          :name="player.user_id"
+  <div class="scifi-page">
+    
+    <div class="top-command-bar">
+      <div class="bar-deco"></div>
+      <div class="tabs-container">
+        <n-tabs 
+          v-model:value="activePlayerId" 
+          type="card" 
+          animated
+          @update:value="handleTabChange"
+          class="scifi-tabs"
         >
-          <template #tab>
-            <span class="tab-label">
-              {{ player.user_id }}
-              <n-tag 
-                v-if="player.user_id === props.username" 
-                type="success" 
-                size="small" 
-                round 
-                :bordered="false"
-                style="margin-left: 6px; transform: scale(0.85);"
-              >
-                YOU
-              </n-tag>
-              <n-tag 
-                v-if="isBot.get(player.user_id)" 
-                type="info" 
-                size="small" 
-                round 
-                :bordered="false"
-                style="margin-left: 6px; transform: scale(0.85);"
-              >
-                Bot
-              </n-tag>
-            </span>
-          </template>
-        </n-tab-pane>
-      </n-tabs>
+          <n-tab-pane 
+            v-for="player in props.gameState.players" 
+            :key="player.user_id" 
+            :name="player.user_id"
+          >
+            <template #tab>
+              <div class="tab-label-content">
+                <span class="tab-text">{{ player.user_id }}</span>
+                <div class="tab-indicators">
+                   <span v-if="player.user_id === props.username" class="indicator me">ME</span>
+                   <span v-if="isBot.get(player.user_id)" class="indicator bot">AI</span>
+                </div>
+              </div>
+            </template>
+          </n-tab-pane>
+        </n-tabs>
+      </div>
+      <div class="bar-deco right"></div>
     </div>
 
-    <div class="content-area">
-      <n-card :title="`${activePlayerId} 的 Prompt`" class="prompt-card" content-style="padding: 0;">
-        <div class="pure-text-container">
-          <div v-if="loading" class="loading-state">
-            <n-spin size="medium" />
-            <span style="margin-left: 10px; color: #999;">Fetching prompt...</span>
-          </div>
-          <div v-else class="pure-text">
-            {{ pureText || 'No prompt data available.' }}
-          </div>
+    <div class="terminal-viewport">
+      <div class="terminal-frame">
+        <div class="terminal-header">
+           <span class="header-title">>> PROMPT_LOG // {{ activePlayerId }}</span>
+           <div class="header-status">
+              <span class="status-dot" :class="{ loading: loading }"></span>
+              {{ loading ? '加载中...' : '加载完毕' }}
+           </div>
         </div>
-      </n-card>
+        
+        <div class="terminal-screen custom-scrollbar">
+           <div v-if="loading" class="loading-overlay">
+              <n-spin size="large" stroke="var(--scifi-primary)">
+                <template #description>
+                  <span class="loading-text">DECRYPTING STREAM...</span>
+                </template>
+              </n-spin>
+           </div>
+           
+           <div v-else class="code-content">
+             <div v-if="!pureText" class="no-data">
+               [NULL] NO DATA RECEIVED FROM CORE.
+             </div>
+             <div v-else class="prompt-text">
+               {{ pureText }}
+             </div>
+           </div>
+        </div>
+      </div>
     </div>
 
-    <div class="floating-actions">
-      <n-space vertical>
-        <n-tooltip trigger="hover" placement="left">
-          <template #trigger>
-            <n-button 
-              circle 
-              secondary 
-              type="info" 
-              size="large" 
-              @click="handleViewHistory"
-              class="action-btn"
-            >
-              <template #icon>
-                <n-icon><IconHistory /></n-icon>
-              </template>
-            </n-button>
-          </template>
-          View Response History
-        </n-tooltip>
+    <div class="right-command-dock">
+      <div class="dock-header">CMDS</div>
+      
+      <n-tooltip trigger="hover" placement="left">
+        <template #trigger>
+          <button class="scifi-btn info" @click="handleViewHistory">
+            <n-icon size="24"><IconHistory /></n-icon>
+            <span class="btn-label">LOGS</span>
+          </button>
+        </template>
+        查看历史回复
+      </n-tooltip>
 
-        <n-tooltip trigger="hover" placement="left">
-          <template #trigger>
-            <n-button 
-              circle 
-              secondary 
-              type="warning" 
-              size="large" 
-              @click="handleRenew"
-              class="action-btn"
-              :disabled="loading"
-            >
-              <template #icon>
-                <n-icon><IconRenew /></n-icon>
-              </template>
-            </n-button>
-          </template>
-          Renew / Regenerate
-        </n-tooltip>
+      <div class="dock-separator"></div>
 
-        <n-tooltip trigger="hover" placement="left">
-          <template #trigger>
-            <n-button 
-              circle 
-              type="primary" 
-              size="large" 
-              @click="handleStep"
-              class="action-btn"
-            >
-              <template #icon>
-                <n-icon><IconPlay /></n-icon>
-              </template>
-            </n-button>
-          </template>
-          Step / Play
-        </n-tooltip>
-      </n-space>
+      <n-tooltip trigger="hover" placement="left">
+        <template #trigger>
+          <button class="scifi-btn warning" @click="handleRenew" :disabled="loading">
+            <n-icon size="24"><IconRenew /></n-icon>
+            <span class="btn-label">RENEW</span>
+          </button>
+        </template>
+        重新加载
+      </n-tooltip>
+
+      <n-tooltip trigger="hover" placement="left">
+        <template #trigger>
+          <button class="scifi-btn primary" @click="handleStep">
+            <n-icon size="24"><IconPlay /></n-icon>
+            <span class="btn-label">STEP</span>
+          </button>
+        </template>
+        单步执行
+      </n-tooltip>
     </div>
+
     <ResponseHistoryPanel 
       v-if="showHistoryPanel"
       :close-panel="() => showHistoryPanel = false"
@@ -122,18 +108,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, reactive, onUpdated, computed } from 'vue';
+// 逻辑部分保持不变
+import { onMounted, ref, reactive, onUpdated, computed } from 'vue';
 import { 
-  NTabs, NTabPane, NCard, NButton, NIcon, NSpace, NTooltip, NTag, NSpin 
+  NTabs, NTabPane, NIcon, NSpin, NTooltip 
 } from 'naive-ui';
 import type { GameState, ResponseItem } from '@/interfaces/GameState';
 import { socket } from '@/utils/connect';
-// 请确保引入路径正确
 import IconRenew from '@/components/icons/IconRenew.vue';
 import IconPlay from '@/components/icons/IconPlay.vue';
-import IconHistory from '@/components/icons/IconHistory.vue'; // 需自行创建或引入通用 Icon
-import ResponseHistoryPanel from '@/components/panels/ResponseHistoryPanel.vue'; // 刚才创建的组件
-
+import IconHistory from '@/components/icons/IconHistory.vue';
+import ResponseHistoryPanel from '@/components/panels/ResponseHistoryPanel.vue'; 
 import { pubMsg } from '@/utils/general';
 import type { RoomList } from '@/interfaces/RoomState';
 
@@ -146,26 +131,21 @@ const props = defineProps<{
 const activePlayerId = ref<string>(props.username);
 const pureText = ref("");
 const loading = ref(false);
-const showHistoryPanel = ref(false); // 控制 History Panel 显示
+const showHistoryPanel = ref(false);
 
 const promptCache = reactive(new Map<string, string>());
 const recentResponsesCache = reactive(new Map<string, ResponseItem[]>());
 const isBot = reactive(new Map<string, boolean>());
 
-// 计算当前选中玩家的历史记录
 const currentHistory = computed(() => {
   return recentResponsesCache.get(activePlayerId.value) || [];
 });
 
-/**
- * 请求 Prompt 数据
- */
 const fetchPrompt = (targetUser: string, forceRefresh = false) => {
   if (!forceRefresh && promptCache.has(targetUser)) {
     pureText.value = promptCache.get(targetUser) || "";
     return;
   }
-
   loading.value = true;
   pureText.value = ""; 
   socket.emit('query-prompt', {
@@ -186,30 +166,25 @@ const handleStep = () => {
     room_name: props.gameState.room_name,
     bot_id: activePlayerId.value 
   });
-  pubMsg('提示', `已发送 Step 信号 (${activePlayerId.value})`, 'info', 2);
+  pubMsg('SYSTEM', `Step Signal Sent > ${activePlayerId.value}`, 'info', 2);
 };
 
 const handleRenew = () => {
-  pubMsg('提示', `已发送 Renew 信号 (${activePlayerId.value})`, 'info', 2);
+  pubMsg('SYSTEM', `Renew Signal Sent > ${activePlayerId.value}`, 'info', 2);
   fetchPrompt(activePlayerId.value, true);
 };
 
-// 新增：点击 History 按钮的处理函数
 const handleViewHistory = () => {
-  // 发送 socket 请求
   socket.emit('query-recent-response', {
     room_name: props.gameState.room_name,
     username: activePlayerId.value
   });
-  console.log(`Querying recent responses for ${activePlayerId.value}...`);
-  // 打开面板
   showHistoryPanel.value = true;
 };
 
 socket.on('prompt', (data: { username: string, prompt: string }) => {
   loading.value = false;
   pureText.value = data.prompt;
-  
   if (activePlayerId.value) {
     promptCache.set(activePlayerId.value, data.prompt);
   }
@@ -217,9 +192,6 @@ socket.on('prompt', (data: { username: string, prompt: string }) => {
 
 socket.on('recent-response', (data: { username: string, recent_response: ResponseItem[] }) => {
   recentResponsesCache.set(data.username, data.recent_response);
-  console.log(`Received recent responses for ${data.username}:`, data.recent_response);
-  // 注意：由于 Vue reactive Map 的特性，Dependency 应该会自动更新，
-  // 传递给 HistoryPanel 的 props 也会随之更新。
 });
 
 function initializeBotStatus() {
@@ -234,10 +206,6 @@ function initializeBotStatus() {
 }
 
 onUpdated(() => {
-  // 注意：这里原本的逻辑可能会导致频繁清空 cache，请按需保留
-  // promptCache.clear(); 
-  // console.log("GameState updated, refreshing prompt...");
-  // fetchPrompt(activePlayerId.value, true);
   initializeBotStatus();
 });
 
@@ -248,83 +216,292 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.game-dashboard {
+.scifi-page {
   width: 100vw;
   height: 100vh;
-  background-color: #f5f7fa;
+  background: transparent; 
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--scifi-text);
 }
 
-.header-bar {
-  padding: 12px 24px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  z-index: 10;
+/* === 1. Top Command Bar (Tabs) === */
+.top-command-bar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background: rgba(5, 10, 20, 0.8);
+  border-bottom: 1px solid var(--scifi-border);
+  backdrop-filter: blur(5px);
+  padding: 0 10px;
+}
+
+.bar-deco {
+  width: 20px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(0, 212, 255, 0.1) 5px,
+    rgba(0, 212, 255, 0.1) 10px
+  );
+  border-right: 1px solid var(--scifi-border);
+}
+.bar-deco.right {
+  border-right: none;
+  border-left: 1px solid var(--scifi-border);
+}
+
+.tabs-container {
+  flex: 1;
+  overflow-x: auto;
+  padding: 0 20px;
+  /* 隐藏滚动条 */
+  scrollbar-width: none;
+}
+.tabs-container::-webkit-scrollbar { display: none; }
+
+/* 深度定制 Naive UI Tabs */
+:deep(.n-tabs-nav) {
+  background: transparent !important;
+}
+:deep(.n-tabs-tab) {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid transparent !important;
+  border-bottom: none !important;
+  color: var(--scifi-text-dim) !important;
+  font-family: 'Orbitron', sans-serif !important;
+  transition: all 0.3s !important;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); /* 切角 Tab */
+  margin-right: 5px !important;
+}
+:deep(.n-tabs-tab--active) {
+  background: rgba(0, 212, 255, 0.15) !important;
+  border: 1px solid var(--scifi-primary) !important;
+  color: var(--scifi-primary) !important;
+  box-shadow: 0 -2px 10px rgba(0, 212, 255, 0.2) !important;
+}
+
+.tab-label-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab-text { font-weight: bold; }
+.tab-indicators { display: flex; gap: 4px; }
+.indicator {
+  font-size: 0.6rem;
+  padding: 0 4px;
+  border-radius: 2px;
+  font-weight: bold;
+  color: #000;
+}
+.indicator.me { background: var(--scifi-success, #00ff9d); }
+.indicator.bot { background: var(--scifi-text-dim, #888); color: #fff; }
+
+/* === 2. Terminal Viewport === */
+.terminal-viewport {
+  flex: 1;
+  height: 0;
+  padding: 20px;
+  padding-right: 90px; 
   display: flex;
   justify-content: center;
-}
-
-.tab-label {
-  display: flex;
   align-items: center;
 }
 
-.content-area {
-  flex: 1;
-  padding: 24px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.prompt-card {
+.terminal-frame {
   width: 100%;
-  max-width: 1000px;
   height: 100%;
+  max-width: 1200px;
+  background: rgba(0, 10, 15, 0.9);
+  border: 1px solid var(--scifi-border);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
+  clip-path: polygon(
+    20px 0, 100% 0, 
+    100% calc(100% - 20px), calc(100% - 20px) 100%, 
+    0 100%, 0 20px
+  );
 }
 
-.pure-text-container {
-  height: calc(100vh - 160px);
-  overflow-y: auto;
-  padding: 24px;
-  background-color: #fff;
+.terminal-header {
+  height: 40px;
+  background: rgba(0, 212, 255, 0.1);
+  border-bottom: 1px solid var(--scifi-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+}
+.header-title { color: var(--scifi-primary); letter-spacing: 1px; }
+.header-status { font-size: 0.8rem; color: var(--scifi-text-dim); display: flex; align-items: center; gap: 8px; }
+.status-dot { width: 8px; height: 8px; background: var(--scifi-success, #00ff9d); border-radius: 50%; box-shadow: 0 0 5px var(--scifi-success); }
+.status-dot.loading { background: var(--scifi-warning, #f2c94c); animation: blink 0.5s infinite; }
+
+.terminal-screen {
+  flex: 1;
+  height: 0;
   position: relative;
+  overflow-y: auto;
+  padding: 20px;
+  background: radial-gradient(circle at center, rgba(0, 20, 0, 0.2), transparent);
 }
 
-.pure-text {
-  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+/* 文本样式 */
+.prompt-text {
+  font-family: 'Share Tech Mono', 'Menlo', monospace; /* 使用科幻等宽字体 */
   font-size: 15px;
   line-height: 1.6;
-  color: #333;
+  color: #aaddff; /* 终端亮蓝/青色 */
   white-space: pre-wrap;
   word-wrap: break-word;
+  text-shadow: 0 0 2px rgba(0, 212, 255, 0.3);
+  padding-bottom: 100px;
 }
 
-.loading-state {
-  height: 100%;
+.no-data {
+  color: var(--scifi-text-dim);
+  font-style: italic;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: row;
+  align-items: center;
+  z-index: 5;
+}
+.loading-text {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--scifi-primary);
+  margin-top: 10px;
+  letter-spacing: 2px;
 }
 
-.floating-actions {
+/* === 3. Right Command Dock === */
+.right-command-dock {
   position: fixed;
-  right: 40px;
-  bottom: 40px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   z-index: 100;
+  
+  /* Dock 容器样式 */
+  background: rgba(5, 10, 20, 0.8);
+  border: 1px solid var(--scifi-border);
+  padding: 15px 10px;
+  border-radius: 0; /* 硬朗 */
+  backdrop-filter: blur(4px);
+  /* 梯形外观 */
+  clip-path: polygon(0 10px, 100% 0, 100% 100%, 0 calc(100% - 10px));
 }
 
-.action-btn {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 56px;
-  height: 56px;
-  font-size: 24px;
+.dock-header {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--scifi-text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.dock-separator {
+  height: 1px;
+  background: var(--scifi-border);
+  opacity: 0.5;
+  margin: 5px 0;
+}
+
+/* 自定义科幻按钮 (HTML Button) */
+.scifi-btn {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--scifi-border);
+  color: var(--scifi-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.scifi-btn:hover {
+  background: rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.scifi-btn:active {
+  transform: scale(0.95);
+}
+
+.scifi-btn .btn-label {
+  font-size: 0.6rem;
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+/* 不同类型的按钮颜色 */
+.scifi-btn.warning { color: var(--scifi-warning, #f2c94c); border-color: var(--scifi-warning, #f2c94c); }
+.scifi-btn.warning:hover { background: rgba(242, 201, 76, 0.15); box-shadow: 0 0 15px rgba(242, 201, 76, 0.3); }
+
+.scifi-btn.info { color: var(--scifi-info, #70c0e8); }
+
+.scifi-btn.primary { color: var(--scifi-primary, #00d4ff); font-weight: bold; }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* ... 原有的 CSS 代码 ... */
+
+/* === 4. Custom Scrollbar Fix (修复滚动条) === */
+.custom-scrollbar {
+  /* Firefox 兼容 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--scifi-primary) rgba(0, 0, 0, 0.2);
+}
+
+/* Webkit 浏览器 (Chrome, Safari, Edge) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* 关键：必须设置宽度，否则不显示 */
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  /* 使用你的主题色，平时半透明 */
+  background: rgba(0, 212, 255, 0.3); 
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  /* 鼠标悬停时高亮 */
+  background: rgba(0, 212, 255, 0.8);
+  box-shadow: 0 0 8px var(--scifi-primary);
+  cursor: pointer;
 }
 </style>

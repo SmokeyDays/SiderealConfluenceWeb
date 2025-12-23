@@ -1,1 +1,56 @@
+@import './font.css';
 @import './base.css';
+
+/* src/assets/main.css */
+:root {
+  /* 定义语义化的 CSS 变量，对应 TS 中的 palette */
+  --scifi-primary: #00d4ff;
+  --scifi-bg: #050a14;
+  --scifi-card-bg: rgba(0, 20, 40, 0.8);
+  --scifi-border: rgba(0, 212, 255, 0.3);
+  --scifi-text: #e0e0e0;
+  --scifi-font: 'Share Tech Mono', monospace;
+  
+  --scifi-primary: #00d4ff;
+  --scifi-primary-hover: #5ce1ff;
+  --scifi-primary-pressed: #009bbd;
+  --scifi-primary-suppl: rgba(0, 212, 255, 0.15);
+  --scifi-info: #b0056cff;
+  --scifi-success: #00ff9d;
+  --scifi-warning: #f2c94c;
+  --scifi-error: #ff3b3b;
+
+  --scifi-bg-base: #050a14;
+  --scifi-bg-card: rgba(0, 20, 40, 0.85);
+  --scifi-bg-overlay: rgba(0, 10, 20, 0.95);
+
+  --scifi-text-base: #e0e0e0;
+  --scifi-text-dim: rgba(255, 255, 255, 0.5);
+
+  --scifi-border: rgba(0, 212, 255, 0.3);
+  --scifi-border-strong: rgba(0, 212, 255, 0.6);
+}
+
+body {
+  margin: 0;
+  background-color: var(--scifi-bg);
+  color: var(--scifi-text);
+  font-family: var(--scifi-font);
+  overflow-x: hidden; /* 防止移动端侧滑 */
+}
+
+/* 全局滚动条样式 - 赛博朋克风 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #000; 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scifi-border); 
+  border: 1px solid var(--scifi-primary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scifi-primary); 
+}

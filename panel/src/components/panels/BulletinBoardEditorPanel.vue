@@ -183,7 +183,6 @@ const onTabChange = (value: string) => {
   flex-wrap: wrap;
   gap: 10px;
   min-height: 80px;
-  background-color: #f9f9f9;
   border: 1px solid #eee;
   padding: 10px;
   border-radius: 8px;
@@ -199,7 +198,6 @@ const onTabChange = (value: string) => {
 
 .item-entry-wrapper {
   position: relative;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 5px;

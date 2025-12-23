@@ -14,7 +14,7 @@ import DiscardColonyPanel from '@/components/panels/DiscardColonyPanel.vue';
 import EnietInterestPanel from '@/components/panels/EnietInterestPanel.vue';
 import BulletinBoardEditorPanel from '@/components/panels/BulletinBoardEditorPanel.vue';
 import { socket } from '@/utils/connect';
-import { NFloatButton, NIcon } from 'naive-ui';
+import { NFloatButton, NIcon, NTooltip, NButton } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
 import IconMenu from '@/components/icons/IconMenu.vue';
 import FactoryDisplayerAsync from '@/components/FactoryDisplayerAsync.vue';
@@ -640,19 +640,6 @@ const displayMask = () => {
     || displayBulletinPanel.value;
 
 };
-
-const getToggleGameBoardButtonConfig = () => {
-  if (isPortrait.value) {
-    return {
-      top: 10,
-      left: 10,
-    }
-  }
-  return {
-    top: 10,
-    left: 10 + (showGameBoard.value ? 300 : 0),
-  }
-}
 </script>
 
 
@@ -752,7 +739,7 @@ const getToggleGameBoardButtonConfig = () => {
     :gameState="props.gameState" 
     :closePanel="handleBulletinPanel"
   />
-  <n-float-button 
+  <!-- <n-float-button 
     @click="openBidPanel" 
     v-if="isBidStage(props.gameState.stage)" 
     :top="10"
@@ -788,7 +775,92 @@ const getToggleGameBoardButtonConfig = () => {
   </n-float-button>
   <n-float-button @click="toggleFoldMetaFactories" :left="10" :bottom="60" :type="foldMetaFactories ? 'default' : 'primary'">
     <template #description>{{ foldMetaFactories ? "展开打出" : "折叠打出" }}</template>
-  </n-float-button>
+  </n-float-button> -->
+
+  <div class="control-dock" :class="{ 'dock-expanded': showGameBoard, 'dock-collapsed': !showGameBoard }">
+    
+    
+    <n-tooltip placement="right" trigger="hover">
+      <template #trigger>
+        <n-button 
+          class="dock-btn menu-btn" 
+          :type="showGameBoard ? 'warning' : 'primary'"
+          secondary
+          @click="toggleGameBoard"
+        >
+          <template #icon>
+            <n-icon size="20"><IconMenu /></n-icon>
+          </template>
+        </n-button>
+      </template>
+      {{ showGameBoard ? "折叠玩家面板" : "显示玩家面板" }}
+    </n-tooltip>
+
+    <n-tooltip placement="right" trigger="hover">
+      <template #trigger>
+        <n-button 
+          class="dock-btn" 
+          :type="foldMetaFactories ? 'primary' : 'warning'" 
+          secondary
+          @click="toggleFoldMetaFactories"
+        >
+          {{ foldMetaFactories ? "手牌" : "手牌" }}
+        </n-button>
+      </template>
+      {{ foldMetaFactories ? "展开可打出的工厂" : "折叠可打出的工厂" }}
+    </n-tooltip>
+
+    <div class="dock-divider"></div>
+
+    <n-tooltip placement="right" trigger="hover" v-if="isBidStage(props.gameState.stage)" >
+      <template #trigger>
+        <n-button 
+          class="dock-btn action-btn" 
+          type="warning" 
+          strong
+          secondary
+          @click="openBidPanel"
+        >
+          拍卖
+        </n-button>
+      </template>
+      {{ "预览拍卖的牌" }}
+    </n-tooltip>
+
+
+    <n-tooltip placement="right" trigger="hover" v-if="isDiscardColonyStage()"  >
+      <template #trigger>
+        <n-button 
+          class="dock-btn action-btn" 
+          type="error" 
+          strong
+          secondary
+          @click="openDiscardColonyPanel"
+        >
+          弃牌
+        </n-button>
+      </template>
+      {{ "弃置多余的殖民地" }}
+    </n-tooltip>
+
+    <n-tooltip placement="right" trigger="hover" v-if="isEndStage(props.gameState.stage)"   >
+      <template #trigger>
+        <n-button 
+          class="dock-btn action-btn" 
+          type="success" 
+          strong
+          secondary
+          @click="openEndPanel"
+        >
+          计分
+        </n-button>
+      </template>
+      {{ "查看终局计分" }}
+    </n-tooltip>
+
+    
+
+  </div>
 </template>
 
 <style scoped>
@@ -798,10 +870,6 @@ const getToggleGameBoardButtonConfig = () => {
   height: 100vh;
   overflow: hidden;
 }
-/* .game-stage-show-gameboard {
-  left: 300px;
-  width: calc(100vw - 300px);
-} */
 .game-stage-show-gameboard {
   left: 0;
   width: 100vw;
@@ -812,5 +880,123 @@ const getToggleGameBoardButtonConfig = () => {
 }
 .game-stage-canvas {
   overflow: hidden;
+}
+
+/* === 控制坞 (Control Dock) === */
+.control-dock {
+  position: fixed;
+  z-index: 900; /* 略低于弹窗面板(通常1000+)，但高于 Canvas */
+  display: flex;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 顺滑的缓动 */
+  padding: 10px;
+  
+  /* 玻璃拟态背景，增强可读性 */
+  background: rgba(5, 10, 20, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+/* === 按钮通用样式 === */
+.dock-btn {
+  /* 科幻硬朗风格：去圆角(或小圆角)，加粗字体 */
+  border-radius: 2px; 
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  font-family: 'Share Tech Mono', monospace; /* 如果你引入了该字体 */
+}
+
+/* 菜单按钮特殊处理 */
+.menu-btn {
+  width: 40px; /* 方形按钮 */
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 阶段动作按钮强调 */
+.action-btn {
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(242, 201, 76, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(242, 201, 76, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(242, 201, 76, 0); }
+}
+
+/* 分割线 */
+.dock-divider {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   PC 端 / 横屏布局 (Landscape)
+   竖排列表，跟随左侧面板
+   ========================================= */
+@media screen and (orientation: landscape) {
+  .control-dock {
+    flex-direction: column;
+    top: 10px;
+    
+    align-items: center;
+    
+    /* 切角设计 (仅PC端) */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+
+  /* 展开状态：紧贴 300px 侧边栏右侧 */
+  .control-dock.dock-expanded {
+    left: 310px; /* 300px sidebar + 10px gap */
+  }
+
+  /* 收起状态：贴左边 */
+  .control-dock.dock-collapsed {
+    left: 10px;
+  }
+  
+  .dock-divider {
+    height: 1px;
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* =========================================
+   移动端 / 竖屏布局 (Portrait)
+   横排列表，跟随顶部/底部面板
+   ========================================= */
+@media screen and (orientation: portrait) {
+  .control-dock {
+    flex-direction: row;
+    left: 10px;
+    right: 10px; /* 撑满宽度或居中 */
+    justify-content: center; /* 按钮居中 */
+    height: 50px;
+    align-items: center;
+    border-radius: 25px; /* 移动端圆润一点方便点击，或者保持硬朗 */
+  }
+
+  /* 假设 GameBoard 在竖屏下是占据上方 50vh (根据之前的 GameBoard.vue css)
+     如果 GameBoard 是全屏覆盖或者侧边抽屉，请根据实际情况调整 top 值
+  */
+  
+  /* 展开状态：位于面板下方 (假设面板高 50vh) */
+  .control-dock.dock-expanded {
+    top: calc(50vh + 10px); 
+    /* 如果 GameBoard 也是 absolute 且 z-index 更高，这里可能需要调整 */
+  }
+
+  /* 收起状态：位于顶部 */
+  .control-dock.dock-collapsed {
+    top: 10px;
+  }
+
+  .dock-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 5px;
+  }
 }
 </style>

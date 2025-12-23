@@ -166,7 +166,7 @@ const itemColors: {[key: string]: string} = {
   'Culture': 'rgb(200, 200, 200)',
   'Industry': 'brown',
   'Energy': 'yellow',
-  'Information': 'black',
+  'Information': 'rgba(68, 0, 60, 1)',
   'Biotech': 'blue',
   'Hypertech': 'gray',
   'Ship': 'red',

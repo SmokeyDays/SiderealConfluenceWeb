@@ -1,0 +1,25 @@
+/* src/assets/fonts.css */
+
+/* orbitron-regular - latin */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/orbitron-v35-latin-regular.woff2') format('woff2'); /* 路径对应你的实际位置 */
+}
+
+/* orbitron-700 - latin */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/orbitron-v35-latin-700.woff2') format('woff2');
+}
+
+/* share-tech-mono-regular - latin */
+@font-face {
+  font-family: 'Share Tech Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/share-tech-mono-v16-latin-regular.woff2') format('woff2');
+}

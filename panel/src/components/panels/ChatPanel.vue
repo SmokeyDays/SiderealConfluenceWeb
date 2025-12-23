@@ -228,7 +228,6 @@ onMounted(() => {
 }
 .chat-message-content {
   max-width: 60%;
-  background-color: #f0f0f0;
   border-radius: 10px;
   padding: 10px;
 }

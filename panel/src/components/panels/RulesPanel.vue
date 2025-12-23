@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { defineProps } from 'vue';
 import { NButton } from 'naive-ui';
 
 const props = defineProps<{
@@ -61,8 +60,8 @@ const nextImage = () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
   padding: 20px;
+  background-color: var(--scifi-bg);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   text-align: center;
