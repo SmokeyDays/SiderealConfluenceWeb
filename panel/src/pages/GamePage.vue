@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick, watch , reactive, type Component } from 'vue';
-import { defineProps } from 'vue';
 import { Gift, isColony, isOnFavorBuff, type Factory, type GameState, type Player } from '../interfaces/GameState';
 import FactoryDisplayer, { type FactoryConfig } from '@/components/FactoryDisplayer.vue';
 import StorageDisplayer from '@/components/StorageDisplayer.vue';
@@ -13,6 +12,7 @@ import ExchangePanel from '@/components/panels/ExchangePanel.vue';
 import CheckPanel from '@/components/panels/CheckPanel.vue';
 import DiscardColonyPanel from '@/components/panels/DiscardColonyPanel.vue';
 import EnietInterestPanel from '@/components/panels/EnietInterestPanel.vue';
+import BulletinBoardEditorPanel from '@/components/panels/BulletinBoardEditorPanel.vue';
 import { socket } from '@/utils/connect';
 import { NFloatButton, NIcon } from 'naive-ui';
 import { arbitraryBigSource, arbitrarySmallSource } from '@/interfaces/GameConfig';
@@ -621,6 +621,13 @@ const submitEnietInterestSelect = (factoryName: string, properties: {"output_typ
 }
 
 
+const displayBulletinPanel = ref(false);
+
+const handleBulletinPanel = () => {
+  displayBulletinPanel.value = !displayBulletinPanel.value;
+};
+
+
 const displayMask = () => {
   return displayTradePanel.value
     || displayResearchPanel.value
@@ -629,7 +636,9 @@ const displayMask = () => {
     || checkPanel.value
     || displayExchangePanel.value
     || displayDiscardColonyPanel.value
-    || displayEnietInterestPanel.value;
+    || displayEnietInterestPanel.value
+    || displayBulletinPanel.value;
+
 };
 
 const getToggleGameBoardButtonConfig = () => {
@@ -665,6 +674,7 @@ const getToggleGameBoardButtonConfig = () => {
     :handle-select-player="handleSelectPlayer"
     :handle-exchange-panel="handleExchangePanel"
     :exit-game="() => props.switchPage('lobby')"
+    :handle-bulletin-panel="handleBulletinPanel"
     class="game-panel"
     v-if="showGameBoard"
   />
@@ -735,6 +745,12 @@ const getToggleGameBoardButtonConfig = () => {
     :me="getMe()!"
     :game-state="props.gameState"
     v-if="displayEnietInterestPanel"
+  />
+  <BulletinBoardEditorPanel 
+    v-if="displayBulletinPanel" 
+    :username="props.username" 
+    :gameState="props.gameState" 
+    :closePanel="handleBulletinPanel"
   />
   <n-float-button 
     @click="openBidPanel" 

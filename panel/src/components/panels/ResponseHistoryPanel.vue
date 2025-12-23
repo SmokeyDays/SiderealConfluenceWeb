@@ -17,9 +17,9 @@
               </n-button>
             </n-button-group>
 
-            <n-button text @click="props.closePanel" style="font-size: 20px;">
+            <!-- <n-button text @click="props.closePanel" style="font-size: 20px;">
               <n-icon><IconClose /></n-icon>
-            </n-button>
+            </n-button> -->
           </div>
         </div>
       </template>

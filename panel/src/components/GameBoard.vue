@@ -15,6 +15,7 @@ const props = defineProps<{
   selectedPlayer: string;
   handleSelectPlayer: (playerId: string) => void;
   handleExchangePanel: () => void;
+  handleBulletinPanel: () => void;
   exitGame: () => void;
 }>();
 
@@ -66,6 +67,13 @@ const getPlayerColonyColor = (player: Player) => {
   if (getPlayerColonyCount(player) < player.max_colony) return 'blue';
   return 'green';
 }
+
+const hasItems = (obj: { [key: string]: number } | undefined) => {
+  if (!obj) return false;
+  // 过滤掉数量为0的物品，防止显示空条目
+  return Object.entries(obj).some(([_, count]) => count > 0);
+};
+
 </script>
 
 <template>
@@ -98,6 +106,45 @@ const getPlayerColonyColor = (player: Player) => {
           <div class="player-tie-breaker" :style="{ fontWeight: 'bold'}">出价平手决胜: {{ getPlayer()!.tie_breaker }}</div>
         </div>
         <div class="relic-world-deck-size" :style="{ fontWeight: 'bold' , color: getSpecieColor(getPlayer()!.specie, true)}" v-if="getPlayer()!.specie === 'Faderan'">遗物世界牌堆剩余: {{ gameState.faderan_relic_world_deck_size }}</div>
+        <div class="bulletin-board-container" v-if="getPlayer()!.bulletin_board">
+          <n-divider dashed style="margin: 10px 0; font-size: 0.9rem; color: gray;">公告板</n-divider>
+          
+          <div class="bulletin-message" v-if="getPlayer()!.bulletin_board.message">
+            {{ getPlayer()!.bulletin_board.message }}
+          </div>
+
+          <div class="bulletin-row seeking" v-if="hasItems(getPlayer()!.bulletin_board.seeking)">
+            <span class="label">求购:</span>
+            <div class="mini-items">
+              <template v-for="(count, item_id) in getPlayer()!.bulletin_board.seeking">
+                <ItemEntryDiv 
+                  v-if="count > 0"
+                  :key="'seek-'+item_id"
+                  :item="item_id as string" 
+                  :count="count" 
+                  :iconWidth="35" 
+                  :iconHeight="35" 
+                />
+              </template>
+            </div>
+          </div>
+
+          <div class="bulletin-row offering" v-if="hasItems(getPlayer()!.bulletin_board.offering)">
+            <span class="label">出售:</span>
+            <div class="mini-items">
+              <template v-for="(count, item_id) in getPlayer()!.bulletin_board.offering">
+                <ItemEntryDiv 
+                  v-if="count > 0"
+                  :key="'offer-'+item_id"
+                  :item="item_id as string" 
+                  :count="count" 
+                  :iconWidth="35" 
+                  :iconHeight="35" 
+                />
+              </template>
+            </div>
+          </div>
+        </div>
         <div class="storage-container">
           <template v-for="(item_count, item_id) in getPlayer()!.storage">
             <ItemEntryDiv :item="item_id as string" :count="item_count" :iconWidth="60" :iconHeight="60" v-if="item_count > 0 && !isOtherPlayerScore(getPlayer()!.user_id, item_id as string)"/>
@@ -116,6 +163,7 @@ const getPlayerColonyColor = (player: Player) => {
             </template>
           </template>
           <n-button type="warning" @click="props.handleTradePanel" v-if="gameState.stage === 'trading'">交易</n-button>
+          <n-button type="info" ghost @click="props.handleBulletinPanel" v-if="gameState.stage === 'trading'">编辑公告</n-button>
           <n-button type="warning" @click="props.handleExchangePanel" v-if="gameState.stage === 'trading' || gameState.stage === 'production'">自由转换</n-button>
           <n-button type="error" @click="props.exitGame">返回大厅</n-button>
           <n-button type="error" @click="leaveRoomAndReturnToLobby" v-if="gameState.stage === 'gameend'">退出游戏</n-button>
@@ -251,5 +299,62 @@ const getPlayerColonyColor = (player: Player) => {
 .score-table th {
   font-weight: bold;
   background-color: #f2f2f2;
+}
+
+.bulletin-board-container {
+  width: 90%; /* 稍微留点边距 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.02); /* 极淡的背景区分 */
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.bulletin-message {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 8px;
+  text-align: center;
+  padding: 0 10px;
+  word-break: break-word; /* 防止长文本撑开 */
+}
+
+.bulletin-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start; /* 左对齐比较整齐，或者 center */
+  width: 100%;
+  margin-top: 4px;
+}
+
+.bulletin-row .label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-right: 5px;
+  white-space: nowrap; /* 防止标签换行 */
+  width: 40px; /* 固定宽度对齐 */
+  text-align: right;
+}
+
+.bulletin-row.seeking .label {
+  color: #d03050; /* 红色系代表缺少/求购 */
+}
+
+.bulletin-row.offering .label {
+  color: #18a058; /* 绿色系代表提供/出售 */
+}
+
+.mini-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 稍微调整一下 ItemEntryDiv 在这里面的边距，如果有必要 */
+.mini-items > * {
+  margin: 2px !important; 
 }
 </style>
