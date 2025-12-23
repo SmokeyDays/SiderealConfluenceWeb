@@ -148,13 +148,74 @@ class TradeCaller(BasicCaller):
       vision = False,):
     super().__init__(
       model_name,
-                  max_tokens, 
-                  temperature, 
-                  vlm = vlm, 
-                  parser = parser,
-                  prompt_file = prompt_file,
-                  planner_name = planner_name,
-                  vision = vision)
+      max_tokens, 
+      temperature, 
+      vlm = vlm, 
+      parser = parser,
+      prompt_file = prompt_file,
+      planner_name = planner_name,
+      vision = vision)
+
+class EconomyCaller(BasicCaller):
+  def __init__(self,
+      model_name = 'gpt-4o-mini',
+      max_tokens = 1024,
+      temperature = 0,
+      vlm = langchain_llms_api,
+      parser = JsonOutputParser(pydantic_object=LongtermPlan),
+      prompt_file = "economy_plan",
+      planner_name = "EconomyCaller",
+      vision = False,):
+    super().__init__(
+      model_name,
+      max_tokens, 
+      temperature, 
+      vlm = vlm, 
+      parser = parser,
+      prompt_file = prompt_file,
+      planner_name = planner_name,
+      vision = vision)
+
+
+class BidCaller(BasicCaller):
+  def __init__(self,
+      model_name = 'gpt-4o-mini',
+      max_tokens = 1024,
+      temperature = 0,
+      vlm = langchain_llms_api,
+      parser = JsonOutputParser(pydantic_object=LongtermPlan),
+      prompt_file = "bid_plan",
+      planner_name = "BidCaller",
+      vision = False,):
+    super().__init__(
+      model_name,
+      max_tokens, 
+      temperature, 
+      vlm = vlm, 
+      parser = parser,
+      prompt_file = prompt_file,
+      planner_name = planner_name,
+      vision = vision)
+
+class PickCaller(BasicCaller):
+  def __init__(self,
+      model_name = 'gpt-4o-mini',
+      max_tokens = 1024,
+      temperature = 0,
+      vlm = langchain_llms_api,
+      parser = JsonOutputParser(pydantic_object=LongtermPlan),
+      prompt_file = "pick_plan",
+      planner_name = "PickCaller",
+      vision = False,):
+    super().__init__(
+      model_name,
+      max_tokens, 
+      temperature, 
+      vlm = vlm, 
+      parser = parser,
+      prompt_file = prompt_file,
+      planner_name = planner_name,
+      vision = vision)
 
 
 if __name__ == '__main__':

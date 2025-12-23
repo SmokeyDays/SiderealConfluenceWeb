@@ -8,7 +8,7 @@ Trade stage:
   - You can upgrade factories to get more efficient converters.
 Production stage:
   - You can run factories to produce resources.
-  - You can only run a converter once in a turn.
+  - You can only run a converter once in a turn except special cases.
   - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
 Your final goal is to be the richest player.
 Here are introduction of resources:
@@ -22,33 +22,37 @@ WildSmall may replace any small block as input item, and WildBig may replace any
 w and W each has a value of 1, but sometimes they may become more valuable.
 ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
 
-Now is the trading stage of this turn.
-Reviewing the instructions and the plan you designed below, please make trade actions for this turn.
+Now is the production stage of this turn.
+Reviewing the instructions and the plan you designed below, please make produce actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
-You may adjust your plan according to the current game state. 
-You should also include a bulletin_board field in your response, which will be seen by other players. This represents a public sign or broadcast you are making to the whole table to attract traders. 
+Run converters to convert resources if resources allowed.
+The resources you produce this turn can not be used as input this turn.
+Ensure you strictly have enough resources in your storage to execute each action. 
+
+Four most important things:
+1. Attempt to run a converter you lack the input is strictly forbidden. DON'T DO THIS.
+2. The resources you produce now can only be used in the next turn.
+3. You should run ALL your "Free" converters since they cost nothing. 
+4. If you can't do anything, you should finish your turn.
+
+
 
 Your response must be a json object with the following format:
 ```
 {
   "reasoning": <reasoning>,
-  "bulletin_board": {
-    "message": "<string>",
-    "seeking": ["<resource_name>": <resource_quantity>, ...],
-    "offering": ["<resource_name>": <resource_quantity>, ...]
-  },
-  "updated_plan": {
-    "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
-    "resources_needed": {"<resource_name>": <resource_quantity>, ...},
-    "sell": {"<resource_name>": <resource_quantity>, ...},
-    "buy": {"<resource_name>": <resource_quantity>, ...}
-  },
   "actions": [
     {
       "func": <id>,
       "data": {<data>}
     },
     ...
+
+    ...
+    {
+      "func": "agree',
+      "data": {}
+    }
   ]
 }
 ```

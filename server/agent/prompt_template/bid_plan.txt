@@ -22,27 +22,28 @@ WildSmall may replace any small block as input item, and WildBig may replace any
 w and W each has a value of 1, but sometimes they may become more valuable.
 ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
 
-Now is the trading stage of this turn.
-Reviewing the instructions and the plan you designed below, please make trade actions for this turn.
+Now is the bidding stage of this turn.
+Reviewing the instructions and the plan you designed below, please make bid actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
-You may adjust your plan according to the current game state. 
-You should also include a bulletin_board field in your response, which will be seen by other players. This represents a public sign or broadcast you are making to the whole table to attract traders. 
+
+Bidding Rules:
+1. Allocation: You must decide how to distribute your available ships between the 'Colony' bid and the 'Technology' bid. You can bid 0 on a track.
+2. Priority: In each track, players with higher bids select items first.
+3. Capacity Limit: Your bid amount acts as a budget cap. You cannot select an item with a value higher than the number of ships you bid for that track, even if it is your turn to pick.
+4. Payment & Refund: 
+   - If you pick an item: You pay your FULL BID AMOUNT. Any excess ships (Bid - Item Value) are NOT returned.
+   - If you pick nothing: Your full bid is returned to you.
+5. Tie breaker: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+
+You need to allocate your Ships to bid on Colonies and Research Teams.
+Review the available cards in the auction tracks and your current ship count carefully.
+Take into account the number of colonies and research teams you already possess, also the species' tie-breaker value according to the tie breaker rules.
+Your Total Bid (colony_bid + research_bid) must not exceed your currently held Ships.
 
 Your response must be a json object with the following format:
 ```
 {
   "reasoning": <reasoning>,
-  "bulletin_board": {
-    "message": "<string>",
-    "seeking": ["<resource_name>": <resource_quantity>, ...],
-    "offering": ["<resource_name>": <resource_quantity>, ...]
-  },
-  "updated_plan": {
-    "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
-    "resources_needed": {"<resource_name>": <resource_quantity>, ...},
-    "sell": {"<resource_name>": <resource_quantity>, ...},
-    "buy": {"<resource_name>": <resource_quantity>, ...}
-  },
   "actions": [
     {
       "func": <id>,

@@ -22,27 +22,18 @@ WildSmall may replace any small block as input item, and WildBig may replace any
 w and W each has a value of 1, but sometimes they may become more valuable.
 ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
 
-Now is the trading stage of this turn.
-Reviewing the instructions and the plan you designed below, please make trade actions for this turn.
+Now is the picking stage of this turn.
+Reviewing the instructions and the plan you designed below, please make bid actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
-You may adjust your plan according to the current game state. 
-You should also include a bulletin_board field in your response, which will be seen by other players. This represents a public sign or broadcast you are making to the whole table to attract traders. 
+It is your turn to select a card from the Auction Track because you have the current highest priority.
+You can only pick the item with a value not higher than the number of ships you bid for that track.
+You may choose to Pass (set `pick_id` to -1). If you pass, you do NOT get a card. However, your full bid of Ships is returned to your storage.
+
 
 Your response must be a json object with the following format:
 ```
 {
   "reasoning": <reasoning>,
-  "bulletin_board": {
-    "message": "<string>",
-    "seeking": ["<resource_name>": <resource_quantity>, ...],
-    "offering": ["<resource_name>": <resource_quantity>, ...]
-  },
-  "updated_plan": {
-    "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
-    "resources_needed": {"<resource_name>": <resource_quantity>, ...},
-    "sell": {"<resource_name>": <resource_quantity>, ...},
-    "buy": {"<resource_name>": <resource_quantity>, ...}
-  },
   "actions": [
     {
       "func": <id>,
