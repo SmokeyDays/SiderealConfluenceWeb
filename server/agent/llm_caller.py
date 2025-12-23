@@ -156,6 +156,27 @@ class TradeCaller(BasicCaller):
       planner_name = planner_name,
       vision = vision)
 
+class DiscardColonyCaller(BasicCaller):
+  def __init__(self,
+      model_name = 'gpt-4o-mini',
+      max_tokens = 1024,
+      temperature = 0,
+      vlm = langchain_llms_api,
+      parser = JsonOutputParser(pydantic_object=LongtermPlan),
+      prompt_file = "discard_colony_plan",
+      planner_name = "DiscardCaller",
+      vision = False,):
+    super().__init__(
+      model_name,
+      max_tokens, 
+      temperature, 
+      vlm = vlm, 
+      parser = parser,
+      prompt_file = prompt_file,
+      planner_name = planner_name,
+      vision = vision)
+
+
 class EconomyCaller(BasicCaller):
   def __init__(self,
       model_name = 'gpt-4o-mini',

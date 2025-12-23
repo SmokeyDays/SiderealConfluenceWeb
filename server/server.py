@@ -117,13 +117,13 @@ class Server:
     test_room.enter_room("Bob")
     test_room.enter_room("Charlie")
     test_room.enter_room("David")
-    return 
+    # return 
     self.new_msg(Message("Alice", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Bob", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Charlie", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("David", "HelloRoom", str(datetime.datetime.now()), "test2"))
 
-    test_room.choose_specie("Alice", "Kjasjavikalimm")
+    test_room.choose_specie("Alice", "Im")
     test_room.choose_specie("Bob", "Eni")
     test_room.choose_specie("Charlie", "Unity")
     test_room.choose_specie("David", "Yengii")
@@ -132,16 +132,23 @@ class Server:
     test_room.agree_to_start("Bob")
     test_room.agree_to_start("Charlie")
     test_room.agree_to_start("David")
+
+    # test_room.game.debug_draw_colony("Alice")
+    test_room.game.player_agree("Bob")
+    test_room.game.player_agree("Charlie")
+    test_room.game.player_agree("David")
+    test_room.game.player_agree("Alice")
+
     # add debug items
     test_room.game.debug_add_item("Alice", "Ship", 10)
     test_room.game.debug_add_item("Bob", "Ship", 10)
     test_room.game.debug_add_item("Charlie", "Ship", 10)
     test_room.game.debug_add_item("David", "Ship", 10)
     # skip trading
-    test_room.game.player_agree("Alice")
-    test_room.game.player_agree("Bob")
-    test_room.game.player_agree("Charlie")
-    test_room.game.player_agree("David")
+    # test_room.game.player_agree("Alice")
+    # test_room.game.player_agree("Bob")
+    # test_room.game.player_agree("Charlie")
+    # test_room.game.player_agree("David")
     # skip production
     test_room.game.player_agree("Alice")
     test_room.game.player_agree("Bob")
@@ -153,13 +160,24 @@ class Server:
     test_room.game.submit_bid("Charlie", 1, 1)
     test_room.game.submit_bid("David", 1, 5)
 
-    test_room.game.Kajsjavikalimm_split("Alice", True)
+    # test_room.game.Kajsjavikalimm_split("Alice", True)
 
-    test_room.game.submit_pick("Bob", "colony", 0)
-    test_room.game.submit_pick("Alice", "colony", 1)
-    test_room.game.submit_pick("Alice", "colony", 2)
+    test_room.game.submit_pick("Alice", "colony", 0)
+    test_room.game.submit_pick("Bob", "colony", -1)
+    # test_room.game.submit_pick("Alice", "colony", 2)
     test_room.game.submit_pick("David", "colony", -1)
     test_room.game.submit_pick("Charlie", "colony", -1)
+
+    test_room.game.submit_pick("David", "research", -1)
+    test_room.game.submit_pick("Bob", "research", -1)
+    test_room.game.submit_pick("Alice", "research", -1)
+    test_room.game.submit_pick("Charlie", "research", -1)
+
+
+    test_room.game.player_agree("Bob")
+    test_room.game.player_agree("Charlie")
+    test_room.game.player_agree("David")
+
     return
   
   def mock3(self):
@@ -190,10 +208,28 @@ class Server:
     test_room.game.player_agree("Bot2")
     test_room.game.player_agree("Bot3")
     # t-1 bid
-    test_room.game.submit_bid("Alice", 1, 2)
-    test_room.game.submit_bid("Bot1", 4, 3)
-    test_room.game.submit_bid("Bot2", 3, 2)
-    test_room.game.submit_bid("Bot3", 2, 2)
+    test_room.game.submit_bid("Alice", 4, 4)
+    test_room.game.submit_bid("Bot1", 3, 3)
+    test_room.game.submit_bid("Bot2", 2, 2)
+    test_room.game.submit_bid("Bot3", 1, 1)
+
+    test_room.game.submit_pick("Alice", "colony", -1)
+    test_room.game.submit_pick("Bot1", "colony", 0)
+    test_room.game.submit_pick("Bot2", "colony", -1)
+    test_room.game.submit_pick("Bot3", "colony", -1)
+
+    # test_room.game.submit_pick("Alice", "research", -1)
+    # test_room.game.submit_pick("Bot1", "research", -1)
+    # test_room.game.submit_pick("Bot2", "research", -1)
+    # test_room.game.submit_pick("Bot3", "research", -1)
+
+    test_room.game.debug_draw_colony("Bot1")
+    test_room.game.debug_draw_colony("Bot1")
+    test_room.game.debug_draw_colony("Bot1")
+    # test_room.game.player_agree("Alice")
+    # test_room.game.player_agree("Bot1")
+    # test_room.game.player_agree("Bot2")
+    # test_room.game.player_agree("Bot3")
 
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -724,11 +760,11 @@ class Server:
 
     @self.socketio.on('discard-colonies', namespace=get_router_name())
     @registry(["game-interface"])
-    @set_attr("stage", ["trading"])
+    @set_attr("stage", ["discard_colony"])
     def discard_colonies(data):
       """
-      exchange_wild: If you have "WildSmall" or "WildBig" in your hand, you can use this to exchange them for any blocks. WildSmall will be exchanged for Industry, Culture or Food. WildBig will be exchanged for Biotech, Energy or Information.
-        - items: Dict[str, int], the items you want to exchange. e.g. {"Industry": 1, "Culture": 1, "Biotech": 1} will spend 2 WildSmall and 1 WildBig automatically.
+      discard_colonies: If you have more colonies than your species' Colony Support limit allows, You must discard the excess colonies.
+        - colonies: List[str], the name of the factory you want to discard.
       """
       room_name = data['room_name']
       username = data['username']
