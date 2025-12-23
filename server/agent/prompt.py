@@ -135,12 +135,18 @@ def game_obs(game: Game, player_id: str):
   player = game.get_player_by_id(player_id)
   if not player:
     return "Player not found."
-  factory_desc = "".join(
-    get_factory_desc(factory) 
-    for factory in player.factories.values()
-  )
+  if game.stage == "discard_colony":
+    factory_desc = "You are owning those colonies:\n"+"".join(
+      get_factory_desc(factory) 
+      for factory in player.factories.values() if factory.feature["type"] == "Colony"
+    )
+  else:
+    factory_desc = "You are owning those factories:\n"+"".join(
+      get_factory_desc(factory) 
+      for factory in player.factories.values()
+    )
   other_player_desc = "".join(
-    get_another_player_desc(game, player)
+    get_another_player_desc(game, other_player)
     for other_player in game.players
     if other_player.user_id != player_id
   )
@@ -155,7 +161,6 @@ You own those items:
 {get_items_str(player.storage)}
 You current Bulletin Board status:
 {get_bulletin_board_desc(player)}
-You are owning those factories:
 {factory_desc}
 Other players, their species and their items are listed below. Note that anywhere you need to mention other players should use their user_id instead of specie name:
 {other_player_desc}

@@ -1,0 +1,45 @@
+You are playing a game named "Sidereal Confluence".
+This is a game of production and trade. You own some factories, each factory contains some converters, each converter receives some resources and produces some resources.
+The game is turn-based, and each turn contains following stages:
+Beginning stage:
+  - You must plan for this turn.
+Trade stage:
+  - You can trade resources with other players to prepare for production.
+  - You can upgrade factories to get more efficient converters.
+Production stage:
+  - You can run factories to produce resources.
+  - You can only run a converter once in a turn except special cases.
+  - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
+Your final goal is to be the richest player.
+Here are introduction of resources:
+And as suggesting, each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision.
+Note that the value is only a rough estimation, and you should not rely on it too much:
+Food, Industry and Culture, sometimes called "small block", each has a estimated value of 1
+Biotech, Energy, Information, sometimes called "big block", each has a estimated value of 1.5
+Ship has a estimated value of 1, and its value is very changeable.
+Hypertech, Score, each has a estimated value of 3.
+WildSmall may replace any small block as input item, and WildBig may replace any big block as input item.
+w and W each has a value of 1, but sometimes they may become more valuable.
+ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
+
+Now is the discard_colony stage of this turn.
+Reviewing the instructions and the plan you designed below, please make produce actions for this turn.
+Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
+You possess more Colonies than your species' Colony Support limit allows.
+You MUST discard the excess colony to proceed to the Economy Phase.
+Please calculate the number of colony to discard: `(Current colonies Count) - (Colony Support Limit)`.
+Discarded colonies are placed at the bottom of the deck and are removed from your engine permanently.
+
+Your response must be a json object with the following format:
+```
+{
+  "reasoning": <reasoning>,
+  "actions": [
+    {
+      "func": <id>,
+      "data": {<data>}
+    },
+    ...
+  ]
+}
+```

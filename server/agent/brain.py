@@ -1,7 +1,7 @@
 from datetime import datetime
 from server.agent.prompt import get_prompt
 from server.game import Game
-from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller
+from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
 from server.utils.log import logger
 
 turn_plan_caller = TurnPlanCaller()
@@ -9,6 +9,7 @@ trade_caller = TradeCaller()
 economy_caller = EconomyCaller()
 bid_caller = BidCaller()
 pick_caller = PickCaller()
+discard_colony_caller = DiscardColonyCaller()
 
 class Brain:
   def __init__(self, game: Game, player_id: str):
@@ -62,18 +63,18 @@ class Brain:
       except Exception as e:
         import traceback
         logger.error(f"Bot {self.player_id} trade caller execute callback error: {e}, {traceback.format_exc()}")
-    
-    elif self.game.stage == "production":
+        
+    elif self.game.stage == "discard_colony":
       prompt = {
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
       }
 
-      response = economy_caller.plan(prompt)
+      response = discard_colony_caller.plan(prompt)
       self.record_response(prompt, response)
       if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} trade caller returned no callbacks: {response}")
+        logger.warning(f"Bot {self.player_id} discard_colony caller returned no callbacks: {response}")
         return
       callbacks = response.get("actions", [])
       try:
@@ -85,7 +86,31 @@ class Brain:
           func(data)
       except Exception as e:
         import traceback
-        logger.error(f"Bot {self.player_id} trade caller execute callback error: {e}, {traceback.format_exc()}")
+        logger.error(f"Bot {self.player_id} discard_colony caller execute callback error: {e}, {traceback.format_exc()}")
+
+    elif self.game.stage == "production":
+      prompt = {
+        "Plan": str(self.current_plan),
+        "Observation": obs,
+        "Actions": handlers_prompt
+      }
+
+      response = economy_caller.plan(prompt)
+      self.record_response(prompt, response)
+      if "actions" not in response.keys():
+        logger.warning(f"Bot {self.player_id} economy caller returned no callbacks: {response}")
+        return
+      callbacks = response.get("actions", [])
+      try:
+        for callback in callbacks:
+          func_name, data = callback['func'], callback['data']
+          data['room_name'] = self.game.room_name
+          data['username'] = self.player_id
+          func = handlers_map[func_name]
+          func(data)
+      except Exception as e:
+        import traceback
+        logger.error(f"Bot {self.player_id} economy caller execute callback error: {e}, {traceback.format_exc()}")
 
     elif self.game.stage == "bid":
       prompt = {
