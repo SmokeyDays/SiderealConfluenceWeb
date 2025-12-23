@@ -86,6 +86,14 @@ export class GameState {
   ) {}
 }
 
+export interface ResponseItem {
+  prompt: Record<string, string>;
+  response: string;
+  timestamp: string;
+  round: number;
+  stage: string;
+}
+
 export function isOnFavorBuff(gameState: GameState, player_id: string): boolean {
   const player = gameState.players.find(player => player.user_id === player_id);
   if (gameState.favor_buff_in_game && player && player.specie !== "Faderan" && getStorage(player, "Favor") > 0) {

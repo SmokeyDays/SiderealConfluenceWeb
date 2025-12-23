@@ -70,8 +70,7 @@ def get_bulletin_board_desc(player: Player):
   if not message and not seeking and not offering:
     return "  - Bulletin Board: (Empty)\n"
     
-  return f"""
-  - Bulletin Board:
+  return f"""  - Bulletin Board:
     - Message: {message}
     - Seeking: {seeking}
     - Offering: {offering}"""
@@ -151,8 +150,7 @@ def game_obs(game: Game, player_id: str):
   pick_desc = ""
   if game.stage == "pick":
     pick_desc = get_pick_desc(game, player)
-  obs = f"""
-You are {player.user_id} playing a specie named {player.specie} in the game.
+  obs = f"""You are {player.user_id} playing a specie named {player.specie} in the game.
 You own those items:
 {get_items_str(player.storage)}
 You current Bulletin Board status:

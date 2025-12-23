@@ -1,3 +1,4 @@
+from datetime import datetime
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller
@@ -17,9 +18,12 @@ class Brain:
     self.promises = []
     self.recent_responses = []
 
-  def record_response(self, prompt, response):
+  def record_response(self, prompt, response, special_call=None):
     logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
     self.recent_responses.append({
+      "timestamp": str(datetime.now()),
+      "round": self.game.current_round,
+      "stage": self.game.stage if special_call is None else special_call,
       "prompt": prompt,
       "response": response
     })
@@ -33,7 +37,7 @@ class Brain:
       if self.current_plan == None:
         prompt = {"Observation": obs}
         response = turn_plan_caller.plan(prompt)
-        self.record_response(prompt, response)
+        self.record_response(prompt, response, special_call="turn_plan")
         response.pop("reasoning")
         self.current_plan = response
 

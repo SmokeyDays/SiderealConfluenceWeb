@@ -69,6 +69,12 @@ class Room:
     logger.info(f"Stepping bot {bot_id} in room {self.name}")
     if bot_id in self.bots and self.game.waiting_player(bot_id):
       self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
+    
+  def get_recent_response(self, user_id):
+    if user_id in self.bots:
+      return self.bot_agents[user_id].recent_responses
+    else:
+      return []
 
   def agree_to_start(self, user_id):
     if user_id in self.players:

@@ -175,6 +175,7 @@ class Server:
     test_room.agree_to_start("Bot1")
     test_room.agree_to_start("Bot2")
     test_room.agree_to_start("Bot3")
+    return
     # t-1 trading
     test_room.game.debug_add_item("Alice", "Ship", 10)
     test_room.game.debug_add_item("Bot1", "Ship", 10)
@@ -803,6 +804,7 @@ class Server:
       obs = get_prompt(self.rooms[room_name].game, username)
       prompt = f"{obs}"
       emit('prompt', {
+        "username": username,
         "prompt": prompt
       }, namespace=get_router_name())
 
@@ -820,8 +822,10 @@ class Server:
     def query_recent_response(data):
       room_name = data['room_name']
       username = data['username']
-      recent_response = self.rooms[room_name].bots[username].get_recent_response()
+      recent_response = self.rooms[room_name].get_recent_response(username)
+      logger.info(f"recent_response of player {username}: {recent_response}")
       emit('recent-response', {
+        "username": username,
         "recent_response": recent_response
       }, namespace=get_router_name())
     

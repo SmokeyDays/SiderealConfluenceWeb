@@ -62,6 +62,24 @@
             <n-button 
               circle 
               secondary 
+              type="info" 
+              size="large" 
+              @click="handleViewHistory"
+              class="action-btn"
+            >
+              <template #icon>
+                <n-icon><IconHistory /></n-icon>
+              </template>
+            </n-button>
+          </template>
+          View Response History
+        </n-tooltip>
+
+        <n-tooltip trigger="hover" placement="left">
+          <template #trigger>
+            <n-button 
+              circle 
+              secondary 
               type="warning" 
               size="large" 
               @click="handleRenew"
@@ -94,18 +112,28 @@
         </n-tooltip>
       </n-space>
     </div>
+    <ResponseHistoryPanel 
+      v-if="showHistoryPanel"
+      :close-panel="() => showHistoryPanel = false"
+      :username="activePlayerId"
+      :history="currentHistory"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, reactive, onUpdated } from 'vue';
+import { onMounted, ref, watch, reactive, onUpdated, computed } from 'vue';
 import { 
   NTabs, NTabPane, NCard, NButton, NIcon, NSpace, NTooltip, NTag, NSpin 
 } from 'naive-ui';
-import type { GameState } from '@/interfaces/GameState';
+import type { GameState, ResponseItem } from '@/interfaces/GameState';
 import { socket } from '@/utils/connect';
+// 请确保引入路径正确
 import IconRenew from '@/components/icons/IconRenew.vue';
 import IconPlay from '@/components/icons/IconPlay.vue';
+import IconHistory from '@/components/icons/IconHistory.vue'; // 需自行创建或引入通用 Icon
+import ResponseHistoryPanel from '@/components/panels/ResponseHistoryPanel.vue'; // 刚才创建的组件
+
 import { pubMsg } from '@/utils/general';
 import type { RoomList } from '@/interfaces/RoomState';
 
@@ -118,36 +146,39 @@ const props = defineProps<{
 const activePlayerId = ref<string>(props.username);
 const pureText = ref("");
 const loading = ref(false);
+const showHistoryPanel = ref(false); // 控制 History Panel 显示
 
 const promptCache = reactive(new Map<string, string>());
+const recentResponsesCache = reactive(new Map<string, ResponseItem[]>());
 const isBot = reactive(new Map<string, boolean>());
+
+// 计算当前选中玩家的历史记录
+const currentHistory = computed(() => {
+  return recentResponsesCache.get(activePlayerId.value) || [];
+});
 
 /**
  * 请求 Prompt 数据
- * @param targetUser 需要获取 Prompt 的用户 ID
- * @param forceRefresh 是否强制刷新（忽略缓存）
  */
 const fetchPrompt = (targetUser: string, forceRefresh = false) => {
-  // 如果不是强制刷新，且缓存中有数据，直接使用缓存
   if (!forceRefresh && promptCache.has(targetUser)) {
     pureText.value = promptCache.get(targetUser) || "";
     return;
   }
 
-  // 否则发起网络请求
   loading.value = true;
-  pureText.value = ""; // 清空当前显示，避免显示上一个人的残留
+  pureText.value = ""; 
   socket.emit('query-prompt', {
     room_name: props.gameState.room_name, 
     username: targetUser
   });
 };
 
-/**
- * 切换 Tab 时触发
- */
 const handleTabChange = (value: string) => {
   fetchPrompt(value);
+  if (showHistoryPanel.value) {
+    showHistoryPanel.value = false;
+  }
 };
 
 const handleStep = () => {
@@ -163,13 +194,32 @@ const handleRenew = () => {
   fetchPrompt(activePlayerId.value, true);
 };
 
-socket.on('prompt', (data: { prompt: string }) => {
+// 新增：点击 History 按钮的处理函数
+const handleViewHistory = () => {
+  // 发送 socket 请求
+  socket.emit('query-recent-response', {
+    room_name: props.gameState.room_name,
+    username: activePlayerId.value
+  });
+  console.log(`Querying recent responses for ${activePlayerId.value}...`);
+  // 打开面板
+  showHistoryPanel.value = true;
+};
+
+socket.on('prompt', (data: { username: string, prompt: string }) => {
   loading.value = false;
   pureText.value = data.prompt;
   
   if (activePlayerId.value) {
     promptCache.set(activePlayerId.value, data.prompt);
   }
+});
+
+socket.on('recent-response', (data: { username: string, recent_response: ResponseItem[] }) => {
+  recentResponsesCache.set(data.username, data.recent_response);
+  console.log(`Received recent responses for ${data.username}:`, data.recent_response);
+  // 注意：由于 Vue reactive Map 的特性，Dependency 应该会自动更新，
+  // 传递给 HistoryPanel 的 props 也会随之更新。
 });
 
 function initializeBotStatus() {
@@ -184,11 +234,13 @@ function initializeBotStatus() {
 }
 
 onUpdated(() => {
-  promptCache.clear();
-  console.log("GameState updated, refreshing prompt...");
-  fetchPrompt(activePlayerId.value, true);
+  // 注意：这里原本的逻辑可能会导致频繁清空 cache，请按需保留
+  // promptCache.clear(); 
+  // console.log("GameState updated, refreshing prompt...");
+  // fetchPrompt(activePlayerId.value, true);
   initializeBotStatus();
 });
+
 onMounted(() => {
   fetchPrompt(activePlayerId.value);
   initializeBotStatus();
@@ -214,7 +266,6 @@ onMounted(() => {
   justify-content: center;
 }
 
-/* 垂直居中 Tab 里的文字和 Tag */
 .tab-label {
   display: flex;
   align-items: center;
@@ -243,7 +294,7 @@ onMounted(() => {
   overflow-y: auto;
   padding: 24px;
   background-color: #fff;
-  position: relative; /* 为 loading 居中做准备 */
+  position: relative;
 }
 
 .pure-text {
@@ -255,7 +306,6 @@ onMounted(() => {
   word-wrap: break-word;
 }
 
-/* Loading 状态样式 */
 .loading-state {
   height: 100%;
   display: flex;

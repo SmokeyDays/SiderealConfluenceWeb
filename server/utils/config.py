@@ -3,7 +3,7 @@ class Config:
 
   def __init__(self):
     self.config = {
-      "auto_step_bot": False,
+      "auto_step_bot": True,
       'default_turn': 6,
     }
 
