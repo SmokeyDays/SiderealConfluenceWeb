@@ -5,7 +5,7 @@ from server.agent.prompt import get_prompt
 from server.game import Game
 from server.room import Room
 from server.utils.config import get_config
-from server.utils.decorators import Registry, add_para_desc, set_attr
+from server.utils.decorators import RoomLockedRegistry, add_para_desc, set_attr
 from server.utils.pubsub import pubsub
 from server.utils.connect import create_app, get_router_name
 from server.utils.log import logger
@@ -21,7 +21,7 @@ class Server:
     self.online_users = {}
     self.rooms: dict[str, Room] = load_all_rooms()
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
-    self.prompt_api_registry = Registry()
+    self.prompt_api_registry = RoomLockedRegistry(self)
     
     self.bind_basic_events()
     self.bind_lobby_events()
@@ -193,6 +193,7 @@ class Server:
     test_room.agree_to_start("Bot1")
     test_room.agree_to_start("Bot2")
     test_room.agree_to_start("Bot3")
+    self.update_game_state(test_room.name, important=True)
     return
     # t-1 trading
     test_room.game.debug_add_item("Alice", "Ship", 10)
@@ -496,7 +497,8 @@ class Server:
         self.rooms[room_name].agree_to_start(username)
         self.update_rooms()
         if self.rooms[room_name].game_state == "playing":
-          self.update_game_state(room_name)
+          logger.info(f"Room {room_name} has started the game.")
+          self.update_game_state(room_name, important=True)
     
     @self.socketio.on('disagree-to-start', namespace=get_router_name())
     def disagree_to_start(data):
@@ -525,6 +527,7 @@ class Server:
       for user_id in self.rooms[room_name].players:
         self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
       if important and get_config("auto_step_bot"):
+        logger.info(f"An important event happened in room {room_name}, stepping bots...")
         self.rooms[room_name].step_bots(self.get_handlers)
       save_room(self.rooms[room_name])
   def bind_game_events(self):
@@ -547,7 +550,9 @@ class Server:
         "title": "Gift Success" if success else "Gift Failed",
         "str": message
       }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      if not success:
+        return
+      self.update_game_state(room_name, important=True)
     
     @self.socketio.on('trade-proposal', namespace=get_router_name())
     @registry(["game-interface"])
@@ -569,7 +574,7 @@ class Server:
           "title": "Trade Proposal Success" if success else "Trade Proposal Failed",
           "str": message
         }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('decline-trade-proposal', namespace=get_router_name())
     @registry(["game-interface"])
@@ -588,7 +593,7 @@ class Server:
           "title": "Decline Trade Proposal Success" if success else "Decline Trade Proposal Failed",
           "str": message
         }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('accept-trade-proposal', namespace=get_router_name())
     @registry(["game-interface"])
@@ -607,7 +612,7 @@ class Server:
           "title": "Accept Trade Proposal Success" if success else "Accept Trade Proposal Failed",
           "str": message
         }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('produce', namespace=get_router_name())
     @registry(["game-interface"])
@@ -631,7 +636,12 @@ class Server:
           "title": "Produce Success" if success else "Produce Failed",
           "str": message
         }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      if not success:
+        return
+      if self.rooms[room_name].game.stage != "production":
+        self.update_game_state(room_name, important=True)
+      else:
+        self.update_game_state(room_name)
 
     @self.socketio.on('agree', namespace=get_router_name())
     @registry(["game-interface"])
@@ -642,8 +652,12 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
+      old_stage = self.rooms[room_name].game.stage
       self.rooms[room_name].game.player_agree(username)
-      self.update_game_state(room_name)
+      if self.rooms[room_name].game.stage != old_stage:
+        self.update_game_state(room_name, important=True)
+      else:
+        self.update_game_state(room_name)
 
     @self.socketio.on('disagree', namespace=get_router_name())
     def disagree(data):
@@ -670,8 +684,16 @@ class Server:
     def submit_kajsjavikalimm_choose_split(data):
       room_name = data['room_name']
       username = data['username']
-      self.rooms[room_name].game.Kajsjavikalimm_split(username, data['choose_split'])
-      self.update_game_state(room_name)
+      success, msg = self.rooms[room_name].game.Kajsjavikalimm_split(username, data['choose_split'])
+      if username in self.online_users:
+        emit('alert-message', {
+          "type": "success" if success else "error",
+          "title": "Kajsjavikalimm Choose Split Success" if success else "Kajsjavikalimm Choose Split Failed",
+          "str": msg
+        }, namespace=get_router_name())
+      if not success:
+        return
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('submit-pick', namespace=get_router_name())
     @registry(["game-interface"])
@@ -685,7 +707,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('upgrade-colony', namespace=get_router_name())
     @registry(["game-interface"])
@@ -698,7 +720,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.upgrade_colony(username, data['factory_name'])
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('upgrade-normal', namespace=get_router_name())
     @registry(["game-interface"])
@@ -718,7 +740,7 @@ class Server:
           "title": "Upgrade Success" if success else "Upgrade Failed",
           "str": message
         }, namespace=get_router_name())
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('exchange-colony', namespace=get_router_name())
     @registry(["game-interface"])
@@ -770,7 +792,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.discard_colonies(username, data['colonies'])
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
     @self.socketio.on('update-bulletin-board', namespace=get_router_name())
     @registry(["game-interface"])
@@ -785,7 +807,7 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       self.rooms[room_name].game.update_bulletin_board(username, data['message'], data['seeking'], data['offering'])
-      self.update_game_state(room_name)
+      self.update_game_state(room_name, important=True)
 
 
     # logger.info("Registered game-interface functions:")

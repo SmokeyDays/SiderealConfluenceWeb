@@ -216,13 +216,13 @@ const getSectionStyle = (section: string) => {
 }
 
 .history-item {
-  background-color: #fafafc;
+  /* background-color: #fafafc; */
   border: 1px solid #eee;
   transition: all 0.2s;
 }
 
 .history-item:hover {
-  border-color: #d9d9d9;
+  /* border-color: #d9d9d9; */
   box-shadow: 0 2px 6px rgba(0,0,0,0.02);
 }
 
@@ -248,11 +248,11 @@ const getSectionStyle = (section: string) => {
 }
 
 .response-block {
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 12px;
   border-radius: 4px;
   border: 1px solid #eaeaea;
-  color: #333;
+  /* color: #333; */
 }
 
 .word-count {
@@ -282,7 +282,7 @@ const getSectionStyle = (section: string) => {
 .section-content {
   font-family: 'Menlo', 'Monaco', monospace;
   font-size: 12px;
-  color: #555;
+  /* color: #555; */
   white-space: pre-wrap;
 }
 

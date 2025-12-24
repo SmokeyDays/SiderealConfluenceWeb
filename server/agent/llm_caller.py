@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import random
+import asyncio
 from server.agent.prompt_template import load_prompt
 from langchain_openai import AzureChatOpenAI
 from langchain_community.callbacks.manager import get_openai_callback
@@ -113,6 +114,41 @@ Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
       import traceback
       logger.error(f"Plan failed: {e}, {traceback.format_exc()}")
     
+    return long_term_plan
+  async def aplan(self, chapters):
+    system_message = self.render_system_message()
+    human_message = self.render_human_message(chapters)
+
+    message = [system_message, human_message]
+    long_term_plan = {}
+    
+    logger.info(f"****{self.planner_name}****\n{system_message.content}\n{str_msg(human_message)}")
+    
+    try:
+      # get_openai_callback 支持 async contextvars
+      with get_openai_callback() as cb:
+        # 使用 ainvoke 进行异步调用
+        long_term_plan = await self.get_chain().ainvoke(message)
+        
+        logger.info(f"""
+LLMs Called (Async):
+Total tokens: {cb.total_tokens}, Total cost: {cb.total_cost}, 
+Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
+        logger.info(f"LLMs total tokens: {LLMs_total_tokens}")
+        logger.info(f"LLMs total cost: {LLMs_total_cost}")
+        
+        total_tokens = cb.total_tokens
+        add_LLMs_total_tokens(total_tokens)
+        total_cost = cb.total_cost
+        add_LLMs_total_cost(total_cost)
+        
+      logger.info(f"****{self.planner_name}****\n{long_term_plan}")
+    except Exception as e:
+      import traceback
+      logger.error(f"Plan failed: {e}, {traceback.format_exc()}")
+      # 返回空字典防止下游崩溃
+      return {}
+  
     return long_term_plan
   
 class TurnPlanCaller(BasicCaller):

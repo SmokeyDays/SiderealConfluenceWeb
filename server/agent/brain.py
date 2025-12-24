@@ -29,40 +29,57 @@ class Brain:
       "response": response
     })
 
-  def step(self, handlers_prompt, handlers_map):
-    """
-    Auto detect the current stage of the game and call the corresponding function.
-    """
+  async def step(self, handlers_prompt, handlers_map):
     obs = get_prompt(self.game, self.player_id)
-    if self.game.stage == "trading":
-      if self.current_plan == None:
-        prompt = {"Observation": obs}
-        response = turn_plan_caller.plan(prompt)
-        self.record_response(prompt, response, special_call="turn_plan")
-        response.pop("reasoning")
-        self.current_plan = response
-
-      prompt = {
-        "Plan": str(self.current_plan),
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
-      response = trade_caller.plan(prompt)
-      self.record_response(prompt, response)
-      if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} trade caller returned no callbacks: {response}")
+    
+    # 定义一个通用的回调处理函数，避免代码重复
+    def execute_callbacks(response, caller_name):
+      if not response or "actions" not in response.keys():
+        logger.warning(f"Bot {self.player_id} {caller_name} returned no callbacks: {response}")
         return
+      
       callbacks = response.get("actions", [])
       try:
         for callback in callbacks:
           func_name, data = callback['func'], callback['data']
           data['room_name'] = self.game.room_name
           data['username'] = self.player_id
-          func = handlers_map[func_name]
-          func(data)
+          
+          if func_name in handlers_map:
+            func = handlers_map[func_name]
+            # 假设 func 是同步的，如果是异步的需要 await
+            func(data)
+          else:
+            logger.error(f"Function {func_name} not found in handlers_map")
+
       except Exception as e:
         import traceback
-        logger.error(f"Bot {self.player_id} trade caller execute callback error: {e}, {traceback.format_exc()}")
+        logger.error(f"Bot {self.player_id} {caller_name} execute callback error: {e}, {traceback.format_exc()}")
+
+    # === 逻辑分支 ===
+    
+    if self.game.stage == "trading":
+      # 1. Turn Plan (如果还没有 Plan)
+      if self.current_plan is None:
+        prompt = {"Observation": obs}
+        # AWAIT 调用
+        response = await turn_plan_caller.aplan(prompt)
+        
+        self.record_response(prompt, response, special_call="turn_plan")
+        if "reasoning" in response:
+          response.pop("reasoning") # 清理不需要存储的字段
+        self.current_plan = response
+
+      # 2. Trade Plan
+      prompt = {
+        "Plan": str(self.current_plan),
+        "Observation": obs,
+        "Actions": handlers_prompt
+      }
+      # AWAIT 调用
+      response = await trade_caller.aplan(prompt)
+      self.record_response(prompt, response)
+      execute_callbacks(response, "trade caller")
         
     elif self.game.stage == "discard_colony":
       prompt = {
@@ -70,23 +87,9 @@ class Brain:
         "Observation": obs,
         "Actions": handlers_prompt
       }
-
-      response = discard_colony_caller.plan(prompt)
+      response = await discard_colony_caller.aplan(prompt)
       self.record_response(prompt, response)
-      if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} discard_colony caller returned no callbacks: {response}")
-        return
-      callbacks = response.get("actions", [])
-      try:
-        for callback in callbacks:
-          func_name, data = callback['func'], callback['data']
-          data['room_name'] = self.game.room_name
-          data['username'] = self.player_id
-          func = handlers_map[func_name]
-          func(data)
-      except Exception as e:
-        import traceback
-        logger.error(f"Bot {self.player_id} discard_colony caller execute callback error: {e}, {traceback.format_exc()}")
+      execute_callbacks(response, "discard_colony caller")
 
     elif self.game.stage == "production":
       prompt = {
@@ -94,23 +97,9 @@ class Brain:
         "Observation": obs,
         "Actions": handlers_prompt
       }
-
-      response = economy_caller.plan(prompt)
+      response = await economy_caller.aplan(prompt)
       self.record_response(prompt, response)
-      if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} economy caller returned no callbacks: {response}")
-        return
-      callbacks = response.get("actions", [])
-      try:
-        for callback in callbacks:
-          func_name, data = callback['func'], callback['data']
-          data['room_name'] = self.game.room_name
-          data['username'] = self.player_id
-          func = handlers_map[func_name]
-          func(data)
-      except Exception as e:
-        import traceback
-        logger.error(f"Bot {self.player_id} economy caller execute callback error: {e}, {traceback.format_exc()}")
+      execute_callbacks(response, "economy caller")
 
     elif self.game.stage == "bid":
       prompt = {
@@ -118,23 +107,9 @@ class Brain:
         "Observation": obs,
         "Actions": handlers_prompt
       }
-
-      response = bid_caller.plan(prompt)
+      response = await bid_caller.aplan(prompt)
       self.record_response(prompt, response)
-      if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} bid caller returned no callbacks: {response}")
-        return
-      callbacks = response.get("actions", [])
-      try:
-        for callback in callbacks:
-          func_name, data = callback['func'], callback['data']
-          data['room_name'] = self.game.room_name
-          data['username'] = self.player_id
-          func = handlers_map[func_name]
-          func(data)
-      except Exception as e:
-        import traceback
-        logger.error(f"Bot {self.player_id} bid caller execute callback error: {e}, {traceback.format_exc()}")
+      execute_callbacks(response, "bid caller")
 
     elif self.game.stage == "pick":
       prompt = {
@@ -142,25 +117,9 @@ class Brain:
         "Observation": obs,
         "Actions": handlers_prompt
       }
-      response = pick_caller.plan(prompt)
+      response = await pick_caller.aplan(prompt)
       self.record_response(prompt, response)
-      if "actions" not in response.keys():
-        logger.warning(f"Bot {self.player_id} pick caller returned no callbacks: {response}")
-        return
-      callbacks = response.get("actions", [])
-      try:
-        for callback in callbacks:
-          func_name, data = callback['func'], callback['data']
-          data['room_name'] = self.game.room_name
-          data['username'] = self.player_id
-          func = handlers_map[func_name]
-          func(data)
-      except Exception as e:
-        import traceback
-        logger.error(f"Bot {self.player_id} pick caller execute callback error: {e}, {traceback.format_exc()}")
+      execute_callbacks(response, "pick caller")
 
     elif self.game.stage == "end": 
-       self.current_plan = None
-
-  def get_recent_responses(self):
-    return self.recent_responses
+      self.current_plan = None
