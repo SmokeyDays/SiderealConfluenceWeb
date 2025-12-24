@@ -1,3 +1,4 @@
+from datetime import datetime
 from server.agent.brain import Brain
 from server.game import Game
 from server.utils.log import logger
@@ -14,6 +15,15 @@ class BotTaskScheduler:
     # 存储每个 Bot 当前正在运行的任务
     # Key: bot_id, Value: asyncio.Task
     self.pending_tasks: Dict[str, asyncio.Task] = {}
+    self.recorded_events = []
+
+  def record(self, event_type: str, bot_id: str):
+    timestamp = str(datetime.now())
+    self.recorded_events.append({
+      "event_type": event_type,
+      "bot_id": bot_id,
+      "timestamp": timestamp
+    })
 
   async def schedule(self, bot_id: str, coro: Coroutine):
     """
@@ -21,10 +31,12 @@ class BotTaskScheduler:
     如果该 Bot 已经有正在进行的任务，取消旧任务，执行新任务。
     """
     # 1. 检查是否有旧任务
+    self.record("pend", bot_id)
     if bot_id in self.pending_tasks:
       existing_task = self.pending_tasks[bot_id]
       if not existing_task.done():
         logger.info(f"Bot {bot_id}: Cancelling outdated step task due to new event.")
+        self.record("cancel", bot_id)
         existing_task.cancel() # 发送取消信号
         try:
           # 等待旧任务清理完成（可选，防止资源竞争，通常 await 即可）
@@ -50,6 +62,7 @@ class BotTaskScheduler:
     finally:
       # 任务结束（无论成功、失败还是取消），清理字典
       # 只有当字典里的任务是当前这个任务时才删除（防止删除了后来覆盖的新任务）
+      self.record("done", bot_id)
       if bot_id in self.pending_tasks and self.pending_tasks[bot_id] is asyncio.current_task():
           del self.pending_tasks[bot_id]
 
@@ -61,6 +74,7 @@ class Room:
     self.players: Dict[str, Dict[str, Any]] = {}
     self.bots: List[str] = []
     self.bot_agents: Dict[str, Brain] = {}
+    self.bots_auto_react = True
     self.game_state = "waiting"
     self.game = None
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
@@ -105,6 +119,10 @@ class Room:
 
   def is_bot(self, user_id):
     return user_id in self.bots
+  
+  def toggle_bots(self):
+    self.bots_auto_react = not self.bots_auto_react
+    return self.bots_auto_react
 
   def step_bots(self, get_handlers):
     handlers_prompt, handlers_map = get_handlers(self.game.stage)
@@ -114,6 +132,9 @@ class Room:
 
   def step_bot(self, bot_id, handlers_prompt, handlers_map):
     if bot_id not in self.bots:
+      return
+    if not self.bots_auto_react:
+      logger.info(f"Bot {bot_id} in room {self.name} auto react is disabled, skipping step.")
       return
     async def async_logic():
       # 这里调用的是 Brain.step (它是 async 的)
@@ -126,6 +147,9 @@ class Room:
       return self.bot_agents[user_id].recent_responses
     else:
       return []
+  
+  def get_calling_history(self):
+    return self.scheduler.recorded_events
 
   def agree_to_start(self, user_id):
     if user_id in self.players:
@@ -165,7 +189,8 @@ class Room:
       "game_state": self.game_state,
       "max_players": self.max_players,
       "end_round": self.end_round,
-      "bots": self.bots
+      "bots": self.bots,
+      "bots_auto_react": self.bots_auto_react
     }
   
   def __getstate__(self):

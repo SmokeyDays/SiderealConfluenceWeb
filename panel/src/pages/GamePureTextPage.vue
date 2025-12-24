@@ -2,7 +2,14 @@
   <div class="scifi-page">
     
     <div class="top-command-bar">
-      <div class="bar-deco"></div>
+      <div 
+        class="bar-deco interactive" 
+        @click="isLogOpen = !isLogOpen"
+        :class="{ active: isLogOpen }"
+      >
+        <n-icon size="18" :component="IconMenu" />
+      </div>
+
       <div class="tabs-container">
         <n-tabs 
           v-model:value="activePlayerId" 
@@ -31,38 +38,68 @@
       <div class="bar-deco right"></div>
     </div>
 
-    <div class="terminal-viewport">
-      <div class="terminal-frame">
-        <div class="terminal-header">
-           <span class="header-title">>> PROMPT_LOG // {{ activePlayerId }}</span>
-           <div class="header-status">
-              <span class="status-dot" :class="{ loading: loading }"></span>
-              {{ loading ? '加载中...' : '加载完毕' }}
-           </div>
-        </div>
-        
-        <div class="terminal-screen custom-scrollbar">
-           <div v-if="loading" class="loading-overlay">
-              <n-spin size="large" stroke="var(--scifi-primary)">
-                <template #description>
-                  <span class="loading-text">DECRYPTING STREAM...</span>
-                </template>
-              </n-spin>
-           </div>
-           
-           <div v-else class="code-content">
-             <div v-if="!pureText" class="no-data">
-               [NULL] NO DATA RECEIVED FROM CORE.
-             </div>
-             <div v-else class="prompt-text">
-               {{ pureText }}
-             </div>
-           </div>
+    <div class="content-wrapper">
+      
+      <div class="left-log-panel" :class="{ collapsed: !isLogOpen }">
+        <div class="panel-inner">
+          <div class="panel-header">
+            <span class="panel-title">SYSTEM_LOGS</span>
+            <span class="log-count">[{{ callingHistoryList.length }}]</span>
+          </div>
+          <div class="log-list custom-scrollbar">
+            <div v-if="callingHistoryList.length === 0" class="no-logs">
+              NO SIGNALS DETECTED
+            </div>
+            <div 
+              v-else
+              v-for="(log, index) in callingHistoryList" 
+              :key="index" 
+              class="log-item"
+            >
+              <div class="log-meta">
+                <span class="log-time">{{ formatTime(log.timestamp) }}</span>
+                <span class="log-bot">{{ log.bot_id }}</span>
+              </div>
+              <div class="log-event">
+                <span class="event-indicator">></span> {{ log.event_type }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="right-command-dock">
+      <div class="terminal-viewport">
+        <div class="terminal-frame">
+          <div class="terminal-header">
+             <span class="header-title">>> CURRENT_PROMPT // {{ activePlayerId }}</span>
+             <div class="header-status">
+               <span class="status-dot" :class="{ loading: loading }"></span>
+               {{ loading ? '加载中...' : '加载完毕' }}
+             </div>
+          </div>
+          
+          <div class="terminal-screen custom-scrollbar">
+             <div v-if="loading" class="loading-overlay">
+               <n-spin size="large" stroke="var(--scifi-primary)">
+                 <template #description>
+                   <span class="loading-text">LOADING...</span>
+                 </template>
+               </n-spin>
+             </div>
+             
+             <div v-else class="code-content">
+               <div v-if="!pureText" class="no-data">
+                 [NULL] NO DATA RECEIVED FROM CORE.
+               </div>
+               <div v-else class="prompt-text">
+                 {{ pureText }}
+               </div>
+             </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <div class="right-command-dock">
       <div class="dock-header">CMDS</div>
       
       <n-tooltip trigger="hover" placement="left">
@@ -96,6 +133,24 @@
         </template>
         单步执行
       </n-tooltip>
+      
+      <n-tooltip trigger="hover" placement="left">
+        <template #trigger>
+          <button 
+            class="scifi-btn" 
+            :class="isAutoReact ? 'success' : 'inactive'" 
+            @click="handleToggleBot"
+          >
+            <n-icon size="24">
+              <IconToggleOn v-if="isAutoReact" />
+              <IconToggleOff v-else />
+            </n-icon>
+            <span class="btn-label">AUTO</span>
+          </button>
+        </template>
+        {{ isAutoReact ? '停止 AI 自动响应' : '开启 AI 自动响应' }}
+      </n-tooltip>
+
     </div>
 
     <ResponseHistoryPanel 
@@ -108,19 +163,24 @@
 </template>
 
 <script setup lang="ts">
-// 逻辑部分保持不变
 import { onMounted, ref, reactive, onUpdated, computed } from 'vue';
 import { 
   NTabs, NTabPane, NIcon, NSpin, NTooltip 
 } from 'naive-ui';
 import type { GameState, ResponseItem } from '@/interfaces/GameState';
 import { socket } from '@/utils/connect';
+// Icons
 import IconRenew from '@/components/icons/IconRenew.vue';
 import IconPlay from '@/components/icons/IconPlay.vue';
 import IconHistory from '@/components/icons/IconHistory.vue';
+import IconToggleOn from '@/components/icons/IconToggleOn.vue';
+import IconToggleOff from '@/components/icons/IconToggleOff.vue';
+import IconResize from '@/components/icons/IconResize.vue';
+import IconMenu from '@/components/icons/IconMenu.vue';
+
 import ResponseHistoryPanel from '@/components/panels/ResponseHistoryPanel.vue'; 
 import { pubMsg } from '@/utils/general';
-import type { RoomList } from '@/interfaces/RoomState';
+import type { RoomList, TaskRecord } from '@/interfaces/RoomState';
 
 const props = defineProps<{
   gameState: GameState;
@@ -133,6 +193,10 @@ const pureText = ref("");
 const loading = ref(false);
 const showHistoryPanel = ref(false);
 
+// NEW: 左侧日志栏状态
+const isLogOpen = ref(false); 
+const callingHistoryList = ref<TaskRecord[]>([]);
+
 const promptCache = reactive(new Map<string, string>());
 const recentResponsesCache = reactive(new Map<string, ResponseItem[]>());
 const isBot = reactive(new Map<string, boolean>());
@@ -140,6 +204,22 @@ const isBot = reactive(new Map<string, boolean>());
 const currentHistory = computed(() => {
   return recentResponsesCache.get(activePlayerId.value) || [];
 });
+
+const isAutoReact = computed(() => {
+  const room = props.rooms[props.gameState.room_name];
+  return room ? room.bots_auto_react : false;
+});
+
+// Helper: 格式化时间戳
+const formatTime = (ts: string) => {
+    // 假设 ts 是 ISO 字符串或者类似格式，截取时间部分
+    // 如果是 unix timestamp 需要 new Date(ts)
+    try {
+        return ts.split('T')[1].split('.')[0]; 
+    } catch (e) {
+        return ts; 
+    }
+}
 
 const fetchPrompt = (targetUser: string, forceRefresh = false) => {
   if (!forceRefresh && promptCache.has(targetUser)) {
@@ -172,6 +252,7 @@ const handleStep = () => {
 const handleRenew = () => {
   pubMsg('SYSTEM', `Renew Signal Sent > ${activePlayerId.value}`, 'info', 2);
   fetchPrompt(activePlayerId.value, true);
+  fetchCallingHistory();
 };
 
 const handleViewHistory = () => {
@@ -180,6 +261,21 @@ const handleViewHistory = () => {
     username: activePlayerId.value
   });
   showHistoryPanel.value = true;
+};
+
+// 废弃未使用的函数，或者在 mount 时调用
+const fetchCallingHistory = () => {
+  socket.emit('query-calling-history', {
+    room_name: props.gameState.room_name
+  });
+};
+
+const handleToggleBot = () => {
+  socket.emit('toggle-bot', {
+    room_name: props.gameState.room_name
+  });
+  const actionText = isAutoReact.value ? 'Disable' : 'Enable';
+  pubMsg('SYSTEM', `Signal Sent > ${actionText} Auto-Bot`, 'info', 1);
 };
 
 socket.on('prompt', (data: { username: string, prompt: string }) => {
@@ -192,6 +288,13 @@ socket.on('prompt', (data: { username: string, prompt: string }) => {
 
 socket.on('recent-response', (data: { username: string, recent_response: ResponseItem[] }) => {
   recentResponsesCache.set(data.username, data.recent_response);
+});
+
+// MODIFIED: 接收并存储 calling history
+socket.on('calling-history', (data: { calling_history: TaskRecord[] }) => {
+  // console.log('calling-history:', data.calling_history);
+  // 倒序排列，最新的在上面
+  callingHistoryList.value = [...data.calling_history].reverse();
 });
 
 function initializeBotStatus() {
@@ -212,6 +315,8 @@ onUpdated(() => {
 onMounted(() => {
   fetchPrompt(activePlayerId.value);
   initializeBotStatus();
+  // 页面加载时请求一次历史记录
+  fetchCallingHistory();
 });
 </script>
 
@@ -227,7 +332,6 @@ onMounted(() => {
   color: var(--scifi-text);
 }
 
-/* === 1. Top Command Bar (Tabs) === */
 .top-command-bar {
   height: 60px;
   display: flex;
@@ -236,11 +340,46 @@ onMounted(() => {
   border-bottom: 1px solid var(--scifi-border);
   backdrop-filter: blur(5px);
   padding: 0 10px;
+  flex-shrink: 0; /* 防止被挤压 */
+  z-index: 20;
 }
 
 .bar-deco {
-  width: 20px;
+  width: 40px; /* 加宽以便点击 */
   height: 100%;
+  border-right: 1px solid var(--scifi-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--scifi-text-dim);
+  transition: all 0.3s;
+}
+
+/* NEW: 左侧装饰按钮样式 */
+.bar-deco.interactive {
+  cursor: pointer;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(0, 212, 255, 0.05) 5px,
+    rgba(0, 212, 255, 0.05) 10px
+  );
+}
+.bar-deco.interactive:hover {
+  background-color: rgba(0, 212, 255, 0.1);
+  color: var(--scifi-primary);
+}
+.bar-deco.interactive.active {
+  color: var(--scifi-primary);
+  background-color: rgba(0, 212, 255, 0.15);
+  box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.bar-deco.right {
+  width: 20px;
+  border-right: none;
+  border-left: 1px solid var(--scifi-border);
   background: repeating-linear-gradient(
     45deg,
     transparent,
@@ -248,26 +387,18 @@ onMounted(() => {
     rgba(0, 212, 255, 0.1) 5px,
     rgba(0, 212, 255, 0.1) 10px
   );
-  border-right: 1px solid var(--scifi-border);
-}
-.bar-deco.right {
-  border-right: none;
-  border-left: 1px solid var(--scifi-border);
 }
 
 .tabs-container {
   flex: 1;
   overflow-x: auto;
   padding: 0 20px;
-  /* 隐藏滚动条 */
   scrollbar-width: none;
 }
 .tabs-container::-webkit-scrollbar { display: none; }
 
-/* 深度定制 Naive UI Tabs */
-:deep(.n-tabs-nav) {
-  background: transparent !important;
-}
+/* ... (Tabs 样式保持不变) ... */
+:deep(.n-tabs-nav) { background: transparent !important; }
 :deep(.n-tabs-tab) {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid transparent !important;
@@ -275,7 +406,7 @@ onMounted(() => {
   color: var(--scifi-text-dim) !important;
   font-family: 'Orbitron', sans-serif !important;
   transition: all 0.3s !important;
-  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px); /* 切角 Tab */
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
   margin-right: 5px !important;
 }
 :deep(.n-tabs-tab--active) {
@@ -285,11 +416,7 @@ onMounted(() => {
   box-shadow: 0 -2px 10px rgba(0, 212, 255, 0.2) !important;
 }
 
-.tab-label-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.tab-label-content { display: flex; align-items: center; gap: 8px; }
 .tab-text { font-weight: bold; }
 .tab-indicators { display: flex; gap: 4px; }
 .indicator {
@@ -302,16 +429,106 @@ onMounted(() => {
 .indicator.me { background: var(--scifi-success, #00ff9d); }
 .indicator.bot { background: var(--scifi-text-dim, #888); color: #fff; }
 
-/* === 2. Terminal Viewport === */
+/* === NEW: Content Wrapper === */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  overflow: hidden; /* 防止子元素溢出 */
+  position: relative;
+}
+
+/* === NEW: Left Log Panel === */
+.left-log-panel {
+  width: 280px; /* 展开宽度 */
+  background: rgba(0, 5, 10, 0.8);
+  border-right: 1px solid var(--scifi-border);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.left-log-panel.collapsed {
+  width: 0;
+  border-right: none;
+}
+
+.panel-inner {
+  min-width: 280px; /* 防止内容挤压 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  background: rgba(0, 212, 255, 0.05);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: var(--scifi-primary);
+}
+.log-count { color: var(--scifi-text-dim); }
+
+.log-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.no-logs {
+  padding: 20px;
+  text-align: center;
+  color: var(--scifi-text-dim);
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.log-item {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+.log-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--scifi-text-dim);
+  margin-bottom: 4px;
+}
+.log-bot { color: var(--scifi-warning, #f2c94c); font-weight: bold; }
+
+.log-event {
+  font-size: 0.8rem;
+  color: #aaddff;
+  line-height: 1.2;
+}
+.event-indicator { color: var(--scifi-success, #00ff9d); margin-right: 4px; }
+
+
+/* === 2. Terminal Viewport (Modified) === */
 .terminal-viewport {
   flex: 1;
-  height: 0;
+  height: 100%; /* 填满高度 */
   padding: 20px;
-  padding-right: 90px; 
+  padding-right: 90px; /* 给右侧Dock留空 */
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 0; /* Flexbox 溢出修复 */
 }
+
+/* ... (Terminal Frame & Header & Screen 样式保持不变) ... */
 
 .terminal-frame {
   width: 100%;
@@ -354,12 +571,11 @@ onMounted(() => {
   background: radial-gradient(circle at center, rgba(0, 20, 0, 0.2), transparent);
 }
 
-/* 文本样式 */
 .prompt-text {
-  font-family: 'Share Tech Mono', 'Menlo', monospace; /* 使用科幻等宽字体 */
+  font-family: 'Share Tech Mono', 'Menlo', monospace;
   font-size: 15px;
   line-height: 1.6;
-  color: #aaddff; /* 终端亮蓝/青色 */
+  color: #aaddff;
   white-space: pre-wrap;
   word-wrap: break-word;
   text-shadow: 0 0 2px rgba(0, 212, 255, 0.3);
@@ -373,7 +589,6 @@ onMounted(() => {
   text-align: center;
 }
 
-/* Loading Overlay */
 .loading-overlay {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -390,7 +605,8 @@ onMounted(() => {
   letter-spacing: 2px;
 }
 
-/* === 3. Right Command Dock === */
+/* ... (Right Command Dock & Button Styles 保持不变) ... */
+
 .right-command-dock {
   position: fixed;
   right: 20px;
@@ -400,14 +616,11 @@ onMounted(() => {
   flex-direction: column;
   gap: 15px;
   z-index: 100;
-  
-  /* Dock 容器样式 */
   background: rgba(5, 10, 20, 0.8);
   border: 1px solid var(--scifi-border);
   padding: 15px 10px;
-  border-radius: 0; /* 硬朗 */
+  border-radius: 0; 
   backdrop-filter: blur(4px);
-  /* 梯形外观 */
   clip-path: polygon(0 10px, 100% 0, 100% 100%, 0 calc(100% - 10px));
 }
 
@@ -427,7 +640,6 @@ onMounted(() => {
   margin: 5px 0;
 }
 
-/* 自定义科幻按钮 (HTML Button) */
 .scifi-btn {
   width: 60px;
   height: 60px;
@@ -449,59 +661,28 @@ onMounted(() => {
   box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
   transform: scale(1.05);
 }
-
-.scifi-btn:active {
-  transform: scale(0.95);
-}
-
+.scifi-btn:active { transform: scale(0.95); }
 .scifi-btn .btn-label {
   font-size: 0.6rem;
   font-family: 'Orbitron', sans-serif;
   margin-top: 4px;
   letter-spacing: 1px;
 }
-
-/* 不同类型的按钮颜色 */
 .scifi-btn.warning { color: var(--scifi-warning, #f2c94c); border-color: var(--scifi-warning, #f2c94c); }
 .scifi-btn.warning:hover { background: rgba(242, 201, 76, 0.15); box-shadow: 0 0 15px rgba(242, 201, 76, 0.3); }
-
 .scifi-btn.info { color: var(--scifi-info, #70c0e8); }
-
 .scifi-btn.primary { color: var(--scifi-primary, #00d4ff); font-weight: bold; }
+.scifi-btn.success { color: var(--scifi-success, #00ff9d); border-color: var(--scifi-success, #00ff9d); box-shadow: 0 0 5px rgba(0, 255, 157, 0.2); }
+.scifi-btn.success:hover { background: rgba(0, 255, 157, 0.15); box-shadow: 0 0 15px rgba(0, 255, 157, 0.4); }
+.scifi-btn.inactive { color: var(--scifi-text-dim, #666); border-color: var(--scifi-border); opacity: 0.8; }
+.scifi-btn.inactive:hover { color: var(--scifi-text); border-color: var(--scifi-text); background: rgba(255, 255, 255, 0.05); }
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* ... 原有的 CSS 代码 ... */
-
-/* === 4. Custom Scrollbar Fix (修复滚动条) === */
-.custom-scrollbar {
-  /* Firefox 兼容 */
-  scrollbar-width: thin;
-  scrollbar-color: var(--scifi-primary) rgba(0, 0, 0, 0.2);
-}
-
-/* Webkit 浏览器 (Chrome, Safari, Edge) */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px; /* 关键：必须设置宽度，否则不显示 */
-  height: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  /* 使用你的主题色，平时半透明 */
-  background: rgba(0, 212, 255, 0.3); 
-  border-radius: 3px;
-  transition: all 0.3s;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  /* 鼠标悬停时高亮 */
-  background: rgba(0, 212, 255, 0.8);
-  box-shadow: 0 0 8px var(--scifi-primary);
-  cursor: pointer;
-}
+/* Scrollbar Fixes */
+.custom-scrollbar { scrollbar-width: thin; scrollbar-color: var(--scifi-primary) rgba(0, 0, 0, 0.2); }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 3px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 212, 255, 0.3); border-radius: 3px; transition: all 0.3s; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.8); box-shadow: 0 0 8px var(--scifi-primary); cursor: pointer; }
 </style>

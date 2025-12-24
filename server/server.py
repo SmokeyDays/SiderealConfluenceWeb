@@ -887,12 +887,26 @@ class Server:
         "recent_response": recent_response
       }, namespace=get_router_name())
     
+    @self.socketio.on('query-calling-history', namespace=get_router_name())
+    def query_calling_history(data):
+      room_name = data['room_name']
+      calling_history = self.rooms[room_name].get_calling_history()
+      emit('calling-history', {
+        "calling_history": calling_history
+      }, namespace=get_router_name())
+
     @self.socketio.on('force-step-bot', namespace=get_router_name())
     def force_step_bot(data):
       room_name = data['room_name']
       bot_id = data['bot_id']
       if bot_id in self.rooms[room_name].bots:
         self.rooms[room_name].step_bot(bot_id, self.get_handlers)
+
+    @self.socketio.on('toggle-bot', namespace=get_router_name())
+    def toggle_bot(data):
+      room_name = data['room_name']
+      self.rooms[room_name].toggle_bots()
+      self.update_rooms()
 
     def add_achievement_listener(data):
       self.add_achievement(data['username'], data['id'])

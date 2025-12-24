@@ -107,9 +107,10 @@ const props = defineProps<{
 const expandedMap = ref<Record<string, string[]>>({});
 
 const sortedHistory = computed(() => {
-  return [...props.history].sort((a, b) => Number(b.timestamp) - Number(a.timestamp));
+  return [...props.history].sort((a, b) => {
+    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+  });
 });
-
 // 监听数据变化，初始化展开状态
 watch(() => props.history, (newVal) => {
   newVal.forEach(item => {

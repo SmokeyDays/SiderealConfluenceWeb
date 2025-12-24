@@ -10,6 +10,13 @@ export interface RoomState {
   max_players: number;
   end_round: number;
   bots: string[];
+  bots_auto_react: boolean;
+}
+
+export interface TaskRecord {
+  event_type: string
+  bot_id: string;
+  timestamp: string;
 }
 
 export type RoomList = Record<string, RoomState>;
