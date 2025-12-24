@@ -3,6 +3,7 @@ from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
 from server.utils.log import logger
+from server.agent.prompt_template import load_prompt
 
 turn_plan_caller = TurnPlanCaller()
 trade_caller = TradeCaller()
@@ -57,14 +58,18 @@ class Brain:
         logger.error(f"Bot {self.player_id} {caller_name} execute callback error: {e}, {traceback.format_exc()}")
 
     # === 逻辑分支 ===
+    player = self.game.get_player_by_id(self.player_id)
+    specie = player.specie if player else None
+    specie_desc = load_prompt(f"species_intro/{specie}.txt") if specie else "Unknown specie"
     
+
     if self.game.stage == "trading":
-      # 1. Turn Plan (如果还没有 Plan)
       if self.current_plan is None:
-        prompt = {"Observation": obs}
-        # AWAIT 调用
+        prompt = {
+          "Specie description": specie_desc, 
+          "Observation": obs
+        }
         response = await turn_plan_caller.aplan(prompt)
-        
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
           response.pop("reasoning") # 清理不需要存储的字段
@@ -72,6 +77,7 @@ class Brain:
 
       # 2. Trade Plan
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -83,6 +89,7 @@ class Brain:
         
     elif self.game.stage == "discard_colony":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -93,6 +100,7 @@ class Brain:
 
     elif self.game.stage == "production":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -103,6 +111,7 @@ class Brain:
 
     elif self.game.stage == "bid":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -113,6 +122,7 @@ class Brain:
 
     elif self.game.stage == "pick":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt

@@ -136,7 +136,7 @@ def game_obs(game: Game, player_id: str):
   if not player:
     return "Player not found."
   if game.stage == "discard_colony":
-    factory_desc = "You are owning those colonies:\n"+"".join(
+    factory_desc = "You are owning those colonies (all converters shown below are colonies):\n"+"".join(
       get_factory_desc(factory) 
       for factory in player.factories.values() if factory.feature["type"] == "Colony"
     )

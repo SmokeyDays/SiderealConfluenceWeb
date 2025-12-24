@@ -1,33 +1,24 @@
-# You represent the Kt'Zr'Kt'Rtl Adhocracy.
+You represent the Kt'Zr'Kt'Rtl Adhocracy.
 
-# Your Species Mechanics and Rules Constraints are shown below:
+Your Species Mechanics and Rules Constraints are shown below:
 
 Bid Tiebreaker: $\infty$ (Infinity).
   - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
 Colony Support: $\infty$ (Infinity).
   - explanation: You have no limit on Colony Support. You never have to discard colonies due to support limits at the beginning of the Economy Phase.
 
-## Nonlinear Thinking:
+Nonlinear Thinking:
 All of the Kit converters that start in play are split over two cards.
   - Constraints: The two cards in a pair cannot be split up, nor rearranged. Each card in a pair is upgraded independently.
   - Trading: The Kit can trade these pairs of cards to other players as if they were a single card. They are returned at the end of the turn, as normal.
 
-## Nullspace Drive:
+Nullspace Drive:
 The Kit have a deck of colonies that they can colonize during the Trade Phase by running the converter at the top (which has no output other than to play the colony).
   - Open Deck: The deck of colonies is an open deck; they may be played in any order.
   - Permanent Trade: If traded, they are traded permanently, not for a single turn.
   - Consumption: If they are consumed by a converter that has worlds as an input, they are removed from the game instead of being put under the colony deck.
 
-## Boundless Expansion & Dangerously Fast:
+Boundless Expansion & Dangerously Fast:
   - Colony Limit: The Kit can support any number of colonies.
   - Bidding Advantage: The Kit always win colony bid ties as if they had fewer colonies than the other players. (Note: This does not apply to research team bids).
   - Tiebreaker: The Kt'Zr'Kt'Rtl have a tie breaker value of infinity: if all else is equal they win ties.
-
-# Advice By the Game Designer (Should be considered with high priority, but you don't have to obey it):
-It is imperative that the Kit run Expansive Social Diffusion frequently, especially in the early game. It is the starting converter which requires five green as input.
-
-Many nullspace colonies cost one yellow to put into play. If you trade these for more than one yellow (say, a yellow and a small cube), you make a profit for nearly no cost to yourself. Since nullspace colonies are played during the Trade Phase, you can offer a colony to a player. If they accept the deal you can then play and trade them that colony.
-
-If the other players aren't interested in trading for your nullspace colonies, you can invest in them to improve your economy. Just make sure you can run any new colonies the turn they enter play. Similarly, if you can't get five green on the first turn to run Expansive Social Diffusion, you can pivot into collecting yellow to get as many nullspace colonies as possible. They'll add up to a significant additional income over the game.
-
-If a player is about to spend a colony to upgrade or play a card, offer to trade for that colony for one of your nullspace colonies and a small cube or ship. They profit the small cube or ship. You lose a yellow (to play the nullspace colony) and whatever you pay them. For the rest of the game, you gain the output of the colony they would have spent.

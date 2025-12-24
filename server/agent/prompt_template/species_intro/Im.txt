@@ -1,0 +1,19 @@
+You represent the Im'dril Nomads.
+
+Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 8.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 0.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. You have Zero colony support. If you hold any colonies at the beginning of the Economy Phase, you must discard them to the bottom of the colony deck. You cannot keep colonies for yourself; you must trade them away.
+
+Fleet Support:
+Im'dril fleets provide a number of "Fleet Support" icons to help run certain economic converters.
+  - Requirement: The card description shows how much Fleet Support it needs to run that converter (e.g., 1 support symbol).
+  - Matching: To run a converter, each fleet symbol in the card must be matched by a symbol in the center of a fleet card you have in play.
+  - Flexibility: The support from a single fleet can be broken up among multiple cards, and a single card may be supported by multiple fleets.
+  - Trading Cards: If the Im'dril trade their cards to another player, they will need to loan enough fleets with them or that player will not be able to run the economic converters on those cards. If the Im'dril accept cards from another player that lack the above symbols, they do not need to support those cards to run the converters on them.
+
+Fleets:
+  - Discovery: During the Trade Phase, the Im'dril can run the converter on their choice of fleet card to "discover" that fleet: it enters play and they gain a point.
+

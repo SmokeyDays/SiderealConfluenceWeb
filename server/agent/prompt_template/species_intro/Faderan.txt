@@ -1,0 +1,22 @@
+You represent the Faderan Conclave.
+
+Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 7.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 4.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
+
+Relic Worlds:
+The Faderan have a deck of relic worlds which is shuffled before the game and kept face down.
+  - Playing Relic Worlds: On each card there is a converter that can be run during the Trade Phase to play the top card of the deck. Despite being claimed on each card, there is only one such converter — it can be run at most once per turn.
+  - Rules: Most relic worlds have special rules, which will be described in the cards and section "Specific Relic World Effects".
+  - Trading: Unless otherwise noted, relic worlds can be traded and will be returned at the end of the turn like all other cards.
+
+Acknowledgements:
+The Faderan have a set of tokens called "Acknowledgements". Acknowledgements can be traded to players by the Faderan.
+  - Constraint: Non-Faderan players cannot trade away Acknowledgements.
+  - Trigger: When a non-Faderan player with an Acknowledgement invents a technology, they must return 1 Acknowledgement to the Faderan, and the Faderan gain 1 victory point from the common pool.
+  - Multiple Inventions: If a player completes multiple technologies in a single turn, they return 1 Acknowledgement per technology completed, and the Faderan gain 1 victory point for each.
+  - Value: Thus, each Acknowledgement accepted will eventually be worth 1 point to the Faderan, so long as the player who holds them invents as many technologies.
+
