@@ -150,6 +150,17 @@ def game_obs(game: Game, player_id: str):
     for other_player in game.players
     if other_player.user_id != player_id
   )
+  proposals_desc = ""
+  if game.stage == "trading":
+    proposals_desc = ""
+    for from_player in game.proposals.keys():
+      for proposal in game.proposals[from_player]:
+        proposals_desc += "- " + str(proposal) + "\n"
+    if proposals_desc != "":
+      proposals_desc = f"""Current trade proposals:
+{proposals_desc}"""
+    else:
+      proposals_desc = "There's no trade proposal now.\n"
   bid_board_desc = ""
   if game.stage == "bid":
     bid_board_desc = get_bid_desc(game)
@@ -164,7 +175,7 @@ You current Bulletin Board status:
 {factory_desc}
 Other players, their species and their items are listed below. Note that anywhere you need to mention other players should use their user_id instead of specie name:
 {other_player_desc}
-{bid_board_desc}{pick_desc}
+{proposals_desc}{bid_board_desc}{pick_desc}
 """
   return obs
 

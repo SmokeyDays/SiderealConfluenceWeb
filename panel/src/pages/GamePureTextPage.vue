@@ -124,7 +124,7 @@
         重新加载
       </n-tooltip>
 
-      <n-tooltip trigger="hover" placement="left">
+      <n-tooltip trigger="hover" placement="left" v-if="isBot.get(activePlayerId)">
         <template #trigger>
           <button class="scifi-btn primary" @click="handleStep">
             <n-icon size="24"><IconPlay /></n-icon>

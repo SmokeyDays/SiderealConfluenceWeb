@@ -900,7 +900,8 @@ class Server:
       room_name = data['room_name']
       bot_id = data['bot_id']
       if bot_id in self.rooms[room_name].bots:
-        self.rooms[room_name].step_bot(bot_id, self.get_handlers)
+        prompt, handler_map = self.get_handlers(self.rooms[room_name].game.stage)
+        self.rooms[room_name].step_bot(bot_id, prompt, handler_map)
 
     @self.socketio.on('toggle-bot', namespace=get_router_name())
     def toggle_bot(data):
