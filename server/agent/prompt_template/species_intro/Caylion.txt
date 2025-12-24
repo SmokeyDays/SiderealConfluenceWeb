@@ -1,13 +1,12 @@
-# You represent the Caylion Plutocracy. 
+You represent the Caylion Plutocracy. 
 
-# Your Species Mechanics and Rules Constraints are shown below:
-
+Your Species Mechanics and Rules Constraints are shown below:
 Bid Tiebreaker: 1. 
   - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
 Colony Support: 3. 
   - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
 
-## Seedling Tokens:
+Seedling Tokens:
   Whenever you win a Colony from the Colony Bid Track, you MUST place a x2 Seedling Token on it.
   - Effect: The economic converter on a colony with a Seedling Token runs TWICE during the Economy Phase. (e.g., if it produces 1 Green, it now produces 2 Green). Both runs of the converter are still simultaneous with all other converters.
   - Upgrading: The cost to flip (upgrade) a colony with a token is not doubled, and the token stays after filp (upgrade). The new side also produces double. 
@@ -16,29 +15,9 @@ Colony Support: 3.
   - Receiving: If you receive a colony via trade from someone else, do not add a token.
   - Start: Your starting colony already has a Seedling Token.
 
-
-
-## Halved Colonization Bids:
+Halved Colonization Bids:
 Your ships are weak in Colony Auctions. Your bid value is halved (not rounded).
 1 Ship = 0.5 Bid.
 5 Ships = 2.5 Bid.
   - Tie-Breaker: You win ties against integer bids (e.g., your 2.5 beats a 2).
   - Exception: This penalty does NOT apply to Research Team bids.
-
-
-
-## Upgrading the Caylion Economy:
-Some starting Caylion cards have upgrade converters that produce a victory point and a yellow resource. 
-Since these converters are run during the Trade Phase, the yellow they produce may immediately be traded away.
-
-
-
-# Advice By the Game Designer (Should be considered with high priority, but you don't have to obey it):
-Your colonies are extremely valuable and extremely expensive. You'll want to bid five ships on colonies every turn for the first three turns to ensure that you don't delay colonization. To do this, you'll need to trade for ships from other players.
-
-Be willing to trade your colonies to other players - a good deal in the early game is three times what it produces. An excellent trade is to offer one of your colonies in exchange for a jungle colony and some resources. You can spend the jungle colony to upgrade one of your starting cards.
-
-Never upgrade your starting cards with worlds you colonized - they were far too expensive for you to spend in such a minor way. Instead, trade for jungle colonies from other players.
-
-Upgrade any colonies with seedling tokens as quickly as possible. If you have a choice during the Colony Bid, try to focus your colonies on all producing the same type of resource once upgraded. This will make inventing technologies that cost that resource very easy.
-

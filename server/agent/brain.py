@@ -3,6 +3,7 @@ from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
 from server.utils.log import logger
+from server.agent.prompt_template import load_prompt
 
 turn_plan_caller = TurnPlanCaller()
 trade_caller = TradeCaller()
@@ -10,6 +11,8 @@ economy_caller = EconomyCaller()
 bid_caller = BidCaller()
 pick_caller = PickCaller()
 discard_colony_caller = DiscardColonyCaller()
+species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
+
 
 class Brain:
   def __init__(self, game: Game, player_id: str):
@@ -34,15 +37,19 @@ class Brain:
     Auto detect the current stage of the game and call the corresponding function.
     """
     obs = get_prompt(self.game, self.player_id)
+    player = self.game.get_player_by_id(self.player_id)
+    specie = player.specie if player else None
+    specie_desc = load_prompt(f"species_intro/{specie}.txt") if specie else "Unknown specie"
     if self.game.stage == "trading":
       if self.current_plan == None:
-        prompt = {"Observation": obs}
+        prompt = {"Specie description": specie_desc, "Observation": obs}
         response = turn_plan_caller.plan(prompt)
         self.record_response(prompt, response, special_call="turn_plan")
         response.pop("reasoning")
         self.current_plan = response
 
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -66,6 +73,7 @@ class Brain:
         
     elif self.game.stage == "discard_colony":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -90,6 +98,7 @@ class Brain:
 
     elif self.game.stage == "production":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -114,6 +123,7 @@ class Brain:
 
     elif self.game.stage == "bid":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
@@ -138,6 +148,7 @@ class Brain:
 
     elif self.game.stage == "pick":
       prompt = {
+        "Specie description": specie_desc,
         "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt

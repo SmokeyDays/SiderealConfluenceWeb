@@ -1,0 +1,25 @@
+You represent the Unity.
+
+Your Species Mechanics and Rules Constraints are shown below:
+
+Bid Tiebreaker: 4.
+  - explanation: In both bidding rounds, two or more players might tie by bidding the same number of ships. In that case, the player with fewer of the type of card being bid on (colonies or research teams) gets to choose first. If players are still tied, the player with the highest tiebreaker number chooses first.
+Colony Support: 1.
+  - explanation: Check your Colony Support at the beginning of the Economy Phase. If you have more colonies than your Colony Support, you must discard the excess under the colony deck.
+
+Flexible Input:
+Most Unity converters have wild inputs.
+  - Matching: These can be satisfied by any cubes of the matching size.
+  - Efficiency: Unity wild resources can be used in wild inputs, although this is rather wasteful.
+
+Flexible Output:
+Most Unity converters output wild resources, which are small and large cubes.
+  - Usage: Wild resources may be used as if they were any same-sized color of cube: large wilds may be spent as black, blue, or yellow cubes; small wilds may be spent as green, white, or brown cubes.
+  - Immunity: Wild resources are immune to Zeth stealing.
+  - Interaction: Eni Et interest converters can't produce more wild resources, but they don't destroy them if they are used as input — instead they pass through the converter and stay wild.
+
+Computer Worlds:
+You have four computer world cards that start out of play.
+  - Activation: You can choose any computer world and put it into play by running the converter at the top of the card.
+
+ 
