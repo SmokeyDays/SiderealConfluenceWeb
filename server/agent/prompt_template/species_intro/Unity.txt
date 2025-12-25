@@ -9,6 +9,7 @@ Colony Support: 1.
 
 Flexible Input:
 Most Unity converters have wild inputs.
+  - Usage: You can first transform a wild block to any small/big block, and then tranform it to arbitrary small/big to meet the required input.
   - Matching: These can be satisfied by any cubes of the matching size.
   - Efficiency: Unity wild resources can be used in wild inputs, although this is rather wasteful.
 

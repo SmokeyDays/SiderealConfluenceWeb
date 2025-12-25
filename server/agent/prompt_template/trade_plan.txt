@@ -12,26 +12,52 @@ Production stage:
   - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
 Your final goal is to be the richest player.
 Here are introduction of resources:
-And as suggesting, each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision.
-Note that the value is only a rough estimation, and you should not rely on it too much:
-Food, Industry and Culture, sometimes called "small block", each has a estimated value of 1
+Each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision:
+Food, Industry, Culture, sometimes called "small block", each has a estimated value of 1
 Biotech, Energy, Information, sometimes called "big block", each has a estimated value of 1.5
-Ship has a estimated value of 1, and its value is very changeable.
-Hypertech, Score, each has a estimated value of 3.
-WildSmall may replace any small block as input item, and WildBig may replace any big block as input item.
-w and W each has a value of 1, but sometimes they may become more valuable.
-ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
+Ship has a estimated value of 1.
+Hypertech and Score, each has a estimated value of 3.
+WildSmall can replace any one of Food, Industry or Culture as input item, and WildBig can replace any one of Biotech, Energy or Information as input item, so they are more valuable than simple "small block" and "big block".
+WildSmall has a value of 1+, and WildBig has a value of 1.5+. Here "+" means slightly bigger.
+ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any "small block" or "big block" as input item.
 
 Now is the trading stage of this turn.
 Reviewing the instructions and the plan you designed below, please make trade actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
-You may adjust your plan according to the current game state. 
+You may adjust your plan according to the current game state.
 You should also include a bulletin_board field in your response, which will be seen by other players. This represents a public sign or broadcast you are making to the whole table to attract traders. 
+You should call exchange_wild when you think it is necessary, to transform your wild small or wild big to usable small blocks or big blocks.
+You should call exchange_arbitrary when you think it is necessary, to transform your small or big block to ArbitrarySmall and ArbitraryBig tokens.
 
-Your response must be a json object with the following format:
+
+
+Some most important things:
+1.  MANDATORY MATH CHECK: In your `reasoning` field, you MUST explicitly calculate the value difference for every trade. Formula: `Diff = Value(Receive) - Value(Give)`.
+2.  THE "0.5" RED LINE: A value difference of 0.5 is **HUGE**. It represents 50% of a standard resource. **NEVER** treat a 0.5 difference as "close enough".
+    - FORBIDDEN: Trading 1 Small Block (Value 1) for 1 Big Block (Value 1.5). This is a -0.5 loss/gain and is mathematically unacceptable.
+    - EQUIRED: To trade for a Big Block (1.5), you must offer 1.5 value (e.g., 1 Small Block + 1 Ship *[if ship is 0.5]*, or 3 Small Blocks for 2 Big Blocks).
+3.  Strict Equivalent Exchange: You MUST aim for `Diff == 0`.
+    - If `Diff > 0` (You profit): Other players are smart calculators. They **will reject** your proposal immediately. Do not waste time sending profitable proposals.
+    - If `Diff < 0` (You lose): You are bleeding value. Only accept a loss (max -0.5) if that specific resource is the **last piece** needed to run a critical engine this turn. Otherwise, never trade at a loss.
+4. Avoid making one huge, complex trade containing many items. Large trades are hard to calculate and likely to be rejected. Break your needs down into multiple small, simple trades.
+5. NEVER send a trade proposal where both 'send' and 'receive' fields are empty. 
+6. NEVER send the existing proposal in "Your trade proposals" in ### Observation again. Before you send a prorosal, check the proposals in "Your trade proposals" in ### Observation to see if it already existed.
+7. Immediately decline_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rule, or same exchange proposals in "Your trade proposals" in ### Observation.
+8. Large and small blocks are indivisible; you cannot trade 0.5 of a large unit or a small unit.
+9. Finish your turn (agree) only when you have executed your plan or absolutely cannot find a good trade.
+10. Specific Examples:
+    - "Give 1 Hypertech (3) receive 2 Energy (3)" -> OK (Equal).
+    - "Give 1 Hypertech (3) receive 2 Industry (2)" -> **WRONG** (Loss of 1.0, not acceptable).
+    - "Give 1 Culture (1) receive 1 Energy (1.5)" -> **WRONG** (Profit of 0.5, will be rejected).
+    - "Give 2 Food (2) receive 1 Energy (1.5)" -> **WRONG** (Loss of 0.5, unless desperately needed).
+
+
+
+
+Your response must be a json object with the following format (Never output "```", that's used to tell you the json format):
 ```
 {
-  "reasoning": <reasoning>,
+  "reasoning": <string>,
   "bulletin_board": {
     "message": "<string>",
     "seeking": ["<resource_name>": <resource_quantity>, ...],

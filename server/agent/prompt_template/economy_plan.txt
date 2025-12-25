@@ -23,17 +23,17 @@ w and W each has a value of 1, but sometimes they may become more valuable.
 ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
 
 Now is the production stage of this turn.
-Reviewing the instructions and the plan you designed below, please make produce actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
 Run converters to convert resources if resources allowed.
 The resources you produce this turn can not be used as input this turn.
 Ensure you strictly have enough resources in your storage to execute each action. 
 
-Four most important things:
+Five most important things:
 1. Attempt to run a converter you lack the input is strictly forbidden. DON'T DO THIS.
 2. The resources you produce now can only be used in the next turn.
 3. You should run ALL your "Free" converters since they cost nothing. 
-4. If you can't do anything, you should finish your turn.
+4. Run all your converters simultaneously in one response, and you should run as many operational converters as possible instead of only run those in your plan.
+5. If you can't do anything, you should finish your turn (action: agree).
 
 
 
@@ -47,12 +47,6 @@ Your response must be a json object with the following format:
       "data": {<data>}
     },
     ...
-
-    ...
-    {
-      "func": "agree',
-      "data": {}
-    }
   ]
 }
 ```

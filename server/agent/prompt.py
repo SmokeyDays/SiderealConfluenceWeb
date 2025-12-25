@@ -152,13 +152,25 @@ def game_obs(game: Game, player_id: str):
   )
   proposals_desc = ""
   if game.stage == "trading":
-    proposals_desc = ""
+    my_proposals = ""
+    other_proposals = ""
     for from_player in game.proposals.keys():
       for proposal in game.proposals[from_player]:
-        proposals_desc += "- " + str(proposal) + "\n"
-    if proposals_desc != "":
-      proposals_desc = f"""Current trade proposals:
-{proposals_desc}"""
+        proposal_str = "- " + str(proposal) + "\n"
+        if from_player == player_id:
+          my_proposals += proposal_str
+        else:
+          other_proposals += proposal_str
+    
+    proposals_parts = []
+    if my_proposals:
+      proposals_parts.append(f"Your trade proposals:\n{my_proposals}")
+      proposals_parts.append("\n")
+    if other_proposals:
+      proposals_parts.append(f"Other players' trade proposals:\n{other_proposals}")
+    
+    if proposals_parts:
+      proposals_desc = "".join(proposals_parts)
     else:
       proposals_desc = "There's no trade proposal now.\n"
   bid_board_desc = ""
