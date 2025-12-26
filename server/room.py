@@ -107,11 +107,10 @@ class Room:
     else:
       return False
     
-  def add_bot(self, user_id, bot_id, specie):
-    if user_id in self.players and user_id not in self.bots:
-      self.bots.append(bot_id)
-      self.enter_room(bot_id)
-      self.choose_specie(bot_id, specie)
+  def add_bot(self, bot_id, specie):
+    self.bots.append(bot_id)
+    self.enter_room(bot_id)
+    self.choose_specie(bot_id, specie)
   
   def remove_bot(self, user_id, bot_id):
     if user_id in self.players and user_id not in self.bots:

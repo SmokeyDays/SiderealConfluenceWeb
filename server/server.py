@@ -30,7 +30,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock3()
+    self.mock4()
     
   
   def mock1(self):
@@ -189,12 +189,12 @@ class Server:
     test_room.add_bot("Alice", "Bot2", "Kit")
     test_room.add_bot("Alice", "Bot3", "Unity")
     
+    return
     test_room.agree_to_start("Alice")
     test_room.agree_to_start("Bot1")
     test_room.agree_to_start("Bot2")
     test_room.agree_to_start("Bot3")
     self.update_game_state(test_room.name, important=True)
-    return
     # t-1 trading
     test_room.game.debug_add_item("Alice", "Ship", 10)
     test_room.game.debug_add_item("Bot1", "Ship", 10)
@@ -232,6 +232,21 @@ class Server:
     # test_room.game.player_agree("Bot1")
     # test_room.game.player_agree("Bot2")
     # test_room.game.player_agree("Bot3")
+
+  def mock4(self):
+    self.rooms["test_bot_only"] = Room(4, "test_bot_only", 6)
+    test_room = self.rooms['test_bot_only']
+    test_room.add_bot("Bot1", "Im")
+    test_room.add_bot("Bot2", "Kit")
+    test_room.add_bot("Bot3", "Unity")
+    test_room.add_bot("Bot4", "Faderan")
+    
+    test_room.agree_to_start("Bot1")
+    test_room.agree_to_start("Bot2")
+    test_room.agree_to_start("Bot3")
+    test_room.agree_to_start("Bot4")
+    self.update_game_state(test_room.name, important=True)
+    self.update_game_state(test_room.name, important=True)
 
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -472,7 +487,7 @@ class Server:
           "title": "Add bot",
           "str": f"You have add bot {bot_id} to room {room_name} playing as {specie}."
         }, namespace=get_router_name())
-      self.rooms[room_name].add_bot(username, bot_id, specie)
+      self.rooms[room_name].add_bot(bot_id, specie)
       self.rooms[room_name].agree_to_start(bot_id)
       self.update_rooms()
 
@@ -706,7 +721,9 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
-      self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
+      suc, msg = self.rooms[room_name].game.submit_pick(username, data['type'], data['pick_id'])
+      if not suc:
+        logger.warning(f"Submit pick failed when {username} in {room_name} picking {data['pick_id']} of {data['type']}. Message: {msg}")
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('upgrade-colony', namespace=get_router_name())
@@ -881,7 +898,6 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       recent_response = self.rooms[room_name].get_recent_response(username)
-      logger.info(f"recent_response of player {username}: {recent_response}")
       emit('recent-response', {
         "username": username,
         "recent_response": recent_response

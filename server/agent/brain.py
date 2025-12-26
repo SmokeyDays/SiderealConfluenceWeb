@@ -22,7 +22,7 @@ class Brain:
     self._step_id = 0
 
   def record_response(self, prompt, response, special_call=None):
-    logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
+    # logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
     self.recent_responses.append({
       "timestamp": str(datetime.now()),
       "round": self.game.current_round,
@@ -42,7 +42,7 @@ class Brain:
         logger.warning(f"Bot {self.player_id} {caller_name} returned no callbacks: {response}")
         return
       if self._step_id != current_id:
-        logger.warning(f"Bot {self.player_id}: Discarding outdated callbacks from {name} (Race Condition Prevented)")
+        logger.warning(f"Bot {self.player_id}: Discarding outdated callbacks from {current_id} (Race Condition Prevented)")
         return
 
       
