@@ -19,6 +19,7 @@ class Brain:
     self.current_plan = None
     self.promises = []
     self.recent_responses = []
+    self._step_id = 0
 
   def record_response(self, prompt, response, special_call=None):
     logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
@@ -31,13 +32,19 @@ class Brain:
     })
 
   async def step(self, handlers_prompt, handlers_map):
+    self._step_id = self._step_id + 1
+    current_id = self._step_id
+
     obs = get_prompt(self.game, self.player_id)
-    
     # 定义一个通用的回调处理函数，避免代码重复
     def execute_callbacks(response, caller_name):
       if not response or "actions" not in response.keys():
         logger.warning(f"Bot {self.player_id} {caller_name} returned no callbacks: {response}")
         return
+      if self._step_id != current_id:
+        logger.warning(f"Bot {self.player_id}: Discarding outdated callbacks from {name} (Race Condition Prevented)")
+        return
+
       
       callbacks = response.get("actions", [])
       try:

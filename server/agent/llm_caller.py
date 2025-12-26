@@ -143,6 +143,9 @@ Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
         add_LLMs_total_cost(total_cost)
         
       logger.info(f"****{self.planner_name}****\n{long_term_plan}")
+    except asyncio.CancelledError:
+      logger.info(f"Bot calling {self.planner_name} was cancelled by user/system.")
+      raise 
     except Exception as e:
       import traceback
       logger.error(f"Plan failed: {e}, {traceback.format_exc()}")
