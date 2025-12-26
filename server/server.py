@@ -117,7 +117,7 @@ class Server:
     test_room.enter_room("Bob")
     test_room.enter_room("Charlie")
     test_room.enter_room("David")
-    # return 
+    return 
     self.new_msg(Message("Alice", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Bob", "HelloRoom", str(datetime.datetime.now()), "test2"))
     self.new_msg(Message("Charlie", "HelloRoom", str(datetime.datetime.now()), "test2"))
@@ -744,7 +744,7 @@ class Server:
 
     @self.socketio.on('exchange-colony', namespace=get_router_name())
     @registry(["game-interface"])
-    @set_attr("stage", ["trading"])
+    @set_attr("stage", ["trading", "production"])
     def exchange_colony(data):
       """
       exchange_colony: Exchange a colony for a material.
@@ -757,7 +757,7 @@ class Server:
 
     @self.socketio.on('exchange-arbitrary', namespace=get_router_name())
     @registry(["game-interface"])
-    @set_attr("stage", ["trading"])
+    @set_attr("stage", ["trading", "production"])
     def exchange_arbitrary(data):
       """
       exchange_arbitrary: If a converter requires "AnySmall" or "AnyBig", you can use this to exchange your blocks for the converter. Industry, Culture and Food will be exchanged for "AnySmall" and Biotech, Energy and Information will be exchanged for "AnyBig".
@@ -770,7 +770,7 @@ class Server:
     
     @self.socketio.on('exchange-wild', namespace=get_router_name())
     @registry(["game-interface"])
-    @set_attr("stage", ["trading"])
+    @set_attr("stage", ["trading", "production"])
     def exchange_wild(data):
       """
       exchange_wild: If you have "WildSmall" or "WildBig" in your hand, you can use this to exchange them for any blocks. WildSmall will be exchanged for Industry, Culture or Food. WildBig will be exchanged for Biotech, Energy or Information.
