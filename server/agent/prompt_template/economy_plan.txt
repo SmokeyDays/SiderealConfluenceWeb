@@ -31,7 +31,7 @@ Ensure you strictly have enough resources in your storage to execute each action
 Five most important things:
 1. Attempt to run a converter you lack the input is strictly forbidden. DON'T DO THIS.
 2. The resources you produce now can only be used in the next turn.
-3. You should run ALL your "Free" converters since they cost nothing. 
+3. You MUST run ALL your "Free" converters since they cost nothing. 
 4. Run all your converters simultaneously in one response, and you should run as many operational converters as possible instead of only run those in your plan.
 5. If you can't do anything, you should finish your turn (action: agree).
 
@@ -43,7 +43,7 @@ Your response must be a json object with the following format:
   "reasoning": <reasoning>,
   "actions": [
     {
-      "func": <id>,
+      "func": <function_name>,
       "data": {<data>}
     },
     ...

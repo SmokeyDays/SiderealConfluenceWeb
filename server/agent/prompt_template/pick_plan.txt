@@ -36,7 +36,7 @@ Your response must be a json object with the following format:
   "reasoning": <reasoning>,
   "actions": [
     {
-      "func": <id>,
+      "func": <function_name>,
       "data": {<data>}
     },
     ...
