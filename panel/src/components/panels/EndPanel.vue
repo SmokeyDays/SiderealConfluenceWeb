@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { computed } from 'vue';
-  import { NButton } from 'naive-ui';
+  import { NButton, NCard } from 'naive-ui';
   import { getPlayerScore, type Player } from '@/interfaces/GameState';
   import PanelTemplate from '@/components/panels/PanelTemplate.vue';
   import SpecieZhDiv from '@/components/SpecieZhDiv.vue';
@@ -63,11 +63,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* background-color: var(--vt-c-black-soft); */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   padding: 20px;
   margin: 0 auto;
-  border-radius: 10px;
 }
 
 table {
@@ -83,7 +82,7 @@ th, td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #ca1aff20;
   font-weight: bold;
 }
 
@@ -104,6 +103,6 @@ th {
 
 .winner-message p {
   font-size: 18px;
-  color: #333;
+  /* color: #333; */
 }
 </style>
