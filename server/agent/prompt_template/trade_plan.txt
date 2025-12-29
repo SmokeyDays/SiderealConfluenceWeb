@@ -71,7 +71,7 @@ Your response must be a json object with the following format (Never output "```
   },
   "actions": [
     {
-      "func": <func_name>,
+      "func": <function_name>,
       "data": {<data>}
     },
     ...
