@@ -1,6 +1,9 @@
 from abc import abstractmethod
+from datetime import time
 import random
 import asyncio
+
+import openai
 from server.agent.prompt_template import load_prompt
 from langchain_openai import AzureChatOpenAI
 from langchain_community.callbacks.manager import get_openai_callback
@@ -89,69 +92,84 @@ class BasicCaller():
 
 
   def plan(self, chapters):
-
     system_message = self.render_system_message()
     human_message = self.render_human_message(chapters)
-
     message = [system_message, human_message]
     long_term_plan = {}
     logger.info(f"****{self.planner_name}****\n{system_message.content}\n{str_msg(human_message)}")
-    try:
-      with get_openai_callback() as cb:
-        long_term_plan = self.get_chain().invoke(message)
-        logger.info(f"""
+
+    max_retries = 3
+    attempt = 0
+
+    while attempt < max_retries:
+      try:
+        with get_openai_callback() as cb:
+          long_term_plan = self.get_chain().invoke(message)
+          
+          logger.info(f"""
 LLMs Called:
 Total tokens: {cb.total_tokens}, Total cost: {cb.total_cost}, 
-Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
-        logger.info(f"LLMs total tokens: {LLMs_total_tokens}")
-        logger.info(f"LLMs total cost: {LLMs_total_cost}")
-        total_tokens = cb.total_tokens
-        add_LLMs_total_tokens(total_tokens)
-        total_cost = cb.total_cost
-        add_LLMs_total_cost(total_cost)
-      logger.info(f"****{self.planner_name}****\n{long_term_plan}")
-    except Exception as e:
-      import traceback
-      logger.error(f"Plan failed: {e}, {traceback.format_exc()}")
+Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}
+Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
+          add_LLMs_total_tokens(cb.total_tokens)
+          add_LLMs_total_cost(cb.total_cost)
+        
+        logger.info(f"****{self.planner_name}****\n{long_term_plan}")
+        return long_term_plan
+      except openai.RateLimitError as e:
+        logger.warning(f"OpenAI RateLimit hit. Sleeping for 60s before retrying... (Error: {e})")
+        time.sleep(60)
+        continue 
+      except Exception as e:
+        attempt += 1
+        logger.warning(f"Plan attempt {attempt}/{max_retries} failed: {e}")
+        if attempt >= max_retries:
+          import traceback
+          logger.error(f"Plan failed after {max_retries} attempts: {e}, {traceback.format_exc()}")
+          return {}
     
     return long_term_plan
+
   async def aplan(self, chapters):
     system_message = self.render_system_message()
     human_message = self.render_human_message(chapters)
-
     message = [system_message, human_message]
     long_term_plan = {}
     
     logger.info(f"****{self.planner_name}****\n{system_message.content}\n{str_msg(human_message)}")
     
-    try:
-      # get_openai_callback 支持 async contextvars
-      with get_openai_callback() as cb:
-        # 使用 ainvoke 进行异步调用
-        long_term_plan = await self.get_chain().ainvoke(message)
-        
-        logger.info(f"""
+    max_retries = 3
+    attempt = 0
+
+    while attempt < max_retries:
+      try:
+        with get_openai_callback() as cb:
+          long_term_plan = await self.get_chain().ainvoke(message)
+          logger.info(f"""
 LLMs Called (Async):
-Total tokens: {cb.total_tokens}, Total cost: {cb.total_cost}, 
-Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}""")
-        logger.info(f"LLMs total tokens: {LLMs_total_tokens}")
-        logger.info(f"LLMs total cost: {LLMs_total_cost}")
-        
-        total_tokens = cb.total_tokens
-        add_LLMs_total_tokens(total_tokens)
-        total_cost = cb.total_cost
-        add_LLMs_total_cost(total_cost)
-        
-      logger.info(f"****{self.planner_name}****\n{long_term_plan}")
-    except asyncio.CancelledError:
-      logger.info(f"Bot calling {self.planner_name} was cancelled by user/system.")
-      raise 
-    except Exception as e:
-      import traceback
-      logger.error(f"Plan failed: {e}, {traceback.format_exc()}")
-      # 返回空字典防止下游崩溃
-      return {}
-  
+Request tokens: {cb.total_tokens}, Request cost: {cb.total_cost}, 
+Prompt tokens: {cb.prompt_tokens}, Completion tokens: {cb.completion_tokens}
+Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
+          add_LLMs_total_tokens(cb.total_tokens)
+          add_LLMs_total_cost(cb.total_cost)
+          
+        logger.info(f"****{self.planner_name}****\n{long_term_plan}")
+        return long_term_plan
+      except asyncio.CancelledError:
+        logger.info(f"Bot calling {self.planner_name} was cancelled.")
+        raise 
+      except openai.RateLimitError as e:
+        logger.warning(f"OpenAI RateLimit hit (Async). Sleeping for 60s... (Error: {e})")
+        await asyncio.sleep(60)
+        continue
+      except Exception as e:
+        attempt += 1
+        logger.warning(f"Async Plan attempt {attempt}/{max_retries} failed: {e}")
+        if attempt >= max_retries:
+          import traceback
+          logger.error(f"Plan failed after {max_retries} attempts: {e}, {traceback.format_exc()}")
+          return {}
+    
     return long_term_plan
   
 class TurnPlanCaller(BasicCaller):

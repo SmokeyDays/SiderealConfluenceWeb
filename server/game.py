@@ -1,4 +1,5 @@
 from copy import deepcopy
+from datetime import datetime, time, timedelta
 import json
 from math import ceil
 from typing import Any, Callable, Dict, List, Tuple
@@ -93,7 +94,7 @@ def get_gift_str(gift: Dict[str, Any]):
 
 class TradeProposal:
   trade_proposal_id = 1
-  def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
+  def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], timestamp: float, message: str = ""):
     """
     TradeProposal is a class that represents a trade proposal.
     send_gift: {
@@ -109,6 +110,7 @@ class TradeProposal:
     self.send_gift = send_gift
     self.receive_gift = receive_gift
     self.message = message
+    self.timestamp = timestamp
   def to_dict(self):
     return {
       "id": self.id,
@@ -116,7 +118,8 @@ class TradeProposal:
       "to_players": self.to_players,
       "send_gift": self.send_gift,
       "receive_gift": self.receive_gift,
-      "message": self.message
+      "message": self.message,
+      "timestamp": self.timestamp
     }
   def get_value(self):
     return get_gift_value(self.receive_gift) - get_gift_value(self.send_gift)
@@ -124,7 +127,10 @@ class TradeProposal:
     msg_str = ""
     if self.message:
       msg_str = f" ({self.message})"
-    return f"(id {self.id}) {self.from_player} -> {self.to_players}: {get_gift_str(self.send_gift)} -> {get_gift_str(self.receive_gift)}{msg_str}"
+    now_time = datetime.now().timestamp()
+    delta_time = now_time - self.timestamp
+    time_ago_str = str(timedelta(seconds=int(delta_time)))
+    return f"(id {self.id}) {self.from_player} -> {self.to_players}: {get_gift_str(self.send_gift)} -> {get_gift_str(self.receive_gift)}{msg_str} [{time_ago_str} ago]"
 
 class DataManager:
   def __init__(self, path: str):
@@ -1452,7 +1458,7 @@ class Game:
     return True, ""
   
   def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
-    proposal = TradeProposal(from_player, to_players, send_gift, receive_gift, message)
+    proposal = TradeProposal(from_player, to_players, send_gift, receive_gift, datetime.now().timestamp(), message)
     self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
     return True, "", proposal.id
 

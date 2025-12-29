@@ -588,7 +588,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Trade Proposal Success" if success else "Trade Proposal Failed",
           "str": message
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('decline-trade-proposal', namespace=get_router_name())
@@ -607,7 +607,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Decline Trade Proposal Success" if success else "Decline Trade Proposal Failed",
           "str": message
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('accept-trade-proposal', namespace=get_router_name())
@@ -626,7 +626,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Accept Trade Proposal Success" if success else "Accept Trade Proposal Failed",
           "str": message
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('produce', namespace=get_router_name())
@@ -650,7 +650,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Produce Success" if success else "Produce Failed",
           "str": message
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       if not success:
         return
       if self.rooms[room_name].game.stage != "production":
@@ -705,7 +705,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Kajsjavikalimm Choose Split Success" if success else "Kajsjavikalimm Choose Split Failed",
           "str": msg
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       if not success:
         return
       self.update_game_state(room_name, important=True)
@@ -756,7 +756,7 @@ class Server:
           "type": "success" if success else "error",
           "title": "Upgrade Success" if success else "Upgrade Failed",
           "str": message
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('exchange-colony', namespace=get_router_name())
@@ -865,7 +865,7 @@ class Server:
         emit('factory-data', {
           "room_name": room_name,
           "factory": factory.to_dict()
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
 
     @self.socketio.on('query-achievement', namespace=get_router_name())
     def query_achievement(data):
@@ -891,7 +891,7 @@ class Server:
       if username in self.online_users:
         emit('is-bot', {
           "is_bot": is_bot
-        }, namespace=get_router_name())
+        }, namespace=get_router_name(), to=username)
 
     @self.socketio.on('query-recent-response', namespace=get_router_name())
     def query_recent_response(data):
