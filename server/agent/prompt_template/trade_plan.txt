@@ -44,7 +44,7 @@ Some most important things:
 6. NEVER send the existing proposal in "Your trade proposals" in ### Observation again. Before you send a prorosal, check the proposals in "Your trade proposals" in ### Observation to see if it already existed.
 7. Immediately decline_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rule, or same exchange proposals in "Your trade proposals" in ### Observation.
 8. Large and small blocks are indivisible; you cannot trade 0.5 of a large unit or a small unit.
-9. Finish your turn (agree) only when you have executed your plan or absolutely cannot find a good trade.
+9. Finish your turn (confirm_ready) only when you have executed your plan or absolutely cannot find a good trade.
 10. Specific Examples:
     - "Give 1 Hypertech (3) receive 2 Energy (3)" -> OK (Equal).
     - "Give 1 Hypertech (3) receive 2 Industry (2)" -> **WRONG** (Loss of 1.0, not acceptable).
@@ -71,7 +71,7 @@ Your response must be a json object with the following format (Never output "```
   },
   "actions": [
     {
-      "func": <id>,
+      "func": <func_name>,
       "data": {<data>}
     },
     ...

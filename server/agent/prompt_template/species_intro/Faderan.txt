@@ -16,7 +16,6 @@ The Faderan have a deck of relic worlds which is shuffled before the game and ke
 Acknowledgements:
 The Faderan have a set of tokens called "Acknowledgements". Acknowledgements can be traded to players by the Faderan.
   - Constraint: Non-Faderan players cannot trade away Acknowledgements.
-  - Trigger: When a non-Faderan player with an Acknowledgement invents a technology, they must return 1 Acknowledgement to the Faderan, and the Faderan gain 1 victory point from the common pool.
-  - Multiple Inventions: If a player completes multiple technologies in a single turn, they return 1 Acknowledgement per technology completed, and the Faderan gain 1 victory point for each.
+  - Trigger: Whenever a non-Faderan player with an Acknowledgement invents a technology, they must return 1 Acknowledgement to the Faderan, and the Faderan gain 1 victory point from the common pool.
   - Value: Thus, each Acknowledgement accepted will eventually be worth 1 point to the Faderan, so long as the player who holds them invents as many technologies.
 

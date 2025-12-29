@@ -661,9 +661,9 @@ class Server:
     @self.socketio.on('agree', namespace=get_router_name())
     @registry(["game-interface"])
     @set_attr("stage", ["trading", "production"])
-    def agree(data):
+    def confirm_ready(data):
       """
-      agree: Agree to continue the game and go to the next stage. Once all players "agree" to move, this game will step to the next stage. No further properties are required.
+      confirm_ready: Action to confirm the end of your turn. Use this to signal that you have finished your actions and are ready to move on. The game will advance to the next stage once all players have sent this signal. No parameters are needed in the data payload.
       """
       room_name = data['room_name']
       username = data['username']
@@ -692,8 +692,12 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
+      old_stage = self.rooms[room_name].game.stage
       self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
-      self.update_game_state(room_name)
+      if self.rooms[room_name].game.stage != old_stage:
+        self.update_game_state(room_name, important=True)
+      else:
+        self.update_game_state(room_name)
 
     @self.socketio.on('submit-kajsjavikalimm-choose-split', namespace=get_router_name())
     def submit_kajsjavikalimm_choose_split(data):

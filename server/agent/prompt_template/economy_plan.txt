@@ -33,8 +33,7 @@ Five most important things:
 2. The resources you produce now can only be used in the next turn.
 3. You should run ALL your "Free" converters since they cost nothing. 
 4. Run all your converters simultaneously in one response, and you should run as many operational converters as possible instead of only run those in your plan.
-5. If you can't do anything, you should finish your turn (action: agree).
-
+5. You should complete your turn (confirm_ready) after you run all needed converters.
 
 
 Your response must be a json object with the following format:
@@ -43,7 +42,7 @@ Your response must be a json object with the following format:
   "reasoning": <reasoning>,
   "actions": [
     {
-      "func": <id>,
+      "func": <func_name>,
       "data": {<data>}
     },
     ...
