@@ -21,6 +21,8 @@ class Brain:
     self.promises = []
     self.recent_responses = []
     self._step_id = 0
+    self.trading_step_count = 0
+    self.last_trading_round = -1
 
   def record_response(self, prompt, response, special_call=None):
     # logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
@@ -31,6 +33,15 @@ class Brain:
       "prompt": prompt,
       "response": response
     })
+
+  def ensure_confirm(self, response):
+    actions = response.get("actions", [])
+    has_confirm = any(action.get("func") == "confirm_ready" for action in actions)
+    if not has_confirm:
+      logger.info(f"Bot {self.player_id} adding confirm_ready to actions.")
+      actions.append({"func": "confirm_ready", "data": {}})
+      response["actions"] = actions
+    return response
 
   async def step(self, handlers_prompt, handlers_map):
     self._step_id = self._step_id + 1
@@ -76,6 +87,11 @@ class Brain:
     
 
     if self.game.stage == "trading":
+      if self.last_trading_round != self.game.current_round:
+        self.trading_step_count = 0
+        self.last_trading_round = self.game.current_round
+      self.trading_step_count += 1
+
       if self.current_plan is None:
         prompt = {
           "Specie description": specie_desc, 
@@ -96,13 +112,19 @@ class Brain:
       }
       # AWAIT 调用
       response = await trade_caller.aplan(prompt)
+
+      if self.trading_step_count > 100 and response and "actions" in response:
+        response = self.ensure_confirm(response)
       self.record_response(prompt, response)
       execute_callbacks(response, "trade caller")
+      # Apply updated plan
+      new_plan = response.get("updated_plan", None)
+      if new_plan is not None:
+        self.current_plan = new_plan
         
     elif self.game.stage == "discard_colony":
       prompt = {
         "Specie description": specie_desc,
-        "Plan": str(self.current_plan),
         "Observation": obs,
         "Actions": handlers_prompt
       }
@@ -119,6 +141,7 @@ class Brain:
       }
       response = await economy_caller.aplan(prompt)
       self.record_response(prompt, response)
+      response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
 
     elif self.game.stage == "bid":

@@ -25,7 +25,6 @@ Now is the trading stage of this turn.
 Reviewing the instructions and the plan you designed below, please make trade actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
 You may adjust your plan according to the current game state.
-You should also include a bulletin_board field in your response, which will be seen by other players. This represents a public sign or broadcast you are making to the whole table to attract traders. 
 You should call exchange_wild when you think it is necessary, to transform your wild small or wild big to usable small blocks or big blocks.
 You should call exchange_arbitrary when you think it is necessary, to transform your small or big block to ArbitrarySmall and ArbitraryBig tokens.
 
@@ -42,7 +41,7 @@ Some most important things:
 4. Avoid making one huge, complex trade containing many items. Large trades are hard to calculate and likely to be rejected. Break your needs down into multiple small, simple trades.
 5. NEVER send a trade proposal where both 'send' and 'receive' fields are empty. 
 6. NEVER send a proposal which is same as an existing proposal in "Your trade proposals" in ### Observation again. Before you send a proposal, check the proposals in "Your trade proposals" in ### Observation to see if it already existed.
-7. Immediately decline_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rule, or same exchange proposals in "Your trade proposals" in ### Observation.
+7. Immediately withdraw_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rule, or same exchange proposals in "Your trade proposals" in ### Observation.
 8. Large and small blocks are indivisible; you cannot trade 0.5 of a large unit or a small unit.
 9. Finish your turn (confirm_ready) only when you have executed your plan or absolutely cannot find a good trade.
 10. Specific Examples:
@@ -50,18 +49,13 @@ Some most important things:
     - "Give 1 Hypertech (3) receive 2 Industry (2)" -> **WRONG** (Loss of 1.0, not acceptable).
     - "Give 1 Culture (1) receive 1 Energy (1.5)" -> **WRONG** (Profit of 0.5, will be rejected).
     - "Give 2 Food (2) receive 1 Energy (1.5)" -> **WRONG** (Loss of 0.5, unless desperately needed).
-
-
+11. If your plan is no longer fit your current situation, you can adjust your plan accordingly in the updated_plan field in your response.
+12. You may update your bulletin_board to help other players understand your trade intentions better.
 
 Your response must be a json object with the following format (Never output "```", that's used to tell you the json format):
 ```
 {
   "reasoning": <string>,
-  "bulletin_board": {
-    "message": "<string>",
-    "seeking": ["<resource_name>": <resource_quantity>, ...],
-    "offering": ["<resource_name>": <resource_quantity>, ...]
-  },
   "updated_plan": {
     "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
     "resources_needed": {"<resource_name>": <resource_quantity>, ...},

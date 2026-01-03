@@ -280,9 +280,9 @@ const handleToggleBot = () => {
 
 socket.on('prompt', (data: { username: string, prompt: string }) => {
   loading.value = false;
-  pureText.value = data.prompt;
-  if (activePlayerId.value) {
-    promptCache.set(activePlayerId.value, data.prompt);
+  promptCache.set(data.username, data.prompt);
+  if (activePlayerId.value === data.username) {
+    pureText.value = data.prompt;
   }
 });
 

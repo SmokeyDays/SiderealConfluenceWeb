@@ -872,11 +872,10 @@ class Server:
       username = data['username']
       factory_name = data['factory_name']
       factory = self.rooms[room_name].game.get_factory(username, factory_name)
-      if username in self.online_users:
-        emit('factory-data', {
-          "room_name": room_name,
-          "factory": factory.to_dict()
-        }, namespace=get_router_name(), to=username)
+      emit('factory-data', {
+        "room_name": room_name,
+        "factory": factory.to_dict()
+      }, namespace=get_router_name())
 
     @self.socketio.on('query-achievement', namespace=get_router_name())
     def query_achievement(data):
@@ -892,7 +891,7 @@ class Server:
       emit('prompt', {
         "username": username,
         "prompt": prompt
-      }, namespace=get_router_name(), to=username)
+      }, namespace=get_router_name())
 
     @self.socketio.on('query-is-bot', namespace=get_router_name())
     def query_is_bot(data):

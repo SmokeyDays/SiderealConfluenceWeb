@@ -9,7 +9,7 @@ Colony Support: 4.
 
 Relic Worlds:
 The Faderan have a deck of relic worlds which is shuffled before the game and kept face down.
-  - Playing Relic Worlds: On each card there is a converter that can be run during the Trade Phase to play the top card of the deck. Despite being claimed on each card, there is only one such converter — it can be run at most once per turn.
+  - Playing Relic Worlds: You may run converter on 法德澜_遗迹挖掘舰队 during the Trade Phase to play the top card of the deck. You may play only one relic world per turn.
   - Rules: Most relic worlds have special rules, which will be described in the cards and section "Specific Relic World Effects".
   - Trading: Unless otherwise noted, relic worlds can be traded and will be returned at the end of the turn like all other cards.
 
