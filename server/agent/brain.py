@@ -1,4 +1,5 @@
 from datetime import datetime
+import asyncio
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
@@ -34,6 +35,10 @@ class Brain:
   async def step(self, handlers_prompt, handlers_map):
     self._step_id = self._step_id + 1
     current_id = self._step_id
+
+    await asyncio.sleep(1)
+    if self._step_id != current_id:
+      return
 
     obs = get_prompt(self.game, self.player_id)
     # 定义一个通用的回调处理函数，避免代码重复

@@ -141,9 +141,12 @@ class Room:
       await self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
     bot_runner.run_task(self.scheduler.schedule(bot_id, async_logic()))
     
-  def get_recent_response(self, user_id):
+  def get_recent_response(self, user_id, slice):
     if user_id in self.bots:
-      return self.bot_agents[user_id].recent_responses
+      responses = self.bot_agents[user_id].recent_responses
+      if len(responses) > slice:
+        return responses[-slice:]
+      return responses
     else:
       return []
   

@@ -18,7 +18,7 @@ const props = defineProps<{
   username: string;
   roomName: string;
   gameState: GameState;
-  submitKajsjavikalimmChooseSplit: (chooseSplit: boolean) => void;
+  submitKjasjavikalimmSplit: (chooseSplit: boolean) => void;
 }>();
 
 const colonyBid = ref(0);
@@ -78,8 +78,8 @@ const submitPick = () => {
   submitClose();
 }
 
-const submitKajsjavikalimmChooseSplit = (chooseSplit: boolean) => {
-  props.submitKajsjavikalimmChooseSplit(chooseSplit);
+const submitKjasjavikalimmSplit = (chooseSplit: boolean) => {
+  props.submitKjasjavikalimmSplit(chooseSplit);
 }
 
 const getCurrentPickPriority = () => {
@@ -220,8 +220,8 @@ const getIsPortrait = () => {
       </div>
     </div>
     <template v-if="props.gameState.stage === 'pick' && props.getMe()?.specie === 'Kjasjavikalimm' && props.gameState.Kajsjavikalimm_choose_split === null">
-        <n-button @click="submitKajsjavikalimmChooseSplit(true)" type="primary" class="kajsjavikalimm-choose-split-button-yes">拆分</n-button>
-        <n-button @click="submitKajsjavikalimmChooseSplit(false)" type="error" class="kajsjavikalimm-choose-split-button-no">不拆分</n-button>
+        <n-button @click="submitKjasjavikalimmSplit(true)" type="primary" class="kajsjavikalimm-choose-split-button-yes">拆分</n-button>
+        <n-button @click="submitKjasjavikalimmSplit(false)" type="error" class="kajsjavikalimm-choose-split-button-no">不拆分</n-button>
     </template>
     </n-card>
   </PanelTemplate>

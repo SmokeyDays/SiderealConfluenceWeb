@@ -407,7 +407,7 @@ const submitProposal = (sendGift: Gift, receiveGift: Gift, to: string[], message
   });
 };
 const declineProposal = (proposal_id: number) => {
-  socket.emit("decline-trade-proposal", {
+  socket.emit("withdraw-trade-proposal", {
     room_name: props.gameState.room_name,
     username: props.username,
     id: proposal_id
@@ -517,8 +517,8 @@ const submitBid = (colonyBid: number, researchBid: number) => {
   });
 }
 
-const submitKajsjavikalimmChooseSplit = (chooseSplit: boolean) => {
-  socket.emit("submit-kajsjavikalimm-choose-split", {
+const submitKjasjavikalimmSplit = (chooseSplit: boolean) => {
+  socket.emit("submit-kjasjavikalimm-split", {
     room_name: props.gameState.room_name,
     username: props.username,
     choose_split: chooseSplit
@@ -694,7 +694,7 @@ const displayMask = () => {
     :get-player="getPlayer"
     :username="props.username"
     :room-name="props.gameState.room_name"
-    :submit-kajsjavikalimm-choose-split="submitKajsjavikalimmChooseSplit"
+    :submit-kjasjavikalimm-split="submitKjasjavikalimmSplit"
     v-if="displayBidPanel"
   />
   <EndPanel :close-end-panel="closeEndPanel" 

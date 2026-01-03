@@ -1330,7 +1330,7 @@ class Game:
       self.move_to_next_stage()
     return True, ""
 
-  def Kajsjavikalimm_split(self, player_name: str, split: bool):
+  def kjasjavikalimm_split(self, player_name: str, split: bool):
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
       return False, "未指定玩家"
@@ -1462,7 +1462,7 @@ class Game:
     self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
     return True, "", proposal.id
 
-  def decline_trade_proposal(self, from_player: str, id: int):
+  def withdraw_trade_proposal(self, from_player: str, id: int):
     if from_player in self.proposals:
       for proposal in self.proposals[from_player]:
         if proposal.id == id:

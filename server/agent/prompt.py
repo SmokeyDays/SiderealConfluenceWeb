@@ -1,4 +1,4 @@
-from server.game import Converter, Factory, Game, Player, get_items_str, get_items_value
+from server.game import Converter, Factory, Game, Player, get_items_str, get_items_value, get_share_score
 from server.utils.log import logger
 
 # First stage: provide game obs and factories, and ask llms to provide a plan
@@ -32,7 +32,18 @@ def add_tab(str_to_process, tab_num = 1):
     str_to_process += "\n"
   return str_to_process
 
-def get_factory_desc(factory: Factory):
+def get_factory_desc(factory: Factory, game: Game = None, player: Player = None):
+  type_desc = ""
+  if factory.feature["type"] == "Colony":
+    type_desc = "Type: Colony\n"
+  elif factory.feature["type"] == "Research":
+    type_desc = "Type: Research Team\n"
+    if game:
+      share_score, yengii_score = get_share_score(game.get_player_num(), game.current_round)
+      if player:
+        bonus = yengii_score if player.specie == "Yengii" else share_score
+        type_desc += f"  - Reward: {bonus} points if this tech invented this turn\n"
+
   converters_desc = ""
   for i, converter in enumerate(factory.converters):
     converters_desc += f"  - {i}: {converter}\n"
@@ -51,14 +62,20 @@ def get_factory_desc(factory: Factory):
         upgrade_desc += f"  - {i}: By running the specific converter {cost}, you can upgrade {factory.name} to {target}\n"
     if upgrade_desc != "":
       upgrade_desc = f"Upgrades:\n{upgrade_desc}"
+  
+  meta_desc = ""
+  if factory.feature["type"] == "Meta" and "unlock_factory" in factory.feature["properties"]:
+      target = factory.feature["properties"]["unlock_factory"]
+      meta_desc = f"Play Card:\n  - By running the converter, you can play the card {target}\n"
+
   feature_desc = ""
   if factory.description != f"":
     feature_desc = f"""Other features:
 {factory.description}
 """
   res = f"""{factory.name}
-Converters:
-{converters_desc}{upgrade_desc}{feature_desc}"""
+{type_desc}Converters:
+{converters_desc}{upgrade_desc}{meta_desc}{feature_desc}"""
   return res
 
 def get_bulletin_board_desc(player: Player):
@@ -96,14 +113,14 @@ def get_bid_desc(game: Game):
     price = bid_item["price"]
     item = bid_item["item"]
     colony_desc += f"  Number {bid_id} item, at least {price} ships are needed:\n"
-    colony_desc += add_tab(get_factory_desc(item))
+    colony_desc += add_tab(get_factory_desc(item, game))
   technology_desc = ""
   for bid_id in range(len(technology_bid)):
     bid_item = technology_bid[bid_id]
     price = bid_item["price"]
     item = bid_item["item"]
     technology_desc += f"  Number {bid_id} item, at least {price} ships are needed for bid:\n"
-    technology_desc += add_tab(get_factory_desc(item))
+    technology_desc += add_tab(get_factory_desc(item, game))
   return f"""Auction tracks:
 There're colonies up for bid:
 {colony_desc}There're technology research teams up for bid:
@@ -125,7 +142,7 @@ def get_pick_desc(game: Game, player: Player):
     item = cards_to_pick[pick_id]["item"]
     cards += f"  Number {pick_id} item:\n"
     if item != None:
-      cards += add_tab(get_factory_desc(item))
+      cards += add_tab(get_factory_desc(item, game, player))
     else:
       cards += "  - This card is picked.\n"
   return f"""Now you may pick up to one {bid_type} card from the auction track.
@@ -137,12 +154,12 @@ def game_obs(game: Game, player_id: str):
     return "Player not found."
   if game.stage == "discard_colony":
     factory_desc = "You are owning those colonies (all converters shown below are colonies):\n"+"".join(
-      get_factory_desc(factory) 
+      get_factory_desc(factory, game, player) 
       for factory in player.factories.values() if factory.feature["type"] == "Colony"
     )
   else:
     factory_desc = "You are owning those factories:\n"+"".join(
-      get_factory_desc(factory) 
+      get_factory_desc(factory, game, player) 
       for factory in player.factories.values()
     )
   other_player_desc = "".join(

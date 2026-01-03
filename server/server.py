@@ -564,7 +564,7 @@ class Server:
         "type": "success" if success else "error",
         "title": "Gift Success" if success else "Gift Failed",
         "str": message
-      }, namespace=get_router_name())
+      }, namespace=get_router_name(), to=username)
       if not success:
         return
       self.update_game_state(room_name, important=True)
@@ -591,21 +591,21 @@ class Server:
         }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
 
-    @self.socketio.on('decline-trade-proposal', namespace=get_router_name())
+    @self.socketio.on('withdraw-trade-proposal', namespace=get_router_name())
     @registry(["game-interface"])
     @set_attr("stage", ["trading"])
-    def decline_trade_proposal(data):
+    def withdraw_trade_proposal(data):
       """
-      decline_trade_proposal: Decline a trade proposal you proposed.
-        - id: int, the id of the trade proposal to decline.
+      withdraw_trade_proposal: Withdraw a trade proposal you made.
+        - id: int, the id of the trade proposal to withdraw.
       """
       room_name = data['room_name']
       username = data['username']
-      success, message = self.rooms[room_name].game.decline_trade_proposal(username, data['id'])
+      success, message = self.rooms[room_name].game.withdraw_trade_proposal(username, data['id'])
       if username in self.online_users:
         emit('alert-message', {
           "type": "success" if success else "error",
-          "title": "Decline Trade Proposal Success" if success else "Decline Trade Proposal Failed",
+          "title": "Withdraw Trade Proposal Success" if success else "Withdraw Trade Proposal Failed",
           "str": message
         }, namespace=get_router_name(), to=username)
       self.update_game_state(room_name, important=True)
@@ -637,7 +637,7 @@ class Server:
       produce: Select a converter of a factory to produce.
         - factory_name: str, the name of the factory to produce.
         - converter_index: int, the index of the converter to produce.
-        - extra_properties: Dict[str, Any], at most of time, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.
+        - extra_properties: Dict[str, Any], usually, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.
       """
       room_name = data['room_name']
       username = data['username']
@@ -699,15 +699,21 @@ class Server:
       else:
         self.update_game_state(room_name)
 
-    @self.socketio.on('submit-kajsjavikalimm-choose-split', namespace=get_router_name())
-    def submit_kajsjavikalimm_choose_split(data):
+    @self.socketio.on('submit-kjasjavikalimm-split', namespace=get_router_name())
+    @registry(["game-interface"])
+    @set_attr("stage", ["pick"])
+    def submit_kjasjavikalimm_split(data):
+      """
+      submit_kjasjavikalimm_split: If you are playing as Kjasjavikalimm, use this to choose whether to bid as two players or not.
+        - choose_split: bool, True to split, False to not split.
+      """
       room_name = data['room_name']
       username = data['username']
-      success, msg = self.rooms[room_name].game.Kajsjavikalimm_split(username, data['choose_split'])
+      success, msg = self.rooms[room_name].game.kjasjavikalimm_split(username, data['choose_split'])
       if username in self.online_users:
         emit('alert-message', {
           "type": "success" if success else "error",
-          "title": "Kajsjavikalimm Choose Split Success" if success else "Kajsjavikalimm Choose Split Failed",
+          "title": "Kjasjavikalimm Choose Split Success" if success else "Kjasjavikalimm Choose Split Failed",
           "str": msg
         }, namespace=get_router_name(), to=username)
       if not success:
@@ -719,7 +725,7 @@ class Server:
     @set_attr("stage", ["pick"])
     def submit_pick(data):
       """
-      submit_pick: Pick an item from the deck.
+      submit_pick: Pick an item from the auction track.
         - type: str, the type of the item to pick. It can be "colony" or "research".
         - pick_id: int, the id of the item to pick.
       """
@@ -768,8 +774,8 @@ class Server:
     @set_attr("stage", ["trading", "production"])
     def exchange_colony(data):
       """
-      exchange_colony: Exchange a colony for a material.
-        - colony_name: str, the name of the colony you spend to exchange.
+      exchange_colony: Exchange a colony for a material. Some upgrades or converters may require you spend a colony to run them, at this time the colony will be destroyed and you will gain materials like "Jungle" or "Desert" (according to the colony type).
+        - colony_name: str, the name of the colony you spend to be material.
       """
       room_name = data['room_name']
       username = data['username']
@@ -781,8 +787,8 @@ class Server:
     @set_attr("stage", ["trading", "production"])
     def exchange_arbitrary(data):
       """
-      exchange_arbitrary: If a converter requires "AnySmall" or "AnyBig", you can use this to exchange your blocks for the converter. Industry, Culture and Food will be exchanged for "AnySmall" and Biotech, Energy and Information will be exchanged for "AnyBig".
-        - items: Dict[str, int], the items you want to exchange.
+      exchange_arbitrary: If a converter requires special inputs called "AnySmall" or "AnyBig", you can use this to exchange your blocks for the converter. Industry, Culture and Food will be exchanged for "AnySmall" and Biotech, Energy and Information will be exchanged for "AnyBig". Note that these two items are different from "WildSmall" and "WildBig" and have no use other than as inputs for specific converters. Furthermore, if you input a colony item like "Jungle" or "Desert", it will become "AnyColony".
+        - items: Dict[str, int], the items you want to exchange for "AnySmall" and "AnyBig". e.g. {"Industry": 1, "Culture": 1, "Biotech": 1} will spend 1 Industry, 1 Culture and 1 Biotech to get 2 AnySmall and 1 AnyBig.
       """
       room_name = data['room_name']
       username = data['username']
@@ -807,7 +813,7 @@ class Server:
     @set_attr("stage", ["discard_colony"])
     def discard_colonies(data):
       """
-      discard_colonies: If you have more colonies than your species' Colony Support limit allows, You must discard the excess colonies.
+      discard_colonies: If you have more colonies than your species' Colony Support limit allows, you must discard the excess colonies.
         - colonies: List[str], the name of the factory you want to discard.
       """
       room_name = data['room_name']
@@ -820,7 +826,7 @@ class Server:
     @set_attr("stage", ["trading"])
     def update_bulletin_board(data):
       """
-      update_bulletin_board: Update your public trade bulletin board.
+      update_bulletin_board: Update your public trade bulletin board to let other players know what you are seeking and offering.
         - message: str, a short message to broadcast.
         - seeking: Dict[str, int], items you are looking for with quantities.
         - offering: Dict[str, int], items you are offering with quantities.
@@ -885,7 +891,7 @@ class Server:
       emit('prompt', {
         "username": username,
         "prompt": prompt
-      }, namespace=get_router_name())
+      }, namespace=get_router_name(), to=username)
 
     @self.socketio.on('query-is-bot', namespace=get_router_name())
     def query_is_bot(data):
@@ -905,7 +911,7 @@ class Server:
       emit('recent-response', {
         "username": username,
         "recent_response": recent_response
-      }, namespace=get_router_name())
+      }, namespace=get_router_name(), to=username)
     
     @self.socketio.on('query-calling-history', namespace=get_router_name())
     def query_calling_history(data):
