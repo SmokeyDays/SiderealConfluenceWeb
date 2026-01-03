@@ -584,7 +584,7 @@ class Server:
       username = data['username']
       success, message, id = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Trade Proposal Success" if success else "Trade Proposal Failed",
           "str": message
@@ -603,7 +603,7 @@ class Server:
       username = data['username']
       success, message = self.rooms[room_name].game.withdraw_trade_proposal(username, data['id'])
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Withdraw Trade Proposal Success" if success else "Withdraw Trade Proposal Failed",
           "str": message
@@ -622,7 +622,7 @@ class Server:
       username = data['username']
       success, message = self.rooms[room_name].game.accept_trade_proposal(username, data['id'])
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Accept Trade Proposal Success" if success else "Accept Trade Proposal Failed",
           "str": message
@@ -646,7 +646,7 @@ class Server:
       logger.info(f"produce: {room_name}, {username}, {data['factory_name']}, {extra_properties}")
       success, message = self.rooms[room_name].game.produce(username, data['factory_name'], converter_index, extra_properties)
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Produce Success" if success else "Produce Failed",
           "str": message
@@ -660,7 +660,8 @@ class Server:
 
     @self.socketio.on('agree', namespace=get_router_name())
     @registry(["game-interface"])
-    @set_attr("stage", ["trading", "production"])
+    @set_attr("stage", ["trading"])
+    # @set_attr("stage", ["trading", "production"])
     def confirm_ready(data):
       """
       confirm_ready: Action to confirm the end of your turn. Use this to signal that you have finished your actions and are ready to move on. The game will advance to the next stage once all players have sent this signal. No parameters are needed in the data payload.
@@ -711,7 +712,7 @@ class Server:
       username = data['username']
       success, msg = self.rooms[room_name].game.kjasjavikalimm_split(username, data['choose_split'])
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Kjasjavikalimm Choose Split Success" if success else "Kjasjavikalimm Choose Split Failed",
           "str": msg
@@ -762,7 +763,7 @@ class Server:
       username = data['username']
       success, message = self.rooms[room_name].game.upgrade_normal(username, data['factory_name'], data['cost_type'])
       if username in self.online_users:
-        emit('alert-message', {
+        self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
           "title": "Upgrade Success" if success else "Upgrade Failed",
           "str": message
@@ -850,13 +851,13 @@ class Server:
       achievements_dict[achievement_id] = achievement_manager.get_achievement(achievement_id).to_dict()
       achievements_dict[achievement_id]["unlocked"] = achievements[achievement_id]
     if user_id in self.online_users:
-      emit('sync-achievements', {
+      self.socketio.emit('sync-achievements', {
         "achievements": achievements_dict
       }, namespace=get_router_name(), to=user_id)
 
   def add_achievement(self, user_id: str, achievement_id: str):
     if user_id in self.online_users:
-      emit('add-achievement', {
+      self.socketio.emit('add-achievement', {
         "achievement": achievement_manager.get_achievement(achievement_id).to_dict(),
         "username": user_id
       }, namespace=get_router_name(), to=user_id)
