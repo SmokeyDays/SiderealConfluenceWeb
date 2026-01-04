@@ -19,19 +19,19 @@
             "凯特_手工制作的多功能组件",
             "凯特_广域社会扩散",
             "凯特_无序牺牲性高风险实验室",
-            "凯特_Zd'Nx_打出",
-            "凯特_Kz'Tlr_打出",
-            "凯特_Kln'Qn_打出",
-            "凯特_Nz'Cht'Qt'Rz_打出",
-            "凯特_Tn'Rg'Tx'Tc_打出",
-            "凯特_Gz'Zd_打出",
-            "凯特_!IN'ZR'KZ_打出",
-            "凯特_Tk'T!'Zk_打出",
-            "凯特_Kr'Xn'Xx_打出",
-            "凯特_Kt'Dq'Rn'Nr_打出",
-            "凯特_Nx'Xt'!In_打出",
-            "凯特_Nx'Dr_打出",
-            "凯特_Nz'Tt_打出"
+            "凯特_潮湿的实验场_打出",
+            "凯特_文职度假区_打出",
+            "凯特_封冻博物馆_打出",
+            "凯特_远古飞船泊地_打出",
+            "凯特_荒芜的实验场_打出",
+            "凯特_昆虫社会观察站_打出",
+            "凯特_遥远工厂_打出",
+            "凯特_遍布着陨石坑的矿场_打出",
+            "凯特_低温生物驯化地_打出",
+            "凯特_液冷计算机集群_打出",
+            "凯特_富含氦3的星球_打出",
+            "凯特_新型沙漠植物育种基地_打出",
+            "凯特_原始鲸朝贡国_打出"
         ]
     },
     "factories": [
@@ -1622,7 +1622,7 @@
             }
         },
         {
-            "name": "Zd'Nx",
+            "name": "潮湿的实验场",
             "converters": [
                 {
                     "input_items": {
@@ -1647,7 +1647,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Zd'Nx_打出",
+            "name": "凯特_潮湿的实验场_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1660,12 +1660,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Zd'Nx"
+                    "unlock_factory": "潮湿的实验场"
                 }
             }
         },
         {
-            "name": "Kz'Tlr",
+            "name": "文职度假区",
             "converters": [
                 {
                     "input_items": {
@@ -1689,7 +1689,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Kz'Tlr_打出",
+            "name": "凯特_文职度假区_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1702,12 +1702,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Kz'Tlr"
+                    "unlock_factory": "文职度假区"
                 }
             }
         },
         {
-            "name": "Kln'Qn",
+            "name": "封冻博物馆",
             "converters": [
                 {
                     "input_items": {},
@@ -1729,7 +1729,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Kln'Qn_打出",
+            "name": "凯特_封冻博物馆_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1742,12 +1742,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Kln'Qn"
+                    "unlock_factory": "封冻博物馆"
                 }
             }
         },
         {
-            "name": "Nz'Cht'Qt'Rz",
+            "name": "远古飞船泊地",
             "converters": [
                 {
                     "input_items": {
@@ -1771,7 +1771,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Nz'Cht'Qt'Rz_打出",
+            "name": "凯特_远古飞船泊地_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1784,12 +1784,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Nz'Cht'Qt'Rz"
+                    "unlock_factory": "远古飞船泊地"
                 }
             }
         },
         {
-            "name": "Tn'Rg'Tx'Tc",
+            "name": "荒芜的实验场",
             "converters": [
                 {
                     "input_items": {
@@ -1814,7 +1814,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Tn'Rg'Tx'Tc_打出",
+            "name": "凯特_荒芜的实验场_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1827,12 +1827,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Tn'Rg'Tx'Tc"
+                    "unlock_factory": "荒芜的实验场"
                 }
             }
         },
         {
-            "name": "Gz'Zd",
+            "name": "昆虫社会观察站",
             "converters": [
                 {
                     "input_items": {},
@@ -1854,7 +1854,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Gz'Zd_打出",
+            "name": "凯特_昆虫社会观察站_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1867,12 +1867,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Gz'Zd"
+                    "unlock_factory": "昆虫社会观察站"
                 }
             }
         },
         {
-            "name": "!IN'ZR'KZ",
+            "name": "遥远工厂",
             "converters": [
                 {
                     "input_items": {
@@ -1898,7 +1898,7 @@
             "description": ""
         },
         {
-            "name": "凯特_!IN'ZR'KZ_打出",
+            "name": "凯特_遥远工厂_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1911,12 +1911,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "!IN'ZR'KZ"
+                    "unlock_factory": "遥远工厂"
                 }
             }
         },
         {
-            "name": "Tk'T!'Zk",
+            "name": "遍布着陨石坑的矿场",
             "converters": [
                 {
                     "input_items": {},
@@ -1938,7 +1938,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Tk'T!'Zk_打出",
+            "name": "凯特_遍布着陨石坑的矿场_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1951,12 +1951,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Tk'T!'Zk"
+                    "unlock_factory": "遍布着陨石坑的矿场"
                 }
             }
         },
         {
-            "name": "Kr'Xn'Xx",
+            "name": "低温生物驯化地",
             "converters": [
                 {
                     "input_items": {
@@ -1980,7 +1980,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Kr'Xn'Xx_打出",
+            "name": "凯特_低温生物驯化地_打出",
             "converters": [
                 {
                     "input_items": {
@@ -1993,12 +1993,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Kr'Xn'Xx"
+                    "unlock_factory": "低温生物驯化地"
                 }
             }
         },
         {
-            "name": "Kt'Dq'Rn'Nr",
+            "name": "液冷计算机集群",
             "converters": [
                 {
                     "input_items": {
@@ -2022,7 +2022,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Kt'Dq'Rn'Nr_打出",
+            "name": "凯特_液冷计算机集群_打出",
             "converters": [
                 {
                     "input_items": {
@@ -2035,12 +2035,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Kt'Dq'Rn'Nr"
+                    "unlock_factory": "液冷计算机集群"
                 }
             }
         },
         {
-            "name": "Nx'Xt'!In",
+            "name": "富含氦3的星球",
             "converters": [
                 {
                     "input_items": {},
@@ -2062,7 +2062,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Nx'Xt'!In_打出",
+            "name": "凯特_富含氦3的星球_打出",
             "converters": [
                 {
                     "input_items": {
@@ -2075,12 +2075,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Nx'Xt'!In"
+                    "unlock_factory": "富含氦3的星球"
                 }
             }
         },
         {
-            "name": "Nx'Dr",
+            "name": "新型沙漠植物育种基地",
             "converters": [
                 {
                     "input_items": {
@@ -2104,7 +2104,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Nx'Dr_打出",
+            "name": "凯特_新型沙漠植物育种基地_打出",
             "converters": [
                 {
                     "input_items": {
@@ -2117,12 +2117,12 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Nx'Dr"
+                    "unlock_factory": "新型沙漠植物育种基地"
                 }
             }
         },
         {
-            "name": "Nz'Tt",
+            "name": "原始鲸朝贡国",
             "converters": [
                 {
                     "input_items": {
@@ -2147,7 +2147,7 @@
             "description": ""
         },
         {
-            "name": "凯特_Nz'Tt_打出",
+            "name": "凯特_原始鲸朝贡国_打出",
             "converters": [
                 {
                     "input_items": {
@@ -2160,7 +2160,7 @@
             "feature": {
                 "type": "Meta",
                 "properties": {
-                    "unlock_factory": "Nz'Tt"
+                    "unlock_factory": "原始鲸朝贡国"
                 }
             }
         }
