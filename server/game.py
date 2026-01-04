@@ -7,6 +7,7 @@ import random
 
 from server.message import Message
 from server.utils.achievement import unlock_achievement
+from server.utils.config import get_config
 from server.utils.pubsub import pubsub
 from server.utils.trade_recorder import Trade, TradeRecorder
 from server.utils.log import logger
@@ -367,6 +368,9 @@ class Converter:
   
   def __str__(self):
     input_str = ""
+    estimated_input_value = get_items_value(self.input_items[0]) if isinstance(self.input_items, list) else get_items_value(self.input_items)
+    estimated_output_value = get_items_value(self.output_items)
+    estimated_value_adding = estimated_output_value - estimated_input_value
     if isinstance(self.input_items, list):
       for i in range(len(self.input_items)):
         input_str += f"{get_items_str(self.input_items[i])}"
@@ -377,7 +381,10 @@ class Converter:
         input_str = get_items_str(self.input_items)
       else:
         input_str = "Free"
-    return f"{input_str} -> {get_items_str(self.output_items)}"
+    if get_config("prompt_converter_value_adding"):
+      return f"{input_str} -> {get_items_str(self.output_items)} (Estimated Value: {estimated_input_value} -> {estimated_output_value}, Adding {estimated_value_adding})"
+    else:
+      return f"{input_str} -> {get_items_str(self.output_items)}"
 
 
 class Factory:
