@@ -245,8 +245,18 @@ class Server:
     test_room.agree_to_start("Bot2")
     test_room.agree_to_start("Bot3")
     test_room.agree_to_start("Bot4")
+
+    # test_room.game.player_agree("Bot1")
+    # test_room.game.player_agree("Bot2")
+    # test_room.game.player_agree("Bot3")
+    # test_room.game.player_agree("Bot4")
+
+    # test_room.game.player_agree("Bot1")
+    # test_room.game.player_agree("Bot2")
+    # test_room.game.player_agree("Bot3")
+    # test_room.game.player_agree("Bot4")
     self.update_game_state(test_room.name, important=True)
-    self.update_game_state(test_room.name, important=True)
+
 
   def run(self, **kwargs):
     self.socketio.run(self.app, **kwargs)
@@ -694,7 +704,18 @@ class Server:
       room_name = data['room_name']
       username = data['username']
       old_stage = self.rooms[room_name].game.stage
-      self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
+      logger.info(f"submit_bid: {room_name}, {username}, {data['colony_bid']}, {data['research_bid']}")
+      suc, msg = self.rooms[room_name].game.submit_bid(username, data['colony_bid'], data['research_bid'])
+      if not suc:
+        logger.warning(f"Submit bid failed when {username} in {room_name} bidding colony {data['colony_bid']} and research {data['research_bid']}. Message: {msg}")
+        self.socketio.emit('alert-message', {
+          "type": "error",
+          "title": "Submit Bid Failed",
+          "str": msg
+        }, namespace=get_router_name(), to=username)
+        self.update_game_state(room_name, important=True)
+        return
+      logger.info(f"Submit bid succeeded when {username} in {room_name} bidding colony {data['colony_bid']} and research {data['research_bid']}. Message: {msg}")
       if self.rooms[room_name].game.stage != old_stage:
         self.update_game_state(room_name, important=True)
       else:

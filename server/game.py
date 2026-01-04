@@ -903,12 +903,15 @@ class Game:
     return len(self.data_manager.special_decks["FaderanRelicWorld"])
   
   def waiting_player(self, player_id: str):
-    if self.stage == "trading" or self.stage == "production":
+    if self.stage == "trading":
       return True
     if self.stage == "discard_colony":
       return self.current_discard_colony_player == player_id
-    if self.stage == "bid":
-      return True
+    if self.stage == "bid" or self.stage == "production":
+      player = next((p for p in self.players if p.user_id == player_id), None)
+      if player and not player.agreed:
+        return True
+      return False
     if self.stage == "pick":
       return self.current_pick_player["player"] == player_id
     logger.warning(f"未知的游戏阶段: {self.stage}")
@@ -1276,6 +1279,10 @@ class Game:
       return False, "当前阶段不是拍卖阶段"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if player:
+      if colony_bid + research_bid > player.storage.get("Ship", 0):
+        return False, "出价不足"
+      if player.agreed:
+        return False, "玩家不得更改已提交的出价"
       player.colony_bid = colony_bid
       player.research_bid = research_bid
       self.player_agree(player_name)
