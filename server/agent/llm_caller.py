@@ -13,6 +13,33 @@ from langchain_core.output_parsers import JsonOutputParser
 from server.agent.interface import langchain_llms_api, langchain_vlm_api, langchain_llms_api_alts
 # from server.agent.parser import buildingStrategies, citizenActionParser
 from server.utils.log import logger
+import re
+from langchain_core.messages import BaseMessage
+from langchain_core.runnables import RunnableLambda
+
+def clean_json_output(output):
+    content = output.content if isinstance(output, BaseMessage) else output
+    
+    # Remove markdown code blocks
+    if "```" in content:
+        pattern = r"```(?:json)?\s*(.*?)```"
+        match = re.search(pattern, content, re.DOTALL | re.IGNORECASE)
+        if match:
+            content = match.group(1)
+            
+    # Remove inline comments //
+    pattern = r'("(?:\\.|[^"\\])*")|(\/\/.*)'
+    
+    def replace_func(match):
+        if match.group(1):
+            return match.group(1)
+        else:
+            return ""
+            
+    content = re.sub(pattern, replace_func, content)
+    
+    return content.strip()
+
 LLMs_total_tokens = 0
 LLMs_total_cost = 0
 
@@ -61,12 +88,12 @@ class BasicCaller():
 
     self.prompt_file = prompt_file
     self.planner_name = planner_name
-    self.chain = vlm | parser
+    self.chain = vlm | RunnableLambda(clean_json_output) | parser
     self.use_multi_chain = False
     if self.use_multi_chain:
       self.chains = [self.chain]
       for alt in langchain_llms_api_alts:
-        self.chains.append(alt | parser)
+        self.chains.append(alt | RunnableLambda(clean_json_output) | parser)
 
   def get_chain(self):
     if self.use_multi_chain:
@@ -297,11 +324,10 @@ class PickCaller(BasicCaller):
 
 
 if __name__ == '__main__':
-  turnPlanCaller = TurnPlanCaller()
-  observation = ""
-  handler = ""
-  print(turnPlanCaller.plan("", observation, handler))
-  # test_longterm_planner()
-  # test_building_planner()
-  # test_citizen_planner()
-  # test_city_expansion_planner()
+  wrong_json = """```
+{
+  "reasoning": "I need to bid ships on both colonies and technology research teams to maximize my chances of acquiring valuable assets. Given my current resources and the available options, I will allocate my ships strategically to ensure I can secure at least one colony and one research team.",
+  "goal": "To acquire at least one colony and one technology research team through bidding.", // This is a comment that should be removed
+  "long_term_plan": "1. Assess the available colonies and research teams on the auction track. 2. Determine the maximum number of ships I can allocate for bidding without depleting my resources. 3. Allocate ships to bid on the most valuable colony first, ensuring I have enough left to bid on a research team. 4. Monitor other players' bids and adjust my strategy accordingly in real-time."
+}```"""
+  print(clean_json_output(wrong_json))
