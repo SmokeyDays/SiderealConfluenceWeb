@@ -104,9 +104,10 @@ Player {player.user_id} ({player.specie}):
 ###
 # Should add the player's promises into the obs later
 ###
-def get_bid_desc(game: Game):
+def get_bid_desc(game: Game, player: Player):
   colony_bid = game.colony_bid_cards
   technology_bid = game.research_bid_cards
+  total_ship = player.storage.get("Ship", 0)
   colony_desc = ""
   for bid_id in range(len(colony_bid)):
     bid_item = colony_bid[bid_id]
@@ -121,7 +122,8 @@ def get_bid_desc(game: Game):
     item = bid_item["item"]
     technology_desc += f"  Number {bid_id} item, at least {price} ships are needed for bid:\n"
     technology_desc += add_tab(get_factory_desc(item, game))
-  return f"""Auction tracks:
+  return f"""You have {total_ship} ships available for bidding.
+Auction tracks:
 There're colonies up for bid:
 {colony_desc}There're technology research teams up for bid:
 {technology_desc}"""
@@ -145,7 +147,7 @@ def get_pick_desc(game: Game, player: Player):
       cards += add_tab(get_factory_desc(item, game, player))
     else:
       cards += "  - This card is picked.\n"
-  return f"""Now you may pick up to one {bid_type} card from the auction track.
+  return f"""Now you may pick up to one {bid_type} card with price not higher than {bid_bound} from the auction track.
 Auction track for {bid_type} cards:
 {cards}"""
 def game_obs(game: Game, player_id: str):
@@ -192,7 +194,7 @@ def game_obs(game: Game, player_id: str):
       proposals_desc = "There's no trade proposal now.\n"
   bid_board_desc = ""
   if game.stage == "bid":
-    bid_board_desc = get_bid_desc(game)
+    bid_board_desc = get_bid_desc(game, player)
   pick_desc = ""
   if game.stage == "pick":
     pick_desc = get_pick_desc(game, player)

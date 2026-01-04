@@ -29,7 +29,7 @@ Plan you designed is in ### Plan. All actions you may take are listed in ### Act
 Bidding Rules:
 
 1. Allocation: 
-You must decide how to distribute your available ships between the 'Colony' track and the 'Technology' track. You may bid 0 on a track.
+You must decide how to distribute your available ships between the 'Colony' track and the 'Technology' track. You may bid 0 on a track. You may NOT exceed your total available ships when combining bids for both tracks. You may keep some ships unbid if you choose.
 2. Priority: 
 In each track, players with higher bids select items first. Regardless of your bid amount, you may select only one item per track.
 3. Capacity Limit: 
@@ -39,8 +39,13 @@ You cannot select an item with a value higher than the number of ships you bid f
   - If you pick nothing: Your full bid is returned to you.
 5. Tie Breaker: 
 In both bidding rounds, if two or more players tie by bidding the same number of ships, the player who currently possesses fewer cards of that type (Colonies or Technologies) chooses first. If players are still tied, the player with the highest tiebreaker number chooses first.
+6. Advices:
+  - Try to bid a colony if possible, as colonies provide ongoing benefits.
+  - Holding too many research teams is not recommended. One or two research teams are usually sufficient unless you have many (10x or more) resources to spend on research.
 
 You need to allocate your Ships to bid on Colonies and Research Teams.
+First, decide the total number of ships you want to spend. This number MUST NOT exceed the number of ships you currently hold. If you do not hold any ships, you must bid 0 for both track.
+Then, distribute these ships between the Colony track and the Research Team track.
 Review the available cards in the auction tracks and your current ship count carefully.
 Take into account the number of colonies and research teams you already possess, also the species' tie-breaker value according to the tie breaker rules.
 Your Total Bid (colony_bid + research_bid) must not exceed your currently held Ships.

@@ -25,9 +25,9 @@ ArbitrarySmall and ArbitraryBig are only used to describe the converter's input.
 Now is the picking stage of this turn.
 Reviewing the instructions and the plan you designed below, please make bid actions for this turn.
 Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
-It is your turn to select a card from the Auction Track because you have the current highest priority.
+It is your turn to select a card from the Auction Track.
 You can only pick the item with a value not higher than the number of ships you bid for that track.
-You may choose to Pass (set `pick_id` to -1). If you pass, you do NOT get a card. However, your full bid of Ships is returned to your storage.
+You may choose to Pass (set `pick_id` to -1). If you pass, you do NOT get a card. However, your full bid of Ships is returned to your storage. Moreover, ALWAYS pass if you cannot afford any item on the track.
 
 
 Your response must be a json object with the following format:
