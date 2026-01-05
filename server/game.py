@@ -97,6 +97,19 @@ def get_gift_str(gift: Dict[str, Any]):
     final_str = "Nothing Immediate"
   return final_str
 
+def validate_items_dict(items: Any) -> Tuple[bool, Dict[str, int]]:
+  if not isinstance(items, dict):
+    return False, {}
+  new_items = {}
+  for k, v in items.items():
+    if isinstance(v, int):
+      new_items[k] = v
+    elif isinstance(v, float):
+      new_items[k] = int(v)
+    else:
+      return False, {}
+  return True, new_items
+
 class TradeProposal:
   trade_proposal_id = 1
   def __init__(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], timestamp: float, message: str = ""):
@@ -1202,6 +1215,10 @@ class Game:
   #                          #
   ############################
   def produce(self, player_name: str, factory_name: str, converter_index: int, extra_properties: Dict[str, Any] = {}) -> Tuple[bool, str]:
+    if "input_combination" in extra_properties:
+      valid, extra_properties["input_combination"] = validate_items_dict(extra_properties["input_combination"])
+      if not valid:
+        return False, "输入组合格式错误"
     player = next((p for p in self.players if p.user_id == player_name), None)
 
     if not player or factory_name not in player.factories:
@@ -1371,6 +1388,9 @@ class Game:
     return True, ""
   
   def exchange_arbitrary(self, player_name: str, items: Dict[str, int]):
+    valid, items = validate_items_dict(items)
+    if not valid:
+      return False, "物品格式错误"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
       return False, "未指定玩家"
@@ -1393,6 +1413,9 @@ class Game:
     return False, "玩家库存不足"
   
   def exchange_wild(self, player_name: str, items: Dict[str, int]):
+    valid, items = validate_items_dict(items)
+    if not valid:
+      return False, "物品格式错误"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
       return False, "未指定玩家"
@@ -1433,6 +1456,10 @@ class Game:
     return True, ""
   
   def give_many_things(self, from_player: str, to_player: str, gift: Dict[str, Any]):
+    if "items" in gift:
+      valid, gift["items"] = validate_items_dict(gift["items"])
+      if not valid:
+        return False, "物品格式错误", []
     items = gift.get("items", {})
     factories = gift.get("factories", [])
     techs = gift.get("techs", [])
@@ -1476,6 +1503,14 @@ class Game:
     return True, ""
   
   def trade_proposal(self, from_player: str, to_players: list[str], send_gift: Dict[str, Any], receive_gift: Dict[str, Any], message: str = ""):
+    if "items" in send_gift:
+      valid, send_gift["items"] = validate_items_dict(send_gift["items"])
+      if not valid:
+        return False, "发送物品格式错误", 0
+    if "items" in receive_gift:
+      valid, receive_gift["items"] = validate_items_dict(receive_gift["items"])
+      if not valid:
+        return False, "接收物品格式错误", 0
     proposal = TradeProposal(from_player, to_players, send_gift, receive_gift, datetime.now().timestamp(), message)
     self.proposals[from_player] = self.proposals.get(from_player, []) + [proposal]
     return True, "", proposal.id
@@ -1515,6 +1550,12 @@ class Game:
     return True, ""
 
   def update_bulletin_board(self, player_name: str, message: str, seeking: Dict[str, int], offering: Dict[str, int]):
+    valid, seeking = validate_items_dict(seeking)
+    if not valid:
+      return False, "需求物品格式错误"
+    valid, offering = validate_items_dict(offering)
+    if not valid:
+      return False, "提供物品格式错误"
     player = next((p for p in self.players if p.user_id == player_name), None)
     if not player:
       return False, "未指定玩家"
