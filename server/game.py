@@ -83,15 +83,19 @@ def get_items_str(items: Dict[str, Any]):
 
 def get_gift_str(gift: Dict[str, Any]):
   factories_str = ""
-  if "factories" in gift:
+  if "factories" in gift and len(gift['factories']) > 0:
     factories_str = f" and Factories {', '.join(gift['factories'])}"
   tech_str = ""
-  if "techs" in gift:
+  if "techs" in gift and len(gift['techs']) > 0:
     tech_str = f" and Grant Techs {', '.join(gift['techs'])}"
   items_str = ""
-  if "items" in gift:
-    items_str = f" ({get_items_str(gift['items'])})"
-  return f"{items_str}{factories_str}{tech_str}"
+  if "items" in gift and gift["items"] != {}:
+    total_value = get_items_value(gift["items"])
+    items_str = f" ({get_items_str(gift['items'])}, Values {total_value})"
+  final_str = f"{items_str}{factories_str}{tech_str}"
+  if final_str == "":
+    final_str = "Nothing Immediate"
+  return final_str
 
 class TradeProposal:
   trade_proposal_id = 1
@@ -127,7 +131,7 @@ class TradeProposal:
   def __str__(self):
     msg_str = ""
     if self.message:
-      msg_str = f" ({self.message})"
+      msg_str = f"Attached msg: ({self.message})"
     now_time = datetime.now().timestamp()
     delta_time = now_time - self.timestamp
     time_ago_str = str(timedelta(seconds=int(delta_time)))

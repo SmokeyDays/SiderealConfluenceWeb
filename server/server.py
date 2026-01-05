@@ -236,9 +236,9 @@ class Server:
   def mock4(self):
     self.rooms["test_bot_only"] = Room(4, "test_bot_only", 6)
     test_room = self.rooms['test_bot_only']
-    test_room.add_bot("Bot1", "Im")
+    test_room.add_bot("Bot1", "Eni")
     test_room.add_bot("Bot2", "Kit")
-    test_room.add_bot("Bot3", "Unity")
+    test_room.add_bot("Bot3", "Caylion")
     test_room.add_bot("Bot4", "Faderan")
     
     test_room.agree_to_start("Bot1")
@@ -588,7 +588,7 @@ class Server:
         - to: [player1, player2, ...], players you propose to trade with.
         - send: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you send to the other players in the trade.
         - receive: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you receive from the other players in the trade.
-        - message: str, any other notes you want to attach to the trade proposal.
+        - message: str, if your trade involves promises for the future or other abstract exchanges, you can attach a message here, otherwise leave it empty as "".
       """
       room_name = data['room_name']
       username = data['username']
