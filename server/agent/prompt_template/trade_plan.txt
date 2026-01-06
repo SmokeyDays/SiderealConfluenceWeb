@@ -55,7 +55,7 @@ Some most important things:
 13. Since inventing a 'Research Team' factory is difficult early in the game, you are not required to finish it in the current round. It is acceptable to delay it.
 14. Be aware that prioritizing research during the early rounds might also significantly slow down your overall development speed.
 
-Your response must be a json object with the following format (Never output "```", that's used to tell you the json format):
+Your response must be a json object with the following format:
 ```
 {
   "reasoning": <string>,

@@ -811,8 +811,10 @@ class Server:
     @set_attr("stage", ["trading", "production"])
     def exchange_colony(data):
       """
-      exchange_colony: Exchange a colony to satisfy the requirements of certain converters or upgrades. Some upgrades or converters may require you spend a colony to run them, at this time the colony will be consumed and you will gain materials like "Jungle" or "Desert" (according to the colony type).
-        - colony_name: str, the name of the colony to be consumed.
+      exchange_colony: Convert a colony into a material based on its climate (Jungle, Ice, Desert, Water).
+      Use this ONLY when you need to satisfy a specific climate input requirement for an upgrade (e.g. an upgrade requires "Jungle" as input).
+      This action consumes the colony card and grants you the corresponding material.
+        - colony_name: str, the name of the colony to be converted.
       """
       room_name = data['room_name']
       username = data['username']

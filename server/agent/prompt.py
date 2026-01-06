@@ -36,6 +36,9 @@ def get_factory_desc(factory: Factory, game: Game = None, player: Player = None)
   type_desc = ""
   if factory.feature["type"] == "Colony":
     type_desc = "Type: Colony\n"
+    if "climate" in factory.feature["properties"]:
+      climate = factory.feature["properties"]["climate"]
+      type_desc += f"  - Climate: {climate} (Only used when this colony is consumed as a material for an upgrade)\n"
   elif factory.feature["type"] == "Research":
     type_desc = "Type: Research Team\n"
     if game:
