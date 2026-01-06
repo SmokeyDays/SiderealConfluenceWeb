@@ -811,8 +811,8 @@ class Server:
     @set_attr("stage", ["trading", "production"])
     def exchange_colony(data):
       """
-      exchange_colony: Exchange a colony for a material. Some upgrades or converters may require you spend a colony to run them, at this time the colony will be destroyed and you will gain materials like "Jungle" or "Desert" (according to the colony type).
-        - colony_name: str, the name of the colony you spend to be material.
+      exchange_colony: Exchange a colony to satisfy the requirements of certain converters or upgrades. Some upgrades or converters may require you spend a colony to run them, at this time the colony will be consumed and you will gain materials like "Jungle" or "Desert" (according to the colony type).
+        - colony_name: str, the name of the colony to be consumed.
       """
       room_name = data['room_name']
       username = data['username']

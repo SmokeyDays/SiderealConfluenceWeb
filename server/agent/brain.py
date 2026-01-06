@@ -89,6 +89,7 @@ class Brain:
     if self.game.stage == "trading":
       if self.last_trading_round != self.game.current_round:
         self.trading_step_count = 0
+        self.current_plan = None
         self.last_trading_round = self.game.current_round
       self.trading_step_count += 1
 
