@@ -863,8 +863,8 @@ class Server:
     @set_attr("stage", ["trading"])
     def update_bulletin_board(data):
       """
-      update_bulletin_board: Update your public trade bulletin board to let other players know what you are seeking and offering.
-        - message: str, a short message to broadcast.
+      update_bulletin_board: Update your public trade bulletin board to let other players know what you are seeking and offering. If your bulletin board is empty now, you ought to create a bulletin board by this action.
+        - message: str, a short message about how many value you will pay for some parts of what you are seeking or offering. Can be empty as "".
         - seeking: Dict[str, int], items you are looking for with quantities.
         - offering: Dict[str, int], items you are offering with quantities.
       """
