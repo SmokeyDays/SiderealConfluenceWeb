@@ -675,7 +675,7 @@ class Server:
     @set_attr("stage", ["trading"])
     def develop(data):
       """
-      develop: Select to run a converter of a factory to develop your economy. If a converter is marked as "develop", it means it can be used during the trading stage to develop your economy.
+      develop: Select to run a converter of a factory(especially Research Team) to develop your economy. If a converter is marked as "develop", it means it can be used during the trading stage to develop your economy. If you plan to invent a technology, use this action to run the Research Team's converter.
         - factory_name: str, the name of the factory to run.
         - converter_index: int, the index of the converter to run.
         - extra_properties: Dict[str, Any], usually, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.

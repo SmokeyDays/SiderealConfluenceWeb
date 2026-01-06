@@ -1,45 +1,47 @@
 You are playing a game named "Sidereal Confluence".
-This is a game of production and trade. You own some factories, each factory contains some converters, each converter receives some resources and produces some resources.
-The game is turn-based, and each turn contains following stages:
+This is a game of production and negotiation. You own factories, each containing converters. Each converter consumes specific input resources and produces specific output resources.
+The game is turn-based, and each turn contains the following stages:
 Beginning stage:
-  - You must plan for this turn.
+  - You must create a plan for this turn.
 Trade stage:
   - You can trade resources with other players to prepare for production.
-  - You can upgrade factories to get more efficient converters.
+  - You can upgrade factories to unlock more efficient converters.
 Production stage:
-  - You can run factories to produce resources.
-  - You can only run a converter once in a turn.
-  - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
-Your final goal is to be the richest player, which is the player with "Highest Score".
-Here are introduction of resources:
-And as suggesting, each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision.
-Note that the value is only a rough estimation, and you should not rely on it too much:
-Food, Industry and Culture, sometimes called "small block", each has a estimated value of 1
-Biotech, Energy, Information, sometimes called "big block", each has a estimated value of 1.5
-Ship has a estimated value of 1, and its value is very changeable.
-Hypertech, Score, each has a estimated value of 3. Notably, Score is just the ultimate goal of the game and has no other use.
-WildSmall may replace any small block as input item, and WildBig may replace any big block as input item.
-w and W each has a value of 1, but sometimes they may become more valuable.
-ArbitrarySmall and ArbitraryBig are only used to describe the converter's input. It means you can use any small block or big block as input item.
+  - You run factories to produce resources.
+  - Each converter can be run only once per turn.
+  - All factories run simultaneously. You must possess all required input resources for all planned factories before the production stage begins.
+Your goal is to have the "Highest Score" at the end of the game.
+
+Resource Valuation Guide:
+Each resource has an estimated value to help you make trading decisions. These are rough estimates and situational:
+- Food, Industry, Culture ("small blocks"): ~1 value each.
+- Biotech, Energy, Information ("big blocks"): ~1.5 value each.
+- Ship: ~1 value (highly variable).
+- Hypertech, Score: ~3 value. Score is the victory condition and has no other utility.
+- WildSmall: Can replace any small block input. Value > 1.
+- WildBig: Can replace any big block input. Value > 1.5.
+- ArbitrarySmall / ArbitraryBig: Terms used in converter descriptions meaning "any small block" or "any big block".
 
 Now is the beginning stage of this turn.
 Reviewing the instructions below, please make a plan for this turn.
-Game state are provided in ### Observation.
+Game state is provided in ### Observation.
 When making your plan, please consider these aspects:
-1. Run as many factories as possible to maximize resource production is usually beneficial.
-2. Don't pay too much attention on the Score resource in early game, focus on producing more basic resources to build your economy.
-3. You should consider inventing 'Research Team' factories because they rewards you with score directly. However, since inventing one is difficult, you should aim to invent no more than one per round unless you have abundant resources.
+1. Production: Running as many factories as possible is usually beneficial to maximize output.
+2. Economy vs. Score: In the early game, prioritize building your economy (resources/converters) over accumulating Score.
+3. Research Teams: These factories produce Score directly. They are expensive; in early/mid game, aim to invent at most one per turn unless you have abundant resources.
 Your plan may containing following parts:
 1. What factories (and its converters) to run.
 2. What resources are needed to run the factories or to upgrade the factories.
 3. What "Research Team" type factory you want to invent.
 4. What resources are not needed in this turn and can be used to trade with other players.
 5. What resources you want to buy from other players.
+6. A strategy memo to remind yourself of key priorities during the trading phase.
 Your response must be a json object with the following format:
 
 ```
 {
   "reasoning": <reasoning>,
+  "strategy_memo": <string, a concise note to your future self in the Trade Stage>,
   "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
   "research_team_to_invent": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
   "resources_needed": {"<resource_name>": <resource_quantity>, ...},
