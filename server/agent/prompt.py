@@ -39,6 +39,10 @@ def get_factory_desc(factory: Factory, game: Game = None, player: Player = None)
     if "climate" in factory.feature["properties"]:
       climate = factory.feature["properties"]["climate"]
       type_desc += f"  - Climate: {climate} (Only used when this colony is consumed as a material for an upgrade)\n"
+    if "upgrade_cost" in factory.feature["properties"] and not factory.feature["properties"].get("upgraded", False):
+      upgrade_cost = factory.feature["properties"]["upgrade_cost"]
+      cost_str = get_items_str(upgrade_cost)
+      type_desc += f"  - Upgrade: Pay {cost_str} to upgrade this colony (Use upgrade_colony action)\n"
   elif factory.feature["type"] == "Research":
     type_desc = "Type: Research Team\n"
     if game:

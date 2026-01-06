@@ -33,7 +33,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    # self.mock4()
+    # self.mock4("gpt4oMiniSelfPlayingIter5")
     
   
   def mock1(self):
@@ -236,10 +236,10 @@ class Server:
     # test_room.game.player_agree("Bot2")
     # test_room.game.player_agree("Bot3")
 
-  def mock4(self, room_name="gpt4oMiniSelfPlayingIter4"):
+  def mock4(self, room_name="test_bot_4"):
     self.rooms[room_name] = Room(4, room_name, 6)
     test_room = self.rooms[room_name]
-    test_room.add_bot("Bot1", "Eni")
+    test_room.add_bot("Bot1", "Im")
     test_room.add_bot("Bot2", "Kit")
     test_room.add_bot("Bot3", "Caylion")
     test_room.add_bot("Bot4", "Faderan")
@@ -778,7 +778,8 @@ class Server:
     @set_attr("stage", ["trading"])
     def upgrade_colony(data):
       """
-      upgrade_colony: Upgrade a colony.
+      upgrade_colony: Upgrade a colony to its advanced version (producing more resources).
+      This requires paying the upgrade cost specified in the colony's description.
         - factory_name: str, the name of the colony to upgrade.
       """
       room_name = data['room_name']
