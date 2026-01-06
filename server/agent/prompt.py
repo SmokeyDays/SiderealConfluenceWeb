@@ -43,6 +43,8 @@ def get_factory_desc(factory: Factory, game: Game = None, player: Player = None)
       upgrade_cost = factory.feature["properties"]["upgrade_cost"]
       cost_str = get_items_str(upgrade_cost)
       type_desc += f"  - Upgrade: Pay {cost_str} to upgrade this colony (Use upgrade_colony action)\n"
+    if factory.feature["properties"].get("caylion_colony", False):
+      type_desc += "  - Caylion Mark: This factory can be run twice per turn. This is an exception to the rule 'Each converter can be run only once per turn'.\n"
   elif factory.feature["type"] == "Research":
     type_desc = "Type: Research Team\n"
     if game:
