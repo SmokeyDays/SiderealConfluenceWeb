@@ -10,7 +10,7 @@ Production stage:
   - You can run factories to produce resources.
   - You can only run a converter once in a turn.
   - You must run factories simultaneously. That means you must prepare all needed resources for all factories you want to run in advance.
-Your final goal is to be the richest player.
+Your final goal is to be the richest player, which is the player with "Highest Score".
 Here are introduction of resources:
 And as suggesting, each item has a estimated value, you can use it to estimate the value of the item to help you make trade decision.
 Note that the value is only a rough estimation, and you should not rely on it too much:
@@ -28,17 +28,20 @@ Game state are provided in ### Observation.
 When making your plan, please consider these aspects:
 1. Run as many factories as possible to maximize resource production is usually beneficial.
 2. Don't pay too much attention on the Score resource in early game, focus on producing more basic resources to build your economy.
+3. You should consider inventing 'Research Team' factories because they rewards you with score directly. However, since inventing one is difficult, you should aim to invent no more than one per round unless you have abundant resources.
 Your plan may containing following parts:
 1. What factories (and its converters) to run.
 2. What resources are needed to run the factories or to upgrade the factories.
-3. What resources are not needed in this turn and can be used to trade with other players.
-4. What resources you want to buy from other players.
+3. What "Research Team" type factory you want to invent.
+4. What resources are not needed in this turn and can be used to trade with other players.
+5. What resources you want to buy from other players.
 Your response must be a json object with the following format:
 
 ```
 {
   "reasoning": <reasoning>,
   "factories_to_run": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
+  "research_team_to_invent": [{"factory_name": <factory_name>, "converters": [<converter_id>, ...]}, ...],
   "resources_needed": {"<resource_name>": <resource_quantity>, ...},
   "sell": {"<resource_name>": <resource_quantity>, ...},
   "buy": {"<resource_name>": <resource_quantity>, ...}
