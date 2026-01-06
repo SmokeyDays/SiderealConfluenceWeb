@@ -4,7 +4,7 @@ import pickle
 import time
 import glob
 from server.room import Room
-
+from server.utils.log import logger
 
 def save_room(room: Room, path: str = "./saves"):
   if not os.path.exists(path):
@@ -88,6 +88,7 @@ def load_all_rooms(path: str = "./saves"):
   
   for file in os.listdir(path):
     if file.endswith(".pkl") and not file.endswith(".bak.pkl"):
+      logger.info(f"Found save file: {file}")
       parts = file.split("_")
       if len(parts) >= 2 and parts[0] == "room":
         # Assuming room name is the second part and doesn't contain underscores
@@ -113,7 +114,12 @@ def load_all_rooms(path: str = "./saves"):
       try:
         with open(latest_file, "rb") as f:
           rooms[room_name] = pickle.load(f)
+          rooms[room_name].name = room_name  # Ensure the room name is set correctly
+          if rooms[room_name].game is not None:
+            rooms[room_name].game.room_name = room_name  # Re-link room reference in game
+            logger.info(f"Room {room_name} loaded at round {rooms[room_name].game.current_round}, stage {rooms[room_name].game.stage}")
       except Exception as e:
         print(f"Error loading room {room_name} from {latest_file}: {e}")
+      
 
   return rooms

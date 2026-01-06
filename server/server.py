@@ -19,7 +19,10 @@ class Server:
     self.app, self.socketio = create_app()
     
     self.online_users = {}
-    self.rooms: dict[str, Room] = load_all_rooms()
+    self.rooms = {}
+    if get_config('load_old_saves'):
+      self.rooms: dict[str, Room] = load_all_rooms()
+    print(self.rooms)
     self.message_manager = MessageManager(on_new_msg=self.on_new_msg)
     self.prompt_api_registry = RoomLockedRegistry(self)
     
@@ -30,7 +33,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock4()
+    # self.mock4()
     
   
   def mock1(self):
@@ -233,9 +236,9 @@ class Server:
     # test_room.game.player_agree("Bot2")
     # test_room.game.player_agree("Bot3")
 
-  def mock4(self):
-    self.rooms["test_bot_only"] = Room(4, "test_bot_only", 6)
-    test_room = self.rooms['test_bot_only']
+  def mock4(self, room_name="gpt4oMiniSelfPlayingIter4"):
+    self.rooms[room_name] = Room(4, room_name, 6)
+    test_room = self.rooms[room_name]
     test_room.add_bot("Bot1", "Eni")
     test_room.add_bot("Bot2", "Kit")
     test_room.add_bot("Bot3", "Caylion")

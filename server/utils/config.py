@@ -5,6 +5,7 @@ class Config:
     self.config = {
       "auto_step_bot": True,
       'default_turn': 6,
+      'load_old_saves': True,
 
       # Ablation settings here
       "prompt_converter_value_adding": True,
