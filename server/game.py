@@ -398,11 +398,14 @@ class Converter:
         input_str = get_items_str(self.input_items)
       else:
         input_str = "Free"
+    is_develop_str = ""
+    if self.running_stage == "trading":
+      is_develop_str = "(Develop, running in trading stage)"
+    basic_str = f"{input_str} -> {get_items_str(self.output_items)}{is_develop_str}"
     if get_config("prompt_converter_value_adding"):
-      return f"{input_str} -> {get_items_str(self.output_items)} (Estimated Value: {estimated_input_value} -> {estimated_output_value}, Adding {estimated_value_adding})"
+      return f"{basic_str} (Estimated Value: {estimated_input_value} -> {estimated_output_value}, Adding {estimated_value_adding})"
     else:
-      return f"{input_str} -> {get_items_str(self.output_items)}"
-
+      return basic_str
 
 class Factory:
   def __init__(self, name: str,
