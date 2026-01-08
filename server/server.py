@@ -33,7 +33,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock4("gpt4oMiniSelfPlayingIter5")
+    self.mock4("gpt4oMiniSelfPlayingIter6")
     
   
   def mock1(self):
@@ -650,7 +650,7 @@ class Server:
       produce: Select a converter of a factory to produce.
         - factory_name: str, the name of the factory to produce.
         - converter_index: int, the index of the converter to produce.
-        - extra_properties: Dict[str, Any], usually, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.
+        - extra_properties: Dict[str, Any], usually, this is {}. unless cost type must be specified (e.g. when converter has input described as "item_a / item_b" and you want to use "item_a" there should be {cost_type: 0})
       """
       room_name = data['room_name']
       username = data['username']
@@ -678,7 +678,7 @@ class Server:
       develop: Select to run a converter of a factory(especially Research Team) to develop your economy. If a converter is marked as "develop", it means it can be used during the trading stage to develop your economy. If you plan to invent a technology, use this action to run the Research Team's converter.
         - factory_name: str, the name of the factory to run.
         - converter_index: int, the index of the converter to run.
-        - extra_properties: Dict[str, Any], usually, this is {}. When cost type must be specified (e.g. when converter input is described as "item_a / item_b"), there should be {cost_type: "item_a"}.
+        - extra_properties: Dict[str, Any], When cost type must be specified, it should be {'cost_type': id}. (e.g. when converter input is described as "Pxa/Qxb", and you'd like to pay Pxa, you should deliver extra_properties = {'cost_type': 0})
       """
       produce(data)
 
@@ -810,9 +810,9 @@ class Server:
     @self.socketio.on('exchange-colony', namespace=get_router_name())
     @registry(["game-interface"])
     @set_attr("stage", ["trading", "production"])
-    def exchange_colony(data):
+    def use_colony_as_material(data):
       """
-      exchange_colony: Convert a colony into a material based on its climate (Jungle, Ice, Desert, Water).
+      use_colony_as_material: Convert a colony into a material based on its climate (Jungle, Ice, Desert, Water).
       Use this ONLY when you need to satisfy a specific climate input requirement for an upgrade (e.g. an upgrade requires "Jungle" as input).
       This action consumes the colony card and grants you the corresponding material.
         - colony_name: str, the name of the colony to be converted.

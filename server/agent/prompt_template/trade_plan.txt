@@ -30,33 +30,47 @@ You may adjust your plan according to the current game state in ### Observation.
 Key Instructions:
 1. Refer to the 'strategy_memo' in your ### Plan (if available). This contains your high-level priorities and context from the planning phase.
 2. Your main goal is to secure resources for your planned converters.
-3. You should consider inventing 'Research Team' factories because they reward you with score directly. However, since inventing one is difficult, you should aim to invent no more than one per round unless you have abundant resources.
-4. Call `exchange_wild` when necessary to transform your WildSmall or WildBig tokens into specific resources.
-5. Call `exchange_arbitrary` when necessary to define your Small/Big blocks as ArbitrarySmall/ArbitraryBig for converters.
+3. You should consider inventing 'Research Team' factories because they reward you with score directly. However, since inventing one is difficult, you should aim to invent no more than one per round unless you have abundant resources. If you've got enough resources to develop a technology you planned to develop, call `develop` function and set appropriate `cost_type` to develop it.
+4. In the first few rounds (Roughly round 1-3), upgrading colonies is often a good investment. If you have colonies that can be upgraded, consider prioritizing `upgrade_colony` to increase your production capability early on.
+5. Call `exchange_wild` when necessary to transform your WildSmall or WildBig tokens into specific resources.
+
 
 Some most important things:
-1.  MANDATORY MATH CHECK: In your `reasoning` field, you MUST explicitly calculate the value difference for every trade. Formula: `Diff = Value(Receive) - Value(Give)`.
-2.  THE "0.5" RED LINE: A value difference of 0.5 is **HUGE**. It represents 50% of a standard resource. **NEVER** treat a 0.5 difference as "close enough".
-    - FORBIDDEN: Trading 1 Small Block (Value 1) for 1 Big Block (Value 1.5). This is a -0.5 loss/gain and is mathematically unacceptable.
-    - REQUIRED: To trade for a Big Block (1.5), you must offer 1.5 value (e.g., 1 Small Block + 1 Ship *[if ship is 0.5]*, or 3 Small Blocks for 2 Big Blocks).
-3.  Strict Equivalent Exchange: You MUST aim for `Diff == 0`.
-    - If `Diff > 0` (You profit): Other players are smart calculators. They **will reject** your proposal immediately. Do not waste time sending profitable proposals.
-    - If `Diff < 0` (You lose): You are bleeding value. Only accept a loss (max -0.5) if that specific resource is the **last piece** needed to run a critical engine this turn. Otherwise, never trade at a loss.
-4. Avoid making one huge, complex trade containing many items. Large trades are hard to calculate and likely to be rejected. Break your needs down into multiple small, simple trades.
-5. NEVER send a trade proposal where both 'send' and 'receive' fields are empty. 
-6. NEVER send a proposal which is the same as an existing proposal in "Your trade proposals" in ### Observation again. Before you send a proposal, check the proposals in "Your trade proposals" in ### Observation to see if it already exists.
-7. Immediately withdraw_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rules, or duplicate proposals.
-8. Large and small blocks are indivisible; you cannot trade 0.5 of a large unit or a small unit.
-9. Finish your turn (confirm_ready) only when you have executed your plan or absolutely cannot find a good trade.
-10. Specific Examples:
-    - "Give 1 Hypertech (3) receive 2 Energy (3)" -> OK (Equal).
-    - "Give 1 Hypertech (3) receive 2 Industry (2)" -> **WRONG** (Loss of 1.0, not acceptable).
-    - "Give 1 Culture (1) receive 1 Energy (1.5)" -> **WRONG** (Profit of 0.5, will be rejected).
-    - "Give 2 Food (2) receive 1 Energy (1.5)" -> **WRONG** (Loss of 0.5, unless desperately needed).
-11. If your plan no longer fits your current situation, you can adjust your plan accordingly in the updated_plan field in your response.
-12. You may update your bulletin_board to help other players understand your trade intentions better.
-13. Since inventing a 'Research Team' factory is difficult early in the game, you are not required to finish it in the current round. It is acceptable to delay it.
-14. Be aware that prioritizing research during the early rounds might also significantly slow down your overall development speed.
+1.  **MANDATORY VALUATION PROTOCOL:**
+    Before calling `propose_trade` or accepting an offer, perform the "Fairness Check" in your `reasoning`:
+    *   **Step A: Calculate Ratio:** `Ratio = Value(Receive) / Value(Give)`.
+    *   **Step B: Apply the "Granularity Principle":**
+        Since resources are integers (atomic), you cannot split them to get perfect math. 
+        *   **For SMALL Trades (Total Value < 4):**
+            *   The "Atomic Gap" is unavoidable.
+            *   **Acceptable Range:** `0.66` to `1.5`.
+            *   *Example:* Trading 2 Food (Value 2) for 1 Biotech (Value 1.5) results in Ratio 0.75. This is **Acceptable** because you can't break the block into pieces. 
+            *   *Example:* Trading 1 Small (Value 1) for 1 Big (Value 1.5) results in Ratio 1.5. This is **Aggressive but allowed** as an opening offer.
+        *   **For LARGE Trades (Total Value >= 4):**
+            *   The law of large numbers applies. You must be precise.
+            *   **Acceptable Range:** `0.85` to `1.15`.
+            *   Any ratio outside this range implies you are either getting scammed or asking for too much relative to the market size.
+    *   **Step C: Evaluate Feasibility based on Range:**
+        *   `Ratio > Max_Limit`: **TOO GREEDY.** Likely to be rejected. **ACTION:** Add a small "sweetener" (like a Ship) to your side to lower the Ratio.
+        *   `Ratio < Min_Limit`: **BAD DEAL.** You are losing significant value. **ACTION:** Formulate a **Counter-Offer**. Propose the same core trade but ask for a sweetener (Ship/Small Block) in return.
+        *   `Within Range`: **FAIR.** Proceed.
+2.  **Strategic Bargaining (Counter-Offers):**
+    *   **Bargaining "Bad Deals" (Low Ratio).** For example, if someone offers you a Ratio of 0.6, calculate what small item you can ask for to bump it to ~0.8 (the lower bound of fair).
+    *   **Indivisibility:** Remember you cannot trade 0.5 units. If the math effectively requires 0.5, use a Ship if available, or just accept the friction for small trades.
+
+3.  Avoid making one huge, complex trade containing many items. Large trades are hard to calculate and likely to be rejected. Break your needs down into multiple small, simple trades.
+4.  NEVER send a trade proposal where both 'send' and 'receive' fields are empty. 
+5.  NEVER send a proposal which is the same as an existing proposal in "Your trade proposals" in ### Observation again. Before you send a proposal, check the proposals in "Your trade proposals" in ### Observation to see if it already exists.
+6.  Immediately withdraw_trade_proposal for any pending offers that are no longer valid (e.g., you spent the resources elsewhere) or are mathematically bad based on these new rules, or duplicate proposals.
+7.  Finish your turn (confirm_ready) only when you have executed your plan or absolutely cannot find a good trade.
+8.  **Valuation Examples (New Logic):**
+    - "Give 1 Hypertech (3) receive 2 Energy (3)" -> Ratio 1.0 (Perfect).
+    - "Give 1 Hypertech (3) receive 2 Industry (2)" -> Ratio 0.66 (Borderline/Bad). **Action:** Ask for +1 Ship to make Ratio ~0.83.
+    - "Give 1 Culture (1) receive 1 Energy (1.5)" -> Ratio 1.5 (High). **Action:** Acceptable as opening offer (Small Trade), but expect counter-offers.
+    - "Give 2 Food (2) receive 1 Energy (1.5)" -> Ratio 0.75. **Action:** Acceptable (Small Trade) if you need Energy badly.
+9.  If your plan no longer fits your current situation, you can adjust your plan accordingly in the updated_plan field in your response.
+10. You may update your bulletin_board to help other players understand your trade intentions better.
+11. Since inventing a 'Research Team' factory is difficult early in the game. It is acceptable to delay it.
 
 Your response must be a json object with the following format:
 ```
