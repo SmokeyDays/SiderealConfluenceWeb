@@ -5,3 +5,4 @@ saves/
 logs/
 server/data/users.json
 .env
+server/charts/plots/
