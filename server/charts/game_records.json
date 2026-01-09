@@ -1,0 +1,157 @@
+[
+    {
+        "exp_type": "default",
+        "exp_name": "gpt-4o-mini_default_1",
+        "results": [
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Caylion",
+                "score": 8.083
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Faderan",
+                "score": 6.25
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Kit",
+                "score": 6.25
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Im",
+                "score": 6.25
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Faderan",
+                "score": 8.25
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "gpt-4o-mini_default_2",
+        "results": [
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Caylion",
+                "score": 6.333
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Kit",
+                "score": 7.25
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Faderan",
+                "score": 8.25
+            },
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Im",
+                "score": 5.167
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "deepseek-chat-default_1",
+        "results": [
+            {
+                "model": "deepseek-chat",
+                "specie": "Caylion",
+                "score": 11.25
+            },
+            {
+                "model": "deepseek-chat",
+                "specie": "Faderan",
+                "score": 10.167
+            },
+            {
+                "model": "deepseek-chat",
+                "specie": "Kit",
+                "score": 9.333
+            },
+            {
+                "model": "deepseek-chat",
+                "specie": "Im",
+                "score": 8.917
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "qwen-plus_default_1",
+        "results": [
+            {
+                "model": "qwen-plus",
+                "specie": "Faderan",
+                "score": 12.833
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Caylion",
+                "score": 10.333
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Im",
+                "score": 6.75
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Kit",
+                "score": 6.083
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "human_history_1",
+        "results": [
+            {
+                "model": "human",
+                "specie": "Zeth",
+                "score": 69.0
+            },
+            {
+                "model": "human",
+                "specie": "Kit",
+                "score": 61.0
+            },
+            {
+                "model": "human",
+                "specie": "Eni",
+                "score": 52.0
+            },
+            {
+                "model": "human",
+                "specie": "Im",
+                "score": 42.0
+            },
+            {
+                "model": "human",
+                "specie": "Kjasjavikalimm",
+                "score": 37.0
+            },
+            {
+                "model": "human",
+                "specie": "Unity",
+                "score": 37.0
+            },
+            {
+                "model": "human",
+                "specie": "Caylion",
+                "score": 35.0
+            },
+            {
+                "model": "human",
+                "specie": "Faderan",
+                "score": 20.0
+            }
+        ]
+    }
+]
