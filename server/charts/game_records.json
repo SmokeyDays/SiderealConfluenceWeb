@@ -189,5 +189,31 @@
                 "score": 30.0
             }
         ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "o3-mini_default_1",
+        "results": [
+            {
+                "model": "o3-mini",
+                "specie": "Caylion",
+                "score": 12.833
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Kit",
+                "score": 7.75
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Faderan",
+                "score": 6.833
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Im",
+                "score": 6.25
+            }
+        ]
     }
 ]

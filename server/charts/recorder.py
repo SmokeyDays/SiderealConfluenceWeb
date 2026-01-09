@@ -65,8 +65,10 @@ class GameRecorder:
         grouped_data[key] = []
       grouped_data[key].append(r.get("score", 0))
 
-    labels = sorted(grouped_data.keys())
-    data_values = [grouped_data[label] for label in labels]
+    # Sort labels by mean score
+    mean_scores = {k: sum(v)/len(v) if v else 0 for k, v in grouped_data.items()}
+    labels = sorted(grouped_data.keys(), key=lambda x: mean_scores[x])
+
     base_value = 5
     data_values = [[((score - base_value) / base_value) for score in grouped_data[label]] for label in labels]
 
@@ -187,6 +189,7 @@ class GameRecorder:
             "results": results_buffer
           }
           self.data.append(new_record)
+          self.save()
           save_input = input("Save plot? (y/n) [n]: ").strip().lower()
           save = save_input == 'y'
           self.plot_boxplot(exp_type, save=save)
