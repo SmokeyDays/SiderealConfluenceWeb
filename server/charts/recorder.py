@@ -1,6 +1,8 @@
 import json
 import os
+import time
 import matplotlib.pyplot as plt
+import random
 
 class GameRecorder:
   def __init__(self, filepath=None):
@@ -33,7 +35,17 @@ class GameRecorder:
     with open(self.filepath, 'w', encoding='utf-8') as f:
       json.dump(self.data, f, indent=4) # indent for readability
 
-  def plot_boxplot(self, exp_type="default"):
+  def save_plot(self, filename):
+    """保存当前绘图到 charts/plots 目录"""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    save_dir = os.path.join(base_dir, "plots")
+    os.makedirs(save_dir, exist_ok=True)
+    
+    filepath = os.path.join(save_dir, filename)
+    plt.savefig(filepath, dpi=300)
+    print(f"Plot saved to {filepath}")
+
+  def plot_boxplot(self, exp_type="default", save=False):
     """为 record 的结果绘制一张箱形图"""
     exps = [r for r in self.data if r.get("exp_type") == exp_type]
     if not exps:
@@ -59,14 +71,40 @@ class GameRecorder:
     data_values = [[((score - base_value) / base_value) for score in grouped_data[label]] for label in labels]
 
     # Plotting
-    plt.figure(figsize=(10, 6))
-    plt.boxplot(data_values, labels=labels)
-    plt.title(f'Value-added Percentage Distribution by Model')
-    plt.xlabel('Model')
-    plt.ylabel('Value-added Percentage')
-    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.figure(figsize=(12, 8))
+    
+    # Create boxplot with patch_artist=True to fill with color
+    bplot = plt.boxplot(data_values, labels=labels, patch_artist=True,
+                        medianprops=dict(color="black", linewidth=1.5),
+                        flierprops=dict(marker='o', markersize=5, linestyle='none', markeredgecolor='gray'))
+    
+    # Color palette
+    colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76D7C4']
+    for patch, color in zip(bplot['boxes'], colors * (len(data_values) // len(colors) + 1)):
+        patch.set_facecolor(color)
+        patch.set_alpha(0.6)
+
+    # Add jittered scatter points
+    # for i, data in enumerate(data_values):
+    #     x = [i + 1 + random.uniform(-0.08, 0.08) for _ in data]
+    #     plt.scatter(x, data, alpha=0.6, s=20, color='darkblue', zorder=10)
+
+    plt.title(f'Value-added Percentage Distribution by Model (Exp: {exp_type})', fontsize=16, fontweight='bold', pad=20)
+    plt.xlabel('Model', fontsize=12)
+    plt.ylabel('Value-added Percentage', fontsize=12)
+    
+    # Add horizontal line at 0%
+    plt.axhline(y=0, color='gray', linestyle='--', linewidth=1.2, alpha=0.8)
+    
+    plt.grid(True, linestyle=':', alpha=0.6, axis='y')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    
+    if save:
+      timestamp = int(time.time())
+      filename = f"{exp_type}_{timestamp}.png"
+      self.save_plot(filename)
+
     plt.show()
 
   def interactive_mode(self):
@@ -149,7 +187,9 @@ class GameRecorder:
             "results": results_buffer
           }
           self.data.append(new_record)
-          self.save()
+          save_input = input("Save plot? (y/n) [n]: ").strip().lower()
+          save = save_input == 'y'
+          self.plot_boxplot(exp_type, save=save)
           print(f"Saved {len(results_buffer)} results to {exp_name}")
         else:
           print("No data entered.")

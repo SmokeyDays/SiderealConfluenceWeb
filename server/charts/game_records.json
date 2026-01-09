@@ -153,5 +153,41 @@
                 "score": 20.0
             }
         ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "human_history_2",
+        "results": [
+            {
+                "model": "human",
+                "specie": "Eni",
+                "score": 80.0
+            },
+            {
+                "model": "human",
+                "specie": "Kit",
+                "score": 67.0
+            },
+            {
+                "model": "human",
+                "specie": "Caylion",
+                "score": 49.0
+            },
+            {
+                "model": "human",
+                "specie": "Far",
+                "score": 47.0
+            },
+            {
+                "model": "human",
+                "specie": "Zeth",
+                "score": 45.0
+            },
+            {
+                "model": "human",
+                "specie": "Yengii",
+                "score": 30.0
+            }
+        ]
     }
 ]
