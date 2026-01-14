@@ -107,7 +107,7 @@ class BasicCaller():
   def render_human_message(self, chapters, verbose = True):
     content = []
     text = ""
-    for k, v in chapters.items():
+    for k, v in chapters:
       text += f"### {k}\n"
       text += v
       text += "\n"

@@ -12,6 +12,13 @@ langchain_llms_api = AzureChatOpenAI(
   openai_api_key=os.getenv("O4MINI_API_KEY"),
 )
 
+# langchain_llms_api = AzureChatOpenAI(
+#   azure_endpoint="https://yeqifeng-eastus2-2026.openai.azure.com/",
+#   openai_api_version="2024-12-01-preview",
+#   azure_deployment="o3-mini",
+#   openai_api_key=os.getenv("O3MINI_API_KEY"),
+# )
+
 langchain_llms_api_alts = [
   AzureChatOpenAI(
     azure_endpoint="https://yeqifeng-eastus2-new.openai.azure.com/",

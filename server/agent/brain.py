@@ -94,10 +94,10 @@ class Brain:
       self.trading_step_count += 1
 
       if self.current_plan is None:
-        prompt = {
-          "Specie description": specie_desc, 
-          "Observation": obs
-        }
+        prompt = [
+          ("Specie description", specie_desc), 
+          ("Observation", obs)
+        ]
         response = await turn_plan_caller.aplan(prompt)
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
@@ -105,12 +105,12 @@ class Brain:
         self.current_plan = response
 
       # 2. Trade Plan
-      prompt = {
-        "Specie description": specie_desc,
-        "Plan": str(self.current_plan),
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
+      prompt = [
+        ("Specie description", specie_desc),
+        ("Plan", str(self.current_plan)),
+        ("Observation", obs),
+        ("Actions", handlers_prompt)
+      ]
       # AWAIT 调用
       response = await trade_caller.aplan(prompt)
 
@@ -124,45 +124,45 @@ class Brain:
         self.current_plan = new_plan
         
     elif self.game.stage == "discard_colony":
-      prompt = {
-        "Specie description": specie_desc,
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
+      prompt = [
+        ("Specie description", specie_desc),
+        ("Observation", obs),
+        ("Actions", handlers_prompt)
+      ]
       response = await discard_colony_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "discard_colony caller")
 
     elif self.game.stage == "production":
-      prompt = {
-        "Specie description": specie_desc,
-        "Plan": str(self.current_plan),
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
+      prompt = [
+        ("Specie description", specie_desc),
+        ("Plan", str(self.current_plan)),
+        ("Observation", obs),
+        ("Actions", handlers_prompt)
+      ]
       response = await economy_caller.aplan(prompt)
       self.record_response(prompt, response)
       response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
 
     elif self.game.stage == "bid":
-      prompt = {
-        "Specie description": specie_desc,
-        "Plan": str(self.current_plan),
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
+      prompt = [
+        ("Specie description", specie_desc),
+        ("Plan", str(self.current_plan)),
+        ("Observation", obs),
+        ("Actions", handlers_prompt)
+      ]
       response = await bid_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "bid caller")
 
     elif self.game.stage == "pick":
-      prompt = {
-        "Specie description": specie_desc,
-        "Plan": str(self.current_plan),
-        "Observation": obs,
-        "Actions": handlers_prompt
-      }
+      prompt = [
+        ("Specie description", specie_desc),
+        ("Plan", str(self.current_plan)),
+        ("Observation", obs),
+        ("Actions", handlers_prompt)
+      ]
       response = await pick_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "pick caller")
