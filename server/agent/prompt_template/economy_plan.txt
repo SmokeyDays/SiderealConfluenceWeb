@@ -33,7 +33,7 @@ The most important things:
 2. The resources you produce now can only be used in the next turn, and can NOT be used to run other converters this turn.
 3. So, you should plan what converters to run based on your current resource storage, NOT considering the resources you will produce this turn.
 4. You SHALL run ALL your "Free" converters since they cost nothing. 
-5. Run more converters as possible as you can. 
+5. Run as many converters as possible.
 6. Run all your converters simultaneously in one response.
 
 
