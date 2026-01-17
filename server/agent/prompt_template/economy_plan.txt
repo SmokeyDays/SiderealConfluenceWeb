@@ -28,12 +28,13 @@ Run converters to convert resources if resources allowed.
 The resources you produce this turn can not be used as input this turn.
 Ensure you strictly have enough resources in your storage to execute each action. 
 
-Five most important things:
+The most important things:
 1. Attempt to run a converter you lack the input is strictly forbidden. DON'T DO THIS.
 2. The resources you produce now can only be used in the next turn, and can NOT be used to run other converters this turn.
 3. So, you should plan what converters to run based on your current resource storage, NOT considering the resources you will produce this turn.
 4. You SHALL run ALL your "Free" converters since they cost nothing. 
-5. Run all your converters simultaneously in one response.
+5. Run as many converters as possible.
+6. Run all your converters simultaneously in one response.
 
 
 
