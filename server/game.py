@@ -1009,6 +1009,15 @@ class Game:
   def end_game(self):
     # check achievements
     winner = self.get_winner()
+    logger.info("=== Game Over ===")
+    if winner:
+      logger.info(f"Winner: {winner.user_id}")
+    sorted_players = sorted(self.players, key=lambda x: x.score + 0.5 * x.item_value / 3, reverse=True)
+    
+    for player in sorted_players:
+      total_score = player.score + 0.5 * player.item_value / 3
+      logger.info(f"Player: {player.user_id} ({player.specie}) - Score: {player.score}, Item Value: {player.item_value}, Total: {total_score:.2f}")
+
     if winner:
       pubsub.publish("add_statistics", {"key": "wins", "value": 1}, winner.user_id)
       max_trade_gap = 0

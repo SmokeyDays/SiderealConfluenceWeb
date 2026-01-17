@@ -55,3 +55,17 @@ langchain_vlm_api = AzureChatOpenAI(
   max_tokens=500,
 )
 
+class LLMInterfaceManager:
+  def __init__(self):
+    self.registry = {
+        "gpt-4o-mini": langchain_llms_api,
+        "gpt-4": langchain_vlm_api,
+    }
+  
+  def get_api(self, name):
+    if name not in self.registry:
+        return self.registry.get("gpt-4o-mini")
+    return self.registry[name]
+
+llm_manager = LLMInterfaceManager()
+

@@ -33,7 +33,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock4("gpt4oMiniSelfPlayingIter6")
+    self.mock4("o3MiniSelfPlayingIter1")
     
   
   def mock1(self):

@@ -5,18 +5,33 @@ from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
 from server.utils.log import logger
 from server.agent.prompt_template import load_prompt
+from server.agent.interface import llm_manager
 
-turn_plan_caller = TurnPlanCaller()
-trade_caller = TradeCaller()
-economy_caller = EconomyCaller()
-bid_caller = BidCaller()
-pick_caller = PickCaller()
-discard_colony_caller = DiscardColonyCaller()
+class PlannerFactory:
+  _instances = {}
+
+  @classmethod
+  def get_planner(cls, model_name, planner_class):
+    key = (model_name, planner_class.__name__)
+    if key not in cls._instances:
+      vlm = llm_manager.get_api(model_name)
+      # Assume callers accept vlm and model_name
+      cls._instances[key] = planner_class(model_name=model_name, vlm=vlm)
+    return cls._instances[key]
 
 class Brain:
-  def __init__(self, game: Game, player_id: str):
+  def __init__(self, game: Game, player_id: str, model_name: str = "gpt-4o-mini"):
     self.game = game
     self.player_id = player_id
+    self.model_name = model_name
+    
+    self.turn_plan_caller = PlannerFactory.get_planner(model_name, TurnPlanCaller)
+    self.trade_caller = PlannerFactory.get_planner(model_name, TradeCaller)
+    self.economy_caller = PlannerFactory.get_planner(model_name, EconomyCaller)
+    self.bid_caller = PlannerFactory.get_planner(model_name, BidCaller)
+    self.pick_caller = PlannerFactory.get_planner(model_name, PickCaller)
+    self.discard_colony_caller = PlannerFactory.get_planner(model_name, DiscardColonyCaller)
+    
     self.current_plan = None
     self.promises = []
     self.recent_responses = []
@@ -98,7 +113,7 @@ class Brain:
           ("Specie description", specie_desc), 
           ("Observation", obs)
         ]
-        response = await turn_plan_caller.aplan(prompt)
+        response = await self.turn_plan_caller.aplan(prompt)
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
           response.pop("reasoning") # 清理不需要存储的字段
@@ -112,7 +127,7 @@ class Brain:
         ("Actions", handlers_prompt)
       ]
       # AWAIT 调用
-      response = await trade_caller.aplan(prompt)
+      response = await self.trade_caller.aplan(prompt)
 
       if self.trading_step_count > 100 and response and "actions" in response:
         response = self.ensure_confirm(response)
@@ -129,7 +144,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await discard_colony_caller.aplan(prompt)
+      response = await self.discard_colony_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "discard_colony caller")
 
@@ -140,7 +155,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await economy_caller.aplan(prompt)
+      response = await self.economy_caller.aplan(prompt)
       self.record_response(prompt, response)
       response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
@@ -152,7 +167,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await bid_caller.aplan(prompt)
+      response = await self.bid_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "bid caller")
 
@@ -163,7 +178,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await pick_caller.aplan(prompt)
+      response = await self.pick_caller.aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "pick caller")
 
