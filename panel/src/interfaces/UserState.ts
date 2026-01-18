@@ -15,7 +15,7 @@ export function checkUsername(newUsername: string) {
     return false;
   }
   // length must be between 3 and 16
-  if (newUsername.length < 3 || newUsername.length > 16) {
+  if (newUsername.length < 3 || newUsername.length > 20) {
     return false;
   }
   return true;

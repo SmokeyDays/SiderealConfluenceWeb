@@ -215,5 +215,31 @@
                 "score": 6.25
             }
         ]
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp1",
+        "results": [
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Caylion",
+                "score": 7.916666666666667
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Yengii",
+                "score": 10.75
+            },
+            {
+                "model": "deepseek-chat",
+                "specie": "Im",
+                "score": 5.166666666666667
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Eni",
+                "score": 4.0
+            }
+        ]
     }
 ]

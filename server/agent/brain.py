@@ -3,15 +3,27 @@ import asyncio
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.agent.llm_caller import BasicCaller, TradeCaller, TurnPlanCaller, EconomyCaller, BidCaller, PickCaller, DiscardColonyCaller
+from server.utils.config import get_config
 from server.utils.log import logger
 from server.agent.prompt_template import load_prompt
 from server.agent.interface import llm_manager
 
 class PlannerFactory:
   _instances = {}
+  planners = {
+    "turn_plan": TurnPlanCaller,
+    "trade": TradeCaller,
+    "economy": EconomyCaller,
+    "bid": BidCaller,
+    "pick": PickCaller,
+    "discard_colony": DiscardColonyCaller
+  }
 
   @classmethod
-  def get_planner(cls, model_name, planner_class):
+  def get_planner(cls, model_name, planner):
+    planner_class = cls.planners.get(planner)
+    if planner_class is None:
+      raise ValueError(f"Planner {planner} not found in PlannerFactory.")
     key = (model_name, planner_class.__name__)
     if key not in cls._instances:
       vlm = llm_manager.get_api(model_name)
@@ -20,24 +32,20 @@ class PlannerFactory:
     return cls._instances[key]
 
 class Brain:
-  def __init__(self, game: Game, player_id: str, model_name: str = "gpt-4o-mini"):
+  def __init__(self, game: Game, player_id: str, model_name: str = get_config('default_bot_type')):
     self.game = game
     self.player_id = player_id
     self.model_name = model_name
-    
-    self.turn_plan_caller = PlannerFactory.get_planner(model_name, TurnPlanCaller)
-    self.trade_caller = PlannerFactory.get_planner(model_name, TradeCaller)
-    self.economy_caller = PlannerFactory.get_planner(model_name, EconomyCaller)
-    self.bid_caller = PlannerFactory.get_planner(model_name, BidCaller)
-    self.pick_caller = PlannerFactory.get_planner(model_name, PickCaller)
-    self.discard_colony_caller = PlannerFactory.get_planner(model_name, DiscardColonyCaller)
-    
+
     self.current_plan = None
     self.promises = []
     self.recent_responses = []
     self._step_id = 0
     self.trading_step_count = 0
     self.last_trading_round = -1
+
+  def get_planner(self, planner_name: str) -> BasicCaller:
+    return PlannerFactory.get_planner(self.model_name, planner_name)
 
   def record_response(self, prompt, response, special_call=None):
     # logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
@@ -113,7 +121,7 @@ class Brain:
           ("Specie description", specie_desc), 
           ("Observation", obs)
         ]
-        response = await self.turn_plan_caller.aplan(prompt)
+        response = await self.get_planner("turn_plan").aplan(prompt)
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
           response.pop("reasoning") # 清理不需要存储的字段
@@ -127,7 +135,7 @@ class Brain:
         ("Actions", handlers_prompt)
       ]
       # AWAIT 调用
-      response = await self.trade_caller.aplan(prompt)
+      response = await self.get_planner("trade").aplan(prompt)
 
       if self.trading_step_count > 100 and response and "actions" in response:
         response = self.ensure_confirm(response)
@@ -144,7 +152,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.discard_colony_caller.aplan(prompt)
+      response = await self.get_planner("discard_colony").aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "discard_colony caller")
 
@@ -155,7 +163,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.economy_caller.aplan(prompt)
+      response = await self.get_planner("economy").aplan(prompt)
       self.record_response(prompt, response)
       response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
@@ -167,7 +175,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.bid_caller.aplan(prompt)
+      response = await self.get_planner("bid").aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "bid caller")
 
@@ -178,7 +186,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.pick_caller.aplan(prompt)
+      response = await self.get_planner("pick").aplan(prompt)
       self.record_response(prompt, response)
       execute_callbacks(response, "pick caller")
 

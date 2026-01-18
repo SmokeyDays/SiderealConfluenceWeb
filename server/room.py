@@ -1,6 +1,7 @@
 from datetime import datetime
 from server.agent.brain import Brain
 from server.game import Game
+from server.utils.config import get_config
 from server.utils.log import logger
 from server.utils.pubsub import pubsub
 from typing import Dict, Any, List
@@ -9,6 +10,7 @@ import asyncio
 from typing import Dict, Any, Coroutine
 from server.utils.log import logger
 from server.utils.runner import bot_runner
+from server.charts.recorder import game_recorder
 
 class BotTaskScheduler:
   def __init__(self):
@@ -67,16 +69,18 @@ class BotTaskScheduler:
           del self.pending_tasks[bot_id]
 
 class Room:
-  def __init__(self, max_players, name, end_round):
+  def __init__(self, max_players, name, end_round, game_type = "default"):
     self.name = name
     self.end_round = end_round
     self.max_players = max_players
     self.players: Dict[str, Dict[str, Any]] = {}
     self.bots: List[str] = []
     self.bot_agents: Dict[str, Brain] = {}
+    self.bot_types: Dict[str, str] = {}
     self.bots_auto_react = True
     self.game_state = "waiting"
     self.game = None
+    self.game_type = game_type
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
     self.scheduler = BotTaskScheduler()
     self.lock = threading.RLock()
@@ -107,10 +111,11 @@ class Room:
     else:
       return False
     
-  def add_bot(self, bot_id, specie):
+  def add_bot(self, bot_id, specie, bot_type):
     self.bots.append(bot_id)
     self.enter_room(bot_id)
     self.choose_specie(bot_id, specie)
+    self.bot_types[bot_id] = bot_type
   
   def remove_bot(self, user_id, bot_id):
     if user_id in self.players and user_id not in self.bots:
@@ -136,8 +141,6 @@ class Room:
       logger.info(f"Bot {bot_id} in room {self.name} auto react is disabled, skipping step.")
       return
     async def async_logic():
-      # 这里调用的是 Brain.step (它是 async 的)
-      # 注意：handlers_map 里的函数已经被 registry 包装了锁，所以是安全的
       await self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
     bot_runner.run_task(self.scheduler.schedule(bot_id, async_logic()))
     
@@ -176,13 +179,29 @@ class Room:
   
   def start_game(self): 
     self.game = Game(self.name, self.end_round)
+    self.game.set_end_game_callback(self.on_game_end)
     for user_id, player in self.players.items():
       self.game.add_player(player["specie"], user_id)
       pubsub.publish("add_statistics", {"key": "games_played", "value": 1}, user_id)
     self.game_state = "playing"
     self.game.start_game()
     for bot in self.bots:
-      self.bot_agents[bot] = Brain(self.game, bot)
+      bot_type = self.bot_types.get(bot, get_config('default_bot_type'))
+      self.bot_agents[bot] = Brain(self.game, bot, model_name=bot_type)
+
+  def on_game_end(self, results):
+    mapped_results = []
+    for res in results:
+      user_id = res['user_id']
+      model = self.bot_types.get(user_id, "Human")
+      mapped_results.append({
+        "model": model,
+        "specie": res['specie'],
+        "score": res['score']
+      })
+    
+    game_recorder.add_record(self.game_type, self.name, mapped_results)
+    logger.info(f"Game record saved for room {self.name} (type: {self.game_type})")
 
   def to_dict(self):
     return {

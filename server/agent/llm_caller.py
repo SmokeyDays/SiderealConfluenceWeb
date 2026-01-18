@@ -10,7 +10,7 @@ from langchain_community.callbacks.manager import get_openai_callback
 from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
-from server.agent.interface import langchain_llms_api, langchain_vlm_api, langchain_llms_api_alts
+from server.agent.interface import llm_manager
 # from server.agent.parser import buildingStrategies, citizenActionParser
 from server.utils.log import logger
 import re
@@ -75,7 +75,7 @@ class BasicCaller():
         model_name = 'gpt-4o-mini',
         max_tokens = 1024,
         temperature = 0,
-        vlm = langchain_llms_api,
+        vlm = llm_manager.default_api,
         parser = JsonOutputParser(pydantic_object=LongtermPlan),
         prompt_file = "turn_plan",
         planner_name = "BasicCaller",
@@ -92,7 +92,7 @@ class BasicCaller():
     self.use_multi_chain = False
     if self.use_multi_chain:
       self.chains = [self.chain]
-      for alt in langchain_llms_api_alts:
+      for alt in llm_manager.multi_api_alts:
         self.chains.append(alt | RunnableLambda(clean_json_output) | parser)
 
   def get_chain(self):
@@ -204,7 +204,7 @@ class TurnPlanCaller(BasicCaller):
          model_name = 'gpt-4o-mini',
          max_tokens = 1024,
          temperature = 0,
-         vlm = langchain_llms_api,
+         vlm = llm_manager.default_api,
          parser = JsonOutputParser(pydantic_object=LongtermPlan),
          prompt_file = "turn_plan",
          planner_name = "TurnPlanCaller",
@@ -225,7 +225,7 @@ class TradeCaller(BasicCaller):
       model_name = 'gpt-4o-mini',
       max_tokens = 1024,
       temperature = 0,
-      vlm = langchain_llms_api,
+      vlm = llm_manager.default_api,
       parser = JsonOutputParser(pydantic_object=LongtermPlan),
       prompt_file = "trade_plan",
       planner_name = "TradeCaller",
@@ -245,7 +245,7 @@ class DiscardColonyCaller(BasicCaller):
       model_name = 'gpt-4o-mini',
       max_tokens = 1024,
       temperature = 0,
-      vlm = langchain_llms_api,
+      vlm = llm_manager.default_api,
       parser = JsonOutputParser(pydantic_object=LongtermPlan),
       prompt_file = "discard_colony_plan",
       planner_name = "DiscardCaller",
@@ -266,7 +266,7 @@ class EconomyCaller(BasicCaller):
       model_name = 'gpt-4o-mini',
       max_tokens = 1024,
       temperature = 0,
-      vlm = langchain_llms_api,
+      vlm = llm_manager.default_api,
       parser = JsonOutputParser(pydantic_object=LongtermPlan),
       prompt_file = "economy_plan",
       planner_name = "EconomyCaller",
@@ -287,7 +287,7 @@ class BidCaller(BasicCaller):
       model_name = 'gpt-4o-mini',
       max_tokens = 1024,
       temperature = 0,
-      vlm = langchain_llms_api,
+      vlm = llm_manager.default_api,
       parser = JsonOutputParser(pydantic_object=LongtermPlan),
       prompt_file = "bid_plan",
       planner_name = "BidCaller",
@@ -307,7 +307,7 @@ class PickCaller(BasicCaller):
       model_name = 'gpt-4o-mini',
       max_tokens = 1024,
       temperature = 0,
-      vlm = langchain_llms_api,
+      vlm = llm_manager.default_api,
       parser = JsonOutputParser(pydantic_object=LongtermPlan),
       prompt_file = "pick_plan",
       planner_name = "PickCaller",

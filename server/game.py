@@ -369,7 +369,7 @@ class DataManager:
     return None
 
 class Converter:
-  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], running_stage: str, used: bool = False):
+  def __init__(self, input_items: Dict[str, int] or List[Dict[str, int]], output_items: Dict[str, int], running_stage: str, used: bool = False): # type: ignore
     self.input_items = input_items
     self.output_items = output_items
     self.running_stage = running_stage
@@ -888,6 +888,11 @@ class Game:
 
     self.Kajsjavikalimm_choose_split = None
     self.favor_buff_in_game = False
+    self.end_game_callback = None
+
+  def set_end_game_callback(self, callback):
+    self.end_game_callback = callback
+
   def get_player_num(self):
     return max(len(self.players), 3)
 
@@ -1031,6 +1036,13 @@ class Game:
             slave_player = player
       if slave_player:
         pubsub.publish("add_statistics", {"key": "slave", "value": 1}, slave_player.user_id)
+    
+    if self.end_game_callback:
+      results = [
+           {"specie": p.specie, "score": p.score + 0.5 * p.item_value / 3, "user_id": p.user_id} 
+           for p in self.players
+      ]
+      self.end_game_callback(results)
   def production_end(self):
     self.save_new_product_items()
     #check achievements

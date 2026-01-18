@@ -4,6 +4,8 @@ import time
 import matplotlib.pyplot as plt
 import random
 
+from server.utils.config import get_config
+
 class GameRecorder:
   def __init__(self, filepath=None):
     if filepath is None:
@@ -34,6 +36,15 @@ class GameRecorder:
     os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
     with open(self.filepath, 'w', encoding='utf-8') as f:
       json.dump(self.data, f, indent=4) # indent for readability
+
+  def add_record(self, exp_type, exp_name, results):
+    new_record = {
+      "exp_type": exp_type,
+      "exp_name": exp_name,
+      "results": results
+    }
+    self.data.append(new_record)
+    self.save()
 
   def save_plot(self, filename):
     """保存当前绘图到 charts/plots 目录"""
@@ -110,7 +121,7 @@ class GameRecorder:
     plt.show()
 
   def interactive_mode(self):
-    last_model = "gpt-4o-mini"
+    last_model = get_config('default_bot_type')
     while True:
       print("\n--- Game Recorder ---")
       print("1. Add New Game Record")
@@ -183,13 +194,7 @@ class GameRecorder:
           print(f" ... Added {specie_in}: {score_in}")
         
         if results_buffer:
-          new_record = {
-            "exp_type": exp_type,
-            "exp_name": exp_name,
-            "results": results_buffer
-          }
-          self.data.append(new_record)
-          self.save()
+          self.add_record(exp_type, exp_name, results_buffer)
           save_input = input("Save plot? (y/n) [n]: ").strip().lower()
           save = save_input == 'y'
           self.plot_boxplot(exp_type, save=save)

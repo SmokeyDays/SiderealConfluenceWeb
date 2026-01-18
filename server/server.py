@@ -33,9 +33,35 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.mock4("o3MiniSelfPlayingIter1")
-    
+    # self.mock4("o3MiniSelfPlayingIter1")
+    self.add_elo_exp(
+      room_name="EloExp1",
+      players=[
+      "gpt-4o-mini",
+      "o3-mini",
+      "deepseek-chat",
+      "qwen-plus",
+      ]
+    )
   
+  def add_elo_exp(self, room_name, players):
+    num = len(players)
+    self.rooms[room_name] = Room(num, room_name, 6, "elo_exp")
+    room = self.rooms[room_name]
+    
+    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit", "Kjasjavikalimm"]
+    
+    for i, model in enumerate(players):
+      if model == "Human":
+        room.enter_room(f"Player{i+1}")
+      else:
+        bot_id = f"Bot{i+1}_{model}"
+        specie = species[i % len(species)]
+        room.add_bot(bot_id, specie, bot_type=model)
+    for player in room.players.keys():
+      room.agree_to_start(player)
+    self.update_game_state(room.name, important=True)
+
   def mock1(self):
     user_manager.get_user("Alice")
     user_manager.get_user("Bob")
@@ -495,12 +521,13 @@ class Server:
       username = data['username']
       bot_id = data['bot_id']
       specie = data['specie']
+      bot_type = data['bot_type'] if 'bot_type' in data else get_config('default_bot_type')
       emit('alert-message', {
           "type": "success",
           "title": "Add bot",
           "str": f"You have add bot {bot_id} to room {room_name} playing as {specie}."
         }, namespace=get_router_name())
-      self.rooms[room_name].add_bot(bot_id, specie)
+      self.rooms[room_name].add_bot(bot_id, specie, bot_type=bot_type)
       self.rooms[room_name].agree_to_start(bot_id)
       self.update_rooms()
 
