@@ -34,15 +34,15 @@ class Server:
     self.mock1()
     self.mock2()
     # self.mock4("o3MiniSelfPlayingIter1")
-    self.add_elo_exp(
-      room_name="EloExp1",
-      players=[
-      "gpt-4o-mini",
-      "o3-mini",
-      "deepseek-chat",
-      "qwen-plus",
-      ]
-    )
+    # self.add_elo_exp(
+    #   room_name="EloExp1",
+    #   players=[
+    #   "gpt-4o-mini",
+    #   "o3-mini",
+    #   "deepseek-chat",
+    #   "qwen-plus",
+    #   ]
+    # )
   
   def add_elo_exp(self, room_name, players):
     num = len(players)
