@@ -139,6 +139,34 @@ class BasicCaller():
     if "float" in lowered or "double" in lowered or "number" in lowered:
       return "number"
     return "string"
+  
+  @staticmethod
+  def _guess_array_items_schema(hint: str):
+    lowered = hint.lower()
+    if "dict[" in lowered or "list[dict" in lowered or "list<object" in lowered:
+      return {"type": "object", "additionalProperties": True}
+    if "list[int" in lowered or "array[int" in lowered:
+      return {"type": "integer"}
+    if "list[number" in lowered or "list[float" in lowered or "array[number" in lowered:
+      return {"type": "number"}
+    if "list[bool" in lowered or "array[bool" in lowered:
+      return {"type": "boolean"}
+    # Common cases like "[player1, player2, ...]" or List[str]
+    return {"type": "string"}
+
+  def _build_property_schema(self, hint: str):
+    json_type = self._guess_json_type(hint)
+    schema = {
+      "type": json_type,
+      "description": hint
+    }
+    if json_type == "array":
+      # OpenAI tool schema requires `items` for every array type.
+      schema["items"] = self._guess_array_items_schema(hint)
+    elif json_type == "object":
+      # Keep object permissive because many handlers use free-form payloads.
+      schema["additionalProperties"] = True
+    return schema
 
   def _build_function_tools(self, handlers_map):
     if not handlers_map:
@@ -161,16 +189,14 @@ class BasicCaller():
         hint = hint.strip()
         if not key:
           continue
-        properties[key] = {
-          "type": self._guess_json_type(hint),
-          "description": hint
-        }
+        properties[key] = self._build_property_schema(hint)
 
       if not properties:
         properties = {
           "data": {
             "type": "object",
-            "description": "Data payload for this action."
+            "description": "Data payload for this action.",
+            "additionalProperties": True
           }
         }
 
