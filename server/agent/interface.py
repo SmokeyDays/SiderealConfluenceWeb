@@ -19,6 +19,13 @@ class LLMInterfaceManager:
         temperature=0,
     )
 
+    langchain_deepseek_4_pro_api = ChatOpenAI(
+        base_url="https://api.deepseek.com",
+        api_key=os.getenv("DEEPSEEK_API_KEY"),
+        model="deepseek-v4-pro",
+        temperature=0,
+    )
+
     # Qwen
     langchain_qwen_api = ChatOpenAI(
         # 阿里云百炼兼容 OpenAI 的 Base URL
@@ -48,37 +55,38 @@ class LLMInterfaceManager:
       openai_api_key=os.getenv("O3MINI_API_KEY"),
     )
 
-    self.langchain_llms_api_alts = [
-      AzureChatOpenAI(
-        azure_endpoint="https://yeqifeng-eastus2-new.openai.azure.com/",
-        openai_api_version="2024-12-01-preview",
-        azure_deployment="gpt-4o-mini",
-        openai_api_key=os.getenv("O4MINI_API_KEY2"),
-      ),
-      AzureChatOpenAI(
-        azure_endpoint="https://yeqifeng-italynorth.openai.azure.com/",
-        openai_api_version="2024-12-01-preview",
-        azure_deployment="gpt-4o-mini",
-        openai_api_key=os.getenv("O4MINI_API_KEY3"),
-      ),
-      AzureChatOpenAI(
-        azure_endpoint="https://yeqifeng-japaneast.openai.azure.com/",
-        openai_api_version="2024-12-01-preview",
-        azure_deployment="gpt-4o-mini",
-        openai_api_key=os.getenv("O4MINI_API_KEY4"),
-      ),
-      AzureChatOpenAI(
-        azure_endpoint="https://yeqifeng-germanywestcentral.openai.azure.com/",
-        openai_api_version="2024-12-01-preview",
-        azure_deployment="gpt-4o-mini",
-        openai_api_key=os.getenv("O4MINI_API_KEY5"),
-      ),
-    ]
+    # self.langchain_llms_api_alts = [
+    #   AzureChatOpenAI(
+    #     azure_endpoint="https://yeqifeng-eastus2-new.openai.azure.com/",
+    #     openai_api_version="2024-12-01-preview",
+    #     azure_deployment="gpt-4o-mini",
+    #     openai_api_key=os.getenv("O4MINI_API_KEY2"),
+    #   ),
+    #   AzureChatOpenAI(
+    #     azure_endpoint="https://yeqifeng-italynorth.openai.azure.com/",
+    #     openai_api_version="2024-12-01-preview",
+    #     azure_deployment="gpt-4o-mini",
+    #     openai_api_key=os.getenv("O4MINI_API_KEY3"),
+    #   ),
+    #   AzureChatOpenAI(
+    #     azure_endpoint="https://yeqifeng-japaneast.openai.azure.com/",
+    #     openai_api_version="2024-12-01-preview",
+    #     azure_deployment="gpt-4o-mini",
+    #     openai_api_key=os.getenv("O4MINI_API_KEY4"),
+    #   ),
+    #   AzureChatOpenAI(
+    #     azure_endpoint="https://yeqifeng-germanywestcentral.openai.azure.com/",
+    #     openai_api_version="2024-12-01-preview",
+    #     azure_deployment="gpt-4o-mini",
+    #     openai_api_key=os.getenv("O4MINI_API_KEY5"),
+    #   ),
+    # ]
     self.registry = {
         "gpt-4o-mini": langchain_gpt4omini_api,
         "o3-mini": langchain_o3mini_api,
         "deepseek-chat": langchain_deepseek_api,
         "qwen-plus": langchain_qwen_api,
+        "deepseek-v4-pro": langchain_deepseek_4_pro_api,
     }
   
   def get_api(self, name):

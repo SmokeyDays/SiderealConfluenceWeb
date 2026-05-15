@@ -7,6 +7,11 @@ class Config:
       'default_turn': 6,
       'load_old_saves': True,
       'default_bot_type': 'gpt-4o-mini',
+      # Agent function-calling mode: "off" | "auto" | "on"
+      # off: always use legacy JSON-in-prompt
+      # auto: try FC first, fallback to legacy JSON if unsupported
+      # on: prefer FC and still fallback on runtime errors
+      "agent_function_calling_mode": "on",
 
       # Ablation settings here
       "prompt_converter_value_adding": True,

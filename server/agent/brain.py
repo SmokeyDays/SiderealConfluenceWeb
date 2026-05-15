@@ -135,7 +135,7 @@ class Brain:
         ("Actions", handlers_prompt)
       ]
       # AWAIT 调用
-      response = await self.get_planner("trade").aplan(prompt)
+      response = await self.get_planner("trade").aplan(prompt, handlers_map=handlers_map)
 
       if self.trading_step_count > 100 and response and "actions" in response:
         response = self.ensure_confirm(response)
@@ -152,7 +152,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("discard_colony").aplan(prompt)
+      response = await self.get_planner("discard_colony").aplan(prompt, handlers_map=handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "discard_colony caller")
 
@@ -163,7 +163,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("economy").aplan(prompt)
+      response = await self.get_planner("economy").aplan(prompt, handlers_map=handlers_map)
       self.record_response(prompt, response)
       response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
@@ -175,7 +175,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("bid").aplan(prompt)
+      response = await self.get_planner("bid").aplan(prompt, handlers_map=handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "bid caller")
 
@@ -186,7 +186,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("pick").aplan(prompt)
+      response = await self.get_planner("pick").aplan(prompt, handlers_map=handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "pick caller")
 

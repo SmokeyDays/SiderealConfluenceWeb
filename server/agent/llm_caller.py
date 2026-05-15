@@ -1,21 +1,20 @@
-from abc import abstractmethod
-from datetime import time
-import random
 import asyncio
+import json
+import random
+import re
+import time
 
 import openai
-from server.agent.prompt_template import load_prompt
-from langchain_openai import AzureChatOpenAI
 from langchain_community.callbacks.manager import get_openai_callback
-from langchain_core.messages import HumanMessage, SystemMessage
-from pydantic import BaseModel, Field
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langchain_core.output_parsers import JsonOutputParser
-from server.agent.interface import llm_manager
-# from server.agent.parser import buildingStrategies, citizenActionParser
-from server.utils.log import logger
-import re
-from langchain_core.messages import BaseMessage
 from langchain_core.runnables import RunnableLambda
+from pydantic import BaseModel, Field
+
+from server.agent.interface import llm_manager
+from server.agent.prompt_template import load_prompt
+from server.utils.config import get_config
+from server.utils.log import logger
 
 def clean_json_output(output):
     content = output.content if isinstance(output, BaseMessage) else output
@@ -88,17 +87,26 @@ class BasicCaller():
 
     self.prompt_file = prompt_file
     self.planner_name = planner_name
+    self.vlm = vlm
     self.chain = vlm | RunnableLambda(clean_json_output) | parser
+    self.fc_available = None
     self.use_multi_chain = False
     if self.use_multi_chain:
       self.chains = [self.chain]
+      self.vlms = [self.vlm]
       for alt in llm_manager.multi_api_alts:
         self.chains.append(alt | RunnableLambda(clean_json_output) | parser)
+        self.vlms.append(alt)
 
   def get_chain(self):
     if self.use_multi_chain:
       return random.choice(self.chains)
     return self.chain
+  
+  def get_vlm(self):
+    if self.use_multi_chain:
+      return random.choice(self.vlms)
+    return self.vlm
 
   def render_system_message(self):
     system_prompt = load_prompt(self.prompt_file)
@@ -117,8 +125,153 @@ class BasicCaller():
 
     return human_message
 
+  @staticmethod
+  def _guess_json_type(hint: str):
+    lowered = hint.lower()
+    if "int" in lowered:
+      return "integer"
+    if "bool" in lowered:
+      return "boolean"
+    if "dict" in lowered or "map" in lowered or "object" in lowered:
+      return "object"
+    if "list" in lowered or "array" in lowered or lowered.strip().startswith("["):
+      return "array"
+    if "float" in lowered or "double" in lowered or "number" in lowered:
+      return "number"
+    return "string"
 
-  def plan(self, chapters):
+  def _build_function_tools(self, handlers_map):
+    if not handlers_map:
+      return []
+    tools = []
+    for fn_name, fn in handlers_map.items():
+      doc = (fn.__doc__ or "").strip()
+      doc_lines = [line.strip() for line in doc.splitlines() if line.strip()]
+      description = doc_lines[0] if doc_lines else f"Call {fn_name}"
+
+      properties = {}
+      for line in doc_lines[1:]:
+        if not line.startswith("- "):
+          continue
+        content = line[2:].strip()
+        if ":" not in content:
+          continue
+        key, hint = content.split(":", 1)
+        key = key.strip()
+        hint = hint.strip()
+        if not key:
+          continue
+        properties[key] = {
+          "type": self._guess_json_type(hint),
+          "description": hint
+        }
+
+      if not properties:
+        properties = {
+          "data": {
+            "type": "object",
+            "description": "Data payload for this action."
+          }
+        }
+
+      tools.append({
+        "type": "function",
+        "function": {
+          "name": fn_name,
+          "description": description,
+          "parameters": {
+            "type": "object",
+            "properties": properties,
+            "additionalProperties": True
+          }
+        }
+      })
+    return tools
+
+  @staticmethod
+  def _normalize_action_args(args):
+    if not isinstance(args, dict):
+      return {}
+    if "data" in args and isinstance(args["data"], dict):
+      return args["data"]
+    return args
+
+  def _build_fc_response(self, ai_msg):
+    response = {}
+    raw_content = ai_msg.content if hasattr(ai_msg, "content") else ""
+    if isinstance(raw_content, str):
+      cleaned = clean_json_output(raw_content)
+      if cleaned:
+        try:
+          parsed = json.loads(cleaned)
+          if isinstance(parsed, dict):
+            response.update(parsed)
+        except Exception:
+          # Keep non-JSON text as reasoning fallback.
+          response["reasoning"] = cleaned
+
+    tool_calls = getattr(ai_msg, "tool_calls", []) or []
+    actions = []
+    for call in tool_calls:
+      name = call.get("name")
+      args = self._normalize_action_args(call.get("args", {}))
+      if not name:
+        continue
+      actions.append({"func": name, "data": args})
+
+    if actions:
+      response["actions"] = actions
+    else:
+      response.setdefault("actions", [])
+    return response
+
+  def _is_fc_enabled(self):
+    mode = str(get_config("agent_function_calling_mode")).lower()
+    if mode == "off":
+      return False
+    if mode == "on":
+      return True
+    # auto mode
+    return self.fc_available is not False
+
+  def _invoke_legacy(self, message):
+    return self.get_chain().invoke(message)
+
+  async def _ainvoke_legacy(self, message):
+    return await self.get_chain().ainvoke(message)
+
+  def _invoke_with_fc(self, message, handlers_map):
+    tools = self._build_function_tools(handlers_map)
+    if not tools or not self._is_fc_enabled():
+      return self._invoke_legacy(message)
+    try:
+      llm_with_tools = self.get_vlm().bind_tools(tools, tool_choice="auto")
+      ai_msg = llm_with_tools.invoke(message)
+      self.fc_available = True
+      return self._build_fc_response(ai_msg)
+    except Exception as e:
+      logger.warning(f"{self.planner_name} FC invoke failed, fallback to legacy mode: {e}")
+      # In auto mode, disable FC after first incompatibility.
+      if str(get_config("agent_function_calling_mode")).lower() == "auto":
+        self.fc_available = False
+      return self._invoke_legacy(message)
+
+  async def _ainvoke_with_fc(self, message, handlers_map):
+    tools = self._build_function_tools(handlers_map)
+    if not tools or not self._is_fc_enabled():
+      return await self._ainvoke_legacy(message)
+    try:
+      llm_with_tools = self.get_vlm().bind_tools(tools, tool_choice="auto")
+      ai_msg = await llm_with_tools.ainvoke(message)
+      self.fc_available = True
+      return self._build_fc_response(ai_msg)
+    except Exception as e:
+      logger.warning(f"{self.planner_name} async FC invoke failed, fallback to legacy mode: {e}")
+      if str(get_config("agent_function_calling_mode")).lower() == "auto":
+        self.fc_available = False
+      return await self._ainvoke_legacy(message)
+
+  def plan(self, chapters, handlers_map=None):
     system_message = self.render_system_message()
     human_message = self.render_human_message(chapters)
     message = [system_message, human_message]
@@ -131,7 +284,7 @@ class BasicCaller():
     while attempt < max_retries:
       try:
         with get_openai_callback() as cb:
-          long_term_plan = self.get_chain().invoke(message)
+          long_term_plan = self._invoke_with_fc(message, handlers_map)
           
           logger.info(f"""
 LLMs Called:
@@ -157,7 +310,7 @@ Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
     
     return long_term_plan
 
-  async def aplan(self, chapters):
+  async def aplan(self, chapters, handlers_map=None):
     system_message = self.render_system_message()
     human_message = self.render_human_message(chapters)
     message = [system_message, human_message]
@@ -171,7 +324,7 @@ Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
     while attempt < max_retries:
       try:
         with get_openai_callback() as cb:
-          long_term_plan = await self.get_chain().ainvoke(message)
+          long_term_plan = await self._ainvoke_with_fc(message, handlers_map)
           logger.info(f"""
 LLMs Called (Async):
 Request tokens: {cb.total_tokens}, Request cost: {cb.total_cost}, 
@@ -323,11 +476,144 @@ class PickCaller(BasicCaller):
       vision = vision)
 
 
+def _healthcheck_tool(payload: str, api_name: str = ""):
+  """Echo a payload to verify function calling.
+
+  - payload: string payload to echo back
+  - api_name: string API label for the report
+  """
+
+
+def _render_healthcheck_chapters(api_name: str):
+  return [
+    ("API", f"当前正在测试 {api_name} 的基础连通性和函数调用能力。"),
+    (
+      "Task",
+      "请先用一句话确认你已收到测试请求，然后如果支持函数调用，请调用 healthcheck_tool，"
+      "并把 payload 设置为 'fc-ok:' 加上当前 API 名称。"
+    ),
+  ]
+
+
+def _message_to_text(value):
+  if isinstance(value, BaseMessage):
+    value = value.content
+  if isinstance(value, list):
+    return json.dumps(value, ensure_ascii=False)
+  if isinstance(value, dict):
+    return json.dumps(value, ensure_ascii=False)
+  if value is None:
+    return ""
+  return str(value)
+
+
+def run_llm_api_healthcheck():
+  targets = []
+  for model_name, api in llm_manager.registry.items():
+    targets.append((model_name, api))
+  report = []
+  print("=== LLM API Healthcheck Start ===")
+  print(f"Default bot type: {get_config('default_bot_type')}")
+  print(f"Function calling mode: {get_config('agent_function_calling_mode')}")
+
+  for api_name, api in targets:
+    caller = BasicCaller(
+      vlm=api,
+      planner_name=f"Healthcheck[{api_name}]",
+      prompt_file="turn_plan",
+    )
+    chapters = _render_healthcheck_chapters(api_name)
+    message = [caller.render_system_message(), caller.render_human_message(chapters)]
+
+    item = {
+      "api_name": api_name,
+      "provider": type(api).__name__,
+      "legacy": {
+        "ok": False,
+        "content": "",
+        "tokens": 0,
+        "cost": 0,
+        "error": "",
+      },
+      "fc": {
+        "ok": False,
+        "actions": [],
+        "content": "",
+        "tokens": 0,
+        "cost": 0,
+        "error": "",
+      },
+    }
+
+    try:
+      with get_openai_callback() as cb:
+        legacy_response = caller.get_vlm().invoke(message)
+      item["legacy"]["ok"] = True
+      item["legacy"]["content"] = _message_to_text(legacy_response)
+      item["legacy"]["tokens"] = cb.total_tokens
+      item["legacy"]["cost"] = cb.total_cost
+    except Exception as exc:
+      item["legacy"]["error"] = str(exc)
+
+    try:
+      with get_openai_callback() as cb:
+        fc_response = caller._invoke_with_fc(message, {"healthcheck_tool": _healthcheck_tool})
+      item["fc"]["tokens"] = cb.total_tokens
+      item["fc"]["cost"] = cb.total_cost
+      if isinstance(fc_response, dict):
+        item["fc"]["actions"] = fc_response.get("actions", []) or []
+        item["fc"]["content"] = _message_to_text(fc_response)
+        item["fc"]["ok"] = len(item["fc"]["actions"]) > 0
+      else:
+        item["fc"]["content"] = _message_to_text(fc_response)
+        item["fc"]["ok"] = bool(item["fc"]["content"])
+    except Exception as exc:
+      item["fc"]["error"] = str(exc)
+
+    report.append(item)
+
+    print(f"\n[{api_name}] {item['provider']}")
+    print(f"  legacy: {'PASS' if item['legacy']['ok'] else 'FAIL'}")
+    if item["legacy"]["error"]:
+      print(f"    error: {item['legacy']['error']}")
+    else:
+      print(f"    content: {item['legacy']['content'][:240]}")
+    print(f"    tokens/cost: {item['legacy']['tokens']} / {item['legacy']['cost']}")
+
+    print(f"  fc: {'PASS' if item['fc']['ok'] else 'FAIL'}")
+    if item["fc"]["error"]:
+      print(f"    error: {item['fc']['error']}")
+    else:
+      print(f"    actions: {json.dumps(item['fc']['actions'], ensure_ascii=False)}")
+      print(f"    content: {item['fc']['content'][:240]}")
+    print(f"    tokens/cost: {item['fc']['tokens']} / {item['fc']['cost']}")
+
+  legacy_pass_count = sum(1 for item in report if item["legacy"]["ok"])
+  fc_pass_count = sum(1 for item in report if item["fc"]["ok"])
+
+  summary = {
+    "total": len(report),
+    "legacy_pass": legacy_pass_count,
+    "legacy_fail": len(report) - legacy_pass_count,
+    "fc_pass": fc_pass_count,
+    "fc_fail": len(report) - fc_pass_count,
+    "report": report,
+  }
+
+  print("\n=== Summary ===")
+  print(f"Legacy pass: {legacy_pass_count}/{len(report)}")
+  print(f"FC pass: {fc_pass_count}/{len(report)}")
+  # Simple table: API | LEGACY | FC
+  header = f"{'API':30} {'LEGACY':7} {'FC':7}"
+  print('\n' + header)
+  print('-' * len(header))
+  for it in report:
+    api_label = it['api_name'][:30]
+    legacy_status = 'PASS' if it['legacy']['ok'] else 'FAIL'
+    fc_status = 'PASS' if it['fc']['ok'] else 'FAIL'
+    print(f"{api_label:30} {legacy_status:7} {fc_status:7}")
+  return summary
+
+
 if __name__ == '__main__':
-  wrong_json = """```
-{
-  "reasoning": "I need to bid ships on both colonies and technology research teams to maximize my chances of acquiring valuable assets. Given my current resources and the available options, I will allocate my ships strategically to ensure I can secure at least one colony and one research team.",
-  "goal": "To acquire at least one colony and one technology research team through bidding.", // This is a comment that should be removed
-  "long_term_plan": "1. Assess the available colonies and research teams on the auction track. 2. Determine the maximum number of ships I can allocate for bidding without depleting my resources. 3. Allocate ships to bid on the most valuable colony first, ensuring I have enough left to bid on a research team. 4. Monitor other players' bids and adjust my strategy accordingly in real-time."
-}```"""
-  print(clean_json_output(wrong_json))
+  run_llm_api_healthcheck()
