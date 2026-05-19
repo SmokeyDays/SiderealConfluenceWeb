@@ -35,7 +35,7 @@ class Server:
     self.mock2()
     # self.mock4("o3MiniSelfPlayingIter1")
     self.add_elo_exp(
-      room_name="EloExp2",
+      room_name="EloExp3",
       players=[
       "gpt-4o-mini",
       "o3-mini",

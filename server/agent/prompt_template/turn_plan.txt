@@ -36,6 +36,8 @@ Your plan may containing following parts:
 4. What resources are not needed in this turn and can be used to trade with other players.
 5. What resources you want to buy from other players.
 6. A strategy memo to remind yourself of key priorities during the trading phase.
+
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 
 ```
@@ -49,3 +51,4 @@ Your response must be a json object with the following format:
   "buy": {"<resource_name>": <resource_quantity>, ...}
 }
 ```
+[[JSON_ACTION_PROMPT_END]]

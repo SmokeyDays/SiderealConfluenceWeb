@@ -38,6 +38,7 @@ The most important things:
 
 
 
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 ```
 {
@@ -51,3 +52,4 @@ Your response must be a json object with the following format:
   ]
 }
 ```
+[[JSON_ACTION_PROMPT_END]]

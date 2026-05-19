@@ -30,6 +30,7 @@ You can only pick the item with a value not higher than the number of ships you 
 You may choose to Pass (set `pick_id` to -1). If you pass, you do NOT get a card. However, your full bid of Ships is returned to your storage. Moreover, ALWAYS pass if you cannot afford any item on the track.
 
 
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 ```
 {
@@ -43,3 +44,4 @@ Your response must be a json object with the following format:
   ]
 }
 ```
+[[JSON_ACTION_PROMPT_END]]

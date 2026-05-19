@@ -8,6 +8,7 @@ Please follow these instructions:
 3. **Resource Calculation**: Calculate the net resources needed. Determine what should be bought, sold, or borrowed.
 4. **Proposals**: Based on your plan, formulate specific proposals (trades/deals) you intend to offer to other players.
 
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 {
   "reasoning": "Detailed analysis of promises, strategy, and resource gaps...",
@@ -26,3 +27,4 @@ Your response must be a json object with the following format:
       ...
   ]
 }
+[[JSON_ACTION_PROMPT_END]]

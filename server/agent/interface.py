@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI # 注意这里改用 ChatOpenAI
 from langchain_openai import AzureChatOpenAI
+from langchain_google_genai import GoogleGenerativeAI
 import os
 from dotenv import load_dotenv
 
@@ -55,6 +56,8 @@ class LLMInterfaceManager:
       openai_api_key=os.getenv("O3MINI_API_KEY"),
     )
 
+    langchain_gemini_3_flash_preview_api = GoogleGenerativeAI(model="gemini-3-flash-preview")
+
     # self.langchain_llms_api_alts = [
     #   AzureChatOpenAI(
     #     azure_endpoint="https://yeqifeng-eastus2-new.openai.azure.com/",
@@ -87,6 +90,7 @@ class LLMInterfaceManager:
         "deepseek-chat": langchain_deepseek_api,
         "qwen-plus": langchain_qwen_api,
         "deepseek-v4-pro": langchain_deepseek_4_pro_api,
+        "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api
     }
   
   def get_api(self, name):

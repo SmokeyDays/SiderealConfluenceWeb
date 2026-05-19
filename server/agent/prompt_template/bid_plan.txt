@@ -50,6 +50,7 @@ Review the available cards in the auction tracks and your current ship count car
 Take into account the number of colonies and research teams you already possess, also the species' tie-breaker value according to the tie breaker rules.
 Your Total Bid (colony_bid + research_bid) must not exceed your currently held Ships.
 
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 ```
 {
@@ -63,3 +64,4 @@ Your response must be a json object with the following format:
   ]
 }
 ```
+[[JSON_ACTION_PROMPT_END]]

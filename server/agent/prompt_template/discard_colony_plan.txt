@@ -30,6 +30,7 @@ You MUST discard the excess colony to proceed to the Economy Phase.
 Please calculate the number of colony to discard: `(Current colonies Count) - (Colony Support Limit)`.
 Discarded colonies are placed at the bottom of the deck and are removed from your engine permanently.
 
+[[JSON_ACTION_PROMPT_START]]
 Your response must be a json object with the following format:
 ```
 {
@@ -43,3 +44,4 @@ Your response must be a json object with the following format:
   ]
 }
 ```
+[[JSON_ACTION_PROMPT_END]]
