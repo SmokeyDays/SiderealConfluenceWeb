@@ -1,6 +1,9 @@
 import json
+import math
 import os
 import time
+from collections import defaultdict
+
 import matplotlib.pyplot as plt
 import random
 
@@ -16,6 +19,10 @@ class GameRecorder:
       self.filepath = filepath
     self.data = []
     self.load()
+
+  def _get_default_new_records_path(self):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_dir, 'game_records_new.json')
 
   def load(self):
     """读取 json 并将结果载入"""
@@ -45,6 +52,177 @@ class GameRecorder:
     }
     self.data.append(new_record)
     self.save()
+
+  def merge_records_from_file(self, filepath=None):
+    """Merge records from a secondary file by exp_name."""
+    source_path = filepath or self._get_default_new_records_path()
+    if not os.path.exists(source_path):
+      print(f"Merge source not found: {source_path}")
+      return {"merged": 0, "skipped": 0, "source_path": source_path}
+
+    try:
+      with open(source_path, 'r', encoding='utf-8') as f:
+        new_data = json.load(f)
+    except json.JSONDecodeError:
+      print(f"Error decoding JSON from {source_path}")
+      return {"merged": 0, "skipped": 0, "source_path": source_path}
+
+    if not isinstance(new_data, list):
+      print(f"Unexpected format in {source_path}: expected a list of records.")
+      return {"merged": 0, "skipped": 0, "source_path": source_path}
+
+    existing_names = {
+      record.get("exp_name")
+      for record in self.data
+      if isinstance(record, dict) and record.get("exp_name")
+    }
+
+    merged_count = 0
+    skipped_count = 0
+    for record in new_data:
+      if not isinstance(record, dict):
+        skipped_count += 1
+        continue
+
+      exp_name = record.get("exp_name")
+      if not exp_name:
+        skipped_count += 1
+        continue
+
+      if exp_name in existing_names:
+        skipped_count += 1
+        continue
+
+      self.data.append(record)
+      existing_names.add(exp_name)
+      merged_count += 1
+
+    if merged_count:
+      self.save()
+
+    print(
+      f"Merged {merged_count} new records from {source_path}; "
+      f"skipped {skipped_count} records with duplicate or invalid exp_name."
+    )
+    return {"merged": merged_count, "skipped": skipped_count, "source_path": source_path}
+
+  def _build_pairwise_results(self, exp_type=None):
+    pairwise_wins = defaultdict(float)
+    pairwise_counts = defaultdict(int)
+    model_set = set()
+
+    for record in self.data:
+      if exp_type is not None and record.get("exp_type") != exp_type:
+        continue
+
+      results = record.get("results", [])
+      per_model_scores = defaultdict(list)
+      for result in results:
+        if not isinstance(result, dict):
+          continue
+        model = result.get("model", "Unknown")
+        try:
+          score = float(result.get("score", 0))
+        except (TypeError, ValueError):
+          continue
+        per_model_scores[model].append(score)
+
+      aggregated_scores = {
+        model: sum(scores) / len(scores)
+        for model, scores in per_model_scores.items()
+        if scores
+      }
+      if len(aggregated_scores) < 2:
+        continue
+
+      models = list(aggregated_scores.keys())
+      for i in range(len(models)):
+        for j in range(i + 1, len(models)):
+          left = models[i]
+          right = models[j]
+          left_score = aggregated_scores[left]
+          right_score = aggregated_scores[right]
+
+          model_set.add(left)
+          model_set.add(right)
+          pairwise_counts[(left, right)] += 1
+          pairwise_counts[(right, left)] += 1
+
+          if left_score > right_score:
+            pairwise_wins[(left, right)] += 1.0
+          elif right_score > left_score:
+            pairwise_wins[(right, left)] += 1.0
+          else:
+            pairwise_wins[(left, right)] += 0.5
+            pairwise_wins[(right, left)] += 0.5
+
+    return sorted(model_set), pairwise_wins, pairwise_counts
+
+  def estimate_elo(self, exp_type=None, max_iter=500, tol=1e-9):
+    """Estimate time-order-independent Elo ratings via Bradley-Terry MLE."""
+    models, pairwise_wins, pairwise_counts = self._build_pairwise_results(exp_type=exp_type)
+    if len(models) < 2:
+      print("Not enough multi-model records to estimate Elo.")
+      return {}
+
+    strengths = {model: 1.0 for model in models}
+    for _ in range(max_iter):
+      updated_strengths = {}
+      max_relative_change = 0.0
+
+      for model in models:
+        wins = sum(pairwise_wins[(model, opponent)] for opponent in models if opponent != model)
+        denom = 0.0
+        for opponent in models:
+          if opponent == model:
+            continue
+          comparisons = pairwise_counts[(model, opponent)]
+          if comparisons:
+            denom += comparisons / (strengths[model] + strengths[opponent])
+
+        if denom <= 0:
+          updated = strengths[model]
+        else:
+          updated = max(wins / denom, 1e-12)
+
+        updated_strengths[model] = updated
+        max_relative_change = max(
+          max_relative_change,
+          abs(updated - strengths[model]) / max(strengths[model], 1e-12)
+        )
+
+      log_strengths = [math.log(value) for value in updated_strengths.values() if value > 0]
+      if not log_strengths:
+        print("Unable to stabilize Elo estimates.")
+        return {}
+
+      geo_mean = math.exp(sum(log_strengths) / len(log_strengths))
+      for model in models:
+        updated_strengths[model] = max(updated_strengths[model] / geo_mean, 1e-12)
+
+      strengths = updated_strengths
+      if max_relative_change < tol:
+        break
+
+    mean_log_strength = sum(math.log(strengths[model]) for model in models) / len(models)
+    elos = {
+      model: 1500.0 + (400.0 / math.log(10)) * (math.log(strengths[model]) - mean_log_strength)
+      for model in models
+    }
+
+    ranking = sorted(models, key=lambda model: elos[model], reverse=True)
+    print("\n--- Elo Estimate ---")
+    if exp_type is not None:
+      print(f"Experiment type: {exp_type}")
+    for index, model in enumerate(ranking, start=1):
+      total_games = sum(
+        pairwise_counts[(model, opponent)]
+        for opponent in models
+        if opponent != model
+      )
+      print(f"{index:>2}. {model}: {elos[model]:.2f} (comparisons: {total_games})")
+
+    return elos
 
   def save_plot(self, filename):
     """保存当前绘图到 charts/plots 目录"""
@@ -127,6 +305,8 @@ class GameRecorder:
       print("1. Add New Game Record")
       print("2. Draw Boxplot")
       print("3. Reload Data")
+      print("4. Merge Records From game_records_new.json")
+      print("5. Estimate Elo")
       print("q. Exit")
       
       choice = input("Enter choice: ").strip().lower()
@@ -209,6 +389,14 @@ class GameRecorder:
       elif choice == '3':
         self.load()
         print("Data reloaded from disk.")
+
+      elif choice == '4':
+        source_path = input("Source file [game_records_new.json]: ").strip() or None
+        self.merge_records_from_file(source_path)
+
+      elif choice == '5':
+        exp_type = input("\nEnter Experiment Type for Elo [all]: ").strip() or None
+        self.estimate_elo(exp_type=exp_type)
         
       elif choice == 'q':
         break

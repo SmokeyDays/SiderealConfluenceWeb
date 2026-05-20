@@ -1,6 +1,6 @@
 from langchain_openai import ChatOpenAI # 注意这里改用 ChatOpenAI
 from langchain_openai import AzureChatOpenAI
-from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAI
 import os
 from dotenv import load_dotenv
 
@@ -29,16 +29,16 @@ class LLMInterfaceManager:
 
     # Qwen
     langchain_qwen_api = ChatOpenAI(
-        # 阿里云百炼兼容 OpenAI 的 Base URL
-        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-        # 你的阿里云 DashScope API Key (通常以 sk- 开头)
-        api_key=os.getenv("QWEN_API_KEY"),
-        # 模型选择:
-        # - qwen-max: 能力最强，对标 GPT-4
-        # - qwen-plus: 性价比最高，速度快，能力强 (推荐作为主力)
-        # - qwen-turbo: 速度极快，便宜
-        model="qwen-plus",
-        temperature=0.0,
+      # 阿里云百炼兼容 OpenAI 的 Base URL
+      base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+      # 你的阿里云 DashScope API Key (通常以 sk- 开头)
+      api_key=os.getenv("QWEN_API_KEY"),
+      # 模型选择:
+      # - qwen-max: 能力最强，对标 GPT-4
+      # - qwen-plus: 性价比最高，速度快，能力强 (推荐作为主力)
+      # - qwen-turbo: 速度极快，便宜
+      model="qwen-plus",
+      temperature=0.0,
     )
 
     # Azure OpenAI 配置
@@ -54,9 +54,19 @@ class LLMInterfaceManager:
       openai_api_version="2024-12-01-preview",
       azure_deployment="o3-mini",
       openai_api_key=os.getenv("O3MINI_API_KEY"),
+      temperature=0.0,
     )
 
-    langchain_gemini_3_flash_preview_api = GoogleGenerativeAI(model="gemini-3-flash-preview")
+    langchain_gemini_3_flash_preview_api = ChatGoogleGenerativeAI(
+      model="gemini-3-flash-preview",
+    )
+
+    langchain_claude_api = ChatOpenAI(
+      api_key=os.getenv("CLAUDE_API_KEY"),
+      base_url="https://api.wenwen-ai.com/v1", # 如果后续调用报 404，通常需要加上 /v1，即 "https://api.wenwen-ai.com/v1"
+      model="claude-opus-4-5-20251101",
+      temperature=0.0,
+    )
 
     # self.langchain_llms_api_alts = [
     #   AzureChatOpenAI(
@@ -90,7 +100,8 @@ class LLMInterfaceManager:
         "deepseek-chat": langchain_deepseek_api,
         "qwen-plus": langchain_qwen_api,
         "deepseek-v4-pro": langchain_deepseek_4_pro_api,
-        "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api
+        "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api,
+        "claude-opus-4": langchain_claude_api
     }
   
   def get_api(self, name):
