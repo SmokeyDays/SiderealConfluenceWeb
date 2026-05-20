@@ -39,7 +39,7 @@ class Server:
       players=[
       "gpt-4o-mini",
       "o3-mini",
-      "deepseek-chat",
+      "deepseek-v3.2",
       "deepseek-v4-pro",
       ]
     )

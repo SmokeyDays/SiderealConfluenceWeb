@@ -11,12 +11,32 @@ class LLMInterfaceManager:
 
     load_dotenv(override=True)
 
-    # DeepSeek 官方 API 配置
-    # 模型选项: 'deepseek-chat' (对应 V3) 或 'deepseek-reasoner' (对应 R1)
-    langchain_deepseek_api = ChatOpenAI(
-        base_url="https://api.deepseek.com", 
-        api_key=os.getenv("DEEPSEEK_API_KEY"),  # 需去 DeepSeek 官网申请 Key
-        model="deepseek-chat",
+    # 火山 DS API
+    langchain_deepseek_v32_api = ChatOpenAI(
+        base_url="https://ark.cn-beijing.volces.com/api/v3", 
+        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去 DeepSeek 官网申请 Key
+        model="deepseek-v3-2-251201",
+        temperature=0,
+    )
+
+    langchain_doubao_2_lite_api = ChatOpenAI(
+        base_url="https://ark.cn-beijing.volces.com/api/v3", 
+        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去 DeepSeek 官网申请 Key
+        model="doubao-seed-2-0-lite-260428",
+        temperature=0,
+    )
+
+    langchain_doubao_2_pro_api = ChatOpenAI(
+        base_url="https://ark.cn-beijing.volces.com/api/v3", 
+        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去 DeepSeek 官网申请 Key
+        model="doubao-seed-2-0-pro-260215",
+        temperature=0,
+    )
+
+    langchain_glm47_api = ChatOpenAI(
+        base_url="https://ark.cn-beijing.volces.com/api/v3", 
+        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去商汤官网申请 Key
+        model="glm-4-7-251222",
         temperature=0,
     )
 
@@ -54,7 +74,13 @@ class LLMInterfaceManager:
       openai_api_version="2024-12-01-preview",
       azure_deployment="o3-mini",
       openai_api_key=os.getenv("O3MINI_API_KEY"),
-      temperature=0.0,
+    )
+
+    langchain_gpt5_api = AzureChatOpenAI(
+      azure_endpoint=os.getenv("O3MINI_ENDPOINT"),
+      openai_api_version="2024-12-01-preview",
+      azure_deployment="gpt-5",
+      openai_api_key=os.getenv("O3MINI_API_KEY"),
     )
 
     langchain_gemini_3_flash_preview_api = ChatGoogleGenerativeAI(
@@ -68,46 +94,27 @@ class LLMInterfaceManager:
       temperature=0.0,
     )
 
-    # self.langchain_llms_api_alts = [
-    #   AzureChatOpenAI(
-    #     azure_endpoint="https://yeqifeng-eastus2-new.openai.azure.com/",
-    #     openai_api_version="2024-12-01-preview",
-    #     azure_deployment="gpt-4o-mini",
-    #     openai_api_key=os.getenv("O4MINI_API_KEY2"),
-    #   ),
-    #   AzureChatOpenAI(
-    #     azure_endpoint="https://yeqifeng-italynorth.openai.azure.com/",
-    #     openai_api_version="2024-12-01-preview",
-    #     azure_deployment="gpt-4o-mini",
-    #     openai_api_key=os.getenv("O4MINI_API_KEY3"),
-    #   ),
-    #   AzureChatOpenAI(
-    #     azure_endpoint="https://yeqifeng-japaneast.openai.azure.com/",
-    #     openai_api_version="2024-12-01-preview",
-    #     azure_deployment="gpt-4o-mini",
-    #     openai_api_key=os.getenv("O4MINI_API_KEY4"),
-    #   ),
-    #   AzureChatOpenAI(
-    #     azure_endpoint="https://yeqifeng-germanywestcentral.openai.azure.com/",
-    #     openai_api_version="2024-12-01-preview",
-    #     azure_deployment="gpt-4o-mini",
-    #     openai_api_key=os.getenv("O4MINI_API_KEY5"),
-    #   ),
-    # ]
     self.registry = {
         "gpt-4o-mini": langchain_gpt4omini_api,
         "o3-mini": langchain_o3mini_api,
-        "deepseek-chat": langchain_deepseek_api,
         "qwen-plus": langchain_qwen_api,
         "deepseek-v4-pro": langchain_deepseek_4_pro_api,
         "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api,
-        "claude-opus-4": langchain_claude_api
+        "claude-opus-4": langchain_claude_api,
+        "deepseek-v3.2": langchain_deepseek_v32_api,
+        "doubao-seed-2.0-lite": langchain_doubao_2_lite_api,
+        "doubao-seed-2.0-pro": langchain_doubao_2_pro_api,
+        "gpt-5": langchain_gpt5_api,
+        "glm-4.7": langchain_glm47_api,
     }
   
   def get_api(self, name):
     if name not in self.registry:
-        return self.registry.get(get_config('default_bot_type'))
+        raise ValueError(f"API '{name}' not found in LLMInterfaceManager.")  
     return self.registry[name]
+  
+  def has_api(self, name):
+    return name in self.registry
   
   @property
   def default_api(self):
