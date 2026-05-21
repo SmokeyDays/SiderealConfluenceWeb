@@ -13,10 +13,17 @@ from server.utils.runner import bot_runner
 from server.charts.recorder import game_recorder
 
 class BotTaskScheduler:
-  def __init__(self):
-    # 存储每个 Bot 当前正在运行的任务
+  def __init__(self, step_bots_debounce_seconds=0.1):
+    # Store currently running task for each bot.
     # Key: bot_id, Value: asyncio.Task
     self.pending_tasks: Dict[str, asyncio.Task] = {}
+    # Latest queued rerun per bot while current task is still running.
+    # Key: bot_id, Value: Coroutine
+    self.queued_tasks: Dict[str, Coroutine] = {}
+    self.step_bots_debounce_seconds = step_bots_debounce_seconds
+    self.step_bots_lock = threading.Lock()
+    self.step_bots_timer = None
+    self.step_bots_pending_get_handlers = None
     self.recorded_events = []
 
   def record(self, event_type: str, bot_id: str):
@@ -29,26 +36,25 @@ class BotTaskScheduler:
 
   async def schedule(self, bot_id: str, coro: Coroutine):
     """
-    调度一个新的 Bot 任务。
-    如果该 Bot 已经有正在进行的任务，取消旧任务，执行新任务。
+    Schedule a new bot task.
+    If a task is already running for this bot, do not cancel it.
+    Queue exactly one rerun (latest wins) to avoid wasted LLM calls.
     """
-    # 1. 检查是否有旧任务
     self.record("pend", bot_id)
     if bot_id in self.pending_tasks:
       existing_task = self.pending_tasks[bot_id]
       if not existing_task.done():
-        logger.info(f"Bot {bot_id}: Cancelling outdated step task due to new event.")
-        self.record("cancel", bot_id)
-        existing_task.cancel() # 发送取消信号
-        try:
-          # 等待旧任务清理完成（可选，防止资源竞争，通常 await 即可）
-          await existing_task
-        except asyncio.CancelledError:
-          # 预期内的取消，忽略报错
-          pass
-    
-    # 2. 创建新任务
-    # 我们把这个任务包装一下，以便在完成时从字典中移除自己
+        logger.info(f"Bot {bot_id}: Step already running; queueing one rerun after completion.")
+        self.record("queue", bot_id)
+        previous_coro = self.queued_tasks.get(bot_id)
+        if previous_coro is not None:
+          try:
+            previous_coro.close()
+          except Exception:
+            pass
+        self.queued_tasks[bot_id] = coro
+        return existing_task
+
     task = asyncio.create_task(self._run_task(bot_id, coro))
     self.pending_tasks[bot_id] = task
     return task
@@ -58,15 +64,38 @@ class BotTaskScheduler:
       await coro
     except asyncio.CancelledError:
       logger.info(f"Bot {bot_id}: Task cancelled successfully.")
-      raise # 重新抛出，让 asyncio 知道它被取消了
+      raise
     except Exception as e:
       logger.error(f"Bot {bot_id}: Error during step execution: {e}")
     finally:
-      # 任务结束（无论成功、失败还是取消），清理字典
-      # 只有当字典里的任务是当前这个任务时才删除（防止删除了后来覆盖的新任务）
       self.record("done", bot_id)
-      if bot_id in self.pending_tasks and self.pending_tasks[bot_id] is asyncio.current_task():
+      current_task = asyncio.current_task()
+      if bot_id in self.pending_tasks and self.pending_tasks[bot_id] is current_task:
+        next_coro = self.queued_tasks.pop(bot_id, None)
+        if next_coro is not None:
+          self.record("rerun", bot_id)
+          next_task = asyncio.create_task(self._run_task(bot_id, next_coro))
+          self.pending_tasks[bot_id] = next_task
+        else:
           del self.pending_tasks[bot_id]
+
+  def request_step_bots(self, get_handlers, step_bots_func):
+    with self.step_bots_lock:
+      self.step_bots_pending_get_handlers = get_handlers
+      if self.step_bots_timer is not None and self.step_bots_timer.is_alive():
+        return
+
+      def flush():
+        with self.step_bots_lock:
+          pending_get_handlers = self.step_bots_pending_get_handlers
+          self.step_bots_pending_get_handlers = None
+          self.step_bots_timer = None
+        if pending_get_handlers is not None:
+          step_bots_func(pending_get_handlers)
+
+      self.step_bots_timer = threading.Timer(self.step_bots_debounce_seconds, flush)
+      self.step_bots_timer.daemon = True
+      self.step_bots_timer.start()
 
 class Room:
   def __init__(self, max_players, name, end_round, game_type = "default"):
@@ -82,7 +111,7 @@ class Room:
     self.game = None
     self.game_type = game_type
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
-    self.scheduler = BotTaskScheduler()
+    self.scheduler = BotTaskScheduler(get_config("bot_step_debounce_seconds"))
     self.lock = threading.RLock()
 
   def enter_room(self, user_id):
@@ -134,6 +163,9 @@ class Room:
     for bot_id in self.bots:
       if self.game.waiting_player(bot_id):
         self.step_bot(bot_id, handlers_prompt, handlers_map)
+
+  def request_step_bots(self, get_handlers):
+    self.scheduler.request_step_bots(get_handlers, self.step_bots)
 
   def step_bot(self, bot_id, handlers_prompt, handlers_map):
     if bot_id not in self.bots:
@@ -226,4 +258,4 @@ class Room:
   def __setstate__(self, state):
     self.__dict__.update(state)
     self.lock = threading.RLock()
-    self.scheduler = BotTaskScheduler()
+    self.scheduler = BotTaskScheduler(get_config("bot_step_debounce_seconds"))

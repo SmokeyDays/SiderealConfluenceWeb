@@ -583,7 +583,7 @@ class Server:
         self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
       if important and get_config("auto_step_bot"):
         logger.info(f"An important event happened in room {room_name}, stepping bots...")
-        self.rooms[room_name].step_bots(self.get_handlers)
+        self.rooms[room_name].request_step_bots(self.get_handlers)
       save_room(self.rooms[room_name])
   def bind_game_events(self):
 
