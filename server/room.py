@@ -1,16 +1,17 @@
 from datetime import datetime
+import asyncio
+import threading
+import time
+from typing import Dict, Any, List, Coroutine, Callable
+
 from server.agent.brain import Brain
 from server.game import Game
 from server.utils.config import get_config
 from server.utils.log import logger
 from server.utils.pubsub import pubsub
-from typing import Dict, Any, List
-import threading
-import asyncio
-from typing import Dict, Any, Coroutine
-from server.utils.log import logger
 from server.utils.runner import bot_runner
 from server.charts.recorder import game_recorder
+
 
 class BotTaskScheduler:
   def __init__(self, step_bots_debounce_seconds=0.1):
@@ -97,6 +98,103 @@ class BotTaskScheduler:
       self.step_bots_timer.daemon = True
       self.step_bots_timer.start()
 
+  async def cancel_all_tasks(self):
+    tasks = list(self.pending_tasks.values())
+    for task in tasks:
+      if not task.done():
+        task.cancel()
+    if tasks:
+      await asyncio.gather(*tasks, return_exceptions=True)
+    self.pending_tasks.clear()
+
+    for coro in self.queued_tasks.values():
+      try:
+        coro.close()
+      except Exception:
+        pass
+    self.queued_tasks.clear()
+
+
+class SilenceWatchdog:
+  def __init__(self, silence_seconds=30.0, silence_force_ready_after=3):
+    self.silence_seconds = float(silence_seconds)
+    self.silence_force_ready_after = int(silence_force_ready_after)
+    self.lock = threading.Lock()
+    self.timer = None
+    self.last_state_update_ts = time.time()
+    self.no_effective_step_count = 0
+    self.callbacks = {
+      "restep": None,
+      "force_ready": None,
+      "is_active_stage": None,
+      "has_pending": None,
+    }
+
+  def notify_state_updated(self, restep_func, force_ready_func, is_active_stage_func, has_pending_func):
+    with self.lock:
+      self.last_state_update_ts = time.time()
+      self.no_effective_step_count = 0
+      self.callbacks["restep"] = restep_func
+      self.callbacks["force_ready"] = force_ready_func
+      self.callbacks["is_active_stage"] = is_active_stage_func
+      self.callbacks["has_pending"] = has_pending_func
+      if self.timer is None or not self.timer.is_alive():
+        self._schedule_check_locked()
+
+  def _schedule_check_locked(self):
+    interval = max(self.silence_seconds, 1.0)
+    self.timer = threading.Timer(interval, self._on_check)
+    self.timer.daemon = True
+    self.timer.start()
+
+  def _on_check(self):
+    action = None
+    restep_func = None
+    force_ready_func = None
+    is_active_stage_func = None
+    has_pending_func = None
+
+    with self.lock:
+      now = time.time()
+      silence_duration = now - self.last_state_update_ts
+      restep_func = self.callbacks.get("restep")
+      force_ready_func = self.callbacks.get("force_ready")
+      is_active_stage_func = self.callbacks.get("is_active_stage")
+      has_pending_func = self.callbacks.get("has_pending")
+
+      active_stage = bool(is_active_stage_func and is_active_stage_func())
+      has_pending = bool(has_pending_func and has_pending_func())
+
+      if not active_stage or not has_pending:
+        self.no_effective_step_count = 0
+      elif silence_duration >= self.silence_seconds and restep_func and force_ready_func:
+        self.no_effective_step_count += 1
+        if self.no_effective_step_count >= self.silence_force_ready_after:
+          action = "force_ready"
+        else:
+          action = "step"
+
+      self._schedule_check_locked()
+
+    if action == "step":
+      logger.warning(
+        f"Silence watchdog triggered ({self.no_effective_step_count}/{self.silence_force_ready_after}). "
+        f"Re-stepping pending bots."
+      )
+      restep_func()
+    elif action == "force_ready":
+      logger.warning(
+        f"Silence watchdog triggered ({self.no_effective_step_count}/{self.silence_force_ready_after}). "
+        f"Auto-confirming remaining bots."
+      )
+      forced = force_ready_func()
+      with self.lock:
+        self.no_effective_step_count = 0
+        self.last_state_update_ts = time.time()
+      if not forced:
+        raise RuntimeError("Silence watchdog reached threshold but failed to force progress.")
+
+
 class Room:
   def __init__(self, max_players, name, end_round, game_type = "default"):
     self.name = name
@@ -112,7 +210,12 @@ class Room:
     self.game_type = game_type
     self.species = ["Caylion", "Yengii", "Im", "Eni", "Zeth", "Unity", "Faderan", "Kit", "Kjasjavikalimm"]
     self.scheduler = BotTaskScheduler(get_config("bot_step_debounce_seconds"))
+    self.silence_watchdog = SilenceWatchdog(
+      get_config("bot_silence_seconds"),
+      get_config("bot_silence_force_ready_after"),
+    )
     self.lock = threading.RLock()
+    self.last_stage_for_tasks = None
 
   def enter_room(self, user_id):
     if user_id in self.players or self.game_state == "playing":
@@ -139,21 +242,21 @@ class Room:
       return True
     else:
       return False
-    
+
   def add_bot(self, bot_id, specie, bot_type):
     self.bots.append(bot_id)
     self.enter_room(bot_id)
     self.choose_specie(bot_id, specie)
-    
+
     self.bot_types[bot_id] = bot_type
-  
+
   def remove_bot(self, user_id, bot_id):
     if user_id in self.players and user_id not in self.bots:
       self.leave_room(bot_id)
 
   def is_bot(self, user_id):
     return user_id in self.bots
-  
+
   def toggle_bots(self):
     self.bots_auto_react = not self.bots_auto_react
     return self.bots_auto_react
@@ -167,16 +270,89 @@ class Room:
   def request_step_bots(self, get_handlers):
     self.scheduler.request_step_bots(get_handlers, self.step_bots)
 
+  def clear_all_bot_tasks(self, reason: str):
+    logger.info(f"Clearing bot tasks in room {self.name}. Reason: {reason}")
+    bot_runner.run_task(self.scheduler.cancel_all_tasks())
+
+  def _has_pending_bots(self):
+    if not self.game:
+      return False
+    for bot_id in self.bots:
+      player = self.game.get_player_by_id(bot_id)
+      if player and not player.agreed:
+        return True
+    return False
+
+  def _is_watchdog_active_stage(self):
+    if not self.game:
+      return False
+    return self.game.stage in ("trading", "production")
+
+  def on_state_updated(self, get_handlers, on_force_progress: Callable):
+    if self.game:
+      current_stage = self.game.stage
+      if self.last_stage_for_tasks is None:
+        self.last_stage_for_tasks = current_stage
+      elif current_stage != self.last_stage_for_tasks:
+        old_stage = self.last_stage_for_tasks
+        self.last_stage_for_tasks = current_stage
+        self.clear_all_bot_tasks(f"stage changed: {old_stage} -> {current_stage}")
+
+    def restep_callback():
+      self.request_step_bots(get_handlers)
+
+    def force_ready_callback():
+      return self.force_ready_pending_bots(on_force_progress)
+
+    self.silence_watchdog.notify_state_updated(
+      restep_callback,
+      force_ready_callback,
+      self._is_watchdog_active_stage,
+      self._has_pending_bots,
+    )
+
+  def force_ready_pending_bots(self, on_force_progress: Callable):
+    if not self.game:
+      return False
+
+    stage_before = self.game.stage
+    forced_bots = []
+
+    for bot_id in self.bots:
+      if self.game.waiting_player(bot_id):
+        player = self.game.get_player_by_id(bot_id)
+        if player and not player.agreed:
+          self.game.player_agree(bot_id)
+          forced_bots.append(bot_id)
+
+    if forced_bots:
+      stage_after = self.game.stage
+      self.clear_all_bot_tasks(f"watchdog force-ready at stage {stage_before}")
+      logger.warning(
+        f"Silence watchdog auto-confirmed bots in room {self.name} at stage {stage_before}: {forced_bots}. "
+        f"Stage now: {stage_after}."
+      )
+      on_force_progress(stage_after != stage_before)
+      return True
+    else:
+      logger.info(
+        f"Silence watchdog force-ready triggered in room {self.name} at stage {stage_before}, "
+        "but no pending bots required auto-confirm."
+      )
+      return False
+
   def step_bot(self, bot_id, handlers_prompt, handlers_map):
     if bot_id not in self.bots:
       return
     if not self.bots_auto_react:
       logger.info(f"Bot {bot_id} in room {self.name} auto react is disabled, skipping step.")
       return
+
     async def async_logic():
       await self.bot_agents[bot_id].step(handlers_prompt, handlers_map)
+
     bot_runner.run_task(self.scheduler.schedule(bot_id, async_logic()))
-    
+
   def get_recent_response(self, user_id, slice = 100):
     if user_id in self.bots:
       responses = self.bot_agents[user_id].recent_responses
@@ -185,7 +361,7 @@ class Room:
       return responses
     else:
       return []
-  
+
   def get_calling_history(self):
     return self.scheduler.recorded_events
 
@@ -198,19 +374,19 @@ class Room:
       return True
     else:
       return False
-  
+
   def disagree_to_start(self, user_id):
     if user_id in self.players:
       self.players[user_id]["agreed"] = False
       return True
     else:
       return False
-    
+
   def set_end_round(self, end_round):
     self.end_round = end_round
     return True
-  
-  def start_game(self): 
+
+  def start_game(self):
     self.game = Game(self.name, self.end_round)
     self.game.set_end_game_callback(self.on_game_end)
     for user_id, player in self.players.items():
@@ -218,6 +394,7 @@ class Room:
       pubsub.publish("add_statistics", {"key": "games_played", "value": 1}, user_id)
     self.game_state = "playing"
     self.game.start_game()
+    self.last_stage_for_tasks = self.game.stage
     for bot in self.bots:
       bot_type = self.bot_types.get(bot, get_config('default_bot_type'))
       self.bot_agents[bot] = Brain(self.game, bot, model_name=bot_type)
@@ -232,7 +409,7 @@ class Room:
         "specie": res['specie'],
         "score": res['score']
       })
-    
+
     game_recorder.add_record(self.game_type, self.name, mapped_results)
     logger.info(f"Game record saved for room {self.name} (type: {self.game_type})")
 
@@ -246,16 +423,23 @@ class Room:
       "bots": self.bots,
       "bots_auto_react": self.bots_auto_react
     }
-  
+
   def __getstate__(self):
     state = self.__dict__.copy()
     if 'lock' in state:
       del state['lock']
     if 'scheduler' in state:
       del state['scheduler']
+    if 'silence_watchdog' in state:
+      del state['silence_watchdog']
     return state
 
   def __setstate__(self, state):
     self.__dict__.update(state)
     self.lock = threading.RLock()
     self.scheduler = BotTaskScheduler(get_config("bot_step_debounce_seconds"))
+    self.silence_watchdog = SilenceWatchdog(
+      get_config("bot_silence_seconds"),
+      get_config("bot_silence_force_ready_after"),
+    )
+    self.last_stage_for_tasks = self.game.stage if self.game else None

@@ -89,7 +89,7 @@ class LLMInterfaceManager:
 
     langchain_claude_api = ChatOpenAI(
       api_key=os.getenv("CLAUDE_API_KEY"),
-      base_url="https://api.wenwen-ai.com/v1", # 如果后续调用报 404，通常需要加上 /v1，即 "https://api.wenwen-ai.com/v1"
+      base_url="https://api.wenwen-ai.com/v1",
       model="claude-opus-4-5-20251101",
       temperature=0.0,
     )

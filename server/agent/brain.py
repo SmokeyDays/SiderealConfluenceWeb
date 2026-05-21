@@ -140,22 +140,41 @@ class Brain:
 
       
       callbacks = response.get("actions", [])
-      try:
-        for callback in callbacks:
-          func_name, data = callback['func'], callback['data']
+      for callback in callbacks:
+        try:
+          if not isinstance(callback, dict):
+            logger.error(f"Bot {self.player_id} {caller_name} callback is not a dict: {callback}")
+            continue
+
+          func_name = callback.get("func")
+          if not func_name:
+            logger.error(f"Bot {self.player_id} {caller_name} callback missing 'func': {callback}")
+            continue
+
+          raw_data = callback.get("data", {})
+          if raw_data is None:
+            raw_data = {}
+          if not isinstance(raw_data, dict):
+            logger.error(
+              f"Bot {self.player_id} {caller_name} callback data is not a dict for func {func_name}: {raw_data}"
+            )
+            continue
+
+          data = dict(raw_data)
           data['room_name'] = self.game.room_name
           data['username'] = self.player_id
-          
+
           if func_name in handlers_map:
             func = handlers_map[func_name]
-            # 假设 func 是同步的，如果是异步的需要 await
+            # 假设 func 是同步的，如果是异步的需�?await
             func(data)
           else:
             logger.error(f"Function {func_name} not found in handlers_map")
-
-      except Exception as e:
-        import traceback
-        logger.error(f"Bot {self.player_id} {caller_name} execute callback error: {e}, {traceback.format_exc()}")
+        except Exception as e:
+          import traceback
+          logger.error(
+            f"Bot {self.player_id} {caller_name} execute callback error on {callback}: {e}, {traceback.format_exc()}"
+          )
 
     # === 逻辑分支 ===
     player = self.game.get_player_by_id(self.player_id)

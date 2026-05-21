@@ -35,7 +35,7 @@ class Server:
     self.mock2()
     # self.mock4("o3MiniSelfPlayingIter1")
     self.add_elo_exp(
-      room_name="EloExp4",
+      room_name="EloExp5",
       players=[
       "gpt-4o-mini",
       "o3-mini",
@@ -579,12 +579,17 @@ class Server:
 
   def update_game_state(self, room_name, important=False):
     if room_name in self.rooms:
-      for user_id in self.rooms[room_name].players:
-        self.socketio.emit("game-state", {"state": self.rooms[room_name].game.to_dict()}, namespace=get_router_name(), to=user_id)
+      room = self.rooms[room_name]
+      for user_id in room.players:
+        self.socketio.emit("game-state", {"state": room.game.to_dict()}, namespace=get_router_name(), to=user_id)
       if important and get_config("auto_step_bot"):
         logger.info(f"An important event happened in room {room_name}, stepping bots...")
-        self.rooms[room_name].request_step_bots(self.get_handlers)
-      save_room(self.rooms[room_name])
+        room.request_step_bots(self.get_handlers)
+      room.on_state_updated(
+        self.get_handlers,
+        lambda stage_changed: self.update_game_state(room_name, important=stage_changed)
+      )
+      save_room(room)
   def bind_game_events(self):
 
     registry = self.prompt_api_registry  
@@ -622,7 +627,7 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
-      success, message, id = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data['message'])
+      success, message, id = self.rooms[room_name].game.trade_proposal(username, data['to'], data['send'], data['receive'], data.get('message', ""))
       if username in self.online_users:
         self.socketio.emit('alert-message', {
           "type": "success" if success else "error",
@@ -895,8 +900,8 @@ class Server:
       """
       update_bulletin_board: Update your public trade bulletin board to let other players know what you are seeking and offering. If your bulletin board is empty now, you ought to create a bulletin board by this action.
         - message: str, a short message about how many value you will pay for some parts of what you are seeking or offering. Can be empty as "".
-        - seeking: Dict[str, int], items you are looking for with quantities.
-        - offering: Dict[str, int], items you are offering with quantities.
+        - seeking: Dict[str, int], items you are looking for with quantities. e.g. {"Industry": 2, "AnySmall": 1} means you are looking for 2 Industry and 1 AnySmall.
+        - offering: Dict[str, int], items you are offering with quantities. e.g. {"Culture": 1, "Food": 2} means you are offering 1 Culture and 2 Food.
       """
       room_name = data['room_name']
       username = data['username']

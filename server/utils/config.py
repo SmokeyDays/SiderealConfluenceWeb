@@ -17,6 +17,10 @@ class Config:
       "prompt_converter_value_adding": True,
       # Debounce window (seconds) for coalescing repeated bot-step triggers.
       "bot_step_debounce_seconds": 0.1,
+      # If no game-state update happens for this long, trigger silence recovery.
+      "bot_silence_seconds": 30.0,
+      # Number of consecutive silence recoveries before auto-confirming remaining bots.
+      "bot_silence_force_ready_after": 3,
     }
 
 

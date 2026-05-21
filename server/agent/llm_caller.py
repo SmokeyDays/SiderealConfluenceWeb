@@ -181,10 +181,6 @@ class BasicCaller():
       explicit = SCHEMAS.get(fn_name)
       if explicit:
         parameters = explicit
-        try:
-          logger.info(f"===Functional Calling=== Using explicit schema for {fn_name}")
-        except Exception:
-          pass
       else:
         properties = {}
         for line in doc_lines[1:]:
@@ -223,10 +219,7 @@ class BasicCaller():
           "parameters": parameters
         }
       })
-    try:
-      logger.info(f"===Functional Calling=== Tools schema: {json.dumps(tools, ensure_ascii=False)[:2000]}")
-    except Exception:
-      logger.info("===Functional Calling=== Tools schema (non-serializable)")
+    # logger.info(f"===Functional Calling=== Tools schema: {json.dumps(tools, ensure_ascii=False)[:2000]}")
     return tools
 
   @staticmethod
