@@ -30,7 +30,7 @@ SCHEMAS = {
       },
       "message": {"type": "string"}
     },
-    "required": ["to", "send", "receive"],
+    "required": ["to", "send", "receive", "message"],
     "additionalProperties": False
   },
 
@@ -41,7 +41,7 @@ SCHEMAS = {
       "converter_index": {"type": "integer"},
       "extra_properties": {"type": "object", "additionalProperties": True}
     },
-    "required": ["factory_name"],
+    "required": ["factory_name", "converter_index", "extra_properties"],
     "additionalProperties": False
   },
 
