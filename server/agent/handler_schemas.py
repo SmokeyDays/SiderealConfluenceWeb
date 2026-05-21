@@ -10,6 +10,7 @@ SCHEMAS = {
     "type": "object",
     "properties": {
       "to": {"type": "array", "items": {"type": "string"}},
+      "message": {"type": "string"},
       "send": {
         "type": "object",
         "properties": {
@@ -28,9 +29,8 @@ SCHEMAS = {
         },
         "additionalProperties": False
       },
-      "message": {"type": "string"}
     },
-    "required": ["to", "send", "receive", "message"],
+    "required": ["to", "message", "send", "receive"],
     "additionalProperties": False
   },
 

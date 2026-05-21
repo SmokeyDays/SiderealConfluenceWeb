@@ -615,10 +615,10 @@ class Server:
     def trade_proposal(data):
       """
       trade_proposal: Propose a trade to the other players in the game.
-        - to: [player1, player2, ...], players you propose to trade with.
+        - to: [player1, player2, ...], players you propose to trade with.\
+        - message: str, if your trade involves promises for the future or other abstract exchanges, you can attach a message here, otherwise leave it empty as "".
         - send: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you send to the other players in the trade.
         - receive: {items: Dict[item_name, item_count], factories: [factory1, factory2, ...], techs: [tech1, tech2, ...]}, items, factories and techs that you receive from the other players in the trade.
-        - message: str, if your trade involves promises for the future or other abstract exchanges, you can attach a message here, otherwise leave it empty as "".
       """
       room_name = data['room_name']
       username = data['username']
