@@ -15,6 +15,7 @@ from server.agent.interface import llm_manager
 from server.agent.prompt_template import load_prompt
 from server.utils.config import get_config
 from server.utils.log import logger
+from server.agent.handler_schemas import SCHEMAS
 
 def clean_json_output(output):
     content = output.content if isinstance(output, BaseMessage) else output
@@ -175,29 +176,43 @@ class BasicCaller():
     for fn_name, fn in handlers_map.items():
       doc = (fn.__doc__ or "").strip()
       doc_lines = [line.strip() for line in doc.splitlines() if line.strip()]
-      description = doc_lines[0] if doc_lines else f"Call {fn_name}"
+      description = doc if doc_lines else f"Call {fn_name}"
+      # If an explicit schema is registered for this handler, prefer it.
+      explicit = SCHEMAS.get(fn_name)
+      if explicit:
+        parameters = explicit
+        try:
+          logger.info(f"===Functional Calling=== Using explicit schema for {fn_name}")
+        except Exception:
+          pass
+      else:
+        properties = {}
+        for line in doc_lines[1:]:
+          if not line.startswith("- "):
+            continue
+          content = line[2:].strip()
+          if ":" not in content:
+            continue
+          key, hint = content.split(":", 1)
+          key = key.strip()
+          hint = hint.strip()
+          if not key:
+            continue
+          properties[key] = self._build_property_schema(hint)
 
-      properties = {}
-      for line in doc_lines[1:]:
-        if not line.startswith("- "):
-          continue
-        content = line[2:].strip()
-        if ":" not in content:
-          continue
-        key, hint = content.split(":", 1)
-        key = key.strip()
-        hint = hint.strip()
-        if not key:
-          continue
-        properties[key] = self._build_property_schema(hint)
-
-      if not properties:
-        properties = {
-          "data": {
-            "type": "object",
-            "description": "Data payload for this action.",
-            "additionalProperties": True
+        if not properties:
+          properties = {
+            "data": {
+              "type": "object",
+              "description": "Data payload for this action.",
+              "additionalProperties": True
+            }
           }
+
+        parameters = {
+          "type": "object",
+          "properties": properties,
+          "additionalProperties": True
         }
 
       tools.append({
@@ -205,13 +220,13 @@ class BasicCaller():
         "function": {
           "name": fn_name,
           "description": description,
-          "parameters": {
-            "type": "object",
-            "properties": properties,
-            "additionalProperties": True
-          }
+          "parameters": parameters
         }
       })
+    try:
+      logger.info(f"===Functional Calling=== Tools schema: {json.dumps(tools, ensure_ascii=False)[:2000]}")
+    except Exception:
+      logger.info("===Functional Calling=== Tools schema (non-serializable)")
     return tools
 
   @staticmethod
@@ -389,7 +404,7 @@ Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
         continue
       except Exception as e:
         attempt += 1
-        logger.warning(f"Async Plan attempt {attempt}/{max_retries} failed: {e}")
+        logger.warning(f"Async Plan attempt against model {self.model_name} {attempt}/{max_retries} failed: {e}")
         if attempt >= max_retries:
           import traceback
           logger.error(f"Plan failed after {max_retries} attempts: {e}, {traceback.format_exc()}")

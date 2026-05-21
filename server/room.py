@@ -115,6 +115,7 @@ class Room:
     self.bots.append(bot_id)
     self.enter_room(bot_id)
     self.choose_specie(bot_id, specie)
+    
     self.bot_types[bot_id] = bot_type
   
   def remove_bot(self, user_id, bot_id):

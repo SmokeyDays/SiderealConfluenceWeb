@@ -32,6 +32,15 @@ class PlannerFactory:
     return cls._instances[key]
 
 class Brain:
+  PLAN_FIELDS = (
+    "factories_to_run",
+    "strategy_memo",
+    "research_team_to_invent",
+    "resources_needed",
+    "sell",
+    "buy",
+  )
+
   def __init__(self, game: Game, player_id: str, model_name: str = get_config('default_bot_type')):
     self.game = game
     self.player_id = player_id
@@ -65,6 +74,51 @@ class Brain:
       actions.append({"func": "confirm_ready", "data": {}})
       response["actions"] = actions
     return response
+
+  def _extract_plan_update(self, data):
+    if not isinstance(data, dict):
+      return {}
+
+    plan_payload = data.get("updated_plan")
+    if not isinstance(plan_payload, dict):
+      plan_payload = data
+
+    plan_update = {}
+    for field in self.PLAN_FIELDS:
+      if field in plan_payload:
+        plan_update[field] = plan_payload[field]
+    return plan_update
+
+  def _merge_current_plan(self, plan_update):
+    if not isinstance(plan_update, dict) or not plan_update:
+      return self.current_plan
+
+    if not isinstance(self.current_plan, dict):
+      self.current_plan = {}
+    self.current_plan.update(plan_update)
+    return self.current_plan
+
+  def _build_plan_tool_handler(self):
+    def update_plan(data):
+      """
+      update_plan: Create or update the temporary turn plan stored in Brain memory. Use this tool in turn_plan and trade to persist the latest plan for later prompts.
+        - factories_to_run: List[Dict[str, Any]], factories scheduled to run this turn.
+        - strategy_memo: str, concise note to future self for trade-stage priorities.
+        - research_team_to_invent: List[Dict[str, Any]], research team factories planned for invention.
+        - resources_needed: Dict[str, int], resources required to execute the plan.
+        - sell: Dict[str, int], resources that can be traded away this turn.
+        - buy: Dict[str, int], resources to prioritize buying this turn.
+      """
+      plan_update = self._extract_plan_update(data)
+      self._merge_current_plan(plan_update)
+      return {"ok": True, "current_plan": self.current_plan}
+
+    return update_plan
+
+  def _inject_plan_tool(self, handlers_map):
+    merged_handlers = dict(handlers_map or {})
+    merged_handlers["update_plan"] = self._build_plan_tool_handler()
+    return merged_handlers
 
   async def step(self, handlers_prompt, handlers_map):
     self._step_id = self._step_id + 1
@@ -110,6 +164,8 @@ class Brain:
     
 
     if self.game.stage == "trading":
+      planning_handlers_map = self._inject_plan_tool(handlers_map)
+      handlers_map = planning_handlers_map
       if self.last_trading_round != self.game.current_round:
         self.trading_step_count = 0
         self.current_plan = None
@@ -121,11 +177,11 @@ class Brain:
           ("Specie description", specie_desc), 
           ("Observation", obs)
         ]
-        response = await self.get_planner("turn_plan").aplan(prompt)
+        response = await self.get_planner("turn_plan").aplan(prompt, handlers_map=planning_handlers_map)
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
           response.pop("reasoning") # 清理不需要存储的字段
-        self.current_plan = response
+        self._merge_current_plan(response)
 
       # 2. Trade Plan
       prompt = [
@@ -135,7 +191,7 @@ class Brain:
         ("Actions", handlers_prompt)
       ]
       # AWAIT 调用
-      response = await self.get_planner("trade").aplan(prompt, handlers_map=handlers_map)
+      response = await self.get_planner("trade").aplan(prompt, handlers_map=planning_handlers_map)
 
       if self.trading_step_count > 100 and response and "actions" in response:
         response = self.ensure_confirm(response)
@@ -144,7 +200,7 @@ class Brain:
       # Apply updated plan
       new_plan = response.get("updated_plan", None)
       if new_plan is not None:
-        self.current_plan = new_plan
+        self._merge_current_plan(new_plan)
         
     elif self.game.stage == "discard_colony":
       prompt = [

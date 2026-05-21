@@ -31,3 +31,8 @@ def load_prompt(filename: str):
     except Exception as e:
         print(f"Error loading prompt from {filepath}: {e}")
         return ""
+
+if __name__ == "__main__":
+    print("Testing prompt loading...")
+    test_prompt = load_prompt("bid_plan.txt")
+    print(test_prompt)

@@ -40,7 +40,7 @@ class Server:
       "gpt-4o-mini",
       "o3-mini",
       "deepseek-v3.2",
-      "deepseek-v4-pro",
+      "glm-4.7",
       ]
     )
   

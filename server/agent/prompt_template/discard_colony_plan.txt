@@ -24,7 +24,7 @@ Each resource has an estimated value to help you make trading decisions. These a
 
 Now is the discard_colony stage of this turn.
 Reviewing the instructions and the plan you designed below, please make produce actions for this turn.
-Plan you designed is in ### Plan. All actions you may take are listed in ### Actions.
+Plan you designed is in ### Plan.
 You possess more Colonies than your species' Colony Support limit allows.
 You MUST discard the excess colony to proceed to the Economy Phase.
 Please calculate the number of colony to discard: `(Current colonies Count) - (Colony Support Limit)`.
