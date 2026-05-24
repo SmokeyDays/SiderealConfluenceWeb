@@ -841,7 +841,7 @@ class Server:
       """
       upgrade_normal: Upgrade a normal factory.
         - factory_name: str, the name of the factory to upgrade.
-        - cost_type: str, id of the cost type you choose to upgrade.
+        - cost_type: int, id of the cost type you choose to upgrade.
       """
       room_name = data['room_name']
       username = data['username']
@@ -920,7 +920,7 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
-      self.rooms[room_name].game.update_bulletin_board(username, data['message'], data['seeking'], data['offering'])
+      self.rooms[room_name].game.update_bulletin_board(username, data.get('message', ''), data.get('seeking', {}), data.get('offering', {}))
       self.update_game_state(room_name, important=True)
 
 
