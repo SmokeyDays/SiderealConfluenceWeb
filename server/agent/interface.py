@@ -1,3 +1,4 @@
+import random
 from langchain_openai import ChatOpenAI # 注意这里改用 ChatOpenAI
 from langchain_openai import AzureChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAI
@@ -14,14 +15,14 @@ class LLMInterfaceManager:
     # 火山 DS API
     langchain_deepseek_v32_api = ChatOpenAI(
         base_url="https://ark.cn-beijing.volces.com/api/v3", 
-        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去 DeepSeek 官网申请 Key
+        api_key=os.getenv("HUOSHAN_API_KEY"),
         model="deepseek-v3-2-251201",
         temperature=0,
     )
 
     langchain_doubao_2_lite_api = ChatOpenAI(
         base_url="https://ark.cn-beijing.volces.com/api/v3", 
-        api_key=os.getenv("HUOSHAN_API_KEY"),  # 需去 DeepSeek 官网申请 Key
+        api_key=os.getenv("HUOSHAN_API_KEY"),
         model="doubao-seed-2-0-lite-260428",
         temperature=0,
     )
@@ -97,8 +98,8 @@ class LLMInterfaceManager:
     self.registry = {
         "gpt-4o-mini": langchain_gpt4omini_api,
         "o3-mini": langchain_o3mini_api,
-        "qwen-plus": langchain_qwen_api,
-        "deepseek-v4-pro": langchain_deepseek_4_pro_api,
+        # "qwen-plus": langchain_qwen_api,
+        # "deepseek-v4-pro": langchain_deepseek_4_pro_api,
         "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api,
         "claude-opus-4": langchain_claude_api,
         "deepseek-v3.2": langchain_deepseek_v32_api,
@@ -115,6 +116,9 @@ class LLMInterfaceManager:
   
   def has_api(self, name):
     return name in self.registry
+  
+  def sample_random_api(self, count=1):
+    return random.sample(list(self.registry.values()), count)
   
   @property
   def default_api(self):

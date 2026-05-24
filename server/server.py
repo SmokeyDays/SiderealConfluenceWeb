@@ -1,6 +1,8 @@
 import datetime
+import random
 import textwrap
 from flask_socketio import emit, join_room, leave_room
+from server.agent.interface import LLMInterfaceManager
 from server.agent.prompt import get_prompt
 from server.game import Game
 from server.room import Room
@@ -33,7 +35,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    # self.add_self_playing_bot_exp("GLM47SelfPlayingIter1", "glm-4.7")
+    self.add_self_playing_bot_exp("GPT5SelfPlayingIter1", "gpt-5")
     # self.add_elo_exp(
     #   room_name="EloExp6",
     #   players=[
@@ -44,13 +46,27 @@ class Server:
     #   "doubao-seed-2.0-pro",
     #   ]
     # )
+
   
+  def series_elo(self, count=5, model_num=5):
+    if count <= 0:
+      return
+    room_name = f"EloExp{int(datetime.datetime.now().timestamp())}"
+    models = LLMInterfaceManager().sample_random_api(model_num)
+    self.add_elo_exp(room_name, models)
+    room = self.rooms[room_name]
+    def callback(room_name, result):
+      logger.info(f"[[series exps]]Game ended in room {room_name} with result: {result}")
+      self.series_elo(count-1, model_num)
+    room.game.set_on_game_end(callback)
+
   def add_elo_exp(self, room_name, players):
     num = len(players)
     self.rooms[room_name] = Room(num, room_name, 6, "elo_exp")
     room = self.rooms[room_name]
     
     species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit", "Kjasjavikalimm"]
+    random.shuffle(species)
     
     for i, model in enumerate(players):
       if model == "Human":

@@ -9,6 +9,8 @@ import random
 
 from server.utils.config import get_config
 
+records_new_path = 'game_records_local.json'
+
 class GameRecorder:
   def __init__(self, filepath=None):
     if filepath is None:
@@ -22,7 +24,7 @@ class GameRecorder:
 
   def _get_default_new_records_path(self):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(base_dir, 'game_records_new.json')
+    return os.path.join(base_dir, records_new_path)
 
   def load(self):
     """读取 json 并将结果载入"""
@@ -250,6 +252,8 @@ class GameRecorder:
     grouped_data = {}
     for r in results:
       key = r.get("model", "Unknown")
+      if key == "human":
+        continue
       if key not in grouped_data:
         grouped_data[key] = []
       grouped_data[key].append(r.get("score", 0))
@@ -305,7 +309,7 @@ class GameRecorder:
       print("1. Add New Game Record")
       print("2. Draw Boxplot")
       print("3. Reload Data")
-      print("4. Merge Records From game_records_new.json")
+      print("4. Merge Records")
       print("5. Estimate Elo")
       print("q. Exit")
       
@@ -391,11 +395,13 @@ class GameRecorder:
         print("Data reloaded from disk.")
 
       elif choice == '4':
-        source_path = input("Source file [game_records_new.json]: ").strip() or None
+        source_path = input(f"Source file [{{records_new_path}}]: ").strip() or None
         self.merge_records_from_file(source_path)
 
       elif choice == '5':
-        exp_type = input("\nEnter Experiment Type for Elo [all]: ").strip() or None
+        exp_type = input("\nEnter Experiment Type for Elo [elo_exp]: ").strip() or "elo_exp"
+        if exp_type == "all":
+          exp_type = None
         self.estimate_elo(exp_type=exp_type)
         
       elif choice == 'q':
