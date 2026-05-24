@@ -33,16 +33,17 @@ class Server:
 
     self.mock1()
     self.mock2()
-    # self.mock4("o3MiniSelfPlayingIter1")
-    self.add_elo_exp(
-      room_name="EloExp5",
-      players=[
-      "gpt-4o-mini",
-      "o3-mini",
-      "deepseek-v3.2",
-      "glm-4.7",
-      ]
-    )
+    # self.add_self_playing_bot_exp("GLM47SelfPlayingIter1", "glm-4.7")
+    # self.add_elo_exp(
+    #   room_name="EloExp6",
+    #   players=[
+    #   "qwen-plus",
+    #   "o3-mini",
+    #   "claude-opus-4",
+    #   "glm-4.7",
+    #   "doubao-seed-2.0-pro",
+    #   ]
+    # )
   
   def add_elo_exp(self, room_name, players):
     num = len(players)
@@ -55,9 +56,23 @@ class Server:
       if model == "Human":
         room.enter_room(f"Player{i+1}")
       else:
-        bot_id = f"Bot{i+1}_{model}"
+        bot_id = f"Bot{i+1}"
         specie = species[i % len(species)]
         room.add_bot(bot_id, specie, bot_type=model)
+    for player in room.players.keys():
+      room.agree_to_start(player)
+    self.update_game_state(room.name, important=True)
+
+  def add_self_playing_bot_exp(self, room_name, bot_type, num=4):
+    self.rooms[room_name] = Room(num, room_name, 6)
+    room = self.rooms[room_name]
+    
+    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit", "Kjasjavikalimm"]
+    
+    for i in range(num):
+      bot_id = f"Bot{i+1}"
+      specie = species[i % len(species)]
+      room.add_bot(bot_id, specie, bot_type=bot_type)
     for player in room.players.keys():
       room.agree_to_start(player)
     self.update_game_state(room.name, important=True)
@@ -794,7 +809,7 @@ class Server:
     @set_attr("stage", ["pick"])
     def submit_pick(data):
       """
-      submit_pick: Pick an item from the auction track.
+      submit_pick: Pick an item from the auction track. If you cannot afford any item, don't want any item or the track is empty, you can pick with pick_id = -1 to skip.
         - type: str, the type of the item to pick. It can be "colony" or "research".
         - pick_id: int, the id of the item to pick.
       """

@@ -241,5 +241,140 @@
                 "score": 4.0
             }
         ]
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp5",
+        "results": [
+            {
+                "model": "gpt-4o-mini",
+                "specie": "Caylion",
+                "score": 12.75
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Yengii",
+                "score": 2.6666666666666665
+            },
+            {
+                "model": "deepseek-v3.2",
+                "specie": "Im",
+                "score": 5.666666666666667
+            },
+            {
+                "model": "glm-4.7",
+                "specie": "Eni",
+                "score": 6.583333333333333
+            }
+        ]
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp6",
+        "results": [
+            {
+                "model": "qwen-plus",
+                "specie": "Caylion",
+                "score": 5.416666666666667
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Yengii",
+                "score": 3.0833333333333335
+            },
+            {
+                "model": "claude-opus-4",
+                "specie": "Im",
+                "score": 10.833333333333332
+            },
+            {
+                "model": "glm-4.7",
+                "specie": "Eni",
+                "score": 3.5833333333333335
+            },
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Faderan",
+                "score": 17.916666666666664
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "Gemini3SelfPlayingIter1",
+        "results": [
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Caylion",
+                "score": 23.75
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Yengii",
+                "score": 14.0
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Im",
+                "score": 8.333333333333334
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Eni",
+                "score": 8.333333333333332
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "QwenSelfPlayingIter1",
+        "results": [
+            {
+                "model": "qwen-plus",
+                "specie": "Caylion",
+                "score": 9.416666666666666
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Yengii",
+                "score": 7.833333333333333
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Im",
+                "score": 5.75
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Eni",
+                "score": 2.8333333333333335
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "Doubao2SelfPlayingIter1",
+        "results": [
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Caylion",
+                "score": 11.75
+            },
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Yengii",
+                "score": 10.416666666666668
+            },
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Im",
+                "score": 6.833333333333333
+            },
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Eni",
+                "score": 3.8333333333333335
+            }
+        ]
     }
 ]

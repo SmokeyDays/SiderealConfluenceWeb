@@ -216,6 +216,7 @@ class Room:
     )
     self.lock = threading.RLock()
     self.last_stage_for_tasks = None
+    self.on_game_end_callback = None
 
   def enter_room(self, user_id):
     if user_id in self.players or self.game_state == "playing":
@@ -386,6 +387,10 @@ class Room:
     self.end_round = end_round
     return True
 
+  def set_on_game_end_callback(self, callback):
+    self.on_game_end_callback = callback
+    return True
+
   def start_game(self):
     self.game = Game(self.name, self.end_round)
     self.game.set_end_game_callback(self.on_game_end)
@@ -412,6 +417,11 @@ class Room:
 
     game_recorder.add_record(self.game_type, self.name, mapped_results)
     logger.info(f"Game record saved for room {self.name} (type: {self.game_type})")
+    if self.on_game_end_callback:
+      try:
+        self.on_game_end_callback(self.name, results)
+      except Exception as e:
+        logger.error(f"Game end callback failed for room {self.name}: {e}")
 
   def to_dict(self):
     return {
@@ -432,6 +442,8 @@ class Room:
       del state['scheduler']
     if 'silence_watchdog' in state:
       del state['silence_watchdog']
+    if 'on_game_end_callback' in state:
+      del state['on_game_end_callback']
     return state
 
   def __setstate__(self, state):
@@ -443,3 +455,4 @@ class Room:
       get_config("bot_silence_force_ready_after"),
     )
     self.last_stage_for_tasks = self.game.stage if self.game else None
+    self.on_game_end_callback = None

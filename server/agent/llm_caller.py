@@ -365,6 +365,9 @@ Total tokens: {get_LLMs_total_tokens()}, Total cost: {get_LLMs_total_cost()}""")
 
   async def aplan(self, chapters, handlers_map=None):
     system_message = self.render_system_message()
+    if get_config("agent_function_calling_mode") == "on" or (str(get_config("agent_function_calling_mode") == "auto") and self.fc_available is not False):
+      # remove key "Actions"
+      chapters = [(k, v) for k, v in chapters if k != "Actions"]
     human_message = self.render_human_message(chapters)
     message = [system_message, human_message]
     long_term_plan = {}

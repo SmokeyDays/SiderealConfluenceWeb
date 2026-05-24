@@ -166,7 +166,7 @@ class Brain:
 
           if func_name in handlers_map:
             func = handlers_map[func_name]
-            # 假设 func 是同步的，如果是异步的需�?await
+            # 假设 func 是同步的，如果是异步的需�?await
             func(data)
           else:
             logger.error(f"Function {func_name} not found in handlers_map")

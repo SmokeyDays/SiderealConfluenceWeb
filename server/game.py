@@ -905,6 +905,13 @@ class Game:
           "player": "",
           "bid": 0
         }
+      self._advance_pick_priority()
+      if self.stage != "pick":
+        return {
+          "type": "",
+          "player": "",
+          "bid": 0
+        }
       if len(self.colony_bid_priority) > 0:
         return {
           "type": "colony",
@@ -922,6 +929,58 @@ class Game:
       "player": "",
       "bid": 0
     }
+
+  def _pick_queue_head(self):
+    if len(self.colony_bid_priority) > 0:
+      return "colony", self.colony_bid_priority[0][0], self.colony_bid_priority[0][1] if len(self.colony_bid_priority[0]) > 1 else None
+    if len(self.research_bid_priority) > 0:
+      return "research", self.research_bid_priority[0][0], None
+    return "", None, None
+
+  def _pick_track_has_item(self, pick_type: str) -> bool:
+    if pick_type == "colony":
+      return any(card["item"] for card in self.colony_bid_cards)
+    if pick_type == "research":
+      return any(card["item"] for card in self.research_bid_cards)
+    return False
+
+  def _pick_player_can_afford(self, player: Player, pick_type: str, split_id = None) -> bool:
+    if pick_type == "colony":
+      bid = player.get_colony_bid(split_id)
+      if player.storage.get("Ship", 0) < bid:
+        return False
+      return any(
+        card["item"] and player.colony_bid >= card["price"]
+        for card in self.colony_bid_cards
+      )
+    if pick_type == "research":
+      if player.storage.get("Ship", 0) < player.research_bid:
+        return False
+      return any(
+        card["item"] and player.research_bid >= card["price"]
+        for card in self.research_bid_cards
+      )
+    return False
+
+  def _advance_pick_priority(self):
+    while self.stage == "pick":
+      pick_type, player, split_id = self._pick_queue_head()
+      if not player:
+        if len(self.colony_bid_priority) == 0 and len(self.research_bid_priority) == 0:
+          self.move_to_next_stage()
+        return
+
+      if self._pick_track_has_item(pick_type) and self._pick_player_can_afford(player, pick_type, split_id):
+        return
+
+      if pick_type == "colony":
+        self.colony_bid_priority.pop(0)
+      elif pick_type == "research":
+        self.research_bid_priority.pop(0)
+
+      if len(self.colony_bid_priority) == 0 and len(self.research_bid_priority) == 0:
+        self.move_to_next_stage()
+        return
 
   @property
   def current_discard_colony_player(self):
