@@ -47,7 +47,7 @@ class Server:
     #   "doubao-seed-2.0-pro",
     #   ]
     # )
-    self.add_self_playing_bot_exp("FairSelfPlaying2", "rule-fair")
+    self.add_self_playing_bot_exp("FairSelfPlaying3", "rule-fair")
 
   
   def series_elo(self, count=5, model_num=5):

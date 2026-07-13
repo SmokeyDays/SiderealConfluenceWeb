@@ -1658,6 +1658,91 @@ class Game:
   def get_trade_log(self):
     return self.trade_recorder.get_trades_str()
 
+  def get_trade_statistics(self, model_by_user: Dict[str, str] = None):
+    model_by_user = model_by_user or {}
+    by_player = {}
+    by_model = {}
+    matrix_by_player = {}
+    matrix_by_model = {}
+    total_abs_value_transfer = 0.0
+
+    def ensure_trade_value_bucket(container, key):
+      if key not in container:
+        container[key] = {
+          "trade_count": 0,
+          "gain_count": 0,
+          "loss_count": 0,
+          "net_value": 0.0,
+          "gain_amount": 0.0,
+          "loss_amount": 0.0,
+          "loss_trade_rate": None,
+        }
+      return container[key]
+
+    def record_signed_trade_value(container, key, signed_value):
+      bucket = ensure_trade_value_bucket(container, key)
+      bucket["trade_count"] += 1
+      bucket["net_value"] += signed_value
+      if signed_value > 0:
+        bucket["gain_count"] += 1
+        bucket["gain_amount"] += signed_value
+      elif signed_value < 0:
+        bucket["loss_count"] += 1
+        bucket["loss_amount"] += -signed_value
+      bucket["loss_trade_rate"] = bucket["loss_count"] / bucket["trade_count"] if bucket["trade_count"] else None
+
+    def add_matrix_value(matrix, beneficiary, loser, amount):
+      if beneficiary not in matrix:
+        matrix[beneficiary] = {}
+      matrix[beneficiary][loser] = matrix[beneficiary].get(loser, 0.0) + amount
+      if loser not in matrix:
+        matrix[loser] = {}
+      matrix[loser][beneficiary] = matrix[loser].get(beneficiary, 0.0) - amount
+
+    for trade in self.trade_recorder.get_trades():
+      try:
+        value = float(trade.value)
+      except (TypeError, ValueError):
+        continue
+
+      if value == 0:
+        continue
+
+      if value > 0:
+        beneficiary = trade.from_player
+        loser = trade.to_player
+        amount = value
+      else:
+        beneficiary = trade.to_player
+        loser = trade.from_player
+        amount = -value
+
+      total_abs_value_transfer += amount
+
+      record_signed_trade_value(by_player, trade.from_player, value)
+      record_signed_trade_value(by_player, trade.to_player, -value)
+      add_matrix_value(matrix_by_player, beneficiary, loser, amount)
+
+      beneficiary_model = model_by_user.get(beneficiary, "Human")
+      loser_model = model_by_user.get(loser, "Human")
+      from_model = model_by_user.get(trade.from_player, "Human")
+      to_model = model_by_user.get(trade.to_player, "Human")
+      record_signed_trade_value(by_model, from_model, value)
+      record_signed_trade_value(by_model, to_model, -value)
+      add_matrix_value(matrix_by_model, beneficiary_model, loser_model, amount)
+
+    return {
+      "trade_value": {
+        "by_player": by_player,
+        "by_model": by_model,
+      },
+      "exploitation_matrix": {
+        "by_player": matrix_by_player,
+        "by_model": matrix_by_model,
+        "total_abs_value_transfer": total_abs_value_transfer,
+      },
+    }
+
   ###########################
   #                         #
   #     Other Functions     #

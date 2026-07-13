@@ -91,6 +91,11 @@ class BasicCaller():
     self.vlm = vlm
     self.chain = vlm | RunnableLambda(clean_json_output) | parser
     self.fc_available = None
+    self.fc_stats = {
+      "attempts": 0,
+      "successes": 0,
+      "failures": 0,
+    }
     self.use_multi_chain = False
     if self.use_multi_chain:
       self.chains = [self.chain]
@@ -283,18 +288,21 @@ class BasicCaller():
     tools = self._build_function_tools(handlers_map)
     if not tools or not self._is_fc_enabled():
       return self._invoke_legacy(message)
+    self.fc_stats["attempts"] += 1
     try:
       logger.info(f"===Functional Calling=== {self.planner_name} attempting FC invoke. Tools: {len(tools)}")
       llm_with_tools = self.get_vlm().bind_tools(tools, tool_choice="auto")
       ai_msg = llm_with_tools.invoke(message)
       self.fc_available = True
       response = self._build_fc_response(ai_msg)
+      self.fc_stats["successes"] += 1
       try:
         logger.info(f"===Functional Calling=== {self.planner_name} FC invoke succeeded. Actions: {len(response.get('actions', []))}")
       except Exception:
         logger.info(f"===Functional Calling=== {self.planner_name} FC invoke succeeded.")
       return response
     except Exception as e:
+      self.fc_stats["failures"] += 1
       logger.warning(f"{self.planner_name} FC invoke failed, fallback to legacy mode: {e}")
       logger.info(f"===Functional Calling=== {self.planner_name} FC invoke failed, falling back to legacy mode")
       # In auto mode, disable FC after first incompatibility.
@@ -306,18 +314,21 @@ class BasicCaller():
     tools = self._build_function_tools(handlers_map)
     if not tools or not self._is_fc_enabled():
       return await self._ainvoke_legacy(message)
+    self.fc_stats["attempts"] += 1
     try:
       logger.info(f"===Functional Calling=== {self.planner_name} attempting async FC invoke. Tools: {len(tools)}")
       llm_with_tools = self.get_vlm().bind_tools(tools, tool_choice="auto")
       ai_msg = await llm_with_tools.ainvoke(message)
       self.fc_available = True
       response = self._build_fc_response(ai_msg)
+      self.fc_stats["successes"] += 1
       try:
         logger.info(f"===Functional Calling=== {self.planner_name} async FC invoke succeeded. Actions: {len(response.get('actions', []))}")
       except Exception:
         logger.info(f"===Functional Calling=== {self.planner_name} async FC invoke succeeded.")
       return response
     except Exception as e:
+      self.fc_stats["failures"] += 1
       logger.warning(f"{self.planner_name} async FC invoke failed, fallback to legacy mode: {e}")
       logger.info(f"===Functional Calling=== {self.planner_name} async FC invoke failed, falling back to legacy mode")
       if str(get_config("agent_function_calling_mode")).lower() == "auto":

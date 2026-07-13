@@ -52,9 +52,48 @@ class Brain:
     self._step_id = 0
     self.trading_step_count = 0
     self.last_trading_round = -1
+    self.planner_instances = {}
+    self.fc_stats = {
+      "attempts": 0,
+      "successes": 0,
+      "failures": 0,
+    }
 
   def get_planner(self, planner_name: str) -> BasicCaller:
-    return PlannerFactory.get_planner(self.model_name, planner_name)
+    if planner_name not in self.planner_instances:
+      planner_class = PlannerFactory.planners.get(planner_name)
+      if planner_class is None:
+        raise ValueError(f"Planner {planner_name} not found in PlannerFactory.")
+      vlm = llm_manager.get_api(self.model_name)
+      self.planner_instances[planner_name] = planner_class(model_name=self.model_name, vlm=vlm)
+    return self.planner_instances[planner_name]
+
+  def _snapshot_fc_stats(self, planner: BasicCaller):
+    return dict(getattr(planner, "fc_stats", {}) or {})
+
+  def _record_fc_delta(self, before, planner: BasicCaller):
+    after = self._snapshot_fc_stats(planner)
+    for key in self.fc_stats:
+      self.fc_stats[key] += max(0, int(after.get(key, 0)) - int(before.get(key, 0)))
+
+  async def _aplan(self, planner_name: str, prompt, handlers_map):
+    planner = self.get_planner(planner_name)
+    before = self._snapshot_fc_stats(planner)
+    response = await planner.aplan(prompt, handlers_map=handlers_map)
+    self._record_fc_delta(before, planner)
+    return response
+
+  def get_statistics(self):
+    attempts = self.fc_stats.get("attempts", 0)
+    failures = self.fc_stats.get("failures", 0)
+    return {
+      "function_calling": {
+        "attempts": attempts,
+        "successes": self.fc_stats.get("successes", 0),
+        "failures": failures,
+        "failure_rate": failures / attempts if attempts else None,
+      }
+    }
 
   def record_response(self, prompt, response, special_call=None):
     # logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
@@ -196,7 +235,7 @@ class Brain:
           ("Specie description", specie_desc), 
           ("Observation", obs)
         ]
-        response = await self.get_planner("turn_plan").aplan(prompt, handlers_map=planning_handlers_map)
+        response = await self._aplan("turn_plan", prompt, planning_handlers_map)
         self.record_response(prompt, response, special_call="turn_plan")
         if "reasoning" in response:
           response.pop("reasoning") # 清理不需要存储的字段
@@ -210,7 +249,7 @@ class Brain:
         ("Actions", handlers_prompt)
       ]
       # AWAIT 调用
-      response = await self.get_planner("trade").aplan(prompt, handlers_map=planning_handlers_map)
+      response = await self._aplan("trade", prompt, planning_handlers_map)
 
       if self.trading_step_count > 100 and response and "actions" in response:
         response = self.ensure_confirm(response)
@@ -227,7 +266,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("discard_colony").aplan(prompt, handlers_map=handlers_map)
+      response = await self._aplan("discard_colony", prompt, handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "discard_colony caller")
 
@@ -238,7 +277,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("economy").aplan(prompt, handlers_map=handlers_map)
+      response = await self._aplan("economy", prompt, handlers_map)
       self.record_response(prompt, response)
       response = self.ensure_confirm(response)
       execute_callbacks(response, "economy caller")
@@ -250,7 +289,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("bid").aplan(prompt, handlers_map=handlers_map)
+      response = await self._aplan("bid", prompt, handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "bid caller")
 
@@ -261,7 +300,7 @@ class Brain:
         ("Observation", obs),
         ("Actions", handlers_prompt)
       ]
-      response = await self.get_planner("pick").aplan(prompt, handlers_map=handlers_map)
+      response = await self._aplan("pick", prompt, handlers_map)
       self.record_response(prompt, response)
       execute_callbacks(response, "pick caller")
 

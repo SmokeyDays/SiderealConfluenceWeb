@@ -391,6 +391,53 @@ class Room:
     self.on_game_end_callback = callback
     return True
 
+  def _build_model_by_user(self):
+    return {
+      user_id: self.bot_types.get(user_id, "Human")
+      for user_id in self.players
+    }
+
+  def _build_function_calling_statistics(self):
+    by_model = {}
+
+    for bot_id, agent in self.bot_agents.items():
+      model = self.bot_types.get(bot_id, "Human")
+      stats_getter = getattr(agent, "get_statistics", None)
+      if not callable(stats_getter):
+        continue
+
+      agent_stats = stats_getter() or {}
+      fc_stats = agent_stats.get("function_calling", {})
+      if not fc_stats:
+        continue
+
+      model_stats = by_model.setdefault(model, {
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0,
+        "failure_rate": None,
+      })
+      model_stats["attempts"] += int(fc_stats.get("attempts", 0) or 0)
+      model_stats["successes"] += int(fc_stats.get("successes", 0) or 0)
+      model_stats["failures"] += int(fc_stats.get("failures", 0) or 0)
+
+    for model_stats in by_model.values():
+      attempts = model_stats["attempts"]
+      failures = model_stats["failures"]
+      model_stats["failure_rate"] = failures / attempts if attempts else None
+
+    return {
+      "by_model": by_model
+    }
+
+  def _build_game_statistics(self):
+    statistics = {
+      "function_calling": self._build_function_calling_statistics(),
+    }
+    if self.game:
+      statistics.update(self.game.get_trade_statistics(self._build_model_by_user()))
+    return statistics
+
   def start_game(self):
     self.game = Game(self.name, self.end_round)
     self.game.set_end_game_callback(self.on_game_end)
@@ -419,7 +466,7 @@ class Room:
         "score": res['score']
       })
 
-    game_recorder.add_record(self.game_type, self.name, mapped_results)
+    game_recorder.add_record(self.game_type, self.name, mapped_results, statistics=self._build_game_statistics())
     logger.info(f"Game record saved for room {self.name} (type: {self.game_type})")
     if self.on_game_end_callback:
       try:

@@ -2,7 +2,7 @@ import json
 import math
 import os
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 import matplotlib.pyplot as plt
 import random
@@ -46,14 +46,195 @@ class GameRecorder:
     with open(self.filepath, 'w', encoding='utf-8') as f:
       json.dump(self.data, f, indent=4) # indent for readability
 
-  def add_record(self, exp_type, exp_name, results):
+  def add_record(self, exp_type, exp_name, results, statistics=None):
     new_record = {
       "exp_type": exp_type,
       "exp_name": exp_name,
       "results": results
     }
+    if statistics is not None:
+      new_record["statistics"] = statistics
     self.data.append(new_record)
     self.save()
+
+  def summarize_statistics(self, exp_type=None):
+    """Print and return optional game statistics, skipping historical records without statistics."""
+    records = [
+      record for record in self.data
+      if (exp_type is None or record.get("exp_type") == exp_type)
+      and isinstance(record.get("statistics"), dict)
+    ]
+    if not records:
+      print("No records with statistics found.")
+      return {}
+
+    fc_by_model = defaultdict(lambda: {"attempts": 0, "successes": 0, "failures": 0})
+    trade_value_by_model = defaultdict(lambda: {
+      "games": 0,
+      "trade_count_total": 0.0,
+      "gain_count_total": 0.0,
+      "loss_count_total": 0.0,
+      "net_value_total": 0.0,
+      "gain_amount_total": 0.0,
+      "loss_amount_total": 0.0,
+    })
+    exploitation_by_model = defaultdict(float)
+    exploitation_observed_game_counts = defaultdict(int)
+    exploitation_pair_game_counts = defaultdict(int)
+    total_abs_transfer_values = []
+
+    for record in records:
+      stats = record.get("statistics", {})
+      model_seat_counts = Counter(
+        result.get("model")
+        for result in record.get("results", [])
+        if isinstance(result, dict) and result.get("model")
+      )
+      models_in_record = set(model_seat_counts.keys())
+
+      for model in models_in_record:
+        trade_value_by_model[model]["games"] += 1
+
+      for beneficiary in models_in_record:
+        for loser in models_in_record:
+          exploitation_pair_game_counts[(beneficiary, loser)] += 1
+
+      fc_stats = stats.get("function_calling", {}).get("by_model", {})
+      for model, model_stats in fc_stats.items():
+        fc_by_model[model]["attempts"] += int(model_stats.get("attempts", 0) or 0)
+        fc_by_model[model]["successes"] += int(model_stats.get("successes", 0) or 0)
+        fc_by_model[model]["failures"] += int(model_stats.get("failures", 0) or 0)
+
+      trade_value_stats = stats.get("trade_value", {}).get("by_model", {})
+      is_legacy_trade_loss = False
+      if not trade_value_stats:
+        trade_value_stats = stats.get("trade_loss", {}).get("by_model", {})
+        is_legacy_trade_loss = bool(trade_value_stats)
+      for model, model_stats in trade_value_stats.items():
+        bucket = trade_value_by_model[model]
+        legacy_loss_count = float(model_stats.get("loss_count", 0) or 0)
+        trade_count = float(model_stats.get("trade_count", legacy_loss_count if is_legacy_trade_loss else 0) or 0)
+        loss_count = float(model_stats.get("loss_count", 0) or 0)
+        loss_amount = float(model_stats.get("loss_amount", 0) or 0)
+        bucket["trade_count_total"] += trade_count
+        bucket["gain_count_total"] += float(model_stats.get("gain_count", 0) or 0)
+        bucket["loss_count_total"] += loss_count
+        bucket["net_value_total"] += float(model_stats.get("net_value", -loss_amount) or 0)
+        bucket["gain_amount_total"] += float(model_stats.get("gain_amount", 0) or 0)
+        bucket["loss_amount_total"] += loss_amount
+
+      exploitation_stats = stats.get("exploitation_matrix", {})
+      total_abs_transfer_values.append(float(exploitation_stats.get("total_abs_value_transfer", 0) or 0))
+      matrix = exploitation_stats.get("by_model", {})
+      for beneficiary, losers in matrix.items():
+        if not isinstance(losers, dict):
+          continue
+        for loser, amount in losers.items():
+          key = (beneficiary, loser)
+          exploitation_by_model[key] += float(amount or 0)
+          exploitation_observed_game_counts[key] += 1
+
+    fc_summary = {}
+    for model, model_stats in fc_by_model.items():
+      attempts = model_stats["attempts"]
+      failures = model_stats["failures"]
+      fc_summary[model] = {
+        "attempts": attempts,
+        "successes": model_stats["successes"],
+        "failures": failures,
+        "failure_rate": failures / attempts if attempts else None,
+      }
+
+    trade_value_summary = {}
+    for model, model_stats in trade_value_by_model.items():
+      games = model_stats["games"]
+      trade_count = model_stats["trade_count_total"]
+      loss_count = model_stats["loss_count_total"]
+      trade_value_summary[model] = {
+        "games": games,
+        "avg_net_value_per_game": model_stats["net_value_total"] / games if games else 0,
+        "avg_gain_amount_per_game": model_stats["gain_amount_total"] / games if games else 0,
+        "avg_loss_amount_per_game": model_stats["loss_amount_total"] / games if games else 0,
+        "avg_trade_count_per_game": trade_count / games if games else 0,
+        "avg_loss_count_per_game": loss_count / games if games else 0,
+        "loss_trade_rate": loss_count / trade_count if trade_count else None,
+        "trade_count_total": trade_count,
+        "gain_count_total": model_stats["gain_count_total"],
+        "loss_count_total": model_stats["loss_count_total"],
+        "net_value_total": model_stats["net_value_total"],
+        "gain_amount_total": model_stats["gain_amount_total"],
+        "loss_amount_total": model_stats["loss_amount_total"],
+      }
+
+    exploitation_summary = {}
+    for (beneficiary, loser), total_amount in exploitation_by_model.items():
+      observed_games = exploitation_observed_game_counts[(beneficiary, loser)]
+      pair_games = exploitation_pair_game_counts.get((beneficiary, loser), observed_games)
+      if beneficiary not in exploitation_summary:
+        exploitation_summary[beneficiary] = {}
+      exploitation_summary[beneficiary][loser] = {
+        "total_value_transfer": total_amount,
+        "avg_value_transfer_per_game": total_amount / pair_games if pair_games else 0,
+        "avg_value_transfer_per_observed_game": total_amount / observed_games if observed_games else 0,
+        "pair_games": pair_games,
+        "observed_games": observed_games,
+      }
+
+    summary = {
+      "record_count": len(records),
+      "function_calling": {
+        "by_model": fc_summary,
+      },
+      "trade_value": {
+        "by_model": trade_value_summary,
+      },
+      "exploitation_matrix": {
+        "by_model": exploitation_summary,
+        "avg_total_abs_value_transfer_per_game": (
+          sum(total_abs_transfer_values) / len(total_abs_transfer_values)
+          if total_abs_transfer_values else 0
+        ),
+      },
+    }
+
+    print("\n--- Function Calling Failure Rate by Model ---")
+    for model, model_stats in sorted(fc_summary.items()):
+      rate = model_stats["failure_rate"]
+      rate_str = "N/A" if rate is None else f"{rate:.3f}"
+      print(
+        f"{model}: failures={model_stats['failures']}, "
+        f"attempts={model_stats['attempts']}, failure_rate={rate_str}"
+      )
+
+    print("\n--- Average Signed Trade Value by Model ---")
+    for model, model_stats in sorted(trade_value_summary.items()):
+      loss_rate = model_stats["loss_trade_rate"]
+      loss_rate_str = "N/A" if loss_rate is None else f"{loss_rate:.3f}"
+      print(
+        f"{model}: avg_net_value/game={model_stats['avg_net_value_per_game']:.3f}, "
+        f"avg_gain_amount/game={model_stats['avg_gain_amount_per_game']:.3f}, "
+        f"avg_loss_amount/game={model_stats['avg_loss_amount_per_game']:.3f}, "
+        f"loss_trade_rate={loss_rate_str}, "
+        f"games={model_stats['games']}"
+      )
+
+    print("\n--- Signed Exploitation Matrix by Model (row model vs column model) ---")
+    for row_model, column_models in sorted(exploitation_summary.items()):
+      for column_model, matrix_stats in sorted(column_models.items()):
+        print(
+          f"{row_model} vs {column_model}: "
+          f"total={matrix_stats['total_value_transfer']:.3f}, "
+          f"avg_game={matrix_stats['avg_value_transfer_per_game']:.3f}, "
+          f"avg_observed_game={matrix_stats['avg_value_transfer_per_observed_game']:.3f}, "
+          f"pair_games={matrix_stats['pair_games']}, "
+          f"observed_games={matrix_stats['observed_games']}"
+        )
+
+    print(
+      "\nAverage total absolute value transfer per game: "
+      f"{summary['exploitation_matrix']['avg_total_abs_value_transfer_per_game']:.3f}"
+    )
+    return summary
 
   def merge_records_from_file(self, filepath=None):
     """Merge records from a secondary file by exp_name."""
@@ -384,6 +565,7 @@ class GameRecorder:
       print("4. Merge Records")
       print("5. Estimate Elo")
       print("6. Draw Elo Chart")
+      print("7. Summarize Game Statistics")
       print("q. Exit")
       
       choice = input("Enter choice: ").strip().lower()
@@ -484,6 +666,12 @@ class GameRecorder:
         save_input = input("Save plot? (y/n) [n]: ").strip().lower()
         save = save_input == 'y'
         self.plot_elo_chart(exp_type=exp_type, save=save)
+      
+      elif choice == '7':
+        exp_type = input("\nEnter Experiment Type for statistics [all]: ").strip() or "all"
+        if exp_type == "all":
+          exp_type = None
+        self.summarize_statistics(exp_type=exp_type)
         
       elif choice == 'q':
         break
