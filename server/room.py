@@ -4,7 +4,7 @@ import threading
 import time
 from typing import Dict, Any, List, Coroutine, Callable
 
-from server.agent.brain import Brain
+from server.agent.rule_agent import FairTradeRuleAgent
 from server.game import Game
 from server.utils.config import get_config
 from server.utils.log import logger
@@ -402,7 +402,11 @@ class Room:
     self.last_stage_for_tasks = self.game.stage
     for bot in self.bots:
       bot_type = self.bot_types.get(bot, get_config('default_bot_type'))
-      self.bot_agents[bot] = Brain(self.game, bot, model_name=bot_type)
+      if FairTradeRuleAgent.supports_model(bot_type):
+        self.bot_agents[bot] = FairTradeRuleAgent(self.game, bot, model_name=bot_type)
+      else:
+        from server.agent.brain import Brain
+        self.bot_agents[bot] = Brain(self.game, bot, model_name=bot_type)
 
   def on_game_end(self, results):
     mapped_results = []

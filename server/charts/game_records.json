@@ -516,5 +516,213 @@
                 "score": 4.0
             }
         ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.666666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 8.75
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 4.416666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 6.666666666666667
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 8.0
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.416666666666666
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 3.0
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 5.333333333333333
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 8.0
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.416666666666666
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 5.166666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 6.75
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.666666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.333333333333334
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 5.416666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 8.166666666666668
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.666666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 8.583333333333334
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 4.5
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 8.166666666666668
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.833333333333333
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.333333333333334
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 4.416666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 7.083333333333333
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.833333333333333
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.333333333333334
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 4.416666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 6.666666666666667
+            }
+        ]
+    },
+    {
+        "exp_type": "default",
+        "exp_name": "FairSelfPlaying2",
+        "results": [
+            {
+                "model": "rule-fair",
+                "specie": "Caylion",
+                "score": 7.833333333333333
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Yengii",
+                "score": 9.416666666666666
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Im",
+                "score": 4.916666666666667
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 8.166666666666668
+            }
+        ]
     }
 ]

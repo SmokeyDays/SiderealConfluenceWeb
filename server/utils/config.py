@@ -21,6 +21,10 @@ class Config:
       "bot_silence_seconds": 30.0,
       # Number of consecutive silence recoveries before auto-confirming remaining bots.
       "bot_silence_force_ready_after": 3,
+      # Rule baseline safety limits before it switches to stage-specific pass behavior.
+      "rule_agent_stage_max_steps": 200,
+      "rule_agent_trading_max_trades": 5,
+      "rule_agent_stage_timeout_minutes": 5.0,
     }
 
 

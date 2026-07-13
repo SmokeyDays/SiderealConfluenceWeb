@@ -313,8 +313,8 @@ class GameRecorder:
     grouped_data = {}
     for r in results:
       key = r.get("model", "Unknown")
-      if key == "human":
-        continue
+      # if key == "human":
+      #   continue
       if key not in grouped_data:
         grouped_data[key] = []
       grouped_data[key].append(r.get("score", 0))

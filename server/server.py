@@ -35,7 +35,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.series_elo()
+    # self.series_elo()
     # self.add_self_playing_bot_exp("GPT5SelfPlayingIter1", "gpt-5")
     # self.add_elo_exp(
     #   room_name="EloExp6",
@@ -47,6 +47,7 @@ class Server:
     #   "doubao-seed-2.0-pro",
     #   ]
     # )
+    self.add_self_playing_bot_exp("FairSelfPlaying2", "rule-fair")
 
   
   def series_elo(self, count=5, model_num=5):
@@ -66,7 +67,7 @@ class Server:
     self.rooms[room_name] = Room(num, room_name, 6, "elo_exp")
     room = self.rooms[room_name]
     
-    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit", "Kjasjavikalimm"]
+    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit"]
     random.shuffle(species)
     
     for i, model in enumerate(players):
@@ -84,7 +85,7 @@ class Server:
     self.rooms[room_name] = Room(num, room_name, 6)
     room = self.rooms[room_name]
     
-    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit", "Kjasjavikalimm"]
+    species = ["Caylion", "Yengii", "Im", "Eni", "Faderan", "Kit"]
     
     for i in range(num):
       bot_id = f"Bot{i+1}"
