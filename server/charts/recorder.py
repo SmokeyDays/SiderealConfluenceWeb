@@ -160,12 +160,10 @@ class GameRecorder:
 
     return sorted(model_set), pairwise_wins, pairwise_counts
 
-  def estimate_elo(self, exp_type=None, max_iter=500, tol=1e-9):
-    """Estimate time-order-independent Elo ratings via Bradley-Terry MLE."""
+  def _compute_elo(self, exp_type=None, max_iter=500, tol=1e-9):
     models, pairwise_wins, pairwise_counts = self._build_pairwise_results(exp_type=exp_type)
     if len(models) < 2:
-      print("Not enough multi-model records to estimate Elo.")
-      return {}
+      return {}, [], pairwise_counts, models
 
     strengths = {model: 1.0 for model in models}
     for _ in range(max_iter):
@@ -195,8 +193,7 @@ class GameRecorder:
 
       log_strengths = [math.log(value) for value in updated_strengths.values() if value > 0]
       if not log_strengths:
-        print("Unable to stabilize Elo estimates.")
-        return {}
+        return {}, []
 
       geo_mean = math.exp(sum(log_strengths) / len(log_strengths))
       for model in models:
@@ -211,8 +208,15 @@ class GameRecorder:
       model: 1500.0 + (400.0 / math.log(10)) * (math.log(strengths[model]) - mean_log_strength)
       for model in models
     }
-
     ranking = sorted(models, key=lambda model: elos[model], reverse=True)
+    return elos, ranking, pairwise_counts, models
+
+  def estimate_elo(self, exp_type=None, max_iter=500, tol=1e-9):
+    """Estimate time-order-independent Elo ratings via Bradley-Terry MLE."""
+    elos, ranking, pairwise_counts, models = self._compute_elo(exp_type=exp_type, max_iter=max_iter, tol=tol)
+    if len(elos) < 2:
+      print("Not enough multi-model records to estimate Elo.")
+      return {}
     print("\n--- Elo Estimate ---")
     if exp_type is not None:
       print(f"Experiment type: {exp_type}")
@@ -226,6 +230,63 @@ class GameRecorder:
 
     return elos
 
+  def plot_elo_chart(self, exp_type=None, save=False):
+    """Plot Elo ratings as a horizontal bar chart."""
+    elos, ranking, _, _ = self._compute_elo(exp_type=exp_type)
+    if len(elos) < 2:
+      print("Not enough multi-model records to plot Elo.")
+      return
+
+    values = [elos[model] for model in ranking]
+    colors = ["#4C78A8" if value >= 1500 else "#F58518" for value in values]
+
+    # Use compact, narrow figure similar to plot_boxplot
+    positions = [index * 0.75 + 1 for index in range(len(ranking))]
+    plt.figure(figsize=(7.0, max(2.2, 0.28 * len(ranking) + 1.0)))
+
+    bars = plt.barh(positions, values, height=0.45, color=colors, alpha=0.9)
+    plt.yticks(positions, ranking, fontsize=11)
+    plt.axvline(1500, color="gray", linestyle="--", linewidth=1.2, alpha=0.8)
+    plt.xlabel("Elo Rating", fontsize=14)
+    plt.ylabel("Model", fontsize=14)
+    title = "Elo Rating Comparison"
+    # if exp_type is not None:
+    #   title += f" (Exp: {exp_type})"
+    plt.title(title, fontsize=16, fontweight="bold", pad=12)
+    plt.grid(True, linestyle=":", alpha=0.5, axis="x")
+
+    # adjust x limits with margins; ensure a minimum xmax so annotations don't overflow
+    data_min = min(values + [1500]) - 50
+    data_max = max(values + [1500]) + 50
+    xmax = max(3000, data_max)
+    plt.xlim(data_min, xmax)
+
+    # annotate values, clamped to remain inside the axis
+    for bar, value in zip(bars, values):
+      xpos = bar.get_width() + 5
+      # if text would overflow, clamp it a bit inside the right edge
+      if xpos > xmax - 10:
+        xpos = xmax - 10
+      plt.text(
+        xpos,
+        bar.get_y() + bar.get_height() / 2,
+        f"{value:.1f}",
+        va="center",
+        fontsize=11,
+      )
+
+    if positions:
+      plt.ylim(positions[0] - 0.45, positions[-1] + 0.45)
+    plt.tight_layout()
+
+    if save:
+      timestamp = int(time.time())
+      exp_label = exp_type or "all"
+      filename = f"elo_{exp_label}_{timestamp}.png"
+      self.save_plot(filename)
+
+    plt.show()
+
   def save_plot(self, filename):
     """保存当前绘图到 charts/plots 目录"""
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -236,7 +297,7 @@ class GameRecorder:
     plt.savefig(filepath, dpi=300)
     print(f"Plot saved to {filepath}")
 
-  def plot_boxplot(self, exp_type="default", save=False):
+  def plot_boxplot(self, exp_type="default", save=True):
     """为 record 的结果绘制一张箱形图"""
     exps = [r for r in self.data if r.get("exp_type") == exp_type]
     if not exps:
@@ -261,17 +322,24 @@ class GameRecorder:
     # Sort labels by mean score
     mean_scores = {k: sum(v)/len(v) if v else 0 for k, v in grouped_data.items()}
     labels = sorted(grouped_data.keys(), key=lambda x: mean_scores[x])
+    positions = [index * 0.75 + 1 for index in range(len(labels))]
 
     base_value = 5
     data_values = [[((score - base_value) / base_value) for score in grouped_data[label]] for label in labels]
 
     # Plotting
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(7.0, max(2.2, 0.28 * len(labels) + 1.0)))
     
-    # Create boxplot with patch_artist=True to fill with color
-    bplot = plt.boxplot(data_values, labels=labels, patch_artist=True,
-                        medianprops=dict(color="black", linewidth=1.5),
-                        flierprops=dict(marker='o', markersize=5, linestyle='none', markeredgecolor='gray'))
+    # Create a horizontal boxplot with patch_artist=True to fill with color
+    bplot = plt.boxplot(
+      data_values,
+      positions=positions,
+      widths=0.45,
+      vert=False,
+      patch_artist=True,
+      medianprops=dict(color="black", linewidth=1.5),
+      flierprops=dict(marker='o', markersize=4, linestyle='none', markeredgecolor='gray')
+    )
     
     # Color palette
     colors = ['#FF9999', '#66B2FF', '#99FF99', '#FFCC99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76D7C4']
@@ -284,15 +352,19 @@ class GameRecorder:
     #     x = [i + 1 + random.uniform(-0.08, 0.08) for _ in data]
     #     plt.scatter(x, data, alpha=0.6, s=20, color='darkblue', zorder=10)
 
-    plt.title(f'Value-added Percentage Distribution by Model (Exp: {exp_type})', fontsize=16, fontweight='bold', pad=20)
-    plt.xlabel('Model', fontsize=12)
-    plt.ylabel('Value-added Percentage', fontsize=12)
+    plt.yticks(positions, labels, fontsize=11)
+    plt.title('Self-Playing Value-added Percentage', fontsize=16, fontweight='bold', pad=12)
+    plt.xlabel('Value-added Percentage', fontsize=14)
+    plt.ylabel('Model', fontsize=14)
     
-    # Add horizontal line at 0%
-    plt.axhline(y=0, color='gray', linestyle='--', linewidth=1.2, alpha=0.8)
+    # Add vertical line at 0%
+    plt.axvline(x=0, color='gray', linestyle='--', linewidth=1.2, alpha=0.8)
     
-    plt.grid(True, linestyle=':', alpha=0.6, axis='y')
-    plt.xticks(rotation=45)
+    plt.grid(True, linestyle=':', alpha=0.6, axis='x')
+    plt.xticks(fontsize=12)
+
+    if positions:
+      plt.ylim(positions[0] - 0.45, positions[-1] + 0.45)
     plt.tight_layout()
     
     if save:
@@ -311,6 +383,7 @@ class GameRecorder:
       print("3. Reload Data")
       print("4. Merge Records")
       print("5. Estimate Elo")
+      print("6. Draw Elo Chart")
       print("q. Exit")
       
       choice = input("Enter choice: ").strip().lower()
@@ -395,7 +468,7 @@ class GameRecorder:
         print("Data reloaded from disk.")
 
       elif choice == '4':
-        source_path = input(f"Source file [{{records_new_path}}]: ").strip() or None
+        source_path = input(f"Source file [{records_new_path}]: ").strip() or None
         self.merge_records_from_file(source_path)
 
       elif choice == '5':
@@ -403,6 +476,14 @@ class GameRecorder:
         if exp_type == "all":
           exp_type = None
         self.estimate_elo(exp_type=exp_type)
+
+      elif choice == '6':
+        exp_type = input("\nEnter Experiment Type for Elo Chart [elo_exp]: ").strip() or "elo_exp"
+        if exp_type == "all":
+          exp_type = None
+        save_input = input("Save plot? (y/n) [n]: ").strip().lower()
+        save = save_input == 'y'
+        self.plot_elo_chart(exp_type=exp_type, save=save)
         
       elif choice == 'q':
         break

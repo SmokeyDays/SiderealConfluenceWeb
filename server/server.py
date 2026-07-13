@@ -35,7 +35,8 @@ class Server:
 
     self.mock1()
     self.mock2()
-    self.add_self_playing_bot_exp("GPT5SelfPlayingIter1", "gpt-5")
+    self.series_elo()
+    # self.add_self_playing_bot_exp("GPT5SelfPlayingIter1", "gpt-5")
     # self.add_elo_exp(
     #   room_name="EloExp6",
     #   players=[
@@ -51,14 +52,14 @@ class Server:
   def series_elo(self, count=5, model_num=5):
     if count <= 0:
       return
-    room_name = f"EloExp{int(datetime.datetime.now().timestamp())}"
+    room_name: str = f"EloExp{int(datetime.datetime.now().timestamp())}"
     models = LLMInterfaceManager().sample_random_api(model_num)
     self.add_elo_exp(room_name, models)
-    room = self.rooms[room_name]
+    room: Room = self.rooms[room_name]
     def callback(room_name, result):
       logger.info(f"[[series exps]]Game ended in room {room_name} with result: {result}")
       self.series_elo(count-1, model_num)
-    room.game.set_on_game_end(callback)
+    room.set_on_game_end_callback(callback)
 
   def add_elo_exp(self, room_name, players):
     num = len(players)

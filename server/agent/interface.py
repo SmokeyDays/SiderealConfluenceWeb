@@ -118,7 +118,7 @@ class LLMInterfaceManager:
     return name in self.registry
   
   def sample_random_api(self, count=1):
-    return random.sample(list(self.registry.values()), count)
+    return random.sample(list(self.registry.keys()), count)
   
   @property
   def default_api(self):
