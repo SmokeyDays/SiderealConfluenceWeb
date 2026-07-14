@@ -1189,5 +1189,235 @@
                 "total_abs_value_transfer": 1.5
             }
         }
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp1784015181",
+        "results": [
+            {
+                "model": "o3-mini",
+                "specie": "Eni",
+                "score": 2.3333333333333335
+            },
+            {
+                "model": "deepseek-v3.2",
+                "specie": "Im",
+                "score": 7.583333333333333
+            },
+            {
+                "model": "doubao-seed-2.0-pro",
+                "specie": "Kit",
+                "score": 9.166666666666668
+            },
+            {
+                "model": "gpt-5",
+                "specie": "Yengii",
+                "score": 16.416666666666664
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Faderan",
+                "score": 31.583333333333332
+            }
+        ],
+        "statistics": {
+            "function_calling": {
+                "by_model": {
+                    "o3-mini": {
+                        "attempts": 1033,
+                        "successes": 1032,
+                        "failures": 1,
+                        "failure_rate": 0.000968054211035818
+                    },
+                    "deepseek-v3.2": {
+                        "attempts": 626,
+                        "successes": 625,
+                        "failures": 1,
+                        "failure_rate": 0.001597444089456869
+                    },
+                    "doubao-seed-2.0-pro": {
+                        "attempts": 310,
+                        "successes": 309,
+                        "failures": 1,
+                        "failure_rate": 0.0032258064516129032
+                    },
+                    "gpt-5": {
+                        "attempts": 236,
+                        "successes": 235,
+                        "failures": 1,
+                        "failure_rate": 0.00423728813559322
+                    },
+                    "gemini-3-flash-preview": {
+                        "attempts": 302,
+                        "successes": 301,
+                        "failures": 1,
+                        "failure_rate": 0.0033112582781456954
+                    }
+                }
+            },
+            "trade_value": {
+                "by_player": {
+                    "Bot1": {
+                        "trade_count": 6,
+                        "gain_count": 4,
+                        "loss_count": 2,
+                        "net_value": 0.5,
+                        "gain_amount": 2.0,
+                        "loss_amount": 1.5,
+                        "loss_trade_rate": 0.3333333333333333
+                    },
+                    "Bot2": {
+                        "trade_count": 11,
+                        "gain_count": 2,
+                        "loss_count": 9,
+                        "net_value": -3.5,
+                        "gain_amount": 1.0,
+                        "loss_amount": 4.5,
+                        "loss_trade_rate": 0.8181818181818182
+                    },
+                    "Bot3": {
+                        "trade_count": 22,
+                        "gain_count": 9,
+                        "loss_count": 13,
+                        "net_value": -10.5,
+                        "gain_amount": 4.5,
+                        "loss_amount": 15.0,
+                        "loss_trade_rate": 0.5909090909090909
+                    },
+                    "Bot4": {
+                        "trade_count": 11,
+                        "gain_count": 5,
+                        "loss_count": 6,
+                        "net_value": -2.5,
+                        "gain_amount": 2.5,
+                        "loss_amount": 5.0,
+                        "loss_trade_rate": 0.5454545454545454
+                    },
+                    "Bot5": {
+                        "trade_count": 22,
+                        "gain_count": 16,
+                        "loss_count": 6,
+                        "net_value": 16.0,
+                        "gain_amount": 19.0,
+                        "loss_amount": 3.0,
+                        "loss_trade_rate": 0.2727272727272727
+                    }
+                },
+                "by_model": {
+                    "o3-mini": {
+                        "trade_count": 6,
+                        "gain_count": 4,
+                        "loss_count": 2,
+                        "net_value": 0.5,
+                        "gain_amount": 2.0,
+                        "loss_amount": 1.5,
+                        "loss_trade_rate": 0.3333333333333333
+                    },
+                    "deepseek-v3.2": {
+                        "trade_count": 11,
+                        "gain_count": 2,
+                        "loss_count": 9,
+                        "net_value": -3.5,
+                        "gain_amount": 1.0,
+                        "loss_amount": 4.5,
+                        "loss_trade_rate": 0.8181818181818182
+                    },
+                    "doubao-seed-2.0-pro": {
+                        "trade_count": 22,
+                        "gain_count": 9,
+                        "loss_count": 13,
+                        "net_value": -10.5,
+                        "gain_amount": 4.5,
+                        "loss_amount": 15.0,
+                        "loss_trade_rate": 0.5909090909090909
+                    },
+                    "gpt-5": {
+                        "trade_count": 11,
+                        "gain_count": 5,
+                        "loss_count": 6,
+                        "net_value": -2.5,
+                        "gain_amount": 2.5,
+                        "loss_amount": 5.0,
+                        "loss_trade_rate": 0.5454545454545454
+                    },
+                    "gemini-3-flash-preview": {
+                        "trade_count": 22,
+                        "gain_count": 16,
+                        "loss_count": 6,
+                        "net_value": 16.0,
+                        "gain_amount": 19.0,
+                        "loss_amount": 3.0,
+                        "loss_trade_rate": 0.2727272727272727
+                    }
+                }
+            },
+            "exploitation_matrix": {
+                "by_player": {
+                    "Bot1": {
+                        "Bot2": 0.5,
+                        "Bot5": -1.0,
+                        "Bot3": 1.0,
+                        "Bot4": 0.0
+                    },
+                    "Bot2": {
+                        "Bot1": -0.5,
+                        "Bot3": -2.5,
+                        "Bot4": -0.5,
+                        "Bot5": 0.0
+                    },
+                    "Bot3": {
+                        "Bot2": 2.5,
+                        "Bot5": -11.5,
+                        "Bot4": -0.5,
+                        "Bot1": -1.0
+                    },
+                    "Bot5": {
+                        "Bot4": 3.5,
+                        "Bot3": 11.5,
+                        "Bot1": 1.0,
+                        "Bot2": 0.0
+                    },
+                    "Bot4": {
+                        "Bot5": -3.5,
+                        "Bot3": 0.5,
+                        "Bot2": 0.5,
+                        "Bot1": 0.0
+                    }
+                },
+                "by_model": {
+                    "o3-mini": {
+                        "deepseek-v3.2": 0.5,
+                        "gemini-3-flash-preview": -1.0,
+                        "doubao-seed-2.0-pro": 1.0,
+                        "gpt-5": 0.0
+                    },
+                    "deepseek-v3.2": {
+                        "o3-mini": -0.5,
+                        "doubao-seed-2.0-pro": -2.5,
+                        "gpt-5": -0.5,
+                        "gemini-3-flash-preview": 0.0
+                    },
+                    "doubao-seed-2.0-pro": {
+                        "deepseek-v3.2": 2.5,
+                        "gemini-3-flash-preview": -11.5,
+                        "gpt-5": -0.5,
+                        "o3-mini": -1.0
+                    },
+                    "gemini-3-flash-preview": {
+                        "gpt-5": 3.5,
+                        "doubao-seed-2.0-pro": 11.5,
+                        "o3-mini": 1.0,
+                        "deepseek-v3.2": 0.0
+                    },
+                    "gpt-5": {
+                        "gemini-3-flash-preview": -3.5,
+                        "doubao-seed-2.0-pro": 0.5,
+                        "deepseek-v3.2": 0.5,
+                        "o3-mini": 0.0
+                    }
+                },
+                "total_abs_value_transfer": 29.0
+            }
+        }
     }
 ]

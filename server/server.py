@@ -923,7 +923,16 @@ class Server:
       """
       room_name = data['room_name']
       username = data['username']
-      self.rooms[room_name].game.discard_colonies(username, data['colonies'])
+      colonies = self._fill_missing_discard_colonies(room_name, username, data.get('colonies', []))
+      success, message = self.rooms[room_name].game.discard_colonies(username, colonies)
+      if not success:
+        logger.warning(
+          "Discard colonies failed in room %s for %s: %s; colonies=%s",
+          room_name,
+          username,
+          message,
+          colonies,
+        )
       self.update_game_state(room_name, important=True)
 
     @self.socketio.on('update-bulletin-board', namespace=get_router_name())
@@ -945,6 +954,46 @@ class Server:
     # logger.info("Registered game-interface functions:")
     # for func in registry.get("game-interface"):
     #   print(func.__name__, func.attrs, func.__doc__)
+
+  def _fill_missing_discard_colonies(self, room_name: str, username: str, colonies):
+    room = self.rooms.get(room_name)
+    if not room:
+      return colonies
+    game = room.game
+    if game.stage != "discard_colony":
+      return colonies
+    player = next((p for p in game.players if p.user_id == username), None)
+    if not player:
+      return colonies
+
+    discard_num = player.get_factory_num_by_type("Colony") - player.get_max_colony()
+    if discard_num <= 0:
+      return colonies
+    requested = colonies if isinstance(colonies, list) else []
+    if len(requested) >= discard_num:
+      return requested
+
+    colony_names = [
+      factory.name
+      for factory in player.factories.values()
+      if factory.is_colony()
+    ]
+    selected = []
+    for colony in requested:
+      if colony in colony_names and colony not in selected:
+        selected.append(colony)
+    candidates = [colony for colony in colony_names if colony not in selected]
+    needed = discard_num - len(selected)
+    selected.extend(random.sample(candidates, min(needed, len(candidates))))
+    logger.warning(
+      "Auto-filled discard colonies in room %s for %s: requested=%s, required=%s, final=%s",
+      room_name,
+      username,
+      requested,
+      discard_num,
+      selected,
+    )
+    return selected
 
     
   def update_achievements(self, user_id: str):
