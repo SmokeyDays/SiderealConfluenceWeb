@@ -101,7 +101,7 @@ class LLMInterfaceManager:
         # "qwen-plus": langchain_qwen_api,
         # "deepseek-v4-pro": langchain_deepseek_4_pro_api,
         "gemini-3-flash-preview": langchain_gemini_3_flash_preview_api,
-        "claude-opus-4": langchain_claude_api,
+        # "claude-opus-4": langchain_claude_api,
         "deepseek-v3.2": langchain_deepseek_v32_api,
         "doubao-seed-2.0-lite": langchain_doubao_2_lite_api,
         "doubao-seed-2.0-pro": langchain_doubao_2_pro_api,

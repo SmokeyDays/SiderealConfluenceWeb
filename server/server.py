@@ -35,7 +35,7 @@ class Server:
 
     self.mock1()
     self.mock2()
-    # self.series_elo()
+    self.series_elo()
     # self.add_self_playing_bot_exp("GPT5SelfPlayingIter1", "gpt-5")
     # self.add_elo_exp(
     #   room_name="EloExp6",
@@ -47,7 +47,7 @@ class Server:
     #   "doubao-seed-2.0-pro",
     #   ]
     # )
-    self.add_self_playing_bot_exp("FairSelfPlaying3", "rule-fair")
+    # self.add_self_playing_bot_exp("FairSelfPlaying4", "rule-fair")
 
   
   def series_elo(self, count=5, model_num=5):

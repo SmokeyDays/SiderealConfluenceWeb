@@ -95,6 +95,24 @@ class Brain:
       }
     }
 
+  def __getstate__(self):
+    state = self.__dict__.copy()
+    # Planner instances hold LangChain/API client objects and may contain locks,
+    # sockets, callbacks, or other runtime-only state that should not be pickled
+    # with saved rooms. They are recreated lazily by get_planner after loading.
+    state["planner_instances"] = {}
+    return state
+
+  def __setstate__(self, state):
+    self.__dict__.update(state)
+    self.planner_instances = {}
+    if not hasattr(self, "fc_stats"):
+      self.fc_stats = {
+        "attempts": 0,
+        "successes": 0,
+        "failures": 0,
+      }
+
   def record_response(self, prompt, response, special_call=None):
     # logger.info(f"Bot {self.player_id} record response: {prompt}, {response}")
     self.recent_responses.append({
