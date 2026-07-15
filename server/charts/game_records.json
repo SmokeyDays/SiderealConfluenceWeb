@@ -1419,5 +1419,233 @@
                 "total_abs_value_transfer": 29.0
             }
         }
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp1784055974",
+        "results": [
+            {
+                "model": "deepseek-v3.2",
+                "specie": "Caylion",
+                "score": 13.916666666666666
+            },
+            {
+                "model": "qwen-plus",
+                "specie": "Im",
+                "score": 9.416666666666668
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Yengii",
+                "score": 2.75
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Faderan",
+                "score": 39.333333333333336
+            },
+            {
+                "model": "glm-4.7",
+                "specie": "Kit",
+                "score": 14.0
+            }
+        ],
+        "statistics": {
+            "function_calling": {
+                "by_model": {
+                    "o3-mini": {
+                        "attempts": 990,
+                        "successes": 990,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "deepseek-v3.2": {
+                        "attempts": 758,
+                        "successes": 758,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "qwen-plus": {
+                        "attempts": 605,
+                        "successes": 605,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "gemini-3-flash-preview": {
+                        "attempts": 397,
+                        "successes": 397,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "glm-4.7": {
+                        "attempts": 85,
+                        "successes": 85,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    }
+                }
+            },
+            "trade_value": {
+                "by_player": {
+                    "Bot1": {
+                        "trade_count": 68,
+                        "gain_count": 27,
+                        "loss_count": 41,
+                        "net_value": -2.0,
+                        "gain_amount": 22.0,
+                        "loss_amount": 24.0,
+                        "loss_trade_rate": 0.6029411764705882
+                    },
+                    "Bot2": {
+                        "trade_count": 32,
+                        "gain_count": 15,
+                        "loss_count": 17,
+                        "net_value": -1.0,
+                        "gain_amount": 8.5,
+                        "loss_amount": 9.5,
+                        "loss_trade_rate": 0.53125
+                    },
+                    "Bot3": {
+                        "trade_count": 17,
+                        "gain_count": 10,
+                        "loss_count": 7,
+                        "net_value": 1.5,
+                        "gain_amount": 5.0,
+                        "loss_amount": 3.5,
+                        "loss_trade_rate": 0.4117647058823529
+                    },
+                    "Bot4": {
+                        "trade_count": 33,
+                        "gain_count": 25,
+                        "loss_count": 8,
+                        "net_value": 8.5,
+                        "gain_amount": 14.5,
+                        "loss_amount": 6.0,
+                        "loss_trade_rate": 0.24242424242424243
+                    },
+                    "Bot5": {
+                        "trade_count": 12,
+                        "gain_count": 4,
+                        "loss_count": 8,
+                        "net_value": -7.0,
+                        "gain_amount": 3.0,
+                        "loss_amount": 10.0,
+                        "loss_trade_rate": 0.6666666666666666
+                    }
+                },
+                "by_model": {
+                    "o3-mini": {
+                        "trade_count": 17,
+                        "gain_count": 10,
+                        "loss_count": 7,
+                        "net_value": 1.5,
+                        "gain_amount": 5.0,
+                        "loss_amount": 3.5,
+                        "loss_trade_rate": 0.4117647058823529
+                    },
+                    "deepseek-v3.2": {
+                        "trade_count": 68,
+                        "gain_count": 27,
+                        "loss_count": 41,
+                        "net_value": -2.0,
+                        "gain_amount": 22.0,
+                        "loss_amount": 24.0,
+                        "loss_trade_rate": 0.6029411764705882
+                    },
+                    "gemini-3-flash-preview": {
+                        "trade_count": 33,
+                        "gain_count": 25,
+                        "loss_count": 8,
+                        "net_value": 8.5,
+                        "gain_amount": 14.5,
+                        "loss_amount": 6.0,
+                        "loss_trade_rate": 0.24242424242424243
+                    },
+                    "qwen-plus": {
+                        "trade_count": 32,
+                        "gain_count": 15,
+                        "loss_count": 17,
+                        "net_value": -1.0,
+                        "gain_amount": 8.5,
+                        "loss_amount": 9.5,
+                        "loss_trade_rate": 0.53125
+                    },
+                    "glm-4.7": {
+                        "trade_count": 12,
+                        "gain_count": 4,
+                        "loss_count": 8,
+                        "net_value": -7.0,
+                        "gain_amount": 3.0,
+                        "loss_amount": 10.0,
+                        "loss_trade_rate": 0.6666666666666666
+                    }
+                }
+            },
+            "exploitation_matrix": {
+                "by_player": {
+                    "Bot1": {
+                        "Bot3": -1.5,
+                        "Bot4": -8.0,
+                        "Bot2": 0.5,
+                        "Bot5": 7.0,
+                        "Bot1": 0.0
+                    },
+                    "Bot3": {
+                        "Bot1": 1.5,
+                        "Bot5": 0.0,
+                        "Bot4": -0.5,
+                        "Bot2": 0.5
+                    },
+                    "Bot4": {
+                        "Bot1": 8.0,
+                        "Bot5": 0.0,
+                        "Bot3": 0.5,
+                        "Bot2": 0.0
+                    },
+                    "Bot2": {
+                        "Bot1": -0.5,
+                        "Bot3": -0.5,
+                        "Bot4": 0.0
+                    },
+                    "Bot5": {
+                        "Bot3": 0.0,
+                        "Bot4": 0.0,
+                        "Bot1": -7.0
+                    }
+                },
+                "by_model": {
+                    "o3-mini": {
+                        "deepseek-v3.2": 1.5,
+                        "glm-4.7": 0.0,
+                        "gemini-3-flash-preview": -0.5,
+                        "qwen-plus": 0.5
+                    },
+                    "deepseek-v3.2": {
+                        "o3-mini": -1.5,
+                        "gemini-3-flash-preview": -8.0,
+                        "qwen-plus": 0.5,
+                        "glm-4.7": 7.0,
+                        "deepseek-v3.2": 0.0
+                    },
+                    "gemini-3-flash-preview": {
+                        "deepseek-v3.2": 8.0,
+                        "glm-4.7": 0.0,
+                        "o3-mini": 0.5,
+                        "qwen-plus": 0.0
+                    },
+                    "qwen-plus": {
+                        "deepseek-v3.2": -0.5,
+                        "o3-mini": -0.5,
+                        "gemini-3-flash-preview": 0.0
+                    },
+                    "glm-4.7": {
+                        "o3-mini": 0.0,
+                        "gemini-3-flash-preview": 0.0,
+                        "deepseek-v3.2": -7.0
+                    }
+                },
+                "total_abs_value_transfer": 53.0
+            }
+        }
     }
 ]

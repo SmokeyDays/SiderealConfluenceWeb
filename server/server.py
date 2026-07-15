@@ -54,7 +54,7 @@ class Server:
     if count <= 0:
       return
     room_name: str = f"EloExp{int(datetime.datetime.now().timestamp())}"
-    models = LLMInterfaceManager().sample_random_api(model_num)
+    models = LLMInterfaceManager().sample_random_api(model_num - 1) + ["rule-fair"]
     self.add_elo_exp(room_name, models)
     room: Room = self.rooms[room_name]
     def callback(room_name, result):
