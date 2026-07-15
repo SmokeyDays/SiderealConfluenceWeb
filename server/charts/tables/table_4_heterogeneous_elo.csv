@@ -1,0 +1,11 @@
+Model / baseline,Model id,Elo,95% bootstrap CI,Completed games,Player seats,Pairwise comparisons
+Gemini 3 Flash Preview,gemini-3-flash-preview,2491.598403210949,"[1910.7, 4208.3]",4,4,16
+GPT-5,gpt-5,2313.329569788654,"[2139.0, 3545.0]",2,2,8
+Claude Opus 4,claude-opus-4,2309.895140054283,"[1511.3, 4436.3]",2,2,8
+Doubao Seed 2.0 Pro,doubao-seed-2.0-pro,2134.0696739305276,"[1562.7, 3382.0]",3,3,12
+Doubao Seed 2.0 Lite,doubao-seed-2.0-lite,1487.2655394984738,"[992.1, 2204.0]",1,1,4
+GLM-4.7,glm-4.7,987.3371425869749,"[631.8, 2268.2]",4,4,15
+DeepSeek V3.2,deepseek-v3.2,972.0163806321669,"[545.3, 2269.8]",4,4,15
+GPT-4o Mini,gpt-4o-mini,910.2059537488905,"[-3299.9, 1993.6]",4,4,13
+Qwen Plus,qwen-plus,763.0244928184409,"[-3299.8, 2107.7]",3,3,10
+o3 Mini,o3-mini,631.2577037306387,"[-3300.0, 1135.1]",5,5,17
