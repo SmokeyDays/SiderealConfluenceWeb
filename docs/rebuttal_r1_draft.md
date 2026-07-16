@@ -30,11 +30,13 @@ Because each full game is expensive and time-consuming, we have been running add
 Second, we will expand the reported quantitative tables. The revised paper will include:
 
 - A self-play table with number of games/seats, mean, median, standard deviation, min/max score, and bootstrap 95% confidence intervals.
-- An Elo table with actual Elo values, number of completed games, number of pairwise comparisons, and bootstrap 95% confidence intervals.
+- An Elo table with regularized Bradley-Terry/Elo values, number of completed games, number of pairwise comparisons, observed pairwise win rate, and bootstrap 95% confidence intervals.
 - A model-by-species coverage table.
 - A species-level table reporting average score by species, so that readers can judge the impact of asymmetric starting conditions.
 
 We will temper the wording of ranking claims accordingly. Rather than presenting the small tournament as a definitive ranking, we will describe it as a relative-performance estimate under the collected tournament schedule, with uncertainty explicitly shown. The expanded schedule is balanced so that each model plays each species at least once and model pairs co-occur more evenly.
+
+For the Elo estimate, we will use a regularized Bradley-Terry model rather than an unregularized fit. The unregularized estimate is unstable in small tournaments because some model pairs have very few comparisons and can exhibit near-complete separation. We therefore add a symmetric weak prior equivalent to one virtual drawn comparison between each model pair. This keeps estimates finite and shrinks unsupported differences toward 1500, while preserving the observed ranking signal. We also report the raw observed pairwise win rate so the regularized Elo values remain interpretable.
 
 The quantitative result tables will be inserted in the revision in the following format:
 
@@ -42,9 +44,9 @@ The quantitative result tables will be inserted in the revision in the following
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 
-| Model / baseline | Elo | 95% bootstrap CI | Completed games | Player seats | Pairwise comparisons |
-| --- | ---: | --- | ---: | ---: | ---: |
-| TBD | TBD | TBD | TBD | TBD | TBD |
+| Model / baseline | Regularized Elo | 95% bootstrap CI | Completed games | Player seats | Pairwise comparisons | Observed pairwise win rate |
+| --- | ---: | --- | ---: | ---: | ---: | ---: |
+| TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 
 | Model / baseline | Function-call attempts | Parse failures | Failure rate | Avg. signed trade value/game | Loss-trade rate | Avg. exploitation transfer/game |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -125,7 +127,7 @@ The concrete default settings to be documented are: 6 game rounds, temperature 0
 1. Experimental settings table: game count, player count, rounds, species pool, model assignment, seeds, temperature, function-calling mode, and filtering rule.
 2. Canonical model table: display name, exact deployment/API identifier, provider, and whether the model is included in self-play, Elo, or diagnostic runs.
 3. Self-play terminal-score table: games, seats, mean, median, std., min/max, bootstrap CI, and species coverage.
-4. Heterogeneous Elo table: Elo, bootstrap CI, completed games, player seats, and pairwise comparisons.
+4. Heterogeneous Elo table: regularized Elo, bootstrap CI, completed games, player seats, pairwise comparisons, and observed pairwise win rate.
 5. Model-by-species assignment table: rows as non-human models/baselines and columns as species.
 6. Species-level score table: non-human seats only; each species' mean/std score and number of seats, used to show species asymmetry.
 7. Human/model calibration table: human baseline and model baselines side by side, with games, average player number, mean/median/std/min/max terminal scores, and bootstrap CI.

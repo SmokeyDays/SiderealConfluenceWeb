@@ -1647,5 +1647,187 @@
                 "total_abs_value_transfer": 53.0
             }
         }
+    },
+    {
+        "exp_type": "elo_exp",
+        "exp_name": "EloExp1784145232",
+        "results": [
+            {
+                "model": "deepseek-v3.2",
+                "specie": "Yengii",
+                "score": 9.0
+            },
+            {
+                "model": "o3-mini",
+                "specie": "Faderan",
+                "score": 3.5
+            },
+            {
+                "model": "gemini-3-flash-preview",
+                "specie": "Caylion",
+                "score": 30.75
+            },
+            {
+                "model": "doubao-seed-2.0-lite",
+                "specie": "Kit",
+                "score": 9.166666666666666
+            },
+            {
+                "model": "rule-fair",
+                "specie": "Eni",
+                "score": 5.333333333333333
+            }
+        ],
+        "statistics": {
+            "function_calling": {
+                "by_model": {
+                    "deepseek-v3.2": {
+                        "attempts": 638,
+                        "successes": 638,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "o3-mini": {
+                        "attempts": 1007,
+                        "successes": 1006,
+                        "failures": 1,
+                        "failure_rate": 0.0009930486593843098
+                    },
+                    "gemini-3-flash-preview": {
+                        "attempts": 338,
+                        "successes": 338,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    },
+                    "doubao-seed-2.0-lite": {
+                        "attempts": 509,
+                        "successes": 509,
+                        "failures": 0,
+                        "failure_rate": 0.0
+                    }
+                }
+            },
+            "trade_value": {
+                "by_player": {
+                    "Bot4": {
+                        "trade_count": 8,
+                        "gain_count": 6,
+                        "loss_count": 2,
+                        "net_value": 2.0,
+                        "gain_amount": 3.0,
+                        "loss_amount": 1.0,
+                        "loss_trade_rate": 0.25
+                    },
+                    "Bot3": {
+                        "trade_count": 17,
+                        "gain_count": 7,
+                        "loss_count": 10,
+                        "net_value": -1.5,
+                        "gain_amount": 3.5,
+                        "loss_amount": 5.0,
+                        "loss_trade_rate": 0.5882352941176471
+                    },
+                    "Bot2": {
+                        "trade_count": 2,
+                        "gain_count": 2,
+                        "loss_count": 0,
+                        "net_value": 1.5,
+                        "gain_amount": 1.5,
+                        "loss_amount": 0.0,
+                        "loss_trade_rate": 0.0
+                    },
+                    "Bot1": {
+                        "trade_count": 19,
+                        "gain_count": 8,
+                        "loss_count": 11,
+                        "net_value": -2.0,
+                        "gain_amount": 4.0,
+                        "loss_amount": 6.0,
+                        "loss_trade_rate": 0.5789473684210527
+                    }
+                },
+                "by_model": {
+                    "doubao-seed-2.0-lite": {
+                        "trade_count": 8,
+                        "gain_count": 6,
+                        "loss_count": 2,
+                        "net_value": 2.0,
+                        "gain_amount": 3.0,
+                        "loss_amount": 1.0,
+                        "loss_trade_rate": 0.25
+                    },
+                    "gemini-3-flash-preview": {
+                        "trade_count": 17,
+                        "gain_count": 7,
+                        "loss_count": 10,
+                        "net_value": -1.5,
+                        "gain_amount": 3.5,
+                        "loss_amount": 5.0,
+                        "loss_trade_rate": 0.5882352941176471
+                    },
+                    "o3-mini": {
+                        "trade_count": 2,
+                        "gain_count": 2,
+                        "loss_count": 0,
+                        "net_value": 1.5,
+                        "gain_amount": 1.5,
+                        "loss_amount": 0.0,
+                        "loss_trade_rate": 0.0
+                    },
+                    "deepseek-v3.2": {
+                        "trade_count": 19,
+                        "gain_count": 8,
+                        "loss_count": 11,
+                        "net_value": -2.0,
+                        "gain_amount": 4.0,
+                        "loss_amount": 6.0,
+                        "loss_trade_rate": 0.5789473684210527
+                    }
+                }
+            },
+            "exploitation_matrix": {
+                "by_player": {
+                    "Bot4": {
+                        "Bot3": 1.5,
+                        "Bot1": 0.5
+                    },
+                    "Bot3": {
+                        "Bot4": -1.5,
+                        "Bot2": -0.5,
+                        "Bot1": 0.5
+                    },
+                    "Bot2": {
+                        "Bot3": 0.5,
+                        "Bot1": 1.0
+                    },
+                    "Bot1": {
+                        "Bot3": -0.5,
+                        "Bot4": -0.5,
+                        "Bot2": -1.0
+                    }
+                },
+                "by_model": {
+                    "doubao-seed-2.0-lite": {
+                        "gemini-3-flash-preview": 1.5,
+                        "deepseek-v3.2": 0.5
+                    },
+                    "gemini-3-flash-preview": {
+                        "doubao-seed-2.0-lite": -1.5,
+                        "o3-mini": -0.5,
+                        "deepseek-v3.2": 0.5
+                    },
+                    "o3-mini": {
+                        "gemini-3-flash-preview": 0.5,
+                        "deepseek-v3.2": 1.0
+                    },
+                    "deepseek-v3.2": {
+                        "gemini-3-flash-preview": -0.5,
+                        "doubao-seed-2.0-lite": -0.5,
+                        "o3-mini": -1.0
+                    }
+                },
+                "total_abs_value_transfer": 12.0
+            }
+        }
     }
 ]

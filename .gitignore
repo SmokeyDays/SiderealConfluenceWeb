@@ -6,5 +6,6 @@ logs/
 server/data/users.json
 .env
 server/charts/plots/
+server/charts/tables/
 server/charts/game_records_local.json
 server/charts/game_records.json

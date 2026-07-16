@@ -604,7 +604,7 @@ def export_tables(records, output_dir):
       exp_type="default",
       exclude_models=RULE_MODELS | HUMAN_MODELS,
     )),
-    ("table_4_heterogeneous_elo", "Table 4. Heterogeneous Elo statistics", table_4_elo(records)),
+    ("table_4_heterogeneous_elo", "Table 4. Regularized heterogeneous Elo statistics", table_4_elo(records)),
     ("table_5_model_by_species", "Table 5. Model-by-species assignment counts", table_5_model_by_species(records)),
     ("table_6_species_scores", "Table 6. Species-level terminal-score statistics", table_6_species_scores(records)),
     ("table_7_human_calibration", "Table 7. Human/model calibration statistics", table_7_human_and_model_calibration(records)),
