@@ -1,15 +1,15 @@
 # Table 5. Model-by-species assignment counts
 
-| Model / baseline | Model id | Caylion | Eni | Faderan | Im | Kit | Yengii | Total seats |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Claude Opus 4 | claude-opus-4 | 0 | 0 | 1 | 1 | 0 | 0 | 2 |
-| DeepSeek V3.2 | deepseek-v3.2 | 2 | 0 | 0 | 2 | 0 | 0 | 4 |
-| Doubao Seed 2.0 Lite | doubao-seed-2.0-lite | 0 | 0 | 0 | 0 | 1 | 0 | 1 |
-| Doubao Seed 2.0 Pro | doubao-seed-2.0-pro | 1 | 1 | 1 | 1 | 1 | 2 | 7 |
-| Gemini 3 Flash Preview | gemini-3-flash-preview | 2 | 1 | 2 | 1 | 0 | 2 | 8 |
-| GLM-4.7 | glm-4.7 | 1 | 3 | 0 | 2 | 1 | 1 | 8 |
-| GPT-4o Mini | gpt-4o-mini | 4 | 0 | 3 | 3 | 3 | 0 | 13 |
-| GPT-5 | gpt-5 | 2 | 3 | 0 | 2 | 0 | 3 | 10 |
-| o3 Mini | o3-mini | 1 | 1 | 1 | 1 | 1 | 4 | 9 |
-| Qwen Plus | qwen-plus | 3 | 2 | 1 | 3 | 1 | 1 | 11 |
-| Rule Fair Trade | rule-fair | 14 | 14 | 0 | 14 | 0 | 14 | 56 |
+| Model / baseline | Caylion | Eni | Faderan | Im | Kit | Yengii | Total seats |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Claude Opus 4 | 0 | 0 | 1 | 1 | 0 | 0 | 2 |
+| DeepSeek V3.2 | 2 | 0 | 0 | 3 | 0 | 1 | 6 |
+| Doubao Seed 2.0 Lite | 0 | 1 | 0 | 0 | 2 | 1 | 4 |
+| Doubao Seed 2.0 Pro | 1 | 1 | 1 | 3 | 2 | 2 | 10 |
+| Gemini 3 Flash Preview | 4 | 1 | 2 | 1 | 1 | 2 | 11 |
+| GLM-4.7 | 1 | 3 | 0 | 2 | 1 | 1 | 8 |
+| GPT-4o Mini | 4 | 0 | 3 | 3 | 3 | 0 | 13 |
+| GPT-5 | 4 | 3 | 1 | 2 | 0 | 3 | 13 |
+| o3 Mini | 1 | 1 | 2 | 1 | 1 | 5 | 11 |
+| Qwen Plus | 3 | 3 | 2 | 3 | 1 | 1 | 13 |
+| Rule Fair Trade | 13 | 14 | 0 | 13 | 1 | 13 | 54 |

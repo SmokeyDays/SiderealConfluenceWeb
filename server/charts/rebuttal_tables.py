@@ -123,11 +123,7 @@ def summarize_scores(
   for model, scores in sorted(scores_by_model.items()):
     row = {
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
-      "Completed games": len(games_by_model[model]),
-      "Player seats": len(scores),
       "Mean score": mean(scores),
-      "Median": median(scores),
       "Std.": stdev(scores) if len(scores) > 1 else 0.0,
       "Min": min(scores),
       "Max": max(scores),
@@ -315,11 +311,8 @@ def table_4_elo(records):
     )
     rows.append({
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
       "Regularized Elo": elos[model],
       "95% bootstrap CI": ci.get(model, "N/A"),
-      "Completed games": len(pairwise["games"][model]),
-      "Player seats": pairwise["seats"][model],
       "Pairwise comparisons": comparisons,
       "Observed pairwise win rate": wins / comparisons if comparisons else None,
     })
@@ -340,7 +333,6 @@ def table_5_model_by_species(records):
   for model in sorted(counts):
     row = {
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
     }
     for specie in species:
       row[specie] = counts[model][specie]
@@ -362,7 +354,6 @@ def table_6_species_scores(records):
       "Species": specie,
       "Seats": len(values),
       "Mean score": mean(values),
-      "Median": median(values),
       "Std.": stdev(values) if len(values) > 1 else 0.0,
       "Min": min(values),
       "Max": max(values),
@@ -405,11 +396,8 @@ def table_7_human_and_model_calibration(records):
     player_nums = player_nums_by_model[model]
     rows.append({
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
-      "Completed games": len(games_by_model[model]),
       "Average player num": mean(player_nums) if player_nums else 0,
       "Mean score": mean(values),
-      "Median": median(values),
       "Std.": stdev(values) if len(values) > 1 else 0.0,
       "Min": min(values),
       "Max": max(values),
@@ -505,10 +493,8 @@ def table_9_function_calling(records):
     attempts = stats["attempts"]
     rows.append({
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
       "Attempts": attempts,
       "Successes": stats["successes"],
-      "Parse failures": stats["failures"],
       "Failure rate": stats["failures"] / attempts if attempts else None,
     })
   return rows
@@ -523,9 +509,8 @@ def table_10_trade_value(records):
     trade_count = stats["trade_count"]
     rows.append({
       "Model / baseline": MODEL_DISPLAY_NAMES.get(model, model),
-      "Model id": model,
       "Games with stats": games,
-      "Trade count": trade_count,
+      "Avg. trades/game": trade_count / games if games else 0,
       "Avg. signed trade value/game": stats["net_value"] / games if games else 0,
       "Avg. gain amount/game": stats["gain_amount"] / games if games else 0,
       "Avg. loss amount/game": stats["loss_amount"] / games if games else 0,
@@ -543,7 +528,6 @@ def table_11_exploitation_matrix(records):
   for row_model in models:
     row = {
       "Extracting model": MODEL_DISPLAY_NAMES.get(row_model, row_model),
-      "Model id": row_model,
     }
     for col_model in models:
       observed_games = exploitation_observed_pairs.get((row_model, col_model), 0)

@@ -1,14 +1,15 @@
 # Table 4. Regularized heterogeneous Elo statistics
 
-| Model / baseline | Model id | Regularized Elo | 95% bootstrap CI | Completed games | Player seats | Pairwise comparisons | Observed pairwise win rate |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Gemini 3 Flash Preview | gemini-3-flash-preview | 1707.86 | [1617.8, 1815.3] | 4 | 4 | 16 | 0.938 |
-| Claude Opus 4 | claude-opus-4 | 1619.37 | [1536.0, 1750.4] | 2 | 2 | 8 | 0.875 |
-| GPT-5 | gpt-5 | 1598.27 | [1555.6, 1657.9] | 2 | 2 | 8 | 0.750 |
-| Doubao Seed 2.0 Pro | doubao-seed-2.0-pro | 1573.00 | [1498.9, 1697.9] | 3 | 3 | 12 | 0.667 |
-| GLM-4.7 | glm-4.7 | 1467.32 | [1385.4, 1575.8] | 4 | 4 | 15 | 0.467 |
-| Doubao Seed 2.0 Lite | doubao-seed-2.0-lite | 1465.48 | [1414.1, 1478.2] | 1 | 1 | 4 | 0.250 |
-| DeepSeek V3.2 | deepseek-v3.2 | 1449.64 | [1386.1, 1506.1] | 4 | 4 | 15 | 0.400 |
-| GPT-4o Mini | gpt-4o-mini | 1414.33 | [1272.8, 1586.0] | 4 | 4 | 13 | 0.308 |
-| Qwen Plus | qwen-plus | 1400.53 | [1311.8, 1495.9] | 3 | 3 | 10 | 0.300 |
-| o3 Mini | o3-mini | 1304.19 | [1157.6, 1454.2] | 5 | 5 | 17 | 0.118 |
+| Model / baseline | Regularized Elo | 95% bootstrap CI | Pairwise comparisons | Observed pairwise win rate |
+| --- | --- | --- | --- | --- |
+| Gemini 3 Flash Preview | 1762.90 | [1680.4, 1861.0] | 28 | 0.929 |
+| GPT-5 | 1700.42 | [1611.1, 1782.9] | 20 | 0.850 |
+| Claude Opus 4 | 1613.39 | [1526.0, 1741.1] | 8 | 0.875 |
+| Doubao Seed 2.0 Pro | 1523.69 | [1398.7, 1631.6] | 24 | 0.500 |
+| Doubao Seed 2.0 Lite | 1506.58 | [1426.1, 1572.4] | 16 | 0.438 |
+| GLM-4.7 | 1464.56 | [1381.6, 1574.0] | 15 | 0.467 |
+| DeepSeek V3.2 | 1455.27 | [1403.3, 1503.5] | 23 | 0.435 |
+| GPT-4o Mini | 1418.09 | [1281.9, 1576.0] | 13 | 0.308 |
+| Qwen Plus | 1409.44 | [1311.0, 1507.0] | 18 | 0.333 |
+| Rule Fair Trade | 1391.16 | [1310.4, 1444.5] | 8 | 0.125 |
+| o3 Mini | 1254.51 | [1134.3, 1384.9] | 25 | 0.080 |

@@ -1,11 +1,12 @@
 # Table 9. Function-calling parse reliability
 
-| Model / baseline | Model id | Attempts | Successes | Parse failures | Failure rate |
-| --- | --- | --- | --- | --- | --- |
-| DeepSeek V3.2 | deepseek-v3.2 | 2161 | 2160 | 1 | 0.000 |
-| Doubao Seed 2.0 Pro | doubao-seed-2.0-pro | 670 | 669 | 1 | 0.001 |
-| Gemini 3 Flash Preview | gemini-3-flash-preview | 1033 | 1030 | 3 | 0.003 |
-| GLM-4.7 | glm-4.7 | 85 | 85 | 0 | 0.000 |
-| GPT-5 | gpt-5 | 466 | 463 | 3 | 0.006 |
-| o3 Mini | o3-mini | 2023 | 2022 | 1 | 0.000 |
-| Qwen Plus | qwen-plus | 1295 | 1295 | 0 | 0.000 |
+| Model / baseline | Attempts | Successes | Failure rate |
+| --- | --- | --- | --- |
+| DeepSeek V3.2 | 2824 | 2823 | 0.000 |
+| Doubao Seed 2.0 Lite | 1392 | 1392 | 0.000 |
+| Doubao Seed 2.0 Pro | 1399 | 1397 | 0.001 |
+| Gemini 3 Flash Preview | 1581 | 1577 | 0.003 |
+| GLM-4.7 | 85 | 85 | 0.000 |
+| GPT-5 | 1001 | 963 | 0.038 |
+| o3 Mini | 4300 | 4220 | 0.019 |
+| Qwen Plus | 1903 | 1898 | 0.003 |
